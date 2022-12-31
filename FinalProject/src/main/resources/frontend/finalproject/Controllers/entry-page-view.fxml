@@ -31,7 +31,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="btnCreateProject" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Create New Project">
+                <Button fx:id="btnCreateProject" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Create New Project" onAction="#handleButtonClicks">
                 </Button>
                 <Button fx:id="btnProjects" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="All Projects" onAction="#handleButtonClicks" GridPane.columnIndex="1">
                 </Button>

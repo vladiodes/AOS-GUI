@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.CreateEnvController">
+    <children>
+        <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="73.0" layoutY="30.0" text="Create New Project" textFill="WHITE">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+            <Label layoutX="73.0" layoutY="89.0" text="Environment File" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            </children>
+        </Pane>
+      <ScrollPane layoutX="6.0" layoutY="143.0" prefHeight="650.0" prefWidth="1108.0">
+        <content>
+            <Pane layoutX="4.0" layoutY="146.0" prefHeight="1500" prefWidth="1088.0">
+                <children>
+                    <Label layoutX="19.0" layoutY="14.0" text="PlpMain">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Separator layoutX="9.0" layoutY="43.0" prefHeight="14.0" prefWidth="1073.0" />
+                    <Label layoutX="48.0" layoutY="66.0" text="Project">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField id="ProjectNameTXT" layoutX="234.0" layoutY="63.0" />
+                    <Label layoutX="19.0" layoutY="108.0" text="EnvironmentGeneral">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Separator layoutX="9.0" layoutY="137.0" prefHeight="14.0" prefWidth="1073.0" />
+                    <Label layoutX="48.0" layoutY="160.0" text="Horizon">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField id="HorizonTXT" layoutX="234.0" layoutY="157.0" />
+                    <Label layoutX="48.0" layoutY="194.0" text="Discount">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField id="DiscountTXT" layoutX="234.0" layoutY="191.0" />
+                    <Label layoutX="29.0" layoutY="253.0" text="GlobalVariableTypes">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Separator layoutX="19.0" layoutY="282.0" prefHeight="14.0" prefWidth="1073.0" />
+                    <Label layoutX="48.0" layoutY="313.0" text="TypeName">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField id="TypeNameTXT" layoutX="234.0" layoutY="310.0" />
+                    <Label layoutX="48.0" layoutY="347.0" text="Type">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <ChoiceBox fx:id="CompoundEnumChoiceBox" layoutX="234.0" layoutY="344.0" prefHeight="24.0" prefWidth="170.0">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="enum" />
+                                <String fx:value="compound" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Label fx:id="enumValueLBL" layoutX="544.0" layoutY="313.0" text="Enum Value" visible="false">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="enumValueTXT" layoutX="730.0" layoutY="309.0" visible="false" />
+                    <Button fx:id="nextValBTN" layoutX="928.0" layoutY="308.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next value" visible="false" />
+                    <Label fx:id="NameLBL" layoutX="544.0" layoutY="347.0" text="Name" visible="false">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="NameTXT" layoutX="730.0" layoutY="343.0" visible="false" />
+                    <Button fx:id="nextVarBTN" layoutX="928.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next variable" visible="false" />
+                    <Label fx:id="TypeLBL" layoutX="544.0" layoutY="381.0" text="Type" visible="false">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="TypeTXT" layoutX="730.0" layoutY="378.0" visible="false" />
+                    <Label fx:id="DefaultLBL" layoutX="544.0" layoutY="415.0" text="Default" visible="false">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="DefaultTXT" layoutX="730.0" layoutY="412.0" visible="false" />
+                    <Button layoutX="48.0" layoutY="415.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another type" />
+                    <Label layoutX="29.0" layoutY="474.0" text="GlobalVariablesDeclaration">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Separator layoutX="19.0" layoutY="503.0" prefHeight="14.0" prefWidth="1073.0" />
+                    <Label layoutX="48.0" layoutY="526.0" text="Name">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField id="NameGlobalVarDecTXT" layoutX="234.0" layoutY="523.0" />
+                    <Label layoutX="48.0" layoutY="560.0" text="Type">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField id="TypeGlobalVarDecTXT" layoutX="234.0" layoutY="557.0" />
+                    <Label layoutX="544.0" layoutY="526.0" text="IsActionParameterValue">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField id="IsActionParameterValueTXT" layoutX="730.0" layoutY="523.0" />
+                    <Label layoutX="544.0" layoutY="560.0" text="Default Code">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextArea id="DefaultCodeGlobVarDecTXT" layoutX="730.0" layoutY="557.0" prefHeight="115.0" prefWidth="344.0" />
+                    <Button layoutX="48.0" layoutY="594.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another declaration" />
+                    <Label layoutX="29.0" layoutY="686.0" text="InitialBeliefStateAssignments">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Separator layoutX="19.0" layoutY="715.0" prefHeight="14.0" prefWidth="1073.0" />
+                    <Label layoutX="48.0" layoutY="738.0" text="Assignment Name">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField layoutX="234.0" layoutY="735.0" />
+                    <Label layoutX="48.0" layoutY="772.0" text="Assignment Code">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <Button layoutX="48.0" layoutY="900.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another assignment" />
+                    <TextArea layoutX="235.0" layoutY="769.0" prefHeight="115.0" prefWidth="344.0" />
+                    <Label layoutX="29.0" layoutY="962.0" text="SpecialStates">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Separator layoutX="19.0" layoutY="991.0" prefHeight="14.0" prefWidth="1073.0" />
+                    <Label layoutX="48.0" layoutY="1021.0" text="State Condition Code">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextArea layoutX="235.0" layoutY="1018.0" prefHeight="115.0" prefWidth="344.0" />
+                    <Label layoutX="48.0" layoutY="1150.0" text="Reward">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextField layoutX="234.0" layoutY="1147.0" />
+                    <Label layoutX="48.0" layoutY="1184.0" text="Is Goal State">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <Label layoutX="48.0" layoutY="1218.0" text="Is One Time Reward">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <ChoiceBox layoutX="234.0" layoutY="1181.0" prefHeight="24.0" prefWidth="170.0">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="true" />
+                                <String fx:value="false" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <ChoiceBox layoutX="234.0" layoutY="1215.0" prefHeight="24.0" prefWidth="170.0">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="true" />
+                                <String fx:value="false" />
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Button layoutX="48.0" layoutY="1256.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another state" />
+                    <Label layoutX="29.0" layoutY="1318.0" text="ExtrinsicChangesDynamicModel">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Separator layoutX="19.0" layoutY="1347.0" prefHeight="14.0" prefWidth="1073.0" />
+                    <Label layoutX="48.0" layoutY="1377.0" text="Assignment Code">
+                        <font>
+                            <Font size="12.0" />
+                        </font>
+                    </Label>
+                    <TextArea layoutX="235.0" layoutY="1374.0" prefHeight="115.0" prefWidth="344.0" />
+                    <Button layoutX="48.0" layoutY="1505.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another change" />
+                </children></Pane>
+        </content>
+      </ScrollPane>
+    </children>
+</AnchorPane>

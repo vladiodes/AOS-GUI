@@ -75,7 +75,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>frontend.finalproject/frontend.finalproject.HelloApplication</mainClass>
+                            <mainClass>frontend.finalproject/frontend.finalproject.Controllers.Main</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
