@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="943.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="943.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.HomeController">
     <children>
         <Pane prefHeight="130.0" prefWidth="980.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -31,19 +31,15 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="btnDashboard" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Create New Project">
-                    <graphic>
-                    </graphic>
+                <Button fx:id="btnCreateProject" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Create New Project">
                 </Button>
-                <Button fx:id="btnStudents" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="All Projects" GridPane.columnIndex="1">
-                    <graphic>
-                    </graphic>
+                <Button fx:id="btnProjects" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="All Projects" onAction="#handleButtonClicks" GridPane.columnIndex="1">
                 </Button>
-                <Button fx:id="btn_Timetable" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Code Check" GridPane.columnIndex="2">
+                <Button fx:id="btnCodeCheck" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Code Check" GridPane.columnIndex="2">
                 </Button>
-                <Button fx:id="btnUpdate" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Robot Execution" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Button fx:id="btnRobotExecution" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Robot Execution" GridPane.columnIndex="1" GridPane.rowIndex="1">
                 </Button>
-                <Button fx:id="btnClasses" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Integration Requests" GridPane.rowIndex="1">
+                <Button fx:id="btnIntegrationRequests" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Integration Requests" GridPane.rowIndex="1">
                 </Button>
             </children>
         </GridPane>
