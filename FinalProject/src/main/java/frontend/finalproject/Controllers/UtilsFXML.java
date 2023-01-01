@@ -12,6 +12,7 @@ public class UtilsFXML {
     public final static String HOME_FXML_PATH = "entry-page-view.fxml";
     public final static String PROJECTS_FXML_PATH = "projects-view.fxml";
     public static final String CREATE_PROJECT_PATH = "create-env-view.fxml";
+    public static final String PREVIEW_CODE_PATH = "preview-doc-view.fxml";
 
     public static void loadStage(String fxml, Stage stage) {
         try {
