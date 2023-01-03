@@ -29,11 +29,9 @@ public class Response<T> {
         this.msg = exception.getMessage();
     }
 
-    public T getValue() {
+    public T getValue(){
         return value;
     }
 
-    public String getMsg() {
-        return msg;
-    }
+
 }
