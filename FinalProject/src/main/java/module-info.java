@@ -8,6 +8,7 @@ module frontend.finalproject {
 
     opens frontend.finalproject to javafx.fxml;
     exports frontend.finalproject.Controllers;
+    exports backend.finalproject;
     exports frontend.finalproject.Model.Env;
     opens frontend.finalproject.Model.Env to com.google.gson;
     opens frontend.finalproject.Controllers to javafx.fxml;

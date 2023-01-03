@@ -1,5 +1,6 @@
 package frontend.finalproject.Controllers;
 
+import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
 import backend.finalproject.MockFacade;
 import javafx.collections.FXCollections;
@@ -47,5 +48,9 @@ public class ProjectsController {
     private void populateProjectsList() {
         List<String> projects = facade.getAllProjects().getValue();
         this.projectList.setItems(FXCollections.observableArrayList(projects));
+    }
+
+    public void setFacade(IAOSFacade facade) {
+        this.facade = facade;
     }
 }

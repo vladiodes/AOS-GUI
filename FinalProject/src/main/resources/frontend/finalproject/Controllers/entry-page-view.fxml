@@ -41,7 +41,7 @@
                 </Button>
                 <Button fx:id="btnIntegrationRequests" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Integration Requests" GridPane.rowIndex="1">
                 </Button>
-                <Button fx:id="btnActivateAOS" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Activate AOS" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+                <Button fx:id="btnActivateAOS" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#handleActivationOfAOSRequest" />
             </children>
         </GridPane>
     </children>

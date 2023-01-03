@@ -1,5 +1,6 @@
 package frontend.finalproject.Controllers;
 
+import backend.finalproject.IAOSFacade;
 import frontend.finalproject.Model.Env.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -82,6 +83,8 @@ public class CreateEnvController {
     private TextField enumValueTXT;
 
     private GlobalVariableTypeModel currentGlobVarType = null;
+
+    private IAOSFacade facade;
 
 
     @FXML

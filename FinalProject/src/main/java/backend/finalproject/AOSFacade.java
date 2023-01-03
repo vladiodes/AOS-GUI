@@ -11,9 +11,16 @@ import static backend.finalproject.Constants.*;
 
 public class AOSFacade implements IAOSFacade {
 
+    private static IAOSFacade instance = null;
+    public static IAOSFacade getInstance(){
+        if (instance == null)
+            instance = new AOSFacade();
+        return instance;
+    }
+
     private Process AOS_API_Process;
 
-    public AOSFacade(){
+    private AOSFacade(){
     }
 
     public Response<Boolean> activateAOServer(){
