@@ -1,6 +1,6 @@
 package backend.finalproject.ProjectFiles;
 
-import frontend.finalproject.Model.Env.InitialBeliefStateAssignmentModel;
+import frontend.finalproject.Model.Common.AssignmentBlock;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ public class InitialBeliefStateAssignment {
     private List<String> AssignmentCode;
 
     //TODO: validate split is working
-    public InitialBeliefStateAssignment(InitialBeliefStateAssignmentModel initialBeliefStateAssignmentModel) {
+    public InitialBeliefStateAssignment(AssignmentBlock initialBeliefStateAssignmentModel) {
         this.AssignmentName = initialBeliefStateAssignmentModel.getAssignmentName();
         this.AssignmentCode = Arrays.stream(initialBeliefStateAssignmentModel.getAssignmentName().split("\n")).collect(Collectors.toList());
     }

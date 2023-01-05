@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 
 public class PlpMainModel {
     private String Project;
-    private final String Name = "environment";
-    private final String Type = "Environment";
+    private String Name;
+    private String Type;
     private final double Version = 1.0;
 
-    public PlpMainModel(String Project){
+    public PlpMainModel(String Project, String Name, String Type){
         this.Project = Project;
+        this.Name = Name;
+        this.Type = Type;
     }
 
     public String toString(){

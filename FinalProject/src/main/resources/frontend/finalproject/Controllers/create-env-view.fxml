@@ -87,14 +87,14 @@
                         </font>
                     </Label>
                     <TextField fx:id="enumValueTXT" layoutX="730.0" layoutY="309.0" visible="false" />
-                    <Button fx:id="nextValBTN" onAction="#handleInsertNextEnumValClick" layoutX="928.0" layoutY="308.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next value" visible="false" />
+                    <Button fx:id="nextValBTN" layoutX="928.0" layoutY="308.0" mnemonicParsing="false" onAction="#handleInsertNextEnumValClick" prefHeight="24.0" prefWidth="152.0" text="Insert next value" visible="false" />
                     <Label fx:id="NameLBL" layoutX="544.0" layoutY="347.0" text="Name" visible="false">
                         <font>
                             <Font size="12.0" />
                         </font>
                     </Label>
                     <TextField fx:id="CompoundNameTXT" layoutX="730.0" layoutY="343.0" visible="false" />
-                    <Button fx:id="nextVarBTN" onAction="#handleInsertNextCompoundVarClick" layoutX="928.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next variable" visible="false" />
+                    <Button fx:id="nextVarBTN" layoutX="928.0" layoutY="380.0" mnemonicParsing="false" onAction="#handleInsertNextCompoundVarClick" prefHeight="24.0" prefWidth="152.0" text="Insert next variable" visible="false" />
                     <Label fx:id="TypeLBL" layoutX="544.0" layoutY="381.0" text="Type" visible="false">
                         <font>
                             <Font size="12.0" />
@@ -107,7 +107,7 @@
                         </font>
                     </Label>
                     <TextField fx:id="CompoundDefaultTXT" layoutX="730.0" layoutY="412.0" visible="false" />
-                    <Button onAction="#handleInsertAnotherGlobalVarTypeClick" layoutX="48.0" layoutY="415.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another type" />
+                    <Button layoutX="48.0" layoutY="415.0" mnemonicParsing="false" onAction="#handleInsertAnotherGlobalVarTypeClick" prefHeight="24.0" prefWidth="357.0" text="Insert another type" />
                     <Label layoutX="29.0" layoutY="474.0" text="GlobalVariablesDeclaration">
                         <font>
                             <Font name="System Bold" size="18.0" />
@@ -138,7 +138,7 @@
                         </font>
                     </Label>
                     <TextArea fx:id="DefaultCodeGlobVarDecTXT" layoutX="730.0" layoutY="557.0" prefHeight="115.0" prefWidth="344.0" />
-                    <Button onAction="#handleInsertAnotherVarDecClick" layoutX="48.0" layoutY="594.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another declaration" />
+                    <Button layoutX="48.0" layoutY="594.0" mnemonicParsing="false" onAction="#handleInsertAnotherVarDecClick" prefHeight="24.0" prefWidth="357.0" text="Insert another declaration" />
                     <Label layoutX="29.0" layoutY="686.0" text="InitialBeliefStateAssignments">
                         <font>
                             <Font name="System Bold" size="18.0" />
@@ -156,7 +156,7 @@
                             <Font size="12.0" />
                         </font>
                     </Label>
-                    <Button onAction="#handleInsertAnotherAssClick" layoutX="48.0" layoutY="900.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another assignment" />
+                    <Button layoutX="48.0" layoutY="900.0" mnemonicParsing="false" onAction="#handleInsertAnotherAssClick" prefHeight="24.0" prefWidth="357.0" text="Insert another assignment" />
                     <TextArea fx:id="InitBeliefAssCodeTXT" layoutX="235.0" layoutY="769.0" prefHeight="115.0" prefWidth="344.0" />
                     <Label layoutX="29.0" layoutY="962.0" text="SpecialStates">
                         <font>
@@ -202,7 +202,7 @@
                             </FXCollections>
                         </items>
                     </ChoiceBox>
-                    <Button onAction="#handleInsertAnotherStateClick" layoutX="48.0" layoutY="1256.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another state" />
+                    <Button layoutX="48.0" layoutY="1256.0" mnemonicParsing="false" onAction="#handleInsertAnotherStateClick" prefHeight="24.0" prefWidth="357.0" text="Insert another state" />
                     <Label layoutX="29.0" layoutY="1318.0" text="ExtrinsicChangesDynamicModel">
                         <font>
                             <Font name="System Bold" size="18.0" />
@@ -215,13 +215,14 @@
                         </font>
                     </Label>
                     <TextArea fx:id="AssignmentCodeChangeTXT" layoutX="235.0" layoutY="1374.0" prefHeight="115.0" prefWidth="344.0" />
-                    <Button onAction="#handleInsertAnotherChangeClick" layoutX="48.0" layoutY="1505.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another change" />
+                    <Button layoutX="48.0" layoutY="1505.0" mnemonicParsing="false" onAction="#handleInsertAnotherChangeClick" prefHeight="24.0" prefWidth="357.0" text="Insert another change" />
                 </children></Pane>
         </content>
       </ScrollPane>
         <Pane layoutX="12.0" layoutY="802.0" prefHeight="39.0" prefWidth="1065.0">
             <children>
-                <Button onAction="#handlePreviewBTNClick" layoutX="228.0" layoutY="8.0" mnemonicParsing="false" text="Preview JSON" />
+                <Button layoutX="228.0" layoutY="8.0" mnemonicParsing="false" onAction="#handlePreviewBTNClick" text="Preview JSON" />
+            <Button layoutX="840.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleCreateProjBTNClick" text="Create Project" />
             </children></Pane>
     </children>
 </AnchorPane>

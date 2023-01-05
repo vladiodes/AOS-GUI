@@ -1,10 +1,10 @@
-package frontend.finalproject.Model.Env;
+package frontend.finalproject.Model.Common;
 
-public class InitialBeliefStateAssignmentModel {
+public class AssignmentBlock {
     private String AssignmentName;
     private String AssignmentCode;
 
-    public InitialBeliefStateAssignmentModel(String AssignmentName, String AssignmentCode){
+    public AssignmentBlock(String AssignmentName, String AssignmentCode) {
         this.AssignmentName = AssignmentName;
         this.AssignmentCode = AssignmentCode;
     }
@@ -17,3 +17,4 @@ public class InitialBeliefStateAssignmentModel {
         return AssignmentCode;
     }
 }
+

@@ -1,6 +1,8 @@
 package frontend.finalproject.Controllers;
 
+import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,7 +86,7 @@ public class CreateEnvController {
 
     private GlobalVariableTypeModel currentGlobVarType = null;
 
-    private IAOSFacade facade;
+    private IAOSFacade facade = AOSFacade.getInstance();
 
 
     @FXML
@@ -147,8 +149,7 @@ public class CreateEnvController {
     }
 
     private String generateJSON(){
-        envModel.buildPlpMain(new PlpMainModel(ProjectNameTXT.getText()));
-        envModel.buildEnvGeneral(new EnvironmentGeneralModel(Integer.parseInt(HorizonTXT.getText()),Double.parseDouble(DiscountTXT.getText())));
+        addPlpAndEnvGeneralToModel();
         return envModel.toString();
     }
 
@@ -198,7 +199,7 @@ public class CreateEnvController {
     }
 
     public void handleInsertAnotherAssClick(ActionEvent event){
-        InitialBeliefStateAssignmentModel initBeliefModel = new InitialBeliefStateAssignmentModel(InitBeliefAssNameTXT.getText(),InitBeliefAssCodeTXT.getText());
+        AssignmentBlock initBeliefModel = new AssignmentBlock(InitBeliefAssNameTXT.getText(),InitBeliefAssCodeTXT.getText());
         envModel.addInitBeliefAss(initBeliefModel);
         InitBeliefAssCodeTXT.setText("");
         InitBeliefAssNameTXT.setText("");
@@ -221,5 +222,19 @@ public class CreateEnvController {
         ExtrinsicChangesDynamicModel model = new ExtrinsicChangesDynamicModel(AssignmentCodeChangeTXT.getText());
         envModel.addDynamicChange(model);
         AssignmentCodeChangeTXT.setText("");
+    }
+
+    public void handleCreateProjBTNClick(ActionEvent event) {
+        addPlpAndEnvGeneralToModel();
+        if(facade.createNewProject(envModel).getValue())
+            System.out.println("SUCCESS!");
+        else{
+            System.out.println("ERROR!");
+        }
+    }
+
+    private void addPlpAndEnvGeneralToModel() {
+        envModel.buildPlpMain(new PlpMainModel(ProjectNameTXT.getText(),EnvModel.PLP_NAME, EnvModel.PLP_TYPE));
+        envModel.buildEnvGeneral(new EnvironmentGeneralModel(Integer.parseInt(HorizonTXT.getText()),Double.parseDouble(DiscountTXT.getText())));
     }
 }
