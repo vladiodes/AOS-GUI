@@ -14,4 +14,5 @@ module frontend.finalproject {
     opens frontend.finalproject.Model.Env to com.google.gson;
     opens frontend.finalproject.Controllers to javafx.fxml;
     opens frontend.finalproject.Model.Common to com.google.gson;
+    opens backend.finalproject.ProjectFiles to com.google.gson;
 }

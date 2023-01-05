@@ -1,8 +1,6 @@
 package frontend.finalproject.Model.AM;
 
 import frontend.finalproject.Model.Env.PlpMainModel;
-import utils.Response;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +10,17 @@ public class AMModel {
     private String GlueFramework;
     private ModuleResponseModel ModuleResponse;
     private ModuleActivationModel ModuleActivation;
+    private List<LocalVariablesInitializationModel> LocalVariablesInitialization;
 
 
     public AMModel(){
         ModuleResponse = new ModuleResponseModel();
+        ModuleActivation = new ModuleActivationModel();
+        LocalVariablesInitialization = new ArrayList<>();
+    }
+
+    public void addLocalVariableInitialization(LocalVariablesInitializationModel model){
+        LocalVariablesInitialization.add(model);
     }
 
     public void addResponseRule(String Response, String ConditionCodeWithLocalVariables){
@@ -56,13 +61,3 @@ class ResponseRule{
         this.ConditionCodeWithLocalVariables = ConditionCodeWithLocalVariables;
     }
 }
-
-/**
- * {
- *     "PlpMain": { },
- *     "GlueFramework": "",
- *     "ModuleResponse": { },
- *     "ModuleActivation": { },
- *     "LocalVariablesInitialization": []
- * }
- */
