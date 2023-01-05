@@ -1,5 +1,6 @@
 package backend.finalproject;
 
+import backend.finalproject.ProjectFiles.Project;
 import frontend.finalproject.Model.Env.EnvModel;
 import utils.Response;
 
@@ -13,6 +14,7 @@ import static backend.finalproject.Constants.*;
 public class AOSFacade implements IAOSFacade {
 
     private Process AOS_API_Process;
+    private Project currentProject;
 
     public AOSFacade(){
     }
@@ -57,7 +59,18 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<Boolean> createNewProject(EnvModel envModel) {
-        return null;
+        try{
+            Project project = new Project(envModel);
+            saveProject(project);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
+        return Response.OK(true);
+    }
+
+    private void saveProject(Project environment) {
+
     }
 
     public Response<Boolean> addSkillToProject(String projectName, String sd, String am) {

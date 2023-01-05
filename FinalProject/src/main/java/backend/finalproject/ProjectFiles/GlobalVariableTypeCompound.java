@@ -1,6 +1,7 @@
 package backend.finalproject.ProjectFiles;
 
 
+import frontend.finalproject.Model.Env.GlobalVariableTypeCompoundModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,14 @@ public class GlobalVariableTypeCompound extends GlobalVariableType {
     public GlobalVariableTypeCompound(String typeName, String type) {
         super(typeName, type);
         variables = new ArrayList<>();
+    }
+
+    public GlobalVariableTypeCompound(GlobalVariableTypeCompoundModel globalVariableType) {
+        super(globalVariableType.getTypeName(), globalVariableType.getType());
+        variables = new ArrayList<>();
+        for (frontend.finalproject.Model.Env.CompoundVariable cv : globalVariableType.getVariables()){
+            variables.add(new CompoundVariable(cv));
+        }
     }
 
     // TODO: validate variable name not exists already
@@ -39,6 +48,12 @@ public class GlobalVariableTypeCompound extends GlobalVariableType {
         public CompoundVariable(String name, String type) {
             this.name = name;
             this.type = type;
+        }
+
+        public CompoundVariable(frontend.finalproject.Model.Env.CompoundVariable cv) {
+            this.name = cv.getName();
+            this.type = cv.getType();
+            this.Default = cv.getDefault();
         }
     }
 }

@@ -8,4 +8,12 @@ public class GlobalVariableTypeModel {
         this.TypeName = TypeName;
         this.Type = Type;
     }
+
+    public String getTypeName() {
+        return TypeName;
+    }
+
+    public String getType() {
+        return Type;
+    }
 }
