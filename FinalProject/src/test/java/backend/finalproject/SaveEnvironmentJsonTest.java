@@ -14,12 +14,12 @@ import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SaveEnvironmentJsonTest {
-    private final IAOSFacade facade = new AOSFacade();
+    private final IAOSFacade facade = AOSFacade.getInstance();
 
     private EnvModel buildAosPaperEnvModel(){
         EnvModel envModel = new EnvModel();
 
-        PlpMainModel plpMainModel = new PlpMainModel("aosPaper");
+        PlpMainModel plpMainModel = new PlpMainModel("aosPaper", "environment", "Environment");
 
         EnvironmentGeneralModel environmentGeneralModel = new EnvironmentGeneralModel(10, 0.97);
 

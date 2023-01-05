@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServerStatusTests {
 
-    private final IAOSFacade facade = new AOSFacade();
+    private final IAOSFacade facade = AOSFacade.getInstance();
 
     @Test
     void serverOnReturnsTrue(){

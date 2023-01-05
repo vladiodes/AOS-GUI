@@ -2,18 +2,20 @@ package frontend.finalproject.Model.Env;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import frontend.finalproject.Model.Common.AssignmentBlock;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 public class EnvModel {
+    public static final String PLP_NAME = "environment";
+    public static final String PLP_TYPE = "Environment";
     private PlpMainModel PlpMain;
     private EnvironmentGeneralModel EnvironmentGeneral;
     private List<GlobalVariableTypeModel> GlobalVariableTypes = new ArrayList<>();
     private   List<GlobalVariablesDeclarationModel> GlobalVariablesDeclaration = new ArrayList<>();
-    private List<InitialBeliefStateAssignmentModel> InitialBeliefStateAssignments = new ArrayList<>();
+    private List<AssignmentBlock> InitialBeliefStateAssignments = new ArrayList<>();
     private List<SpecialStateModel> SpecialStates = new ArrayList<>();
     private List<ExtrinsicChangesDynamicModel> ExtrinsicChangesDynamicModel = new ArrayList<>();
 
@@ -46,7 +48,7 @@ public class EnvModel {
         return GlobalVariablesDeclaration;
     }
 
-    public List<InitialBeliefStateAssignmentModel> getInitialBeliefStateAssignments() {
+    public List<AssignmentBlock> getInitialBeliefStateAssignments() {
         return InitialBeliefStateAssignments;
     }
 
@@ -66,7 +68,7 @@ public class EnvModel {
         this.GlobalVariablesDeclaration.add(model);
     }
 
-    public void addInitBeliefAss(InitialBeliefStateAssignmentModel initBeliefModel) {
+    public void addInitBeliefAss(AssignmentBlock initBeliefModel) {
         InitialBeliefStateAssignments.add(initBeliefModel);
     }
 
