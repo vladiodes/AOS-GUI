@@ -1,5 +1,9 @@
 package frontend.finalproject.Controllers;
 
+import frontend.finalproject.Model.AM.AMModel;
+import frontend.finalproject.Model.Common.AssignmentBlock;
+import frontend.finalproject.Model.SD.SDModel;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -56,7 +60,9 @@ public class CreateSkillController {
     @FXML private TextField GlobalVarModuleParamTypeTXT;
     @FXML private TextField GlobalVarModuleParamNameTXT;
     @FXML private TextField SkillNameTXT;
-    @FXML private String projectName;
+    private String projectName;
+    private SDModel SDmodel = new SDModel();
+    private AMModel AMmodel = new AMModel();
 
     public String getProjectName() {
         return projectName;
@@ -64,5 +70,38 @@ public class CreateSkillController {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public void handleInsertGlobalVarModuleParamSD(ActionEvent event) {
+        SDmodel.addGlobalVariableModuleParameter(GlobalVarModuleParamNameTXT.getText(),GlobalVarModuleParamTypeTXT.getText());
+        GlobalVarModuleParamNameTXT.setText("");
+        GlobalVarModuleParamTypeTXT.setText("");
+    }
+
+    public void handleInsertGlobalVarPreconditionAssignment(ActionEvent event) {
+        SDmodel.addGlobalVariablePreconditionAssignment(new AssignmentBlock(
+                AssignmentNameGlobVarPreCondTXT.getText(),
+                AssignmentCodeGlobVarPreCondTXT.getText()));
+        AssignmentNameGlobVarPreCondTXT.setText("");
+        AssignmentCodeGlobVarPreCondTXT.setText("");
+    }
+
+    public void handleInsertGlobalPlannerPrecondition(ActionEvent event) {
+        SDmodel.addPlannerAssistancePreconditionsAssignment(new AssignmentBlock(
+                AssignmentNamePlannerAssistancePreCondTXT.getText(),
+                AssignmentCodePlannerAssistancePreCondTXT.getText()
+        ));
+        AssignmentNamePlannerAssistancePreCondTXT.setText("");
+        AssignmentCodePlannerAssistancePreCondTXT.setText("");
+    }
+
+
+    public void handleInsertDynamicModel(ActionEvent event) {
+        SDmodel.addDynamicModelAssignment(new AssignmentBlock(
+                AssignmentNameDynamicModelTXT.getText(),
+                AssignmentCodeDynamicModelTXT.getText()
+        ));
+        AssignmentNameDynamicModelTXT.setText("");
+        AssignmentCodeDynamicModelTXT.setText("");
     }
 }

@@ -9,13 +9,22 @@ import java.util.List;
 public class SDModel {
     public static final String PLP_NAME = "PLP";
     private PlpMainModel PlpMain;
-    private GlobalVariableModuleParametersModel GlobalVariableModuleParameters;
+    private List<GlobalVariableModuleParametersModel> GlobalVariableModuleParameters;
     private PreconditionsModel Preconditions;
     private DynamicModelModel DynamicModel;
 
     public SDModel(){
         Preconditions = new PreconditionsModel();
         DynamicModel = new DynamicModelModel();
+        GlobalVariableModuleParameters = new ArrayList<>();
+    }
+
+    public void addDynamicModelAssignment(AssignmentBlock block){
+        DynamicModel.addAssignment(block);
+    }
+
+    public void addGlobalVariableModuleParameter(String Name, String Type){
+        GlobalVariableModuleParameters.add(new GlobalVariableModuleParametersModel(Name,Type));
     }
 
     public void addNextStateAssignment(AssignmentBlock block){
@@ -37,10 +46,6 @@ public class SDModel {
 
     public void buildPlpMain(String projectName, String skillName){
         PlpMain = new PlpMainModel(projectName,skillName,PLP_NAME);
-    }
-
-    public void buildGlobalVariableModuleParameters(String Name, String Type){
-        GlobalVariableModuleParameters = new GlobalVariableModuleParametersModel(Name,Type);
     }
 }
 
