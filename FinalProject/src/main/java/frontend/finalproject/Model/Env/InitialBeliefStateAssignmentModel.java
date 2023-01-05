@@ -8,4 +8,12 @@ public class InitialBeliefStateAssignmentModel {
         this.AssignmentName = AssignmentName;
         this.AssignmentCode = AssignmentCode;
     }
+
+    public String getAssignmentName() {
+        return AssignmentName;
+    }
+
+    public String getAssignmentCode() {
+        return AssignmentCode;
+    }
 }

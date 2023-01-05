@@ -10,4 +10,16 @@ public class CompoundVariable {
         this.Type = Type;
         this.Default = Default;
     }
+
+    public String getName() {
+        return Name;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public String getDefault() {
+        return Default;
+    }
 }

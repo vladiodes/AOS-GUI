@@ -12,4 +12,20 @@ public class GlobalVariablesDeclarationModel {
         this.DefaultCode = DefaultCode;
         this.IsActionParameterValue = IsActionParamValue;
     }
+
+    public String getName() {
+        return Name;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public String getDefaultCode() {
+        return DefaultCode;
+    }
+
+    public boolean isActionParameterValue() {
+        return IsActionParameterValue;
+    }
 }

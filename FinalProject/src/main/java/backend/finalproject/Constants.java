@@ -6,4 +6,6 @@ public class Constants {
     public static final int DEFAULT_TIMEOUT = 10000;
 
     public static final String AOS_API_ACTIVATION_COMMAND = "cd ~/AOS/AOS-WebAPI/bin/Debug/net5.0 && ./WebApiCSharp";
+
+    public static final String PROJECTS_FOLDER_PATH = "~/AOS/Projects";
 }

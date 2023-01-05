@@ -14,4 +14,8 @@ public class GlobalVariableTypeCompoundModel extends GlobalVariableTypeModel {
     public void insertVariable(CompoundVariable variable){
         Variables.add(variable);
     }
+
+    public List<CompoundVariable> getVariables() {
+        return Variables;
+    }
 }

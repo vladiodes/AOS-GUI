@@ -1,7 +1,11 @@
 package backend.finalproject;
 
+import backend.finalproject.ProjectFiles.Project;
+import com.google.gson.Gson;
+import frontend.finalproject.Model.Env.EnvModel;
 import utils.Response;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -19,6 +23,7 @@ public class AOSFacade implements IAOSFacade {
     }
 
     private Process AOS_API_Process;
+    private Project currentProject;
 
     private AOSFacade(){
     }
@@ -62,9 +67,17 @@ public class AOSFacade implements IAOSFacade {
         return null;
     }
 
-    public Response<Boolean> createNewProject(String name, String env, List<String> SDs, List<String> AMs) {
-        return null;
+    public Response<Boolean> createNewProject(EnvModel envModel) {
+        try{
+            Project project = new Project(envModel);
+            project.saveAsJson();
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
+        return Response.OK(true);
     }
+
 
     public Response<Boolean> addSkillToProject(String projectName, String sd, String am) {
         return null;

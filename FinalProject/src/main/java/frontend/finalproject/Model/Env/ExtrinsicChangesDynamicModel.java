@@ -6,4 +6,8 @@ public class ExtrinsicChangesDynamicModel {
     public ExtrinsicChangesDynamicModel(String AssignmentCode){
         this.AssignmentCode = AssignmentCode;
     }
+
+    public String getAssignmentCode() {
+        return AssignmentCode;
+    }
 }
