@@ -1,7 +1,8 @@
-package backend.finalproject.ProjectFiles;
+package backend.finalproject.ProjectFiles.Env;
 
 import frontend.finalproject.Model.Env.InitialBeliefStateAssignmentModel;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,8 @@ public class InitialBeliefStateAssignment {
     //TODO: validate split is working
     public InitialBeliefStateAssignment(InitialBeliefStateAssignmentModel initialBeliefStateAssignmentModel) {
         this.AssignmentName = initialBeliefStateAssignmentModel.getAssignmentName();
-        this.AssignmentCode = Arrays.stream(initialBeliefStateAssignmentModel.getAssignmentName().split("\n")).collect(Collectors.toList());
+        this.AssignmentCode = new ArrayList<>();
+        this.AssignmentCode.addAll(initialBeliefStateAssignmentModel.getAssignmentCode());
     }
 }
 

@@ -1,4 +1,4 @@
-package backend.finalproject.ProjectFiles;
+package backend.finalproject.ProjectFiles.Env;
 
 
 import frontend.finalproject.Model.Env.GlobalVariableTypeCompoundModel;

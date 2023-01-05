@@ -60,7 +60,7 @@ public class SaveEnvironmentJsonTest {
 
     @Test
     void saveEnvFileSuccess(){
-        File file = new File("../Examples/aosPaper.environment.json");
+        File file = new File("../Examples/aosPaperOrig.environment.json");
         try {
             String content = new String(Files.readAllBytes(file.toPath()));
             EnvModel envModel = getEnvModelFromJson(content);
