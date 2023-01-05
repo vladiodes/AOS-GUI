@@ -1,5 +1,6 @@
 package backend.finalproject;
 
+import frontend.finalproject.Model.Env.EnvModel;
 import utils.Response;
 
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class AOSFacade implements IAOSFacade {
         return null;
     }
 
-    public Response<Boolean> createNewProject(String name, String env, List<String> SDs, List<String> AMs) {
+    public Response<Boolean> createNewProject(EnvModel envModel) {
         return null;
     }
 

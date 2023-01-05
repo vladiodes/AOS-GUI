@@ -1,5 +1,6 @@
 package backend.finalproject;
 
+import frontend.finalproject.Model.Env.EnvModel;
 import utils.Response;
 
 import java.util.List;
@@ -62,14 +63,11 @@ public interface IAOSFacade {
 
     /**
      * Creating a new project
-     * @param name the name of the project
-     * @param env the env file of the project - JSON string
-     * @param SDs a list of all SDs in the project - each string is a JSON String
-     * @param AMs Same as SDs but for AMs.
+     * @param envModel the model as recieved from the FE
      * @return returns a response object wrapped with true - success or false - failure
      * REQ 2.1
      */
-    Response<Boolean> createNewProject(String name, String env, List<String> SDs, List<String> AMs);
+    Response<Boolean> createNewProject(EnvModel envModel);
 
     /**
      * Adding a new skill to a project
