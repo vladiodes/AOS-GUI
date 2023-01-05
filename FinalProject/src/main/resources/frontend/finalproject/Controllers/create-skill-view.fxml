@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.CreateSkillController">
+    <children>
+        <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="73.0" layoutY="30.0" text="Add Skill" textFill="WHITE">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+                <Label layoutX="73.0" layoutY="89.0" text="SD File" textFill="WHITE">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        
+        <Pane layoutX="12.0" layoutY="802.0" prefHeight="39.0" prefWidth="1065.0">
+            <children>
+                <Button layoutX="228.0" layoutY="8.0" mnemonicParsing="false" text="Preview JSON" />
+            </children></Pane>
+      <TabPane layoutX="6.0" layoutY="143.0" prefHeight="650.0" prefWidth="1108.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="SD">
+          <content>
+              <ScrollPane layoutX="6.0" layoutY="143.0" prefHeight="650.0" prefWidth="1108.0">
+                  <content>
+                      <Pane layoutX="4.0" layoutY="146.0" prefHeight="1000" prefWidth="1088.0" xmlns="http://javafx.com/javafx/17.0.2-ea">
+                          <children>
+                              <Label layoutX="19.0" layoutY="14.0" text="PlpMain">
+                                  <font>
+                                      <Font name="System Bold" size="18.0" />
+                                  </font>
+                              </Label>
+                              <Separator layoutX="9.0" layoutY="43.0" prefHeight="14.0" prefWidth="1073.0" />
+                              <Label layoutX="48.0" layoutY="66.0" text="Skill Name">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="SkillNameTXT" layoutX="234.0" layoutY="63.0" />
+                              <Label layoutX="19.0" layoutY="108.0" text="GlobalVariableModuleParameters">
+                                  <font>
+                                      <Font name="System Bold" size="18.0" />
+                                  </font>
+                              </Label>
+                              <Separator layoutX="9.0" layoutY="137.0" prefHeight="14.0" prefWidth="1073.0" />
+                              <Label layoutX="48.0" layoutY="160.0" text="Name">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="GlobalVarModuleParamNameTXT" layoutX="234.0" layoutY="157.0" />
+                              <Label layoutX="48.0" layoutY="194.0" text="Type">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="GlobalVarModuleParamTypeTXT" layoutX="234.0" layoutY="191.0" />
+                              <Label layoutX="29.0" layoutY="362.0" text="GlobalVariablePreconditionAssignments">
+                                  <font>
+                                      <Font name="System Bold" size="18.0" />
+                                  </font>
+                              </Label>
+                              <Separator layoutX="19.0" layoutY="391.0" prefHeight="14.0" prefWidth="1073.0" />
+                              <Label layoutX="48.0" layoutY="414.0" text="AssignmentName">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="AssignmentNameGlobVarPreCondTXT" layoutX="234.0" layoutY="411.0" />
+                              <Label layoutX="48.0" layoutY="448.0" text="AssignmentCode">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <Label layoutX="544.0" layoutY="313.0" text="Enum Value" visible="false">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField layoutX="730.0" layoutY="309.0" visible="false" />
+                              <Button layoutX="928.0" layoutY="308.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next value" visible="false" />
+                              <Label layoutX="544.0" layoutY="347.0" text="Name" visible="false">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField layoutX="730.0" layoutY="343.0" visible="false" />
+                              <Button layoutX="928.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next variable" visible="false" />
+                              <Label layoutX="544.0" layoutY="381.0" text="Type" visible="false">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField layoutX="730.0" layoutY="378.0" visible="false" />
+                              <Label layoutX="544.0" layoutY="415.0" text="Default" visible="false">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField layoutX="730.0" layoutY="412.0" visible="false" />
+                              <Label layoutX="29.0" layoutY="522.0" text="PlannerAssistancePreconditionsAssignments">
+                                  <font>
+                                      <Font name="System Bold" size="18.0" />
+                                  </font>
+                              </Label>
+                              <Separator layoutX="19.0" layoutY="551.0" prefHeight="14.0" prefWidth="1073.0" />
+                              <Button fx:id="InsertAnotherGlobVarBTN" layoutX="48.0" layoutY="226.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
+                              <Button fx:id="InsertAnotherGlobVarPrecondBTN" layoutX="48.0" layoutY="480.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
+                              <TextField fx:id="AssignmentCodeGlobVarPreCondTXT" layoutX="234.0" layoutY="444.0" />
+                              <Label layoutX="48.0" layoutY="574.0" text="AssignmentName">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="AssignmentNamePlannerAssistancePreCondTXT" layoutX="234.0" layoutY="571.0" />
+                              <Label layoutX="48.0" layoutY="608.0" text="AssignmentCode">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <Button fx:id="InsertAnotherPlannerPrecondBTN" layoutX="48.0" layoutY="640.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
+                              <TextField fx:id="AssignmentCodePlannerAssistancePreCondTXT" layoutX="234.0" layoutY="604.0" />
+                              <Label layoutX="29.0" layoutY="682.0" text="DynamicModel">
+                                  <font>
+                                      <Font name="System Bold" size="18.0" />
+                                  </font>
+                              </Label>
+                              <Separator layoutX="19.0" layoutY="711.0" prefHeight="14.0" prefWidth="1073.0" />
+                              <Label layoutX="19.0" layoutY="268.0" text="Preconditions">
+                                  <font>
+                                      <Font name="System Bold" size="18.0" />
+                                  </font>
+                              </Label>
+                              <Separator layoutX="9.0" layoutY="297.0" prefHeight="14.0" prefWidth="1073.0" />
+                              <Label layoutX="48.0" layoutY="320.0" text="ViolatingPreconditionPenalty">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="ViolatingPreconditionPenaltyTXT" layoutX="234.0" layoutY="317.0" />
+                              <Label layoutX="48.0" layoutY="734.0" text="AssignmentName">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="AssignmentNameDynamicModelTXT" layoutX="234.0" layoutY="731.0" />
+                              <Label layoutX="48.0" layoutY="768.0" text="AssignmentCode">
+                                  <font>
+                                      <Font size="12.0" />
+                                  </font>
+                              </Label>
+                              <Button fx:id="InsertAnotherDynamicModelBTN" layoutX="48.0" layoutY="800.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
+                              <TextField fx:id="AssignmentCodeDynamicModelTXT" layoutX="234.0" layoutY="764.0" />
+                          </children></Pane>
+                  </content>
+              </ScrollPane>
+          </content>
+          </Tab>
+          <Tab text="Glue" />
+        </tabs>
+      </TabPane>
+    </children>
+</AnchorPane>

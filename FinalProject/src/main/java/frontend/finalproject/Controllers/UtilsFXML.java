@@ -14,9 +14,10 @@ public class UtilsFXML {
     public final static String PROJECTS_FXML_PATH = "projects-view.fxml";
     public static final String CREATE_PROJECT_PATH = "create-env-view.fxml";
     public static final String PREVIEW_CODE_PATH = "preview-doc-view.fxml";
-    public static final int POLLING_INTERVAL_MS = 3000;
+    public static final String ADD_SKILL_FXML_PATH = "create-skill-view.fxml";
     public static final String RUNNING_AOS_BUTTON_TXT = "AOS: UP\nTap to shut down AOS";
     public static final String SHUTDOWN_AOS_BUTTON_TXT = "AOS: DOWN\nTap to activate AOS";
+
 
     public static void loadStage(String fxml, Stage stage) {
         try {

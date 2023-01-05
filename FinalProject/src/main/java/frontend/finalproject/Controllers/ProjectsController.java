@@ -53,4 +53,8 @@ public class ProjectsController {
     public void setFacade(IAOSFacade facade) {
         this.facade = facade;
     }
+
+    public void handleAddSkillAction(ActionEvent event) {
+        UtilsFXML.loadStage(UtilsFXML.ADD_SKILL_FXML_PATH,(Stage) ((Node) event.getSource()).getScene().getWindow());
+    }
 }
