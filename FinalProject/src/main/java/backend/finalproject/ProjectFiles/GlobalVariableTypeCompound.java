@@ -7,31 +7,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GlobalVariableTypeCompound extends GlobalVariableType {
-    private List<CompoundVariable> variables;
+    private List<CompoundVariable> Variables;
 
     public GlobalVariableTypeCompound(String typeName, String type) {
         super(typeName, type);
-        variables = new ArrayList<>();
+        Variables = new ArrayList<>();
     }
 
     public GlobalVariableTypeCompound(GlobalVariableTypeCompoundModel globalVariableType) {
         super(globalVariableType.getTypeName(), globalVariableType.getType());
-        variables = new ArrayList<>();
+        Variables = new ArrayList<>();
         for (frontend.finalproject.Model.Env.CompoundVariable cv : globalVariableType.getVariables()){
-            variables.add(new CompoundVariable(cv));
+            Variables.add(new CompoundVariable(cv));
         }
     }
 
     // TODO: validate variable name not exists already
     public void addVariable(String name, String type, String Default){
         CompoundVariable compoundVariable = new CompoundVariable(name, type, Default);
-        variables.add(compoundVariable);
+        Variables.add(compoundVariable);
     }
 
     // TODO: validate variable name not exists already
     public void addVariable(String name, String type){
         CompoundVariable compoundVariable = new CompoundVariable(name, type);
-        variables.add(compoundVariable);
+        Variables.add(compoundVariable);
     }
 
     private class CompoundVariable {
