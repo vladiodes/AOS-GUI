@@ -4,7 +4,7 @@ public class GlobalVariablesDeclarationModel {
     private String Name;
     private String Type;
     private String DefaultCode;
-    private boolean IsActionParameterValue;
+    private boolean IsActionParameterValue = false;
 
     public GlobalVariablesDeclarationModel(String Name, String Type, String DefaultCode, boolean IsActionParamValue){
         this.Name = Name;

@@ -4,6 +4,7 @@ import backend.finalproject.Constants;
 import com.google.gson.Gson;
 import frontend.finalproject.Model.Env.EnvModel;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,10 +30,16 @@ public class Project {
     public void saveAsJson() {
         Gson gson = new Gson();
         String jsonEnv = gson.toJson(Environment);
-        String envSavePath = Constants.PROJECTS_FOLDER_PATH + "/" + Environment.getProjectName() + ".environment.json";
+        StringBuilder envSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
+        envSavePath.append("/").append(Environment.getProjectName()).append("/").append(Environment.getProjectName()).append(".environment.json");
         // TODO: save skills too
-        try (FileWriter file = new FileWriter(envSavePath)) {
-            file.write(jsonEnv);
+        try {
+            File file = new File(envSavePath.toString());
+            // create the directories if they don't exist
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file);
+            writer.write(jsonEnv);
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
             e.printStackTrace();

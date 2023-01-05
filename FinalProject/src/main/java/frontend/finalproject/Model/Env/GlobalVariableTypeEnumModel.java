@@ -12,6 +12,12 @@ public class GlobalVariableTypeEnumModel extends GlobalVariableTypeModel {
         EnumValues = new ArrayList<>();
     }
 
+    public GlobalVariableTypeEnumModel(String TypeName, String Type, List<String> EnumValues) {
+        super(TypeName, Type);
+        this.EnumValues = new ArrayList<>();
+        this.EnumValues.addAll(EnumValues);
+    }
+
     public void addEnumValue(String value){
         EnumValues.add(value);
     }
