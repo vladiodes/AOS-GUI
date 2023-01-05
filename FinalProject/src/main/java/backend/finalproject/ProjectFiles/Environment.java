@@ -1,13 +1,11 @@
 package backend.finalproject.ProjectFiles;
 
 
-import frontend.finalproject.Model.Env.EnvModel;
-import frontend.finalproject.Model.Env.GlobalVariableTypeCompoundModel;
-import frontend.finalproject.Model.Env.GlobalVariableTypeEnumModel;
-import frontend.finalproject.Model.Env.GlobalVariableTypeModel;
+import frontend.finalproject.Model.Env.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // doc: https://github.com/orhaimwerthaim/AOS-WebAPI/blob/master/docs/version2/AOS_documentation_manual.md#environment-file
 public class Environment {
@@ -25,7 +23,8 @@ public class Environment {
         plpMain = new PlpMain(envModel.getPlpMain());
         environmentGeneral = new EnvironmentGeneral(envModel.getEnvironmentGeneral());
         globalVariableTypes = CopyGlobalVariableTypes(envModel.getGlobalVariableTypes());
-
+        globalVariablesDeclartions = envModel.getGlobalVariablesDeclaration().stream()
+                .map(GlobalVariablesDeclartion::new).collect(Collectors.toList());
     }
 
     private List<GlobalVariableType> CopyGlobalVariableTypes(List<GlobalVariableTypeModel> globalVariableTypesToCopy) {
