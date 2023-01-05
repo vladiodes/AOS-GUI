@@ -1,154 +1,136 @@
 package backend.finalproject;
 
-import backend.finalproject.ProjectFiles.Project;
-import com.google.gson.Gson;
 import frontend.finalproject.Model.Env.EnvModel;
 import utils.Response;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
-import static backend.finalproject.Constants.*;
-
-public class AOSFacade implements IAOSFacade {
-
+public class MockFacade implements IAOSFacade {
     private static IAOSFacade instance = null;
     public static IAOSFacade getInstance(){
-        if (instance == null)
-            instance = new AOSFacade();
+        if (instance==null){
+            instance = new MockFacade();
+        }
         return instance;
     }
 
-    private Process AOS_API_Process;
-    private Project currentProject;
+    private MockFacade(){
 
-    private AOSFacade(){
     }
-
-    public Response<Boolean> activateAOServer(){
-        if (pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT)){
-            return Response.OK(true);
-        }
-        ProcessBuilder pb = new ProcessBuilder("bash", "-c", AOS_API_ACTIVATION_COMMAND);
-        pb.redirectErrorStream(true);
-
-        try {
-            AOS_API_Process = pb.start();
-        } catch (IOException e) {
-            return Response.FAIL(e);
-        }
-
-        return Response.OK(true);
-    }
-
-    public Response<Boolean> deactivateAOServer() {
-        if ((!pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT)) || AOS_API_Process == null){
-            return Response.OK(true);
-        }
-
-        AOS_API_Process.destroy();
-        AOS_API_Process = null;
-
-        return Response.OK(true);
-    }
-
-    public Response<Boolean> showAOServerStatus() {
-        return Response.OK(pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT));
-    }
-
-    public Response<List<String>> getAllProjects() {
+    @Override
+    public Response<Boolean> activateAOServer() {
         return null;
     }
 
+    @Override
+    public Response<Boolean> deactivateAOServer() {
+        return null;
+    }
+
+    @Override
+    public Response<Boolean> showAOServerStatus() {
+        return null;
+    }
+
+    @Override
+    public Response<List<String>> getAllProjects() {
+        List<String> lst = new ArrayList<>();
+        for(int i=1;i<=100;i++){
+            lst.add("Project "+i);
+        }
+        return Response.OK(lst);
+    }
+
+    @Override
     public Response<String> loadProject(String name) {
         return null;
     }
 
+    @Override
     public Response<Boolean> createNewProject(EnvModel envModel) {
-        try{
-            Project project = new Project(envModel);
-            project.saveAsJson();
-        }
-        catch (Exception e){
-            return Response.FAIL(e);
-        }
-        return Response.OK(true);
+        return null;
     }
 
-
+    @Override
     public Response<Boolean> addSkillToProject(String projectName, String sd, String am) {
         return null;
     }
 
+    @Override
     public Response<Boolean> deleteSkillFromProject(String projectName, String skillName) {
         return null;
     }
 
+    @Override
     public Response<List<String>> showAllSkillsInProject(String projectName) {
-        return null;
+        List<String> lst = new ArrayList<>();
+        lst.add("Skill of " + projectName);
+        return Response.OK(lst);
     }
 
+    @Override
     public Response<Boolean> checkDocumentationFile(String file, DocumentationFile fileType) {
         return null;
     }
 
+    @Override
     public Response<String> getRobotBeliefState() {
         return null;
     }
 
+    @Override
     public Response<List<String>> getRobotBeliefStateHistory() {
         return null;
     }
 
+    @Override
     public Response<Boolean> stopInnerSimulation() {
         return null;
     }
 
+    @Override
     public Response<Boolean> stopRobotExec() {
         return null;
     }
 
+    @Override
     public Response<Boolean> activateRobotRequest() {
         return null;
     }
 
+    @Override
     public Response<Boolean> generateCodeRequest() {
         return null;
     }
 
+    @Override
     public Response<Boolean> activateRobotRequestNoRebuild() {
         return null;
     }
 
+    @Override
     public Response<Boolean> activateInnerSimulation() {
         return null;
     }
 
+    @Override
     public Response<Boolean> documentationFileCheckByAOServer() {
         return null;
     }
 
+    @Override
     public Response<Boolean> openGeneratedFile(String fileName, DocumentationFile documentationFile) {
         return null;
     }
 
+    @Override
     public Response<List<String>> showErrorsInDecisionEngine() {
         return null;
     }
 
+    @Override
     public Response<Boolean> openFileInSpecificError(String errorInfo) {
         return null;
-    }
-
-    private static boolean pingTcp(String host, int port, int timeout) {
-        try (Socket socket = new Socket()) {
-            socket.connect(new InetSocketAddress(host, port), timeout);
-            return true;
-        } catch (IOException e) {
-            return false; // Either timeout or unreachable or failed DNS lookup.
-        }
     }
 }

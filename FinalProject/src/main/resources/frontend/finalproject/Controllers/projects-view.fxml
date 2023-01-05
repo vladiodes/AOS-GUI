@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="1102.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.ProjectsController">
+    <children>
+        <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="73.0" layoutY="30.0" text="Projects" textFill="WHITE">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <ListView fx:id="projectList" layoutX="20.0" layoutY="209.0" prefHeight="287.0" prefWidth="150.0" stylesheets="@../style.css" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="932.0" AnchorPane.topAnchor="209.0">
+        </ListView>
+      <Pane layoutX="190.0" layoutY="150.0" prefHeight="391.0" prefWidth="761.0">
+         <children>
+            <ListView fx:id="skillsList" layoutX="34.0" layoutY="91.0" prefHeight="179.0" prefWidth="276.0">
+            </ListView>
+            <Label layoutX="43.0" layoutY="59.0" text="Skills" textFill="#222">
+             <font>
+                 <Font name="System Bold" size="20.0" />
+             </font>
+         </Label>
+            <Button alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="288.0" mnemonicParsing="false" stylesheets="@../style.css" text="Remove Skill" />
+            <Button alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="288.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Edit Skill" />
+            <Label layoutX="22.0" layoutY="7.0" text="Project Info" textFill="#222">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleAddSkillAction" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Add Skill" />
+            <Button alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open SD" />
+            <Button alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open AM" />
+            <Button alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open Env" />
+         </children>
+      </Pane>
+      <Button fx:id="backButton" layoutX="20.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleButtonClicks" prefHeight="46.0" prefWidth="150.0" text="Back">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Label layoutX="18.0" layoutY="157.0" text="Projects List" textFill="#222">
+        <font>
+            <Font name="System Bold" size="24.0" />
+        </font>
+      </Label>
+    </children>
+</AnchorPane>

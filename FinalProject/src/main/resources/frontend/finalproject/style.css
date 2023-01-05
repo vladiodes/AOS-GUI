@@ -1,0 +1,39 @@
+.button
+{
+    -fx-background-color : #F3F3F3;
+}
+.button:hover
+{
+    -fx-background-color : #A1C1F4 ;
+}
+.button:pressed
+{
+    -fx-background-color : #73A3EF ;
+}
+
+.RunningAOS{
+    -fx-background-color: #6efd6e;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+.RunningAOS:hover{
+    -fx-background-color: #34b234;
+}
+
+.DownAOS{
+    -fx-text-alignment: center;
+    -fx-background-color: #ff0000;
+    -fx-alignment: center;
+}
+
+.DownAOS:hover{
+    -fx-background-color: #fa5e5e;
+}
+
+
+
+
+
+
+
