@@ -12,4 +12,20 @@ public class SpecialStateModel {
         this.IsGoalState = IsGoalState;
         this.IsOneTimeReward = IsOneTimeReward;
     }
+
+    public String getStateConditionCode() {
+        return StateConditionCode;
+    }
+
+    public double getReward() {
+        return Reward;
+    }
+
+    public boolean isGoalState() {
+        return IsGoalState;
+    }
+
+    public boolean isOneTimeReward() {
+        return IsOneTimeReward;
+    }
 }

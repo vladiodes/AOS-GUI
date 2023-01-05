@@ -17,7 +17,7 @@ public class Environment {
 
     List<InitialBeliefStateAssignment> initialBeliefStateAssignments;
 
-    List<SpecialStates> specialStates;
+    List<SpecialState> specialStates;
 
     public Environment(EnvModel envModel) {
         plpMain = new PlpMain(envModel.getPlpMain());
@@ -25,6 +25,10 @@ public class Environment {
         globalVariableTypes = CopyGlobalVariableTypes(envModel.getGlobalVariableTypes());
         globalVariablesDeclartions = envModel.getGlobalVariablesDeclaration().stream()
                 .map(GlobalVariablesDeclartion::new).collect(Collectors.toList());
+        initialBeliefStateAssignments = envModel.getInitialBeliefStateAssignments().stream()
+                .map(InitialBeliefStateAssignment::new).collect(Collectors.toList());
+        specialStates = envModel.getSpecialStates().stream()
+                .map(SpecialState::new).collect(Collectors.toList());
     }
 
     private List<GlobalVariableType> CopyGlobalVariableTypes(List<GlobalVariableTypeModel> globalVariableTypesToCopy) {
