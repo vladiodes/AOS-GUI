@@ -4,6 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.CreateSkillController">
     <children>
         <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -11,11 +13,6 @@
                 <Label layoutX="73.0" layoutY="30.0" text="Add Skill" textFill="WHITE">
                     <font>
                         <Font size="48.0" />
-                    </font>
-                </Label>
-                <Label layoutX="73.0" layoutY="89.0" text="SD File" textFill="WHITE">
-                    <font>
-                        <Font size="18.0" />
                     </font>
                 </Label>
             </children>
@@ -164,7 +161,281 @@
               </ScrollPane>
           </content>
           </Tab>
-          <Tab text="Glue" />
+          <Tab text="Glue">
+              <content>
+                  <ScrollPane layoutX="6.0" layoutY="143.0" prefHeight="650.0" prefWidth="1108.0">
+                          <content>
+                  <Pane layoutX="4.0" layoutY="146.0" prefHeight="1500" prefWidth="1088.0">
+                      <children>
+                          <Label layoutX="19.0" layoutY="14.0" text="GlueFramework">
+                              <font>
+                                  <Font name="System Bold" size="18.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="9.0" layoutY="43.0" prefHeight="14.0" prefWidth="1073.0" />
+                          <Label layoutX="48.0" layoutY="66.0" text="GlueFramework">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="GlueFrameWorkTXT" layoutX="234.0" layoutY="63.0" />
+                          <Label layoutX="19.0" layoutY="108.0" text="ResponseRules">
+                              <font>
+                                  <Font name="System Bold" size="18.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="9.0" layoutY="137.0" prefHeight="14.0" prefWidth="1073.0" />
+                          <Label layoutX="48.0" layoutY="160.0" text="Response">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="ResponseTXT" layoutX="234.0" layoutY="157.0" />
+                          <Label layoutX="48.0" layoutY="194.0" text="ConditionCode">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="ConditionCodeTXT" layoutX="234.0" layoutY="191.0" />
+                          <Label layoutX="544.0" layoutY="313.0" text="Enum Value" visible="false">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField layoutX="730.0" layoutY="309.0" visible="false" />
+                          <Button layoutX="928.0" layoutY="308.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next value" visible="false" />
+                          <Label layoutX="544.0" layoutY="347.0" text="Name" visible="false">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField layoutX="730.0" layoutY="343.0" visible="false" />
+                          <Button layoutX="928.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next variable" visible="false" />
+                          <Label layoutX="544.0" layoutY="381.0" text="Type" visible="false">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField layoutX="730.0" layoutY="378.0" visible="false" />
+                          <Label layoutX="544.0" layoutY="415.0" text="Default" visible="false">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField layoutX="730.0" layoutY="412.0" visible="false" />
+                          <Button layoutX="48.0" layoutY="226.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert" />
+                          <Label layoutX="19.0" layoutY="268.0" text="ImportCode">
+                              <font>
+                                  <Font name="System Bold" size="18.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="9.0" layoutY="297.0" prefHeight="14.0" prefWidth="1073.0" />
+                          <Label layoutX="48.0" layoutY="321.0" text="From">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="FromTXT" layoutX="234.0" layoutY="318.0" />
+                          <Label layoutX="48.0" layoutY="355.0" text="Import">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="ImportTXT" layoutX="234.0" layoutY="352.0" />
+                          <Button id="InsertAnotherImportCodeBTN" layoutX="48.0" layoutY="387.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert import value" />
+                          <Button id="InsertAnotherImportCodeBTN" layoutX="48.0" layoutY="424.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert import code" />
+                          <Label layoutX="19.0" layoutY="466.0" text="ServicePath">
+                              <font>
+                                  <Font name="System Bold" size="18.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="9.0" layoutY="495.0" prefHeight="14.0" prefWidth="1073.0" />
+                          <Label layoutX="48.0" layoutY="518.0" text="ServicePath">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="ServicePathTXT" layoutX="234.0" layoutY="515.0" />
+                          <Label layoutX="19.0" layoutY="560.0" text="ServiceName">
+                              <font>
+                                  <Font name="System Bold" size="18.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="9.0" layoutY="589.0" prefHeight="14.0" prefWidth="1073.0" />
+                          <Label layoutX="48.0" layoutY="612.0" text="ServiceName">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="ServiceNameTXT" layoutX="234.0" layoutY="609.0" />
+                          <Label layoutX="19.0" layoutY="654.0" text="ServiceParameters">
+                              <font>
+                                  <Font name="System Bold" size="18.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="9.0" layoutY="683.0" prefHeight="14.0" prefWidth="1073.0" />
+                          <Label layoutX="48.0" layoutY="706.0" text="ServiceFieldName">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="ServiceFieldNameTXT" layoutX="234.0" layoutY="703.0" />
+                          <Label layoutX="48.0" layoutY="740.0" text="AssignServiceFieldCode">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="AssignServiceFieldCodeTXT" layoutX="234.0" layoutY="737.0" />
+                          <Button id="InsertAnotherServiceParamsBTN" layoutX="48.0" layoutY="772.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert" />
+                          <Label layoutX="18.0" layoutY="814.0" text="LocalVariablesInitialization">
+                              <font>
+                                  <Font name="System Bold" size="18.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="8.0" layoutY="843.0" prefHeight="14.0" prefWidth="1073.0" />
+                          <Label layoutX="81.0" layoutY="871.0" text="SD file skill parameters">
+                              <font>
+                                  <Font name="System Bold" size="14.0" />
+                              </font>
+                          </Label>
+                          <Label layoutX="431.0" layoutY="871.0" text="Skill-code returned value">
+                              <font>
+                                  <Font name="System Bold" size="14.0" />
+                              </font>
+                          </Label>
+                          <Label layoutX="781.0" layoutY="871.0" text="Public data from robot framework">
+                              <font>
+                                  <Font name="System Bold" size="14.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="340.0" layoutY="871.0" orientation="VERTICAL" prefHeight="557.0" prefWidth="0.0" />
+                          <Label layoutX="29.0" layoutY="914.0" text="InputLocalVariable">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="InputLocalVarTXT" layoutX="154.0" layoutY="911.0" />
+                          <Label layoutX="29.0" layoutY="948.0" text="FromGlobalVariable">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="FromGlobalVarTXT" layoutX="154.0" layoutY="945.0" />
+                          <Button id="InsertSDParamBTN" layoutX="29.0" layoutY="978.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="294.0" text="Insert Initialization" />
+                          <Label layoutX="365.0" layoutY="914.0" text="LocalVariableName">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="LocalVarNameSkillCodeTXT" layoutX="490.0" layoutY="911.0" />
+                          <Label layoutX="365.0" layoutY="948.0" text="VariableType">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="VarTypeSkillCodeTXT" layoutX="490.0" layoutY="945.0" />
+                          <Button id="InsertSkillCodeParamBTN" layoutX="365.0" layoutY="1303.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="294.0" text="Insert Initialization" />
+                          <Label layoutX="365.0" layoutY="982.0" text="FromROSServiceResponse">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <ChoiceBox id="FromROSCBX" layoutX="581.0" layoutY="979.0" prefHeight="24.0" prefWidth="79.0">
+                              <items>
+                                  <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="true" />
+                                      <String fx:value="false" />
+                                  </FXCollections>
+                              </items>
+                          </ChoiceBox>
+                          <Label layoutX="365.0" layoutY="1016.0" text="AssignmentCode">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <Separator layoutX="733.0" layoutY="871.0" orientation="VERTICAL" prefHeight="557.0" prefWidth="6.0" />
+                          <Label layoutX="431.0" layoutY="1120.0" text="ImportCode">
+                              <font>
+                                  <Font name="System Bold" size="14.0" />
+                              </font>
+                          </Label>
+                          <Label layoutX="365.0" layoutY="1163.0" text="From">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="SkillCodeFromTXT" layoutX="490.0" layoutY="1160.0" />
+                          <Label layoutX="365.0" layoutY="1197.0" text="Import">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="SkillCodeImportTXT" layoutX="490.0" layoutY="1194.0" />
+                          <Button id="InsertAnotherImportCodeSkillCodeBTN" layoutX="365.0" layoutY="1229.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="294.0" text="Insert import value" />
+                          <Button id="InsertAnotherImportCodeSkillCodeBTN" layoutX="365.0" layoutY="1266.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="294.0" text="Insert import code" />
+                          <Separator layoutX="1054.0" layoutY="1781.0" orientation="VERTICAL" prefHeight="404.0" prefWidth="0.0" />
+                          <TextArea id="AssCodeSkillCodeRetValueTXT" layoutX="491.0" layoutY="1013.0" prefHeight="98.0" prefWidth="170.0" />
+                          <Label layoutX="748.0" layoutY="914.0" text="LocalVariableName">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="LocalVarNameRobotFrameWorkTXT" layoutX="873.0" layoutY="911.0" />
+                          <Label layoutX="748.0" layoutY="948.0" text="ROSTopicPath">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="ROSTopicPathTXT" layoutX="873.0" layoutY="945.0" />
+                          <Button id="InsertRobotFrameWorkParamBTN" layoutX="748.0" layoutY="1371.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="294.0" text="Insert Initialization" />
+                          <Label layoutX="748.0" layoutY="982.0" text="VariableType">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <Label layoutX="748.0" layoutY="1084.0" text="AssignmentCode">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <Label layoutX="814.0" layoutY="1188.0" text="ImportCode">
+                              <font>
+                                  <Font name="System Bold" size="14.0" />
+                              </font>
+                          </Label>
+                          <Label layoutX="748.0" layoutY="1231.0" text="From">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="RobotFrameworkFromTXT" layoutX="873.0" layoutY="1228.0" />
+                          <Label layoutX="748.0" layoutY="1265.0" text="Import">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="RobotFrameworkImportTXT" layoutX="873.0" layoutY="1262.0" />
+                          <Button id="InsertAnotherImportCodeRobotFrameworkBTN" layoutX="748.0" layoutY="1297.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="294.0" text="Insert import value" />
+                          <Button id="InsertAnotherImportCodeRobotFrameworkBTN" layoutX="748.0" layoutY="1334.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="294.0" text="Insert import code" />
+                          <TextArea id="AssCodeRobotFrameworkTXT" layoutX="874.0" layoutY="1081.0" prefHeight="98.0" prefWidth="170.0" />
+                          <TextField id="VarTypeRobotFrameworkTXT" layoutX="873.0" layoutY="979.0" />
+                          <Label layoutX="748.0" layoutY="1016.0" text="InitialValue">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="InitialValueTXT" layoutX="873.0" layoutY="1013.0" />
+                          <Label layoutX="748.0" layoutY="1050.0" text="TopicMessageType">
+                              <font>
+                                  <Font size="12.0" />
+                              </font>
+                          </Label>
+                          <TextField id="TopicMessageTypeTXT" layoutX="873.0" layoutY="1047.0" />
+                      </children></Pane>
+                          </content>
+                  </ScrollPane>
+              </content>
+          </Tab>
         </tabs>
       </TabPane>
     </children>
