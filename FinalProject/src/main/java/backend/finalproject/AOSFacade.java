@@ -67,15 +67,15 @@ public class AOSFacade implements IAOSFacade {
         return null;
     }
 
-    public Response<Boolean> createNewProject(EnvModel envModel) {
+    public Response<Project> createNewProject(EnvModel envModel) {
         try{
             Project project = new Project(envModel);
             project.saveAsJson();
+            return Response.OK(project);
         }
         catch (Exception e){
             return Response.FAIL(e);
         }
-        return Response.OK(true);
     }
 
 

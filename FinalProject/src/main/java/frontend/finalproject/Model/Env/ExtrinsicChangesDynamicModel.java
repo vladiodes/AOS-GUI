@@ -1,13 +1,17 @@
 package frontend.finalproject.Model.Env;
 
-public class ExtrinsicChangesDynamicModel {
-    private String AssignmentCode;
+import java.util.ArrayList;
+import java.util.List;
 
-    public ExtrinsicChangesDynamicModel(String AssignmentCode){
-        this.AssignmentCode = AssignmentCode;
+public class ExtrinsicChangesDynamicModel {
+    private List<String> AssignmentCode;
+
+    public ExtrinsicChangesDynamicModel(List<String> AssignmentCode){
+        this.AssignmentCode = new ArrayList<>();
+        this.AssignmentCode.addAll(AssignmentCode);
     }
 
-    public String getAssignmentCode() {
+    public List<String> getAssignmentCode() {
         return AssignmentCode;
     }
 }

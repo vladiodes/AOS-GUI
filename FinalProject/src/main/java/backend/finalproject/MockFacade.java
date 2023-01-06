@@ -1,5 +1,6 @@
 package backend.finalproject;
 
+import backend.finalproject.ProjectFiles.Project;
 import frontend.finalproject.Model.Env.EnvModel;
 import utils.Response;
 
@@ -48,7 +49,7 @@ public class MockFacade implements IAOSFacade {
     }
 
     @Override
-    public Response<Boolean> createNewProject(EnvModel envModel) {
+    public Response<Project> createNewProject(EnvModel envModel) {
         return null;
     }
 

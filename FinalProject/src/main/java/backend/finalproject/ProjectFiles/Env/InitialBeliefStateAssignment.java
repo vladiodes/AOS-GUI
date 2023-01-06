@@ -19,7 +19,7 @@ public class InitialBeliefStateAssignment {
     public InitialBeliefStateAssignment(AssignmentBlock initialBeliefStateAssignmentModel) {
         this.AssignmentName = initialBeliefStateAssignmentModel.getAssignmentName();
         this.AssignmentCode = new ArrayList<>();
-        this.AssignmentCode.addAll(Collections.singleton(initialBeliefStateAssignmentModel.getAssignmentCode()));
+        this.AssignmentCode.addAll(initialBeliefStateAssignmentModel.getAssignmentCode());
     }
 }
 

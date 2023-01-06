@@ -1,5 +1,6 @@
 package backend.finalproject;
 
+import backend.finalproject.ProjectFiles.Project;
 import frontend.finalproject.Model.Env.EnvModel;
 import utils.Response;
 
@@ -67,7 +68,7 @@ public interface IAOSFacade {
      * @return returns a response object wrapped with true - success or false - failure
      * REQ 2.1
      */
-    Response<Boolean> createNewProject(EnvModel envModel);
+    Response<Project> createNewProject(EnvModel envModel);
 
     /**
      * Adding a new skill to a project
