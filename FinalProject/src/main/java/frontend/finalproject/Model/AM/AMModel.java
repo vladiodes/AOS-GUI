@@ -38,26 +38,21 @@ public class AMModel {
     public void setGlueFramework(String glueFramework) {
         GlueFramework = glueFramework;
     }
-}
 
-class ModuleResponseModel{
-    private List<ResponseRule> ResponseRules;
-
-    public ModuleResponseModel(){
-        ResponseRules = new ArrayList<>();
+    public PlpMainModel getPlpMain() {
+        return PlpMain;
     }
 
-    public void addResponseRule(String Response, String ConditionCodeWithLocalVariables){
-        ResponseRules.add(new ResponseRule(Response,ConditionCodeWithLocalVariables));
+    public ModuleResponseModel getModuleResponse() {
+        return ModuleResponse;
+    }
+
+    public ModuleActivationModel getModuleActivation() {
+        return ModuleActivation;
+    }
+
+    public List<LocalVariablesInitializationModel> getLocalVariablesInitialization() {
+        return LocalVariablesInitialization;
     }
 }
 
-class ResponseRule{
-    private String Response;
-    private String ConditionCodeWithLocalVariables;
-
-    public ResponseRule(String Response, String ConditionCodeWithLocalVariables){
-        this.Response = Response;
-        this.ConditionCodeWithLocalVariables = ConditionCodeWithLocalVariables;
-    }
-}

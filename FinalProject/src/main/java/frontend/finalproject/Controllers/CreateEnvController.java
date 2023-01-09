@@ -226,7 +226,7 @@ public class CreateEnvController {
 
     public void handleCreateProjBTNClick(ActionEvent event) {
         addPlpAndEnvGeneralToModel();
-        if(facade.createNewProject(envModel).getValue())
+        if(facade.createNewProject(envModel).getValue() != null)
             System.out.println("SUCCESS!");
         else{
             System.out.println("ERROR!");

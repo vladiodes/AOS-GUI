@@ -10,6 +10,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.util.Collections;
+
 public class CreateSkillController {
     @FXML private TextArea AssCodeSkillCodeRetValueTXT;
     @FXML private Button InsertAnotherImportCodeSkillCodeBTN;
@@ -78,6 +80,7 @@ public class CreateSkillController {
         GlobalVarModuleParamTypeTXT.setText("");
     }
 
+
     public void handleInsertGlobalVarPreconditionAssignment(ActionEvent event) {
         SDmodel.addGlobalVariablePreconditionAssignment(new AssignmentBlock(
                 AssignmentNameGlobVarPreCondTXT.getText(),
@@ -94,7 +97,6 @@ public class CreateSkillController {
         AssignmentNamePlannerAssistancePreCondTXT.setText("");
         AssignmentCodePlannerAssistancePreCondTXT.setText("");
     }
-
 
     public void handleInsertDynamicModel(ActionEvent event) {
         SDmodel.addDynamicModelAssignment(new AssignmentBlock(

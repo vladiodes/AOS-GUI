@@ -13,6 +13,24 @@ public class AssignmentBlock {
         this.AssignmentCode.addAll(AssignmentCode);
     }
 
+    public AssignmentBlock(String AssignmentName, String AssignmentCode) {
+        this.AssignmentName = AssignmentName;
+        this.AssignmentCode = new ArrayList<>();
+        String[] code = AssignmentCode.split("\n");
+        this.AssignmentCode.addAll(List.of(code));
+    }
+
+    public AssignmentBlock(List<String> assignmentCode) {
+        this.AssignmentCode = new ArrayList<>();
+        this.AssignmentCode.addAll(AssignmentCode);
+    }
+
+    public AssignmentBlock(String assignmentCode) {
+        this.AssignmentCode = new ArrayList<>();
+        String[] code = assignmentCode.split("\n");
+        this.AssignmentCode.addAll(List.of(code));
+    }
+
     public String getAssignmentName() {
         return AssignmentName;
     }
@@ -21,3 +39,4 @@ public class AssignmentBlock {
         return AssignmentCode;
     }
 }
+
