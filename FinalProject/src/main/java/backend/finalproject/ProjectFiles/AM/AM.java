@@ -30,7 +30,7 @@ public class AM {
         LocalVariablesInitialization = localVariablesInitialization;
     }
 
-    private AM(AMModel amModel){
+    public AM(AMModel amModel){
         PlpMain = new PlpMain(amModel.getPlpMain());
         GlueFramework = amModel.getGlueFramework();
         ModuleResponse = new ModuleResponse(amModel.getModuleResponse());
