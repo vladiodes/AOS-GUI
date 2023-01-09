@@ -1,7 +1,9 @@
 package backend.finalproject;
 
 import backend.finalproject.ProjectFiles.Project;
+import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
+import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
 import java.util.List;
@@ -78,7 +80,7 @@ public interface IAOSFacade {
      * @return a response object wrapped with true - success or false - failure.
      * REQ 2.4
      */
-    Response<Boolean> addSkillToProject(String projectName, String sd, String am);
+    Response<Boolean> addSkillToProject(SDModel sdModel, AMModel amModel);
 
     /**
      * Deleting a skill from a project

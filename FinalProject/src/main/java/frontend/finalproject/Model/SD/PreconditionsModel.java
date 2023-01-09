@@ -30,4 +30,12 @@ public class PreconditionsModel {
     public void setViolatingPreconditionPenalty(double violatingPreconditionPenalty) {
         ViolatingPreconditionPenalty = violatingPreconditionPenalty;
     }
+
+    public List<AssignmentBlock> getGlobalVariablePreconditionAssignments() {
+        return GlobalVariablePreconditionAssignments;
+    }
+
+    public List<AssignmentBlock> getPlannerAssistancePreconditionsAssignments() {
+        return PlannerAssistancePreconditionsAssignments;
+    }
 }

@@ -1,8 +1,11 @@
 package backend.finalproject;
 
 import backend.finalproject.ProjectFiles.Project;
+import backend.finalproject.ProjectFiles.SD.SD;
 import com.google.gson.Gson;
+import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
+import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
 import java.io.FileWriter;
@@ -79,7 +82,8 @@ public class AOSFacade implements IAOSFacade {
     }
 
 
-    public Response<Boolean> addSkillToProject(String projectName, String sd, String am) {
+    public Response<Boolean> addSkillToProject(SDModel sdModel, AMModel amModel) {
+        SD sd = new SD(sdModel);
         return null;
     }
 
