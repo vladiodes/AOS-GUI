@@ -19,7 +19,7 @@ public class SaveEnvironmentJsonTest {
     private EnvModel buildAosPaperEnvModel(){
         EnvModel envModel = new EnvModel();
 
-        PlpMainModel plpMainModel = new PlpMainModel("aosPaper", "Environment", "environment" );
+        PlpMainModel plpMainModel = new PlpMainModel("aosPaper", "Environment", "egnvironment" );
 
         EnvironmentGeneralModel environmentGeneralModel = new EnvironmentGeneralModel(10, 0.97);
 
