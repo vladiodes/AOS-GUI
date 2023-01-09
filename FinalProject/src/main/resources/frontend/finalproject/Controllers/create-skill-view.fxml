@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.CreateSkillController">
     <children>
         <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -109,8 +109,8 @@
                                   </font>
                               </Label>
                               <Separator layoutX="19.0" layoutY="551.0" prefHeight="14.0" prefWidth="1073.0" />
-                              <Button fx:id="InsertAnotherGlobVarBTN" layoutX="48.0" layoutY="226.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
-                              <Button fx:id="InsertAnotherGlobVarPrecondBTN" layoutX="48.0" layoutY="480.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
+                              <Button fx:id="InsertAnotherGlobVarBTN" layoutX="48.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleInsertGlobalVarModuleParamSD" prefHeight="24.0" prefWidth="357.0" text="Insert" />
+                              <Button fx:id="InsertAnotherGlobVarPrecondBTN" layoutX="48.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleInsertGlobalVarPreconditionAssignment" prefHeight="24.0" prefWidth="357.0" text="Insert" />
                               <TextField fx:id="AssignmentCodeGlobVarPreCondTXT" layoutX="234.0" layoutY="444.0" />
                               <Label layoutX="48.0" layoutY="574.0" text="AssignmentName">
                                   <font>
@@ -123,7 +123,7 @@
                                       <Font size="12.0" />
                                   </font>
                               </Label>
-                              <Button fx:id="InsertAnotherPlannerPrecondBTN" layoutX="48.0" layoutY="640.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
+                              <Button fx:id="InsertAnotherPlannerPrecondBTN" layoutX="48.0" layoutY="640.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert" onAction="#handleInsertGlobalPlannerPrecondition" />
                               <TextField fx:id="AssignmentCodePlannerAssistancePreCondTXT" layoutX="234.0" layoutY="604.0" />
                               <Label layoutX="29.0" layoutY="682.0" text="DynamicModel">
                                   <font>
@@ -154,7 +154,7 @@
                                       <Font size="12.0" />
                                   </font>
                               </Label>
-                              <Button fx:id="InsertAnotherDynamicModelBTN" layoutX="48.0" layoutY="800.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
+                              <Button fx:id="InsertAnotherDynamicModelBTN" onAction="#handleInsertDynamicModel" layoutX="48.0" layoutY="800.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
                               <TextField fx:id="AssignmentCodeDynamicModelTXT" layoutX="234.0" layoutY="764.0" />
                           </children></Pane>
                   </content>
