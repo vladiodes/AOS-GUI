@@ -1,11 +1,13 @@
 package backend.finalproject;
 
+import backend.finalproject.ProjectFiles.AM.AM;
 import backend.finalproject.ProjectFiles.Project;
-import com.google.gson.Gson;
+import backend.finalproject.ProjectFiles.SD.SD;
+import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
+import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -63,24 +65,46 @@ public class AOSFacade implements IAOSFacade {
         return null;
     }
 
-    public Response<String> loadProject(String name) {
+    public Response<EnvModel> loadProject(String name) {
         return null;
     }
 
-    public Response<Boolean> createNewProject(EnvModel envModel) {
+    @Override
+    public Response<SDModel> loadSkillSD(String skillName) {
+        return null;
+    }
+
+    @Override
+    public Response<AMModel> loadSkillAM(String skillName) {
+        return null;
+    }
+
+    public Response<Project> createNewProject(EnvModel envModel) {
         try{
             Project project = new Project(envModel);
-            project.saveAsJson();
+            project.saveEnv();
+            return Response.OK(project);
         }
         catch (Exception e){
             return Response.FAIL(e);
         }
-        return Response.OK(true);
+    }
+
+    @Override
+    public Response<Boolean> setCurrentWorkingProject(String projectName) {
+        return null;
     }
 
 
-    public Response<Boolean> addSkillToProject(String projectName, String sd, String am) {
-        return null;
+    public Response<Boolean> addSkillToProject(SDModel sdModel, AMModel amModel) {
+        if (currentProject == null){
+            return Response.OK(false);
+        }
+        SD sd = new SD(sdModel);
+        AM am = new AM(amModel);
+        currentProject.addSkill(sd, am);
+
+        return Response.OK(true);
     }
 
     public Response<Boolean> deleteSkillFromProject(String projectName, String skillName) {
@@ -93,6 +117,22 @@ public class AOSFacade implements IAOSFacade {
 
     public Response<Boolean> checkDocumentationFile(String file, DocumentationFile fileType) {
         return null;
+    }
+
+    @Override
+    public Response<String> previewEnvJSON(EnvModel env) {
+        //@TODO: Change it so all json parsing will be done in backend
+        return Response.OK(env.toString());
+    }
+
+    @Override
+    public Response<String> previewAMJSON(AMModel AM) {
+        return Response.OK(AM.toString());
+    }
+
+    @Override
+    public Response<String> previewSDJSON(SDModel SD) {
+        return Response.OK(SD.toString());
     }
 
     public Response<String> getRobotBeliefState() {

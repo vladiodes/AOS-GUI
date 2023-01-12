@@ -1,8 +1,13 @@
 package backend.finalproject.ProjectFiles.Env;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import frontend.finalproject.Model.Env.GlobalVariableTypeCompoundModel;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,26 +39,42 @@ public class GlobalVariableTypeCompound extends GlobalVariableType {
         Variables.add(compoundVariable);
     }
 
+    public List<CompoundVariable> getVariables() {
+        return Variables;
+    }
+
     private class CompoundVariable {
-        private String name;
-        private String type;
+        private String Name;
+        private String Type;
         private String Default;
 
         public CompoundVariable(String name, String type, String Default) {
-            this.name = name;
-            this.type = type;
+            this.Name = name;
+            this.Type = type;
             this.Default = Default;
         }
 
         public CompoundVariable(String name, String type) {
-            this.name = name;
-            this.type = type;
+            this.Name = name;
+            this.Type = type;
         }
 
         public CompoundVariable(frontend.finalproject.Model.Env.CompoundVariable cv) {
-            this.name = cv.getName();
-            this.type = cv.getType();
+            this.Name = cv.getName();
+            this.Type = cv.getType();
             this.Default = cv.getDefault();
+        }
+
+        public String getName() {
+            return Name;
+        }
+
+        public String getType() {
+            return Type;
+        }
+
+        public String getDefault() {
+            return Default;
         }
     }
 }

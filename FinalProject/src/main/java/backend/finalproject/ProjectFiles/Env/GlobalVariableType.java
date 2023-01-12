@@ -9,4 +9,12 @@ public abstract class GlobalVariableType {
         this.TypeName = typeName;
         this.Type = type;
     }
+
+    public String getTypeName() {
+        return TypeName;
+    }
+
+    public String getType() {
+        return Type;
+    }
 }

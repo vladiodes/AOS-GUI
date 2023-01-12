@@ -1,6 +1,9 @@
 package backend.finalproject;
 
+import backend.finalproject.ProjectFiles.Project;
+import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
+import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
 import java.util.ArrayList;
@@ -43,17 +46,32 @@ public class MockFacade implements IAOSFacade {
     }
 
     @Override
-    public Response<String> loadProject(String name) {
+    public Response<EnvModel> loadProject(String name) {
         return null;
     }
 
     @Override
-    public Response<Boolean> createNewProject(EnvModel envModel) {
+    public Response<SDModel> loadSkillSD(String skillName) {
         return null;
     }
 
     @Override
-    public Response<Boolean> addSkillToProject(String projectName, String sd, String am) {
+    public Response<AMModel> loadSkillAM(String skillName) {
+        return null;
+    }
+
+    @Override
+    public Response<Project> createNewProject(EnvModel envModel) {
+        return null;
+    }
+
+    @Override
+    public Response<Boolean> setCurrentWorkingProject(String projectName) {
+        return null;
+    }
+
+    @Override
+    public Response<Boolean> addSkillToProject(SDModel sdModel, AMModel amModel) {
         return null;
     }
 
@@ -72,6 +90,21 @@ public class MockFacade implements IAOSFacade {
     @Override
     public Response<Boolean> checkDocumentationFile(String file, DocumentationFile fileType) {
         return null;
+    }
+
+    @Override
+    public Response<String> previewEnvJSON(EnvModel env) {
+        return Response.OK("Env file");
+    }
+
+    @Override
+    public Response<String> previewAMJSON(AMModel AM) {
+        return Response.OK("AM file");
+    }
+
+    @Override
+    public Response<String> previewSDJSON(SDModel SD) {
+        return Response.OK("SD file");
     }
 
     @Override

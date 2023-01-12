@@ -22,4 +22,8 @@ public class GlobalVariableTypeEnum extends GlobalVariableType {
     public void addEnumValue(String value){
         EnumValues.add(value);
     }
+
+    public Set<String> getEnumValues() {
+        return EnumValues;
+    }
 }

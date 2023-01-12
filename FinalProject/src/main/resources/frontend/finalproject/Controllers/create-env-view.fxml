@@ -223,6 +223,7 @@
             <children>
                 <Button layoutX="228.0" layoutY="8.0" mnemonicParsing="false" onAction="#handlePreviewBTNClick" text="Preview JSON" />
             <Button layoutX="840.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleCreateProjBTNClick" text="Create Project" />
+            <Button layoutX="91.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackBTNClick" text="&lt;&lt; Back" />
             </children></Pane>
     </children>
 </AnchorPane>

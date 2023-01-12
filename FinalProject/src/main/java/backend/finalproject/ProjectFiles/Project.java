@@ -1,10 +1,15 @@
 package backend.finalproject.ProjectFiles;
 
 import backend.finalproject.Constants;
+import backend.finalproject.ProjectFiles.AM.AM;
 import backend.finalproject.ProjectFiles.Env.Environment;
+import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeCompound;
+import backend.finalproject.ProjectFiles.Env.PlpMain;
+import backend.finalproject.ProjectFiles.SD.SD;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Env.EnvModel;
+import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,8 +35,12 @@ public class Project {
     }
 
     // TODO: consider refactor to utils
-    public void saveAsJson() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    public void saveEnv() {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .registerTypeAdapter(GlobalVariableTypeCompound.class, new GlobalVariableTypeCompoundJsonSerializer())
+                .create();
         String jsonEnv = gson.toJson(Environment);
         StringBuilder envSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
         envSavePath.append("/").append(Environment.getProjectName()).append("/").append(Environment.getProjectName()).append(".environment.json");
@@ -51,4 +60,13 @@ public class Project {
         }
     }
 
+    public void addSkill(SD sd, AM am) {
+        Skill skill = new Skill(sd, am);
+        Skills.add(skill);
+        saveSkill(skill);
+    }
+
+    private void saveSkill(Skill skill) {
+       // TODO
+    }
 }
