@@ -7,11 +7,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ProjectsController {
@@ -27,7 +31,7 @@ public class ProjectsController {
 
     public void handleButtonClicks(ActionEvent event) {
         if (event.getSource() == backButton) {
-            UtilsFXML.loadStage(UtilsFXML.HOME_FXML_PATH, (Stage) ((Node) event.getSource()).getScene().getWindow());
+            UtilsFXML.navToHome(event);
         }
     }
 
@@ -37,6 +41,7 @@ public class ProjectsController {
         projectList.setOnMouseClicked(mouseEvent -> {
             String selectedProj = projectList.getSelectionModel().getSelectedItem();
             populateSkillsList(selectedProj);
+            facade.setCurrentWorkingProject(selectedProj);
         });
     }
 
@@ -55,6 +60,17 @@ public class ProjectsController {
     }
 
     public void handleAddSkillAction(ActionEvent event) {
-        UtilsFXML.loadStage(UtilsFXML.ADD_SKILL_FXML_PATH,(Stage) ((Node) event.getSource()).getScene().getWindow());
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try{
+            FXMLLoader loader = new FXMLLoader(ProjectsController.class.getResource(UtilsFXML.ADD_SKILL_FXML_PATH));
+            Parent root = loader.load();
+            CreateSkillController controller = loader.getController();
+            controller.setProjectName(projectList.getSelectionModel().getSelectedItem());
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

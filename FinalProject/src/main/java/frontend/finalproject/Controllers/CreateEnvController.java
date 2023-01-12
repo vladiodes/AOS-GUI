@@ -134,23 +134,12 @@ public class CreateEnvController {
 
 
     public void handlePreviewBTNClick(ActionEvent event) {
-        Stage stage = new Stage();
-        try{
-            FXMLLoader loader = new FXMLLoader(CreateEnvController.class.getResource(UtilsFXML.PREVIEW_CODE_PATH));
-            Parent root = loader.load();
-            CodePreviewController controller = loader.getController();
-            controller.setCode(generateJSON());
-            stage.setScene(new Scene(root));
-            stage.show();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        UtilsFXML.handlePreviewBTNClick(event,generateJSON());
     }
 
     private String generateJSON(){
         addPlpAndEnvGeneralToModel();
-        return envModel.toString();
+        return facade.previewEnvJSON(envModel).getValue();
     }
 
     public void handleInsertAnotherGlobalVarTypeClick(ActionEvent event) {
@@ -236,5 +225,9 @@ public class CreateEnvController {
     private void addPlpAndEnvGeneralToModel() {
         envModel.buildPlpMain(new PlpMainModel(ProjectNameTXT.getText(),EnvModel.PLP_NAME, EnvModel.PLP_TYPE));
         envModel.buildEnvGeneral(new EnvironmentGeneralModel(Integer.parseInt(HorizonTXT.getText()),Double.parseDouble(DiscountTXT.getText())));
+    }
+
+    public void handleBackBTNClick(ActionEvent event) {
+        UtilsFXML.navToHome(event);
     }
 }

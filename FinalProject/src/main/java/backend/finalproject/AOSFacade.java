@@ -65,7 +65,17 @@ public class AOSFacade implements IAOSFacade {
         return null;
     }
 
-    public Response<String> loadProject(String name) {
+    public Response<EnvModel> loadProject(String name) {
+        return null;
+    }
+
+    @Override
+    public Response<SDModel> loadSkillSD(String skillName) {
+        return null;
+    }
+
+    @Override
+    public Response<AMModel> loadSkillAM(String skillName) {
         return null;
     }
 
@@ -78,6 +88,11 @@ public class AOSFacade implements IAOSFacade {
         catch (Exception e){
             return Response.FAIL(e);
         }
+    }
+
+    @Override
+    public Response<Boolean> setCurrentWorkingProject(String projectName) {
+        return null;
     }
 
 
@@ -102,6 +117,22 @@ public class AOSFacade implements IAOSFacade {
 
     public Response<Boolean> checkDocumentationFile(String file, DocumentationFile fileType) {
         return null;
+    }
+
+    @Override
+    public Response<String> previewEnvJSON(EnvModel env) {
+        //@TODO: Change it so all json parsing will be done in backend
+        return Response.OK(env.toString());
+    }
+
+    @Override
+    public Response<String> previewAMJSON(AMModel AM) {
+        return Response.OK(AM.toString());
+    }
+
+    @Override
+    public Response<String> previewSDJSON(SDModel SD) {
+        return Response.OK(SD.toString());
     }
 
     public Response<String> getRobotBeliefState() {
