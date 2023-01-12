@@ -46,7 +46,17 @@ public class MockFacade implements IAOSFacade {
     }
 
     @Override
-    public Response<String> loadProject(String name) {
+    public Response<EnvModel> loadProject(String name) {
+        return null;
+    }
+
+    @Override
+    public Response<SDModel> loadSkillSD(String skillName) {
+        return null;
+    }
+
+    @Override
+    public Response<AMModel> loadSkillAM(String skillName) {
         return null;
     }
 
