@@ -78,6 +78,21 @@ public class MockFacade implements IAOSFacade {
     }
 
     @Override
+    public Response<String> previewEnvJSON(EnvModel env) {
+        return Response.OK("Env file");
+    }
+
+    @Override
+    public Response<String> previewAMJSON(AMModel AM) {
+        return Response.OK("AM file");
+    }
+
+    @Override
+    public Response<String> previewSDJSON(SDModel SD) {
+        return Response.OK("SD file");
+    }
+
+    @Override
     public Response<String> getRobotBeliefState() {
         return null;
     }

@@ -114,6 +114,27 @@ public interface IAOSFacade {
      */
     Response<Boolean> checkDocumentationFile(String file, DocumentationFile fileType);
 
+    /**
+     * Returns a representation of the current env model in json format
+     * @param env current env
+     * @return as stated above
+     */
+    Response<String> previewEnvJSON(EnvModel env);
+
+    /**
+     * Same as previewEnv
+     * @param AM
+     * @return
+     */
+    Response<String> previewAMJSON(AMModel AM);
+
+    /**
+     * Same as previewEnv
+     * @param SD
+     * @return
+     */
+    Response<String> previewSDJSON(SDModel SD);
+
     // ============= Robot Actions and States REQ =============
 
     /**

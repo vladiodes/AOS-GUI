@@ -1,6 +1,7 @@
 package frontend.finalproject.Controllers;
 
 import backend.finalproject.IAOSFacade;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +27,21 @@ public class UtilsFXML {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void handlePreviewBTNClick(ActionEvent event, String json) {
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(CreateEnvController.class.getResource(UtilsFXML.PREVIEW_CODE_PATH));
+            Parent root = loader.load();
+            CodePreviewController controller = loader.getController();
+            controller.setCode(json);
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
     }

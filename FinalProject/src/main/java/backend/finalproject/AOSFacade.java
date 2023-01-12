@@ -104,6 +104,22 @@ public class AOSFacade implements IAOSFacade {
         return null;
     }
 
+    @Override
+    public Response<String> previewEnvJSON(EnvModel env) {
+        //@TODO: Change it so all json parsing will be done in backend
+        return Response.OK(env.toString());
+    }
+
+    @Override
+    public Response<String> previewAMJSON(AMModel AM) {
+        return Response.OK(AM.toString());
+    }
+
+    @Override
+    public Response<String> previewSDJSON(SDModel SD) {
+        return Response.OK(SD.toString());
+    }
+
     public Response<String> getRobotBeliefState() {
         return null;
     }

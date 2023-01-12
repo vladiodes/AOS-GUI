@@ -11,8 +11,12 @@ module frontend.finalproject {
     exports backend.finalproject;
     exports utils;
     exports frontend.finalproject.Model.Env;
+    exports frontend.finalproject.Model.AM;
+    exports frontend.finalproject.Model.SD;
     opens frontend.finalproject.Model.Env to com.google.gson;
     opens frontend.finalproject.Controllers to javafx.fxml;
     opens frontend.finalproject.Model.Common to com.google.gson;
     opens backend.finalproject.ProjectFiles to com.google.gson;
+    opens frontend.finalproject.Model.SD to com.google.gson;
+    opens frontend.finalproject.Model.AM to com.google.gson;
 }

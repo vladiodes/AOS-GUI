@@ -1,5 +1,7 @@
 package frontend.finalproject.Model.SD;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.PlpMainModel;
 
@@ -62,5 +64,10 @@ public class SDModel {
 
     public void buildPlpMain(String projectName, String skillName){
         PlpMain = new PlpMainModel(projectName,skillName,PLP_NAME);
+    }
+
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 }

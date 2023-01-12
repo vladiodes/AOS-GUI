@@ -27,11 +27,6 @@ public class EnvModel {
         this.EnvironmentGeneral = model;
     }
 
-    public String toString(){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(this);
-    }
-
     public PlpMainModel getPlpMain() {
         return PlpMain;
     }
@@ -79,4 +74,10 @@ public class EnvModel {
     public void addDynamicChange(frontend.finalproject.Model.Env.ExtrinsicChangesDynamicModel model) {
         ExtrinsicChangesDynamicModel.add(model);
     }
+
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
+    }
+
 }
