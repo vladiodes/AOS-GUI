@@ -3,10 +3,13 @@ package frontend.finalproject.Controllers;
 import backend.finalproject.IAOSFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -49,5 +52,16 @@ public class UtilsFXML {
 
     public static void navToHome(ActionEvent event){
         loadStage(UtilsFXML.HOME_FXML_PATH, (Stage) ((Node) event.getSource()).getScene().getWindow());
+    }
+
+    public static void showNotification(String title, String text){
+        Notifications notificationBuilder = Notifications.create()
+                .title(title)
+                .text(text)
+                .graphic(null)
+                .hideAfter(Duration.seconds(5))
+                .position(Pos.TOP_RIGHT);
+
+        notificationBuilder.showConfirm();
     }
 }
