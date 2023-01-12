@@ -21,4 +21,8 @@ public class NotificationUtils {
     public static final String CREATED_NEW_PROJECT_SUCCESS_TEXT = "You've successfully created a new project!";
     public static final String CREATED_NEW_PROJECT_FAIL_TEXT = "Something has failed while trying to create a new project";
 
+    // ================================================= Skill files notifications =================================================
+
+    // ================================================= Other notifications =================================================
+
 }
