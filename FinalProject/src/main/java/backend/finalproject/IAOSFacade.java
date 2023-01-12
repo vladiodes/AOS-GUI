@@ -76,6 +76,8 @@ public interface IAOSFacade {
      */
     Response<Project> createNewProject(EnvModel envModel);
 
+    Response<Boolean> setCurrentWorkingProject(String projectName);
+
     /**
      * Adding a new skill to a project
      * @return a response object wrapped with true - success or false - failure.

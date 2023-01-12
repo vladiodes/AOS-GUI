@@ -66,6 +66,11 @@ public class MockFacade implements IAOSFacade {
     }
 
     @Override
+    public Response<Boolean> setCurrentWorkingProject(String projectName) {
+        return null;
+    }
+
+    @Override
     public Response<Boolean> addSkillToProject(SDModel sdModel, AMModel amModel) {
         return null;
     }

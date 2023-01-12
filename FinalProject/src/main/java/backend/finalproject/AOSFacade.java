@@ -90,6 +90,11 @@ public class AOSFacade implements IAOSFacade {
         }
     }
 
+    @Override
+    public Response<Boolean> setCurrentWorkingProject(String projectName) {
+        return null;
+    }
+
 
     public Response<Boolean> addSkillToProject(SDModel sdModel, AMModel amModel) {
         if (currentProject == null){
