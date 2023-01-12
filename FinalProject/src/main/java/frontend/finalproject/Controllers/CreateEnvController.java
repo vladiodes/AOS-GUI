@@ -226,4 +226,8 @@ public class CreateEnvController {
         envModel.buildPlpMain(new PlpMainModel(ProjectNameTXT.getText(),EnvModel.PLP_NAME, EnvModel.PLP_TYPE));
         envModel.buildEnvGeneral(new EnvironmentGeneralModel(Integer.parseInt(HorizonTXT.getText()),Double.parseDouble(DiscountTXT.getText())));
     }
+
+    public void handleBackBTNClick(ActionEvent event) {
+        UtilsFXML.navToHome(event);
+    }
 }

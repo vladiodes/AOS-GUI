@@ -3,6 +3,7 @@ package frontend.finalproject.Controllers;
 import backend.finalproject.IAOSFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -44,5 +45,9 @@ public class UtilsFXML {
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public static void navToHome(ActionEvent event){
+        loadStage(UtilsFXML.HOME_FXML_PATH, (Stage) ((Node) event.getSource()).getScene().getWindow());
     }
 }

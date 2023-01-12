@@ -21,8 +21,9 @@
         <Pane layoutX="12.0" layoutY="802.0" prefHeight="39.0" prefWidth="1065.0">
             <children>
                 <Button layoutX="900.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleAddSkillBTNClick" text="Add Skill" />
-                <Button layoutX="228.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleAMPreviewBTNClick" text="Preview AM JSON" />
-            <Button layoutX="80.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleSDPreviewBTNClick" text="Preview SD JSON" />
+                <Button layoutX="428.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleAMPreviewBTNClick" text="Preview AM JSON" />
+            <Button layoutX="280.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleSDPreviewBTNClick" text="Preview SD JSON" />
+            <Button layoutX="80.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackBTNClick" text="&lt;&lt; Back" />
             </children></Pane>
       <TabPane layoutX="6.0" layoutY="143.0" prefHeight="650.0" prefWidth="1108.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>

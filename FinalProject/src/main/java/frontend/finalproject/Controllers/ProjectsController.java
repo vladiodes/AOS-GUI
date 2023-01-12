@@ -31,7 +31,7 @@ public class ProjectsController {
 
     public void handleButtonClicks(ActionEvent event) {
         if (event.getSource() == backButton) {
-            UtilsFXML.loadStage(UtilsFXML.HOME_FXML_PATH, (Stage) ((Node) event.getSource()).getScene().getWindow());
+            UtilsFXML.navToHome(event);
         }
     }
 
