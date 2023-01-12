@@ -19,4 +19,6 @@ module frontend.finalproject {
     opens backend.finalproject.ProjectFiles to com.google.gson;
     opens frontend.finalproject.Model.SD to com.google.gson;
     opens frontend.finalproject.Model.AM to com.google.gson;
+    opens backend.finalproject.ProjectFiles.Env to com.google.gson;
+    opens backend.finalproject.ProjectFiles.Common to com.google.gson;
 }
