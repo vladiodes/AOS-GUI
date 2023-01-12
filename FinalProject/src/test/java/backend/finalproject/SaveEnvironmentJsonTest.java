@@ -1,11 +1,11 @@
 package backend.finalproject;
 
+import backend.finalproject.ProjectFiles.Env.Environment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Env.*;
 import org.junit.jupiter.api.Test;
-import utils.Json.PolymorphDeserializer;
-import utils.Response;
+import utils.Json.PolymorphDeserializer.PolymorphDeserializer;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,12 +14,12 @@ import java.nio.file.Files;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SaveEnvironmentJsonTest {
-    private final IAOSFacade facade = new AOSFacade();
+    private final IAOSFacade facade = AOSFacade.getInstance();
 
     private EnvModel buildAosPaperEnvModel(){
         EnvModel envModel = new EnvModel();
 
-        PlpMainModel plpMainModel = new PlpMainModel("aosPaper");
+        PlpMainModel plpMainModel = new PlpMainModel("aosPaper", "Environment", "egnvironment" );
 
         EnvironmentGeneralModel environmentGeneralModel = new EnvironmentGeneralModel(10, 0.97);
 
@@ -60,11 +60,11 @@ public class SaveEnvironmentJsonTest {
 
     @Test
     void saveEnvFileSuccess(){
-        File file = new File("../Examples/aosPaper.environment.json");
+        File file = new File("../Projects/aosPaper/aosPaperOrig.environment.json");
         try {
             String content = new String(Files.readAllBytes(file.toPath()));
             EnvModel envModel = getEnvModelFromJson(content);
-            facade.createNewProject(envModel);
+            Environment env = facade.createNewProject(envModel).getValue().getEnvironment();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

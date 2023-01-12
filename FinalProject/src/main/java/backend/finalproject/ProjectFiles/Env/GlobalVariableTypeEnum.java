@@ -1,4 +1,4 @@
-package backend.finalproject.ProjectFiles;
+package backend.finalproject.ProjectFiles.Env;
 
 import frontend.finalproject.Model.Env.GlobalVariableTypeEnumModel;
 
@@ -21,5 +21,9 @@ public class GlobalVariableTypeEnum extends GlobalVariableType {
 
     public void addEnumValue(String value){
         EnumValues.add(value);
+    }
+
+    public Set<String> getEnumValues() {
+        return EnumValues;
     }
 }

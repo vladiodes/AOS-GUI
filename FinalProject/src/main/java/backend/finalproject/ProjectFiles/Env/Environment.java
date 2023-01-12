@@ -1,6 +1,8 @@
-package backend.finalproject.ProjectFiles;
+package backend.finalproject.ProjectFiles.Env;
 
 
+import backend.finalproject.ProjectFiles.Common.AssignmentBlock;
+import backend.finalproject.ProjectFiles.Common.PlpMain;
 import frontend.finalproject.Model.Env.*;
 
 import java.util.ArrayList;
@@ -9,31 +11,31 @@ import java.util.stream.Collectors;
 
 // doc: https://github.com/orhaimwerthaim/AOS-WebAPI/blob/master/docs/version2/AOS_documentation_manual.md#environment-file
 public class Environment {
-    private PlpMain PlpMain;
+    private backend.finalproject.ProjectFiles.Common.PlpMain PlpMain;
     private EnvironmentGeneral EnvironmentGeneral;
     private List<GlobalVariableType> GlobalVariableTypes;
 
-    private List<GlobalVariablesDeclartion> GlobalVariablesDeclartions;
+    private List<GlobalVariablesDeclaration> GlobalVariablesDeclaration;
 
-    private List<InitialBeliefStateAssignment> InitialBeliefStateAssignments;
+    private List<AssignmentBlock> InitialBeliefStateAssignments;
 
     private List<SpecialState> SpecialStates;
 
-    private List<ExtrinsicChangesDynamicModel> ExtrinsicChangesDynamicModels;
+    private List<AssignmentBlock> ExtrinsicChangesDynamicModel;
 
 
     public Environment(EnvModel envModel) {
         PlpMain = new PlpMain(envModel.getPlpMain());
         EnvironmentGeneral = new EnvironmentGeneral(envModel.getEnvironmentGeneral());
         GlobalVariableTypes = CopyGlobalVariableTypes(envModel.getGlobalVariableTypes());
-        GlobalVariablesDeclartions = envModel.getGlobalVariablesDeclaration().stream()
-                .map(GlobalVariablesDeclartion::new).collect(Collectors.toList());
+        GlobalVariablesDeclaration = envModel.getGlobalVariablesDeclaration().stream()
+                .map(GlobalVariablesDeclaration::new).collect(Collectors.toList());
         InitialBeliefStateAssignments = envModel.getInitialBeliefStateAssignments().stream()
-                .map(InitialBeliefStateAssignment::new).collect(Collectors.toList());
+                .map(AssignmentBlock::new).collect(Collectors.toList());
         SpecialStates = envModel.getSpecialStates().stream()
                 .map(SpecialState::new).collect(Collectors.toList());
-        ExtrinsicChangesDynamicModels = envModel.getExtrinsicChangesDynamicModel().stream()
-                .map(ExtrinsicChangesDynamicModel::new).collect(Collectors.toList());
+        ExtrinsicChangesDynamicModel = envModel.getExtrinsicChangesDynamicModel().stream()
+                .map(AssignmentBlock::new).collect(Collectors.toList());
     }
 
     private List<GlobalVariableType> CopyGlobalVariableTypes(List<GlobalVariableTypeModel> globalVariableTypesToCopy) {
@@ -65,11 +67,11 @@ public class Environment {
         return GlobalVariableTypes;
     }
 
-    public List<GlobalVariablesDeclartion> getGlobalVariablesDeclartions() {
-        return GlobalVariablesDeclartions;
+    public List<GlobalVariablesDeclaration> getGlobalVariablesDeclaration() {
+        return GlobalVariablesDeclaration;
     }
 
-    public List<InitialBeliefStateAssignment> getInitialBeliefStateAssignments() {
+    public List<AssignmentBlock> getInitialBeliefStateAssignments() {
         return InitialBeliefStateAssignments;
     }
 
@@ -77,19 +79,7 @@ public class Environment {
         return SpecialStates;
     }
 
-    public List<ExtrinsicChangesDynamicModel> getExtrinsicChangesDynamicModels() {
-        return ExtrinsicChangesDynamicModels;
+    public List<AssignmentBlock> getExtrinsicChangesDynamicModel() {
+        return ExtrinsicChangesDynamicModel;
     }
 }
-
-/**
- {
- "PlpMain": { },
- "EnvironmentGeneral": { },
- "GlobalVariableTypes": [ ],
- "GlobalVariablesDeclaration": [ ],
- "InitialBeliefStateAssignments": [ ],
- "SpecialStates": [ ],
- "ExtrinsicChangesDynamicModel": [ ]
- }
- **/

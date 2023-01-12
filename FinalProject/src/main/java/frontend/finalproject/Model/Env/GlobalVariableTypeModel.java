@@ -1,7 +1,7 @@
 package frontend.finalproject.Model.Env;
 
-import utils.Json.JsonSubtype;
-import utils.Json.JsonType;
+import utils.Json.PolymorphDeserializer.JsonSubtype;
+import utils.Json.PolymorphDeserializer.JsonType;
 
 @JsonType(
         property = "Type",

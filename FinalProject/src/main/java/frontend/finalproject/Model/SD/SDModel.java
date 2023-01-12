@@ -13,6 +13,22 @@ public class SDModel {
     private PreconditionsModel Preconditions;
     private DynamicModelModel DynamicModel;
 
+    public PlpMainModel getPlpMain() {
+        return PlpMain;
+    }
+
+    public List<GlobalVariableModuleParametersModel> getGlobalVariableModuleParameters() {
+        return GlobalVariableModuleParameters;
+    }
+
+    public PreconditionsModel getPreconditions() {
+        return Preconditions;
+    }
+
+    public DynamicModelModel getDynamicModel() {
+        return DynamicModel;
+    }
+
     public SDModel(){
         Preconditions = new PreconditionsModel();
         DynamicModel = new DynamicModelModel();
@@ -46,27 +62,5 @@ public class SDModel {
 
     public void buildPlpMain(String projectName, String skillName){
         PlpMain = new PlpMainModel(projectName,skillName,PLP_NAME);
-    }
-}
-
-class GlobalVariableModuleParametersModel{
-    private String Name;
-    private String Type;
-
-    public GlobalVariableModuleParametersModel(String Name, String Type){
-        this.Name = Name;
-        this.Type = Type;
-    }
-}
-
-class DynamicModelModel{
-    List<AssignmentBlock> NextStateAssignments;
-
-    public DynamicModelModel(){
-        NextStateAssignments = new ArrayList<>();
-    }
-
-    public void addAssignment(AssignmentBlock block){
-        NextStateAssignments.add(block);
     }
 }

@@ -1,6 +1,9 @@
 package backend.finalproject;
 
+import backend.finalproject.ProjectFiles.Project;
+import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
+import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
 import java.util.ArrayList;
@@ -48,12 +51,12 @@ public class MockFacade implements IAOSFacade {
     }
 
     @Override
-    public Response<Boolean> createNewProject(EnvModel envModel) {
+    public Response<Project> createNewProject(EnvModel envModel) {
         return null;
     }
 
     @Override
-    public Response<Boolean> addSkillToProject(String projectName, String sd, String am) {
+    public Response<Boolean> addSkillToProject(SDModel sdModel, AMModel amModel) {
         return null;
     }
 

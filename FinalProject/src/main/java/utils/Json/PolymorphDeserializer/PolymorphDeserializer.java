@@ -1,4 +1,4 @@
-package utils.Json;
+package utils.Json.PolymorphDeserializer;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

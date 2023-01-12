@@ -1,4 +1,4 @@
-package backend.finalproject.ProjectFiles;
+package backend.finalproject.ProjectFiles.Common;
 
 import frontend.finalproject.Model.Env.PlpMainModel;
 
