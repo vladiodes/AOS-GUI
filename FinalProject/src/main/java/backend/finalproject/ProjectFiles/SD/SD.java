@@ -44,4 +44,16 @@ public class SD {
     public PlpMain getPlpMain() {
         return PlpMain;
     }
+
+    public List<GlobalVariableModuleParameter> getGlobalVariableModuleParameters() {
+        return GlobalVariableModuleParameters;
+    }
+
+    public Precondition getPreconditions() {
+        return Preconditions;
+    }
+
+    public backend.finalproject.ProjectFiles.SD.DynamicModel getDynamicModel() {
+        return DynamicModel;
+    }
 }

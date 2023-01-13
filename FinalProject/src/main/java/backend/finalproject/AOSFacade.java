@@ -4,6 +4,7 @@ import backend.finalproject.ProjectFiles.AM.AM;
 import backend.finalproject.ProjectFiles.Env.Environment;
 import backend.finalproject.ProjectFiles.Project;
 import backend.finalproject.ProjectFiles.SD.SD;
+import backend.finalproject.ProjectFiles.Skill;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
@@ -88,12 +89,26 @@ public class AOSFacade implements IAOSFacade {
 
     @Override
     public Response<SDModel> getProjectSkillSD(String skillName) {
-        return null;
+        try{
+            Skill skill = currentProject.getSkill(skillName);
+            SDModel sdModel = new SDModel(skill.getSd());
+            return Response.OK(sdModel);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     @Override
     public Response<AMModel> getProjectSkillAM(String skillName) {
-        return null;
+        try{
+            Skill skill = currentProject.getSkill(skillName);
+            AMModel amModel = new AMModel(skill.getAm());
+            return Response.OK(amModel);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     public Response<Project> createNewProject(EnvModel envModel) {

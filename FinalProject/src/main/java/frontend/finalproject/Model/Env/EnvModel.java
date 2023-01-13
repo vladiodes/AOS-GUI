@@ -34,24 +34,13 @@ public class EnvModel {
         GlobalVariableTypes = CopyGlobalVariableTypes(environment.getGlobalVariableTypes());
         GlobalVariablesDeclaration = environment.getGlobalVariablesDeclaration().stream()
                 .map(GlobalVariablesDeclarationModel::new).collect(Collectors.toList());
-        InitialBeliefStateAssignments = CopyAssignmentBlocks(environment.getInitialBeliefStateAssignments());
+        InitialBeliefStateAssignments = AssignmentBlock.CopyAssignmentBlocks(environment.getInitialBeliefStateAssignments());
         SpecialStates = environment.getSpecialStates().stream()
                 .map(SpecialStateModel::new).collect(Collectors.toList());
-        ExtrinsicChangesDynamicModel = CopyAssignmentBlocks(environment.getExtrinsicChangesDynamicModel());
+        ExtrinsicChangesDynamicModel = AssignmentBlock.CopyAssignmentBlocks(environment.getExtrinsicChangesDynamicModel());
     }
 
-    private List<AssignmentBlock> CopyAssignmentBlocks(List<IAssignmentBlock> iAssignmentBlocks) {
-        ArrayList<AssignmentBlock> assignmentBlocks = new ArrayList<>();
-        for (IAssignmentBlock assignmentBlock : iAssignmentBlocks){
-            if (assignmentBlock instanceof AssignmentBlockMultipleLines assignmentBlockMultipleLines){
-                assignmentBlocks.add(new AssignmentBlock(assignmentBlockMultipleLines.getAssignmentName(), assignmentBlockMultipleLines.getAssignmentCode()));
-            }
-            else if (assignmentBlock instanceof AssignmentBlockSingleLine assignmentBlockSingleLine){
-                assignmentBlocks.add(new AssignmentBlock(assignmentBlockSingleLine.getAssignmentName(), assignmentBlockSingleLine.getAssignmentCode()));
-            }
-        }
-        return assignmentBlocks;
-    }
+
 
     private List<GlobalVariableTypeModel> CopyGlobalVariableTypes(List<GlobalVariableType> globalVariableTypes) {
         List<GlobalVariableTypeModel> globalVariableTypesModels = new ArrayList<>();

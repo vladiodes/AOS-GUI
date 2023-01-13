@@ -1,5 +1,10 @@
 package frontend.finalproject.Model.AM;
 
+import backend.finalproject.ProjectFiles.AM.AM;
+import backend.finalproject.ProjectFiles.AM.LocalVariablesInit.DataPublishedRobotFramework;
+import backend.finalproject.ProjectFiles.AM.LocalVariablesInit.LocalVariablesInitialization;
+import backend.finalproject.ProjectFiles.AM.LocalVariablesInit.SDParameters;
+import backend.finalproject.ProjectFiles.AM.LocalVariablesInit.SkillCodeReturnValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Env.PlpMainModel;
@@ -19,6 +24,31 @@ public class AMModel {
         ModuleResponse = new ModuleResponseModel();
         ModuleActivation = new ModuleActivationModel();
         LocalVariablesInitialization = new ArrayList<>();
+    }
+
+    public AMModel(AM am) {
+        PlpMain = new PlpMainModel(am.getPlpMain());
+        GlueFramework = am.getGlueFramework();
+        ModuleResponse = new ModuleResponseModel(am.getModuleResponse());
+        ModuleActivation = new ModuleActivationModel(am.getModuleActivation());
+        LocalVariablesInitialization = CopyLocalVariablesInits(am.getLocalVariablesInitialization());
+    }
+
+    private List<LocalVariablesInitializationModel> CopyLocalVariablesInits(List<LocalVariablesInitialization> localVariablesInitialization) {
+        List<LocalVariablesInitializationModel> localVariablesInitializationModels = new ArrayList<>();
+        for (LocalVariablesInitialization initialization : localVariablesInitialization){
+            if (initialization instanceof DataPublishedRobotFramework dataPublishedRobotFramework){
+                localVariablesInitializationModels.add(new frontend.finalproject.Model.AM.DataPublishedRobotFramework(dataPublishedRobotFramework));
+            }
+            else if (initialization instanceof SDParameters sdParameters){
+                localVariablesInitializationModels.add(new SDParametersModel(sdParameters));
+            }
+            else if (initialization instanceof SkillCodeReturnValue skillCodeReturnValue){
+                localVariablesInitializationModels.add(new SkillCodeReturnValueModel(skillCodeReturnValue));
+            }
+        }
+
+        return localVariablesInitializationModels;
     }
 
     public void addLocalVariableInitialization(LocalVariablesInitializationModel model){

@@ -172,4 +172,13 @@ public class Project {
         envSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(Constants.ENVIRONMENT_FILE_SUFFIX);
         writeToFile(envSavePath.toString(), jsonEnv);
     }
+
+    public Skill getSkill(String skillName) throws Exception {
+        for (Skill skill : Skills){
+            if (skill.getSkillName().equals(skillName)){
+                return skill;
+            }
+        }
+        throw new Exception("Skill with name " + skillName + " has not found.");
+    }
 }

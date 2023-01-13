@@ -1,5 +1,6 @@
 package frontend.finalproject.Model.SD;
 
+import backend.finalproject.ProjectFiles.SD.Precondition;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 
 import java.util.ArrayList;
@@ -13,6 +14,13 @@ public class PreconditionsModel {
     public PreconditionsModel(){
         GlobalVariablePreconditionAssignments = new ArrayList<>();
         PlannerAssistancePreconditionsAssignments = new ArrayList<>();
+    }
+
+    public PreconditionsModel(Precondition preconditions) {
+        this.ViolatingPreconditionPenalty = preconditions.getViolatingPreconditionPenalty();
+        this.GlobalVariablePreconditionAssignments = AssignmentBlock.CopyAssignmentBlocks(preconditions.getGlobalVariablePreconditionAssignments());
+        this.PlannerAssistancePreconditionsAssignments = AssignmentBlock.CopyAssignmentBlocks(preconditions.getPlannerAssistancePreconditionsAssignments());
+
     }
 
     public void addGlobalVariablePreconditionAssignment(AssignmentBlock block){

@@ -1,5 +1,6 @@
 package frontend.finalproject.Model.SD;
 
+import backend.finalproject.ProjectFiles.SD.DynamicModel;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 
 import java.util.ArrayList;
@@ -10,6 +11,10 @@ public class DynamicModelModel {
 
     public DynamicModelModel() {
         NextStateAssignments = new ArrayList<>();
+    }
+
+    public DynamicModelModel(DynamicModel dynamicModel) {
+        NextStateAssignments = AssignmentBlock.CopyAssignmentBlocks(dynamicModel.getNextStateAssignments());
     }
 
     public void addAssignment(AssignmentBlock block) {
