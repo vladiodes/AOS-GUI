@@ -12,9 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import utils.Response;
 
@@ -22,6 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class CreateSkillController {
+    @FXML private Button addSkillBTN;
+    @FXML private Label titleLBL;
     @FXML private ChoiceBox<String> ResponseRulesCBX;
     @FXML private ChoiceBox<String> ImportCodeResponseRuleSectionCBX;
     @FXML private ChoiceBox<String> ServiceParametersCBX;
@@ -74,6 +74,7 @@ public class CreateSkillController {
     private ImportCodeModel curRobotFrameworkImportCode = null;
     private DataPublishedRobotFramework curRobotFramework = null;
     private IAOSFacade facade = AOSFacade.getInstance();
+    private UtilsFXML.Source source;
 
     public String getProjectName() {
         return projectName;
@@ -157,6 +158,10 @@ public class CreateSkillController {
     public void handleAddSkillBTNClick(ActionEvent event) {
         buildSingleFieldsSD();
         buildSingleFieldsAM();
+        if(source == UtilsFXML.Source.EDIT_SKILL){
+            System.out.println("WORK IN PROGRESS!");
+            return;
+        }
         Response<Boolean> response = facade.addSkillToProject(SDmodel, AMmodel);
         UtilsFXML.showNotification(NotificationUtils.ADD_SKILL_TITLE,
                 response.getMessage() == null ? NotificationUtils.ADD_SKILL_SUCCESS_TEXT : response.getMessage(),
@@ -430,5 +435,89 @@ public class CreateSkillController {
 
         LocalVarsInitCBX.setValue("");
         UtilsFXML.showNotification(NotificationUtils.DELETED_LOCAL_VAR_INIT_TITLE,NotificationUtils.DELETED_LOCAL_VAR_INIT_TEXT,null);
+    }
+
+    public void setSource(UtilsFXML.Source source) {
+        this.source = source;
+        titleLBL.setText("Edit Skill");
+        addSkillBTN.setText("Save changes");
+
+    }
+
+    public void setSD(SDModel value) {
+        SDmodel = value;
+        SkillNameTXT.setText(SDmodel.getPlpMain().getName());
+        ViolatingPreconditionPenaltyTXT.setText(String.valueOf(SDmodel.getPreconditions().getViolatingPreconditionPenalty()));
+        populateAllSDChoiceBoxes();
+
+    }
+
+    private void populateAllSDChoiceBoxes() {
+        GlobalVarModuleParamsCBX.setItems(
+                FXCollections.observableArrayList(
+                        SDmodel.getGlobalVariableModuleParameters().stream().map(
+                                GlobalVariableModuleParametersModel::getName
+                        ).toList()
+                )
+        );
+        GlobalVarPrecondAssCBX.setItems(
+                FXCollections.observableArrayList(
+                        SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments()
+                                .stream().map(AssignmentBlock::getAssignmentName).toList()
+                )
+        );
+        PlannerAssPrecondAssCBX.setItems(
+                FXCollections.observableArrayList(
+                        SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments()
+                                .stream().map(AssignmentBlock::getAssignmentName).toList()
+                )
+        );
+        DynamicModelCBX.setItems(
+                FXCollections.observableArrayList(
+                        SDmodel.getDynamicModel().getNextStateAssignments()
+                                .stream().map(AssignmentBlock::getAssignmentName).toList()
+                )
+        );
+    }
+
+    public void setAM(AMModel value) {
+        AMmodel = value;
+        GlueFrameWorkTXT.setText(AMmodel.getGlueFramework());
+        ServicePathTXT.setText(AMmodel.getModuleActivation().getRosService().getServicePath());
+        ServiceNameTXT.setText(AMmodel.getModuleActivation().getRosService().getServiceName());
+        populateAllAMChoiceBoxes();
+    }
+
+    private void populateAllAMChoiceBoxes() {
+        ResponseRulesCBX.setItems(
+                FXCollections.observableArrayList(
+                        AMmodel.getModuleResponse().getResponseRules()
+                                .stream().map(ResponseRule::getResponse).toList()
+                )
+        );
+        AtomicInteger i = new AtomicInteger(0);
+        ImportCodeResponseRuleSectionCBX.setItems(
+                FXCollections.observableArrayList(
+                        AMmodel.getModuleActivation().getRosService().getImportCode()
+                                .stream().map(
+                                        (x) -> String.valueOf(i.incrementAndGet())
+                                ).toList()
+                )
+        );
+        ServiceParametersCBX.setItems(
+                FXCollections.observableArrayList(
+                        AMmodel.getModuleActivation().getRosService().getServiceParameters()
+                                .stream().map(ServiceParameter::getServiceFieldName).toList()
+                )
+        );
+        i.set(0);
+        LocalVarsInitCBX.setItems(
+                FXCollections.observableArrayList(
+                        AMmodel.getLocalVariablesInitialization()
+                                .stream().map(
+                                        (x) -> String.valueOf(i.incrementAndGet())
+                                ).toList()
+                )
+        );
     }
 }

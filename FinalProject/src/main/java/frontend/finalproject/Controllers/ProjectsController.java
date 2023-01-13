@@ -2,7 +2,9 @@ package frontend.finalproject.Controllers;
 
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
+import frontend.finalproject.Model.SD.SDModel;
 import frontend.finalproject.NotificationUtils;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -75,6 +77,7 @@ public class ProjectsController {
         Response<EnvModel> response = facade.getProjectEnv();
         if(response.hasErrorOccurred()) {
             UtilsFXML.showNotification(NotificationUtils.GENERAL_ERROR_TITLE, response.getMessage(), response);
+            return;
         }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -90,5 +93,37 @@ public class ProjectsController {
         catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void handleEditSkillBTNClick(ActionEvent event) {
+        String selectedSkill = skillsList.getSelectionModel().getSelectedItem();
+        Response<SDModel> response1 = facade.getProjectSkillSD(selectedSkill);
+        Response<AMModel> response2 = facade.getProjectSkillAM(selectedSkill);
+
+        if(response1.hasErrorOccurred()){
+            UtilsFXML.showNotification(NotificationUtils.GENERAL_ERROR_TITLE,response1.getMessage(), response1);
+            return;
+        }
+
+        if(response2.hasErrorOccurred()){
+            UtilsFXML.showNotification(NotificationUtils.GENERAL_ERROR_TITLE,response2.getMessage(),response2);
+            return;
+        }
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try{
+            FXMLLoader loader = new FXMLLoader(ProjectsController.class.getResource(UtilsFXML.ADD_SKILL_FXML_PATH));
+            Parent root = loader.load();
+            CreateSkillController controller = loader.getController();
+            controller.setSource(UtilsFXML.Source.EDIT_SKILL);
+            controller.setSD(response1.getValue());
+            controller.setAM(response2.getValue());
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 }

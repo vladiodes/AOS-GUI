@@ -86,7 +86,7 @@ public class UtilsFXML {
     }
 
     enum Source {
-        EDIT_ENV,
+        EDIT_ENV, EDIT_SKILL,
     }
 }
 
