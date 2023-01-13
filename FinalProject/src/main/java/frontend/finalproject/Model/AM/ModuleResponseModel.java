@@ -24,4 +24,8 @@ public class ModuleResponseModel {
     public List<ResponseRule> getResponseRules() {
         return ResponseRules;
     }
+
+    public void setResponseRules(List<ResponseRule> lst){
+        this.ResponseRules = lst;
+    }
 }

@@ -2,10 +2,7 @@ package frontend.finalproject.Controllers;
 
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
-import frontend.finalproject.Model.AM.AMModel;
-import frontend.finalproject.Model.AM.DataPublishedRobotFramework;
-import frontend.finalproject.Model.AM.SDParametersModel;
-import frontend.finalproject.Model.AM.SkillCodeReturnValueModel;
+import frontend.finalproject.Model.AM.*;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Common.ImportCodeModel;
 import frontend.finalproject.Model.SD.GlobalVariableModuleParametersModel;
@@ -21,8 +18,14 @@ import javafx.scene.control.TextField;
 
 import utils.Response;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class CreateSkillController {
+    @FXML private ChoiceBox<String> ResponseRulesCBX;
+    @FXML private ChoiceBox<String> ImportCodeResponseRuleSectionCBX;
+    @FXML private ChoiceBox<String> ServiceParametersCBX;
+    @FXML private ChoiceBox<String> LocalVarsInitCBX;
     @FXML private ChoiceBox<String> GlobalVarModuleParamsCBX;
     @FXML private ChoiceBox<String> GlobalVarPrecondAssCBX;
     @FXML private ChoiceBox<String> PlannerAssPrecondAssCBX;
@@ -122,9 +125,13 @@ public class CreateSkillController {
     }
 
     private String generateSDJSON() {
-        System.out.println(projectName);
         buildSingleFieldsSD();
-        return facade.previewSDJSON(SDmodel).getValue();
+        Response<String> response = facade.previewSDJSON(SDmodel);
+        if(response.hasErrorOccurred())
+            UtilsFXML.showNotification(null,null,response);
+        else
+            return response.getValue();
+        return "";
     }
 
     private void buildSingleFieldsSD() {
@@ -138,14 +145,22 @@ public class CreateSkillController {
 
     private String generateAMJSON() {
         buildSingleFieldsAM();
-        return facade.previewAMJSON(AMmodel).getValue();
+        Response<String> response = facade.previewAMJSON(AMmodel);
+        if(response.hasErrorOccurred()){
+            UtilsFXML.showNotification(null,null,response);
+            return "";
+        }
+        else
+            return response.getValue();
     }
 
     public void handleAddSkillBTNClick(ActionEvent event) {
         buildSingleFieldsSD();
         buildSingleFieldsAM();
-        Response<Boolean> response = facade.addSkillToProject(SDmodel,AMmodel);
-        System.out.println(response.getValue());
+        Response<Boolean> response = facade.addSkillToProject(SDmodel, AMmodel);
+        UtilsFXML.showNotification(NotificationUtils.ADD_SKILL_TITLE,
+                response.getMessage() == null ? NotificationUtils.ADD_SKILL_SUCCESS_TEXT : response.getMessage(),
+                response);
     }
 
     private void buildSingleFieldsAM() {
@@ -159,8 +174,10 @@ public class CreateSkillController {
         AMmodel.addResponseRule(
                 ResponseTXT.getText(),
                 ConditionCodeTXT.getText());
+        ResponseRulesCBX.getItems().add(ResponseTXT.getText());
         ResponseTXT.setText("");
         ConditionCodeTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_RESPONSE_RULE_TITLE,NotificationUtils.ADDED_RESPONSE_RULE_TEXT,null);
     }
 
     public void handleInsertImportValueImportCodeSectionBTNClick(ActionEvent event) {
@@ -169,6 +186,7 @@ public class CreateSkillController {
         }
         curImportCodeModelModuleActivationSection.addImportValue(ImportTXT.getText());
         ImportTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_VALUE_TITLE,NotificationUtils.ADDED_IMPORT_VALUE_TEXT,null);
     }
 
     public void handleInsertImportCodeSectionBTNClick(ActionEvent event) {
@@ -177,6 +195,8 @@ public class CreateSkillController {
         ImportTXT.setText("");
         AMmodel.getModuleActivation().addImportCode(curImportCodeModelModuleActivationSection);
         curImportCodeModelModuleActivationSection = null;
+        ImportCodeResponseRuleSectionCBX.getItems().add(String.valueOf(AMmodel.getModuleActivation().getRosService().getImportCode().size()));
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE,NotificationUtils.ADDED_IMPORT_CODE_TEXT,null);
     }
 
     public void handleInsertServiceParamBTNClick(ActionEvent event) {
@@ -184,8 +204,10 @@ public class CreateSkillController {
                 ServiceFieldNameTXT.getText(),
                 AssignServiceFieldCodeTXT.getText()
         );
+        ServiceParametersCBX.getItems().add(ServiceFieldNameTXT.getText());
         ServiceFieldNameTXT.setText("");
         AssignServiceFieldCodeTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_SERVICE_PARAM_TITLE,NotificationUtils.ADDED_SERVICE_PARAM_TEXT,null);
     }
 
     public void handleInsertLocalVarInitSDbtnClick(ActionEvent event) {
@@ -193,8 +215,10 @@ public class CreateSkillController {
                 InputLocalVarTXT.getText(),
                 FromGlobalVarTXT.getText()
         ));
+        LocalVarsInitCBX.getItems().add(String.valueOf(AMmodel.getLocalVariablesInitialization().size()));
         InputLocalVarTXT.setText("");
         FromGlobalVarTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_FROM_SD_TITLE,NotificationUtils.ADDED_LOCAL_VAR_INIT_FROM_SD_TEXT,null);
     }
 
     public void handleInsertLocalVarInitSkillCodeBTNClick(ActionEvent event) {
@@ -206,11 +230,13 @@ public class CreateSkillController {
         curSkillCodeReturnValue.setFromROSServiceResponse(Boolean.parseBoolean(FromROSCBX.getValue()));
         curSkillCodeReturnValue.setAssignmentCode(AssCodeSkillCodeRetValueTXT.getText());
         AMmodel.addLocalVariableInitialization(curSkillCodeReturnValue);
+        LocalVarsInitCBX.getItems().add(String.valueOf(AMmodel.getLocalVariablesInitialization().size()));
         LocalVarNameSkillCodeTXT.setText("");
         VarTypeSkillCodeTXT.setText("");
         FromROSCBX.setValue("");
         AssCodeSkillCodeRetValueTXT.setText("");
         curSkillCodeReturnValue = null;
+        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TITLE,NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TEXT,null);
     }
 
     public void handleInsertImportValueSkillCodeBTNClick(ActionEvent event) {
@@ -218,6 +244,7 @@ public class CreateSkillController {
             curSkillCodeRetValueImportCode = new ImportCodeModel();
         curSkillCodeRetValueImportCode.addImportValue(SkillCodeImportTXT.getText());
         SkillCodeImportTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_VALUE_TITLE,NotificationUtils.ADDED_IMPORT_VALUE_TEXT,null);
     }
 
     public void handleInsertImportCodeSkillCodeBTNClick(ActionEvent event) {
@@ -231,6 +258,7 @@ public class CreateSkillController {
         curSkillCodeRetValueImportCode = null;
         SkillCodeImportTXT.setText("");
         SkillCodeFromTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE,NotificationUtils.ADDED_IMPORT_CODE_TEXT,null);
     }
 
     public void handleInsertLocalVarINITRobotFrameworkBTNClick(ActionEvent event) {
@@ -243,6 +271,7 @@ public class CreateSkillController {
         curRobotFramework.setTopicMessageType(TopicMessageTypeTXT.getText());
         curRobotFramework.setAssignmentCode(AssCodeRobotFrameworkTXT.getText());
         AMmodel.addLocalVariableInitialization(curRobotFramework);
+        LocalVarsInitCBX.getItems().add(String.valueOf(AMmodel.getLocalVariablesInitialization().size()));
         LocalVarNameRobotFrameWorkTXT.setText("");
         ROSTopicPathTXT.setText("");
         VarTypeRobotFrameworkTXT.setText("");
@@ -250,6 +279,7 @@ public class CreateSkillController {
         TopicMessageTypeTXT.setText("");
         AssCodeRobotFrameworkTXT.setText("");
         curRobotFramework = null;
+        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TITLE,NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TEXT,null);
     }
 
     public void handleInsertImportValueRobotFrameworkBTNClick(ActionEvent event) {
@@ -257,6 +287,7 @@ public class CreateSkillController {
             curRobotFrameworkImportCode = new ImportCodeModel();
         curRobotFrameworkImportCode.addImportValue(RobotFrameworkImportTXT.getText());
         RobotFrameworkImportTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_VALUE_TITLE,NotificationUtils.ADDED_IMPORT_VALUE_TEXT,null);
     }
 
     public void handleInsertImportCodeRobotFrameworkBTNClick(ActionEvent event) {
@@ -270,6 +301,7 @@ public class CreateSkillController {
         curRobotFrameworkImportCode = null;
         RobotFrameworkFromTXT.setText("");
         RobotFrameworkImportTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE,NotificationUtils.ADDED_IMPORT_CODE_TEXT,null);
     }
 
     public void handleBackBTNClick(ActionEvent event) {
@@ -334,5 +366,69 @@ public class CreateSkillController {
         ));
         DynamicModelCBX.setValue("");
         UtilsFXML.showNotification(NotificationUtils.DELETED_DYNAMIC_MODEL_TITLE,NotificationUtils.DELETED_DYNAMIC_MODEL_TEXT,null);
+    }
+
+    public void handleResponseRuleDeleteBTNClick(ActionEvent event) {
+        String selected = ResponseRulesCBX.selectionModelProperty().getValue().getSelectedItem();
+        AMmodel.getModuleResponse().setResponseRules(
+                AMmodel.getModuleResponse().getResponseRules().stream().filter(
+                        (rule) -> !rule.getResponse().equals(selected)
+                ).toList()
+        );
+        ResponseRulesCBX.setItems(FXCollections.observableArrayList(
+                AMmodel.getModuleResponse().getResponseRules()
+                        .stream().map(ResponseRule::getResponse).toList()
+        ));
+        ResponseRulesCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_RESPONSE_RULE_TITLE,NotificationUtils.DELETED_RESPONSE_RULE_TEXT,null);
+    }
+
+    public void handleImportCodeResponseRuleSectionDeleteBTNClick(ActionEvent event) {
+        Integer selected = Integer.valueOf(ImportCodeResponseRuleSectionCBX.selectionModelProperty().getValue().getSelectedItem());
+        AMmodel.getModuleActivation().getRosService().getImportCode().remove(selected - 1);
+        AtomicInteger i = new AtomicInteger(0);
+        ImportCodeResponseRuleSectionCBX.setItems(FXCollections.observableArrayList(
+                AMmodel.getModuleActivation().getRosService().getImportCode()
+                        .stream().map(
+                                (code) -> {
+                                    i.getAndIncrement();
+                                    return String.valueOf(i.get());
+                                }
+                        ).toList()
+        ));
+
+        ImportCodeResponseRuleSectionCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_IMPORT_CODE_TITLE,NotificationUtils.DELETED_IMPORT_CODE_TEXT,null);
+    }
+
+    public void handleDeleteServiceParamsBTNClick(ActionEvent event) {
+        String selected = ServiceParametersCBX.selectionModelProperty().getValue().getSelectedItem();
+        AMmodel.getModuleActivation().getRosService().setServiceParameters(
+                AMmodel.getModuleActivation().getRosService().getServiceParameters().stream().filter(
+                        (param) -> !param.getServiceFieldName().equals(selected)
+                ).toList()
+        );
+        ServiceParametersCBX.setItems(FXCollections.observableArrayList(
+                AMmodel.getModuleActivation().getRosService().getServiceParameters()
+                        .stream().map(ServiceParameter::getServiceFieldName).toList()));
+        ServiceParametersCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_SERVICE_PARAM_TITLE,NotificationUtils.DELETED_SERVICE_PARAM_TEXT,null);
+    }
+
+    public void handleLocalVarInitDeleteBTNClick(ActionEvent event) {
+        Integer selected = Integer.valueOf(LocalVarsInitCBX.selectionModelProperty().getValue().getSelectedItem());
+        AMmodel.getLocalVariablesInitialization().remove(selected - 1);
+        AtomicInteger i = new AtomicInteger(0);
+        LocalVarsInitCBX.setItems(FXCollections.observableArrayList(
+                AMmodel.getLocalVariablesInitialization().stream().map(
+                        (x) -> {
+                            i.incrementAndGet();
+                            return String.valueOf(i.get());
+                        }
+                ).toList()
+        ));
+
+        LocalVarsInitCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_LOCAL_VAR_INIT_TITLE,NotificationUtils.DELETED_LOCAL_VAR_INIT_TEXT,null);
     }
 }

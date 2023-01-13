@@ -57,4 +57,8 @@ public class RosServiceModel {
     public List<ServiceParameter> getServiceParameters() {
         return ServiceParameters;
     }
+
+    public void setServiceParameters(List<ServiceParameter> serviceParameters) {
+        this.ServiceParameters = serviceParameters;
+    }
 }
