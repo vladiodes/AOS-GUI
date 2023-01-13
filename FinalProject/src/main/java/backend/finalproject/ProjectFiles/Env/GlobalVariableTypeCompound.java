@@ -43,7 +43,7 @@ public class GlobalVariableTypeCompound extends GlobalVariableType {
         return Variables;
     }
 
-    private class CompoundVariable {
+    public class CompoundVariable {
         private String Name;
         private String Type;
         private String Default;

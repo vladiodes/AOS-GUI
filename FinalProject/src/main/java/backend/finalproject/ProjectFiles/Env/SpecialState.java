@@ -15,4 +15,20 @@ public class SpecialState {
         IsGoalState = specialStateModel.isGoalState();
         IsOneTimeReward = specialStateModel.isOneTimeReward();
     }
+
+    public String getStateConditionCode() {
+        return StateConditionCode;
+    }
+
+    public double getReward() {
+        return Reward;
+    }
+
+    public boolean isGoalState() {
+        return IsGoalState;
+    }
+
+    public boolean isOneTimeReward() {
+        return IsOneTimeReward;
+    }
 }

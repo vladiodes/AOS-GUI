@@ -1,6 +1,7 @@
 package backend.finalproject.ProjectFiles.SD;
 
-import backend.finalproject.ProjectFiles.Common.AssignmentBlock;
+import backend.finalproject.ProjectFiles.Common.AssignmentBlockMultipleLines;
+import backend.finalproject.ProjectFiles.Common.IAssignmentBlock;
 import frontend.finalproject.Model.SD.DynamicModelModel;
 
 import java.util.ArrayList;
@@ -9,9 +10,9 @@ import java.util.stream.Collectors;
 
 // doc: https://github.com/orhaimwerthaim/AOS-WebAPI/blob/master/docs/version2/AOS_documentation_manual.md#dynamicmodel
 public class DynamicModel {
-    List<AssignmentBlock> NextStateAssignments;
+    List<IAssignmentBlock> NextStateAssignments;
 
-    public DynamicModel(List<AssignmentBlock> nextStateAssignments) {
+    public DynamicModel(List<IAssignmentBlock> nextStateAssignments) {
         NextStateAssignments = nextStateAssignments;
     }
 
@@ -19,11 +20,12 @@ public class DynamicModel {
         NextStateAssignments = new ArrayList<>();
     }
 
+    // TODO: generate single/multiple line assignment block
     public DynamicModel(DynamicModelModel dynamicModel) {
-        NextStateAssignments = dynamicModel.getNextStateAssignments().stream().map(AssignmentBlock::new).collect(Collectors.toList());
+        NextStateAssignments = dynamicModel.getNextStateAssignments().stream().map(AssignmentBlockMultipleLines::new).collect(Collectors.toList());
     }
 
-    public List<AssignmentBlock> getNextStateAssignments() {
+    public List<IAssignmentBlock> getNextStateAssignments() {
         return NextStateAssignments;
     }
 }

@@ -24,7 +24,7 @@ public class ModuleActivation {
     }
 
     // doc: https://github.com/orhaimwerthaim/AOS-WebAPI/blob/master/docs/version2/AOS_documentation_manual.md#rosservice
-    private class RosService {
+    public class RosService {
         private List<ImportCode> ImportCode;
         private String ServicePath;
         private String ServiceName;
@@ -62,7 +62,7 @@ public class ModuleActivation {
         }
 
 
-        private class ServiceParameter {
+        public class ServiceParameter {
             private String ServiceFieldName;
             private String AssignServiceFieldCode;
 

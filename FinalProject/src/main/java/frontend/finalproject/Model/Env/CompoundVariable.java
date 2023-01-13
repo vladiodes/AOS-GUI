@@ -1,5 +1,7 @@
 package frontend.finalproject.Model.Env;
 
+import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeCompound;
+
 public class CompoundVariable {
     private String Name;
     private String Type;
@@ -9,6 +11,12 @@ public class CompoundVariable {
         this.Name = Name;
         this.Type = Type;
         this.Default = Default;
+    }
+
+    public CompoundVariable(GlobalVariableTypeCompound.CompoundVariable c) {
+        this.Name = c.getName();
+        this.Type = c.getType();
+        this.Default = c.getDefault();
     }
 
     public String getName() {

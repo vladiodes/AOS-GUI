@@ -15,7 +15,7 @@ public class DataPublishedRobotFramework extends LocalVariablesInitialization{
 
     private List<ImportCode> ImportCode;
 
-    private List<String> AssignmentCode;
+    private List<String> AssignmentCode; // TODO: this can be single line also
 
     public DataPublishedRobotFramework(String localVariableName, String rosTopicPath, String variableType, String initialValue, String topicMessageType, List<ImportCode> importCode, List<String> assignmentCode) {
         LocalVariableName = localVariableName;

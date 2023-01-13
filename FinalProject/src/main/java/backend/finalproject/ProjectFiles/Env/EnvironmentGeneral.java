@@ -12,4 +12,12 @@ public class EnvironmentGeneral {
         this.Horizon = environmentGeneral.getHorizon();
         this.Discount = environmentGeneral.getDiscount();
     }
+
+    public int getHorizon() {
+        return Horizon;
+    }
+
+    public double getDiscount() {
+        return Discount;
+    }
 }

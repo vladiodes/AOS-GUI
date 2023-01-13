@@ -14,13 +14,13 @@ public class LocalVariablesInitializationDeserializer implements JsonDeserialize
     public LocalVariablesInitialization deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         LocalVariablesInitialization localVariablesInitialization;
         if (jsonElement.getAsJsonObject().get("InputLocalVariable") != null) { // Skill code return value unique field
-            localVariablesInitialization = new Gson().fromJson(jsonElement.getAsJsonObject(), SkillCodeReturnValue.class);
+            localVariablesInitialization = new Gson().fromJson(jsonElement.getAsJsonObject(), SDParameters.class);
         }
         else if (jsonElement.getAsJsonObject().get("RosTopicPath") != null){ // Data published Robot Framework unique field
             localVariablesInitialization = new Gson().fromJson(jsonElement.getAsJsonObject(), DataPublishedRobotFramework.class);
         }
         else {
-            localVariablesInitialization = new Gson().fromJson(jsonElement.getAsJsonObject(), SDParameters.class);
+            localVariablesInitialization = new Gson().fromJson(jsonElement.getAsJsonObject(), SkillCodeReturnValue.class); // SkillCodeReturnValue
         }
 
         return localVariablesInitialization;

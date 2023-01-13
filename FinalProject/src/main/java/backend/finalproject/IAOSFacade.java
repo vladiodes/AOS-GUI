@@ -60,11 +60,11 @@ public interface IAOSFacade {
      * @TODO: Maybe this should return a DTO object representing the project itself
      * REQ 1.4
      */
-    Response<EnvModel> loadProject(String name);
+    Response<EnvModel> getProjectEnv();
 
-    Response<SDModel> loadSkillSD(String skillName);
+    Response<SDModel> getProjectSkillSD(String skillName);
 
-    Response<AMModel> loadSkillAM(String skillName);
+    Response<AMModel> getProjectSkillAM(String skillName);
 
     // ============= Project and Skills REQ =============
 

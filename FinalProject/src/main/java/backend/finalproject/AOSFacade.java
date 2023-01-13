@@ -4,15 +4,19 @@ import backend.finalproject.ProjectFiles.AM.AM;
 import backend.finalproject.ProjectFiles.Env.Environment;
 import backend.finalproject.ProjectFiles.Project;
 import backend.finalproject.ProjectFiles.SD.SD;
+import backend.finalproject.ProjectFiles.Skill;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static backend.finalproject.Constants.*;
 
@@ -63,21 +67,48 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<List<String>> getAllProjects() {
-        return null;
+        try {
+            File[] directories = new File(PROJECTS_FOLDER_PATH).listFiles(File::isDirectory);
+            return Response.OK(Arrays.stream(directories).map(File::getName).collect(Collectors.toList()));
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
-    public Response<EnvModel> loadProject(String name) {
-        return null;
+    public Response<EnvModel> getProjectEnv() {
+        try{
+            Environment environment = currentProject.getEnvironment();
+            EnvModel envModel = new EnvModel(environment);
+            return Response.OK(envModel);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     @Override
-    public Response<SDModel> loadSkillSD(String skillName) {
-        return null;
+    public Response<SDModel> getProjectSkillSD(String skillName) {
+        try{
+            Skill skill = currentProject.getSkill(skillName);
+            SDModel sdModel = new SDModel(skill.getSd());
+            return Response.OK(sdModel);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     @Override
-    public Response<AMModel> loadSkillAM(String skillName) {
-        return null;
+    public Response<AMModel> getProjectSkillAM(String skillName) {
+        try{
+            Skill skill = currentProject.getSkill(skillName);
+            AMModel amModel = new AMModel(skill.getAm());
+            return Response.OK(amModel);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     public Response<Project> createNewProject(EnvModel envModel) {
@@ -93,7 +124,14 @@ public class AOSFacade implements IAOSFacade {
 
     @Override
     public Response<Boolean> setCurrentWorkingProject(String projectName) {
-        return null;
+        try{
+            currentProject = new Project(projectName);
+            return Response.OK(true);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
+
     }
 
 

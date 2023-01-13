@@ -53,4 +53,5 @@ public class SkillCodeReturnValue extends LocalVariablesInitialization{
     public List<backend.finalproject.ProjectFiles.Common.ImportCode> getImportCode() {
         return ImportCode;
     }
+
 }
