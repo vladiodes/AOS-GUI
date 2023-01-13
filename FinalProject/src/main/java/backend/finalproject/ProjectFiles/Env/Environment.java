@@ -3,7 +3,11 @@ package backend.finalproject.ProjectFiles.Env;
 
 import backend.finalproject.ProjectFiles.Common.AssignmentBlock;
 import backend.finalproject.ProjectFiles.Common.PlpMain;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Env.*;
+import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
+import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,5 +85,16 @@ public class Environment {
 
     public List<AssignmentBlock> getExtrinsicChangesDynamicModel() {
         return ExtrinsicChangesDynamicModel;
+    }
+
+    public String toJson() {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .registerTypeAdapter(GlobalVariableTypeCompound.class, new GlobalVariableTypeCompoundJsonSerializer())
+                .registerTypeAdapter(GlobalVariableTypeEnum.class, new GlobalVariableTypeEnumJsonSerializer())
+                .create();
+
+        return gson.toJson(this);
     }
 }

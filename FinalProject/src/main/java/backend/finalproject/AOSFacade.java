@@ -1,6 +1,7 @@
 package backend.finalproject;
 
 import backend.finalproject.ProjectFiles.AM.AM;
+import backend.finalproject.ProjectFiles.Env.Environment;
 import backend.finalproject.ProjectFiles.Project;
 import backend.finalproject.ProjectFiles.SD.SD;
 import frontend.finalproject.Model.AM.AMModel;
@@ -100,11 +101,14 @@ public class AOSFacade implements IAOSFacade {
         if (currentProject == null){
             return Response.OK(false);
         }
-        SD sd = new SD(sdModel);
-        AM am = new AM(amModel);
-        currentProject.addSkill(sd, am);
+        try {
+            currentProject.addSkill(new SD(sdModel), new AM(amModel));
+            return Response.OK(true);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
 
-        return Response.OK(true);
     }
 
     public Response<Boolean> deleteSkillFromProject(String projectName, String skillName) {
@@ -120,19 +124,36 @@ public class AOSFacade implements IAOSFacade {
     }
 
     @Override
-    public Response<String> previewEnvJSON(EnvModel env) {
-        //@TODO: Change it so all json parsing will be done in backend
-        return Response.OK(env.toString());
+    public Response<String> previewEnvJSON(EnvModel envModel) {
+        try {
+            Environment environment = new Environment(envModel);
+            return Response.OK(environment.toJson());
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     @Override
-    public Response<String> previewAMJSON(AMModel AM) {
-        return Response.OK(AM.toString());
+    public Response<String> previewAMJSON(AMModel amModel) {
+        try {
+            AM am = new AM(amModel);
+            return Response.OK(am.toJson());
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     @Override
-    public Response<String> previewSDJSON(SDModel SD) {
-        return Response.OK(SD.toString());
+    public Response<String> previewSDJSON(SDModel sdModel) {
+        try {
+            SD sd = new SD(sdModel);
+            return Response.OK(sd.toJson());
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     public Response<String> getRobotBeliefState() {
