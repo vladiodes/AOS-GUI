@@ -35,7 +35,6 @@ public class Environment {
         GlobalVariableTypes = CopyGlobalVariableTypes(envModel.getGlobalVariableTypes());
         GlobalVariablesDeclaration = envModel.getGlobalVariablesDeclaration().stream()
                 .map(GlobalVariablesDeclaration::new).collect(Collectors.toList());
-        InitialBeliefStateAssignments = CopyAssignmentBlocks(envModel.getInitialBeliefStateAssignments());
         InitialBeliefStateAssignments = envModel.getInitialBeliefStateAssignments().stream()
                 .map(AssignmentBlockMultipleLines::new).collect(Collectors.toList());
         SpecialStates = envModel.getSpecialStates().stream()

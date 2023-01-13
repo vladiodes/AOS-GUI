@@ -68,7 +68,6 @@ public class AOSFacade implements IAOSFacade {
     public Response<List<String>> getAllProjects() {
         try {
             File[] directories = new File(PROJECTS_FOLDER_PATH).listFiles(File::isDirectory);
-            assert directories != null;
             return Response.OK(Arrays.stream(directories).map(File::getName).collect(Collectors.toList()));
         }
         catch (Exception e){
@@ -76,17 +75,24 @@ public class AOSFacade implements IAOSFacade {
         }
     }
 
-    public Response<EnvModel> loadProject(String name) {
+    public Response<EnvModel> getProjectEnv() {
+        try{
+            Environment environment = currentProject.getEnvironment();
+            EnvModel envModel = new EnvModel(environment);
+            return Response.OK(envModel);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
+    }
+
+    @Override
+    public Response<SDModel> getProjectSkillSD(String skillName) {
         return null;
     }
 
     @Override
-    public Response<SDModel> loadSkillSD(String skillName) {
-        return null;
-    }
-
-    @Override
-    public Response<AMModel> loadSkillAM(String skillName) {
+    public Response<AMModel> getProjectSkillAM(String skillName) {
         return null;
     }
 

@@ -17,4 +17,20 @@ public class GlobalVariablesDeclaration {
         this.DefaultCode = v.getDefaultCode();
         this.IsActionParameterValue = v.isActionParameterValue();
     }
+
+    public String getName() {
+        return Name;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public String getDefaultCode() {
+        return DefaultCode;
+    }
+
+    public boolean isActionParameterValue() {
+        return IsActionParameterValue;
+    }
 }

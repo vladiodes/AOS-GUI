@@ -208,7 +208,7 @@ public class CreateEnvController {
     }
 
     public void handleInsertAnotherChangeClick(ActionEvent event) {
-        ExtrinsicChangesDynamicModel model = new ExtrinsicChangesDynamicModel(AssignmentCodeChangeTXT.getText());
+        AssignmentBlock model = new AssignmentBlock(AssignmentCodeChangeTXT.getText());
         envModel.addDynamicChange(model);
         AssignmentCodeChangeTXT.setText("");
         UtilsFXML.showNotification(NotificationUtils.ADDED_CHANGE_TITLE,NotificationUtils.ADDED_CHANGE_TEXT);
