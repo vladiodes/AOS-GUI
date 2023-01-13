@@ -161,7 +161,6 @@
                               <TextField fx:id="AssignmentCodeDynamicModelTXT" layoutX="234.0" layoutY="764.0" />
                               <ChoiceBox fx:id="GlobalVarModuleParamsCBX" layoutX="900.0" layoutY="108.0" prefWidth="150.0">
                                       <items>
-
                                       </items>
                               </ChoiceBox>
                               <Button layoutX="815.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleDeleteGlobalVarModuleBTNClick" text="Delete" />

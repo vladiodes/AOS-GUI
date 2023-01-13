@@ -288,7 +288,7 @@ public class CreateSkillController {
                         .map(GlobalVariableModuleParametersModel::getName).toList()
         ));
         GlobalVarModuleParamsCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TEXT,null);
     }
 
     public void handleDeleteGlobalVarPreconditionAssBTNClick(ActionEvent event) {
@@ -303,7 +303,7 @@ public class CreateSkillController {
                         stream().map(AssignmentBlock::getAssignmentName).toList()
         ));
         GlobalVarPrecondAssCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TEXT,null);
     }
 
     public void handleDeletePlannerAssPrecondAssBTNClick(ActionEvent event) {
@@ -318,7 +318,7 @@ public class CreateSkillController {
                         .stream().map(AssignmentBlock::getAssignmentName).toList()
         ));
         PlannerAssPrecondAssCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TITLE,NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TITLE,NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TEXT,null);
     }
 
     public void handleDeleteDynamicModelBTNClick(ActionEvent event) {
@@ -333,6 +333,6 @@ public class CreateSkillController {
                         .stream().map(AssignmentBlock::getAssignmentName).toList()
         ));
         DynamicModelCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_DYNAMIC_MODEL_TITLE,NotificationUtils.DELETED_DYNAMIC_MODEL_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_DYNAMIC_MODEL_TITLE,NotificationUtils.DELETED_DYNAMIC_MODEL_TEXT,null);
     }
 }

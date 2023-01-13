@@ -99,7 +99,7 @@ public class EnvModel {
         return ExtrinsicChangesDynamicModel;
     }
 
-    public void setExtrinsicChangesDynamicModel(List<ExtrinsicChangesDynamicModel> lst){
+    public void setExtrinsicChangesDynamicModel(List<AssignmentBlock> lst){
         this.ExtrinsicChangesDynamicModel = lst;
     }
 

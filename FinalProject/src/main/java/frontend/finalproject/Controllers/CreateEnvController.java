@@ -189,7 +189,7 @@ public class CreateEnvController {
         GlobalVarTypeNameTXT.setText("");
         makeAllVarInvisible(false);
 
-        UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TITLE, NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TITLE, NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TEXT,null);
 
     }
 
@@ -200,7 +200,7 @@ public class CreateEnvController {
         GlobalVariableTypeEnumModel enumModel = (GlobalVariableTypeEnumModel)currentGlobVarType;
         enumModel.addEnumValue(enumValueTXT.getText());
         enumValueTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_ENUM_VALUE_TITLE,NotificationUtils.ADDED_ENUM_VALUE_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_ENUM_VALUE_TITLE,NotificationUtils.ADDED_ENUM_VALUE_TEXT,null);
 
     }
 
@@ -214,7 +214,7 @@ public class CreateEnvController {
         CompoundNameTXT.setText("");
         CompoundTypeTXT.setText("");
         CompoundDefaultTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_COMPOUND_VARIABLE_TITLE,NotificationUtils.ADDED_COMPOUND_VARIABLE_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_COMPOUND_VARIABLE_TITLE,NotificationUtils.ADDED_COMPOUND_VARIABLE_TEXT,null);
     }
 
     public void handleInsertAnotherVarDecClick(ActionEvent event) {
@@ -230,7 +230,7 @@ public class CreateEnvController {
         NameGlobalVarDecTXT.setText("");
         TypeGlobalVarDecTXT.setText("");
         DefaultCodeGlobVarDecTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_VARIABLE_DECLARATION_TITLE,NotificationUtils.ADDED_VARIABLE_DECLARATION_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_VARIABLE_DECLARATION_TITLE,NotificationUtils.ADDED_VARIABLE_DECLARATION_TEXT,null);
     }
 
     public void handleInsertAnotherAssClick(ActionEvent event){
@@ -239,7 +239,7 @@ public class CreateEnvController {
         InitBeliefAssCodeTXT.setText("");
         InitBeliefAssNameTXT.setText("");
         InitBeliefStmtCBX.getItems().add(initBeliefModel.getAssignmentName());
-        UtilsFXML.showNotification(NotificationUtils.ADDED_ASSIGNMENT_TITLE,NotificationUtils.ADDED_ASSIGMENT_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_ASSIGNMENT_TITLE,NotificationUtils.ADDED_ASSIGMENT_TEXT,null);
     }
 
     public void handleInsertAnotherStateClick(ActionEvent event) {
@@ -254,7 +254,7 @@ public class CreateEnvController {
         IsGoalStateBOX.setValue("");
         IsOneTimeRewardBOX.setValue("");
         SpecialStatesCBX.getItems().add(String.valueOf(SpecialStatesCBX.getItems().size() + 1));
-        UtilsFXML.showNotification(NotificationUtils.ADDED_STATE_TITLE,NotificationUtils.ADDED_STATE_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_STATE_TITLE,NotificationUtils.ADDED_STATE_TEXT,null);
     }
 
     public void handleInsertAnotherChangeClick(ActionEvent event) {
@@ -262,15 +262,15 @@ public class CreateEnvController {
         envModel.addDynamicChange(model);
         AssignmentCodeChangeTXT.setText("");
         ExChangesDynModelCBX.getItems().add(String.valueOf(ExChangesDynModelCBX.getItems().size() + 1));
-        UtilsFXML.showNotification(NotificationUtils.ADDED_CHANGE_TITLE,NotificationUtils.ADDED_CHANGE_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_CHANGE_TITLE,NotificationUtils.ADDED_CHANGE_TEXT,null);
     }
 
     public void handleCreateProjBTNClick(ActionEvent event) {
         addPlpAndEnvGeneralToModel();
         if(facade.createNewProject(envModel).getValue() != null)
-            UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TITLE,NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TEXT);
+            UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TITLE,NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TEXT,null);
         else{
-            UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_FAIL_TITLE,NotificationUtils.CREATED_NEW_PROJECT_FAIL_TEXT);
+            UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_FAIL_TITLE,NotificationUtils.CREATED_NEW_PROJECT_FAIL_TEXT,null);
         }
     }
 
@@ -295,7 +295,7 @@ public class CreateEnvController {
                 ).toList()
         ));
         GlobalVarTypeCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TEXT,null);
     }
 
     public void handleGlobalVarDecDeleteBTNClick(ActionEvent event) {
@@ -310,7 +310,7 @@ public class CreateEnvController {
                 ).toList()
         ));
         GlobalVarDecCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_VAR_DECLARATION_TITLE,NotificationUtils.DELETED_VAR_DECLARATION_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_VAR_DECLARATION_TITLE,NotificationUtils.DELETED_VAR_DECLARATION_TEXT,null);
     }
 
     public void handleDeleteExChangeDynModelBTNClick(ActionEvent event) {
@@ -328,7 +328,7 @@ public class CreateEnvController {
         ));
 
         ExChangesDynModelCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TITLE,NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TITLE,NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TEXT,null);
     }
 
     public void handleDeleteInitBeliefBTNClick(ActionEvent event) {
@@ -343,7 +343,7 @@ public class CreateEnvController {
                 ).toList()
         ));
         InitBeliefStmtCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_INIT_BELIEF_STMT_TITLE,NotificationUtils.DELETED_INIT_BELIEF_STMT_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_INIT_BELIEF_STMT_TITLE,NotificationUtils.DELETED_INIT_BELIEF_STMT_TEXT,null);
     }
 
     public void handleDeleteSpecialStatesBTNClick(ActionEvent event) {
@@ -361,6 +361,6 @@ public class CreateEnvController {
         ));
 
         SpecialStatesCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_SPECIAL_STATE_TITLE,NotificationUtils.DELETED_SPECIAL_STATE_TEXT);
+        UtilsFXML.showNotification(NotificationUtils.DELETED_SPECIAL_STATE_TITLE,NotificationUtils.DELETED_SPECIAL_STATE_TEXT,null);
     }
 }

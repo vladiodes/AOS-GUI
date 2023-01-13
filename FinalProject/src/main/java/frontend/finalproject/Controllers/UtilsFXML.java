@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
+import utils.Response;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -54,7 +55,26 @@ public class UtilsFXML {
         loadStage(UtilsFXML.HOME_FXML_PATH, (Stage) ((Node) event.getSource()).getScene().getWindow());
     }
 
-    public static void showNotification(String title, String text){
+    public static<T> void showNotification(String title, String text, Response<T> response) {
+        if (response == null || !response.hasErrorOccurred())
+            showNotification(title, text);
+        else
+            showErrorNotification(title,
+                    response.getMessage() == null ? text : response.getMessage());
+    }
+
+    private static void showErrorNotification(String title, String text) {
+        Notifications notificationBuilder = Notifications.create()
+                .title(title)
+                .text(text)
+                .graphic(null)
+                .hideAfter(Duration.seconds(5))
+                .position(Pos.CENTER);
+
+        notificationBuilder.showError();
+    }
+
+    private static void showNotification(String title, String text) {
         Notifications notificationBuilder = Notifications.create()
                 .title(title)
                 .text(text)
