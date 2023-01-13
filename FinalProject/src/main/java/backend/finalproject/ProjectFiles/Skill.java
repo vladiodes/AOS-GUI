@@ -19,4 +19,9 @@ public class Skill {
     public AM getAm() {
         return am;
     }
+
+
+    public String getSkillName() {
+        return sd.getPlpMain().getName();
+    }
 }
