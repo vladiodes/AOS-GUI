@@ -4,18 +4,10 @@ import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.*;
+import frontend.finalproject.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreateEnvController {
 
@@ -150,6 +142,8 @@ public class CreateEnvController {
         GlobalVarTypeNameTXT.setText("");
         makeAllVarInvisible(false);
 
+        UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TITLE, NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TEXT);
+
     }
 
     public void handleInsertNextEnumValClick(ActionEvent event) {
@@ -159,6 +153,8 @@ public class CreateEnvController {
         GlobalVariableTypeEnumModel enumModel = (GlobalVariableTypeEnumModel)currentGlobVarType;
         enumModel.addEnumValue(enumValueTXT.getText());
         enumValueTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_ENUM_VALUE_TITLE,NotificationUtils.ADDED_ENUM_VALUE_TEXT);
+
     }
 
     public void handleInsertNextCompoundVarClick(ActionEvent event) {
@@ -171,6 +167,7 @@ public class CreateEnvController {
         CompoundNameTXT.setText("");
         CompoundTypeTXT.setText("");
         CompoundDefaultTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_COMPOUND_VARIABLE_TITLE,NotificationUtils.ADDED_COMPOUND_VARIABLE_TEXT);
     }
 
     public void handleInsertAnotherVarDecClick(ActionEvent event) {
@@ -185,6 +182,7 @@ public class CreateEnvController {
         NameGlobalVarDecTXT.setText("");
         TypeGlobalVarDecTXT.setText("");
         DefaultCodeGlobVarDecTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_VARIABLE_DECLARATION_TITLE,NotificationUtils.ADDED_VARIABLE_DECLARATION_TEXT);
     }
 
     public void handleInsertAnotherAssClick(ActionEvent event){
@@ -192,6 +190,7 @@ public class CreateEnvController {
         envModel.addInitBeliefAss(initBeliefModel);
         InitBeliefAssCodeTXT.setText("");
         InitBeliefAssNameTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_ASSIGNMENT_TITLE,NotificationUtils.ADDED_ASSIGMENT_TEXT);
     }
 
     public void handleInsertAnotherStateClick(ActionEvent event) {
@@ -205,20 +204,22 @@ public class CreateEnvController {
         RewardTXT.setText("");
         IsGoalStateBOX.setValue("");
         IsOneTimeRewardBOX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_STATE_TITLE,NotificationUtils.ADDED_STATE_TEXT);
     }
 
     public void handleInsertAnotherChangeClick(ActionEvent event) {
         ExtrinsicChangesDynamicModel model = new ExtrinsicChangesDynamicModel(AssignmentCodeChangeTXT.getText());
         envModel.addDynamicChange(model);
         AssignmentCodeChangeTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_CHANGE_TITLE,NotificationUtils.ADDED_CHANGE_TEXT);
     }
 
     public void handleCreateProjBTNClick(ActionEvent event) {
         addPlpAndEnvGeneralToModel();
         if(facade.createNewProject(envModel).getValue() != null)
-            System.out.println("SUCCESS!");
+            UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TITLE,NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TEXT);
         else{
-            System.out.println("ERROR!");
+            UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_FAIL_TITLE,NotificationUtils.CREATED_NEW_PROJECT_FAIL_TEXT);
         }
     }
 
