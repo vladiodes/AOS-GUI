@@ -159,6 +159,25 @@
                               </Label>
                               <Button fx:id="InsertAnotherDynamicModelBTN" layoutX="48.0" layoutY="800.0" mnemonicParsing="false" onAction="#handleInsertDynamicModel" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
                               <TextField fx:id="AssignmentCodeDynamicModelTXT" layoutX="234.0" layoutY="764.0" />
+                              <ChoiceBox fx:id="GlobalVarModuleParamsCBX" layoutX="900.0" layoutY="108.0" prefWidth="150.0">
+                                      <items>
+
+                                      </items>
+                              </ChoiceBox>
+                              <Button layoutX="815.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleDeleteGlobalVarModuleBTNClick" text="Delete" />
+                              <ChoiceBox fx:id="GlobalVarPrecondAssCBX" layoutX="900.0" layoutY="362.0" prefWidth="150.0" >
+                              <items></items>
+                          </ChoiceBox>
+                              <Button layoutX="815.0" layoutY="362.0" mnemonicParsing="false" onAction="#handleDeleteGlobalVarPreconditionAssBTNClick" text="Delete" />
+                              <ChoiceBox fx:id="PlannerAssPrecondAssCBX" layoutX="900.0" layoutY="522.0" prefWidth="150.0">
+                                      <items></items>
+                              </ChoiceBox>
+                              <Button layoutX="815.0" layoutY="522.0" mnemonicParsing="false" onAction="#handleDeletePlannerAssPrecondAssBTNClick" text="Delete" />
+                              <ChoiceBox fx:id="DynamicModelCBX" layoutX="900.0" layoutY="682.0" prefWidth="150.0">
+                                      <items>
+                                      </items>
+                              </ChoiceBox>
+                              <Button layoutX="815.0" layoutY="682.0" mnemonicParsing="false" onAction="#handleDeleteDynamicModelBTNClick" text="Delete" />
                           </children></Pane>
                   </content>
               </ScrollPane>

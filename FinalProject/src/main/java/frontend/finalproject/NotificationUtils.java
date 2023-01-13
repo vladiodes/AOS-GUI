@@ -32,6 +32,14 @@ public class NotificationUtils {
     public static final String DELETED_SPECIAL_STATE_TITLE = "Special state deleted";
 
     // ================================================= Skill files notifications =================================================
+    public static final String DELETED_GLOBAL_VAR_MODULE_TEXT = "You've successfully deleted global variable module parameter!" ;
+    public static final String DELETED_GLOBAL_VAR_MODULE_TITLE = "Global variable parameter deleted";
+    public static final String DELETED_GLOBAL_VAR_PRECONDITION_ASS_TEXT = "You've successfully deleted a global variable precondition assignment!";
+    public static final String DELETED_GLOBAL_VAR_PRECONDITION_ASS_TITLE = "Global variable precondition assignment deleted";
+    public static final String DELETED_PLANNER_ASS_PRECONDITION_TEXT = "You've successfully deleted a planner assignment precondition!";
+    public static final String DELETED_PLANNER_ASS_PRECONDITION_TITLE = "Planner assignment precondition deleted";
+    public static final String DELETED_DYNAMIC_MODEL_TEXT = "You've successfully deleted dynamic model!";
+    public static final String DELETED_DYNAMIC_MODEL_TITLE = "Dynamic model deleted";
 
     // ================================================= Other notifications =================================================
 

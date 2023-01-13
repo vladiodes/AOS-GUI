@@ -8,20 +8,25 @@ import frontend.finalproject.Model.AM.SDParametersModel;
 import frontend.finalproject.Model.AM.SkillCodeReturnValueModel;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Common.ImportCodeModel;
+import frontend.finalproject.Model.SD.GlobalVariableModuleParametersModel;
 import frontend.finalproject.Model.SD.SDModel;
+import frontend.finalproject.NotificationUtils;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import javafx.stage.Stage;
 import utils.Response;
 
 
 public class CreateSkillController {
+    @FXML private ChoiceBox<String> GlobalVarModuleParamsCBX;
+    @FXML private ChoiceBox<String> GlobalVarPrecondAssCBX;
+    @FXML private ChoiceBox<String> PlannerAssPrecondAssCBX;
+    @FXML private ChoiceBox<String> DynamicModelCBX;
     @FXML private TextArea AssCodeSkillCodeRetValueTXT;
     @FXML private TextField SkillCodeImportTXT;
     @FXML private TextField SkillCodeFromTXT;
@@ -77,6 +82,7 @@ public class CreateSkillController {
 
     public void handleInsertGlobalVarModuleParamSD(ActionEvent event) {
         SDmodel.addGlobalVariableModuleParameter(GlobalVarModuleParamNameTXT.getText(),GlobalVarModuleParamTypeTXT.getText());
+        GlobalVarModuleParamsCBX.getItems().add(GlobalVarModuleParamNameTXT.getText());
         GlobalVarModuleParamNameTXT.setText("");
         GlobalVarModuleParamTypeTXT.setText("");
     }
@@ -86,6 +92,7 @@ public class CreateSkillController {
         SDmodel.addGlobalVariablePreconditionAssignment(new AssignmentBlock(
                 AssignmentNameGlobVarPreCondTXT.getText(),
                 AssignmentCodeGlobVarPreCondTXT.getText()));
+        GlobalVarPrecondAssCBX.getItems().add(AssignmentNameGlobVarPreCondTXT.getText());
         AssignmentNameGlobVarPreCondTXT.setText("");
         AssignmentCodeGlobVarPreCondTXT.setText("");
     }
@@ -95,6 +102,7 @@ public class CreateSkillController {
                 AssignmentNamePlannerAssistancePreCondTXT.getText(),
                 AssignmentCodePlannerAssistancePreCondTXT.getText()
         ));
+        PlannerAssPrecondAssCBX.getItems().add(AssignmentNamePlannerAssistancePreCondTXT.getText());
         AssignmentNamePlannerAssistancePreCondTXT.setText("");
         AssignmentCodePlannerAssistancePreCondTXT.setText("");
     }
@@ -104,6 +112,7 @@ public class CreateSkillController {
                 AssignmentNameDynamicModelTXT.getText(),
                 AssignmentCodeDynamicModelTXT.getText()
         ));
+        DynamicModelCBX.getItems().add(AssignmentNameDynamicModelTXT.getText());
         AssignmentNameDynamicModelTXT.setText("");
         AssignmentCodeDynamicModelTXT.setText("");
     }
@@ -265,5 +274,65 @@ public class CreateSkillController {
 
     public void handleBackBTNClick(ActionEvent event) {
         UtilsFXML.navToHome(event);
+    }
+
+    public void handleDeleteGlobalVarModuleBTNClick(ActionEvent event) {
+        String selected = GlobalVarModuleParamsCBX.selectionModelProperty().getValue().getSelectedItem();
+        SDmodel.setGlobalVariableModuleParameters(
+                SDmodel.getGlobalVariableModuleParameters()
+                        .stream().filter(
+                                (var) -> !var.getName().equals(selected)
+                        ).toList());
+        GlobalVarModuleParamsCBX.setItems(FXCollections.observableArrayList(
+                SDmodel.getGlobalVariableModuleParameters().stream()
+                        .map(GlobalVariableModuleParametersModel::getName).toList()
+        ));
+        GlobalVarModuleParamsCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TEXT);
+    }
+
+    public void handleDeleteGlobalVarPreconditionAssBTNClick(ActionEvent event) {
+        String selected = GlobalVarPrecondAssCBX.selectionModelProperty().getValue().getSelectedItem();
+        SDmodel.getPreconditions().setGlobalVariablePreconditionAssignments(
+                SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments().stream().filter(
+                        (assignment) -> !assignment.getAssignmentName().equals(selected)
+                ).toList()
+        );
+        GlobalVarPrecondAssCBX.setItems(FXCollections.observableArrayList(
+                SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments().
+                        stream().map(AssignmentBlock::getAssignmentName).toList()
+        ));
+        GlobalVarPrecondAssCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TEXT);
+    }
+
+    public void handleDeletePlannerAssPrecondAssBTNClick(ActionEvent event) {
+        String selected = PlannerAssPrecondAssCBX.selectionModelProperty().getValue().getSelectedItem();
+        SDmodel.getPreconditions().setPlannerAssistancePreconditionsAssignments(
+                SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments().stream().filter(
+                        (ass) -> !ass.getAssignmentName().equals(selected)
+                ).toList()
+        );
+        PlannerAssPrecondAssCBX.setItems(FXCollections.observableArrayList(
+                SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments()
+                        .stream().map(AssignmentBlock::getAssignmentName).toList()
+        ));
+        PlannerAssPrecondAssCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TITLE,NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TEXT);
+    }
+
+    public void handleDeleteDynamicModelBTNClick(ActionEvent event) {
+        String selected = DynamicModelCBX.selectionModelProperty().getValue().getSelectedItem();
+        SDmodel.getDynamicModel().setNextStateAssignments(
+                SDmodel.getDynamicModel().getNextStateAssignments().stream().filter(
+                        (ass) -> !ass.getAssignmentName().equals(selected)
+                ).toList()
+        );
+        DynamicModelCBX.setItems(FXCollections.observableArrayList(
+                SDmodel.getDynamicModel().getNextStateAssignments()
+                        .stream().map(AssignmentBlock::getAssignmentName).toList()
+        ));
+        DynamicModelCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_DYNAMIC_MODEL_TITLE,NotificationUtils.DELETED_DYNAMIC_MODEL_TEXT);
     }
 }

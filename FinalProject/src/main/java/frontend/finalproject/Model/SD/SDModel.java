@@ -66,8 +66,7 @@ public class SDModel {
         PlpMain = new PlpMainModel(projectName,skillName,PLP_NAME);
     }
 
-    public String toString() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(this);
+    public void setGlobalVariableModuleParameters(List<GlobalVariableModuleParametersModel> lst){
+        this.GlobalVariableModuleParameters = lst;
     }
 }
