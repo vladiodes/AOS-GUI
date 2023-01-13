@@ -20,6 +20,16 @@ public class NotificationUtils {
     public static final String CREATED_NEW_PROJECT_FAIL_TITLE = "Project creation failed";
     public static final String CREATED_NEW_PROJECT_SUCCESS_TEXT = "You've successfully created a new project!";
     public static final String CREATED_NEW_PROJECT_FAIL_TEXT = "Something has failed while trying to create a new project";
+    public static final String DELETED_GLOBAL_VAR_TYPE_TEXT = "You've successfully deleted a global variable type!";
+    public static final String DELETED_GLOBAL_VAR_TYPE_TITLE = "Global variable type deleted";
+    public static final String DELETED_VAR_DECLARATION_TEXT = "You've successfully deleted a global variable declaration!";
+    public static final String DELETED_VAR_DECLARATION_TITLE = "Global variable declaration deleted";
+    public static final String DELETED_EX_CHANGE_DYN_MODEL_TITLE = "Ex change deleted";
+    public static final String DELETED_EX_CHANGE_DYN_MODEL_TEXT = "You've successfully deleted an ex change dym model!";
+    public static final String DELETED_INIT_BELIEF_STMT_TEXT = "You've successfully deleted an initial belief statement!";
+    public static final String DELETED_INIT_BELIEF_STMT_TITLE = "Initial belief statement deleted";
+    public static final String DELETED_SPECIAL_STATE_TEXT = "You've successfully deleted a special state";
+    public static final String DELETED_SPECIAL_STATE_TITLE = "Special state deleted";
 
     // ================================================= Skill files notifications =================================================
 

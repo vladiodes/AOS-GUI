@@ -5,12 +5,23 @@ import backend.finalproject.IAOSFacade;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.*;
 import frontend.finalproject.NotificationUtils;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class CreateEnvController {
 
+    @FXML private ChoiceBox<String> compoundVarsCBX;
+    @FXML private ChoiceBox<String> enumValueCBX;
+    @FXML private ChoiceBox<String> GlobalVarTypeCBX;
+    @FXML private ChoiceBox<String> InitBeliefStmtCBX;
+    @FXML private ChoiceBox<String> SpecialStatesCBX;
+    @FXML private ChoiceBox<String> ExChangesDynModelCBX;
+    @FXML private ChoiceBox<String> GlobalVarDecCBX;
     @FXML private TextArea AssignmentCodeChangeTXT;
     @FXML private TextArea StateConditionCodeTXT;
     @FXML private TextField RewardTXT;
@@ -78,14 +89,22 @@ public class CreateEnvController {
 
     private GlobalVariableTypeModel currentGlobVarType = null;
 
-    private IAOSFacade facade = AOSFacade.getInstance();
+    private final IAOSFacade facade = AOSFacade.getInstance();
 
 
     @FXML
     public void initialize(){
         CompoundEnumChoiceBox.valueProperty().addListener(
-                (observable, oldValue, newValue) -> {
-            switch (newValue){
+                getListenerForCompoundOrEnumCBX());
+
+//        GlobalVarTypeCBX.valueProperty().addListener(
+//                getListenerForGlobalVarTypeCBX()
+//        );
+    }
+
+    private ChangeListener<String> getListenerForCompoundOrEnumCBX() {
+        return (observable, oldValue, newValue) -> {
+            switch (newValue) {
                 case "compound":
                     makeEnumOptVisible(false);
                     break;
@@ -93,13 +112,37 @@ public class CreateEnvController {
                     makeEnumOptVisible(true);
                     break;
             }
-        });
+        };
+    }
+
+    private ChangeListener<String> getListenerForGlobalVarTypeCBX() {
+        return (observable, oldValue, newValue) -> {
+
+            for (GlobalVariableTypeModel type : envModel.getGlobalVariableTypes()) {
+                if (type.getTypeName().equals(newValue)) {
+                    GlobalVarTypeNameTXT.setText(type.getTypeName());
+                    if (type instanceof GlobalVariableTypeEnumModel enumModel) {
+                        makeEnumOptVisible(true);
+                        CompoundEnumChoiceBox.setValue("enum");
+                        enumValueCBX.setItems(FXCollections.observableArrayList(enumModel.getEnumValues()));
+                    } else {
+                        makeEnumOptVisible(false);
+                        GlobalVariableTypeCompoundModel compoundModel = (GlobalVariableTypeCompoundModel) type;
+                        CompoundEnumChoiceBox.setValue("compound");
+                        compoundVarsCBX.setItems(FXCollections.observableArrayList(
+                                compoundModel.getVariables().stream().map(CompoundVariable::getName).toList()
+                        ));
+                    }
+                }
+            }
+        };
     }
 
     private void makeEnumOptVisible(boolean val) {
         enumValueLBL.setVisible(val);
         nextValBTN.setVisible(val);
         enumValueTXT.setVisible(val);
+        //enumValueCBX.setVisible(val);
 
         nextVarBTN.setVisible(!val);
         NameLBL.setVisible(!val);
@@ -108,12 +151,14 @@ public class CreateEnvController {
         CompoundTypeTXT.setVisible(!val);
         DefaultLBL.setVisible(!val);
         CompoundDefaultTXT.setVisible(!val);
+        //compoundVarsCBX.setVisible(!val);
     }
 
     private void makeAllVarInvisible(boolean val) {
         enumValueLBL.setVisible(val);
         nextValBTN.setVisible(val);
         enumValueTXT.setVisible(val);
+        //enumValueCBX.setVisible(val);
 
         nextVarBTN.setVisible(val);
         NameLBL.setVisible(val);
@@ -122,6 +167,7 @@ public class CreateEnvController {
         CompoundTypeTXT.setVisible(val);
         DefaultLBL.setVisible(val);
         CompoundDefaultTXT.setVisible(val);
+        //compoundVarsCBX.setVisible(val);
     }
 
 
@@ -137,6 +183,7 @@ public class CreateEnvController {
     public void handleInsertAnotherGlobalVarTypeClick(ActionEvent event) {
         if(currentGlobVarType!=null) {
             envModel.addGlobalVarType(currentGlobVarType);
+            GlobalVarTypeCBX.getItems().add(currentGlobVarType.getTypeName());
             currentGlobVarType = null;
         }
         GlobalVarTypeNameTXT.setText("");
@@ -177,6 +224,7 @@ public class CreateEnvController {
                 Boolean.parseBoolean(IsActionParameterValueTXT.getText()));
 
         envModel.addGlobalVarDec(globalVarDec);
+        GlobalVarDecCBX.getItems().add(globalVarDec.getName());
 
         IsActionParameterValueTXT.setText("");
         NameGlobalVarDecTXT.setText("");
@@ -190,6 +238,7 @@ public class CreateEnvController {
         envModel.addInitBeliefAss(initBeliefModel);
         InitBeliefAssCodeTXT.setText("");
         InitBeliefAssNameTXT.setText("");
+        InitBeliefStmtCBX.getItems().add(initBeliefModel.getAssignmentName());
         UtilsFXML.showNotification(NotificationUtils.ADDED_ASSIGNMENT_TITLE,NotificationUtils.ADDED_ASSIGMENT_TEXT);
     }
 
@@ -204,6 +253,7 @@ public class CreateEnvController {
         RewardTXT.setText("");
         IsGoalStateBOX.setValue("");
         IsOneTimeRewardBOX.setValue("");
+        SpecialStatesCBX.getItems().add(String.valueOf(SpecialStatesCBX.getItems().size() + 1));
         UtilsFXML.showNotification(NotificationUtils.ADDED_STATE_TITLE,NotificationUtils.ADDED_STATE_TEXT);
     }
 
@@ -211,6 +261,7 @@ public class CreateEnvController {
         ExtrinsicChangesDynamicModel model = new ExtrinsicChangesDynamicModel(AssignmentCodeChangeTXT.getText());
         envModel.addDynamicChange(model);
         AssignmentCodeChangeTXT.setText("");
+        ExChangesDynModelCBX.getItems().add(String.valueOf(ExChangesDynModelCBX.getItems().size() + 1));
         UtilsFXML.showNotification(NotificationUtils.ADDED_CHANGE_TITLE,NotificationUtils.ADDED_CHANGE_TEXT);
     }
 
@@ -230,5 +281,86 @@ public class CreateEnvController {
 
     public void handleBackBTNClick(ActionEvent event) {
         UtilsFXML.navToHome(event);
+    }
+
+    public void handleDeleteGlobalVarTypeBTNClick(ActionEvent event) {
+        String selected = GlobalVarTypeCBX.selectionModelProperty().getValue().getSelectedItem();
+        envModel.setGlobalVariableTypes(
+                envModel.getGlobalVariableTypes().stream().filter(
+                                (type) -> !type.getTypeName().equals(selected))
+                        .toList());
+        GlobalVarTypeCBX.setItems(FXCollections.observableArrayList(
+                envModel.getGlobalVariableTypes().stream().map(
+                        GlobalVariableTypeModel::getTypeName
+                ).toList()
+        ));
+        GlobalVarTypeCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TEXT);
+    }
+
+    public void handleGlobalVarDecDeleteBTNClick(ActionEvent event) {
+        String selected = GlobalVarDecCBX.selectionModelProperty().getValue().getSelectedItem();
+        envModel.setGlobalVariablesDeclaration(envModel.getGlobalVariablesDeclaration().
+                stream().filter(
+                        (dec) -> !dec.getName().equals(selected)
+                ).toList());
+        GlobalVarDecCBX.setItems(FXCollections.observableArrayList(
+                envModel.getGlobalVariablesDeclaration().stream().map(
+                        GlobalVariablesDeclarationModel::getName
+                ).toList()
+        ));
+        GlobalVarDecCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_VAR_DECLARATION_TITLE,NotificationUtils.DELETED_VAR_DECLARATION_TEXT);
+    }
+
+    public void handleDeleteExChangeDynModelBTNClick(ActionEvent event) {
+        Integer selected = Integer.valueOf(ExChangesDynModelCBX.selectionModelProperty().getValue().getSelectedItem());
+        envModel.getExtrinsicChangesDynamicModel().remove(selected - 1);
+        AtomicInteger i = new AtomicInteger(0);
+        ExChangesDynModelCBX.setItems(FXCollections.observableArrayList(
+                envModel.getExtrinsicChangesDynamicModel()
+                        .stream().map(
+                        (model) -> {
+                            i.getAndIncrement();
+                            return String.valueOf(i.get());
+                        }
+                ).toList()
+        ));
+
+        ExChangesDynModelCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TITLE,NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TEXT);
+    }
+
+    public void handleDeleteInitBeliefBTNClick(ActionEvent event) {
+        String selected = InitBeliefStmtCBX.selectionModelProperty().getValue().getSelectedItem();
+        envModel.setInitialBeliefStateAssignments(
+                envModel.getInitialBeliefStateAssignments().stream().filter(
+                        (state) -> !state.getAssignmentName().equals(selected)
+                ).toList());
+        InitBeliefStmtCBX.setItems(FXCollections.observableArrayList(
+                envModel.getInitialBeliefStateAssignments().stream().map(
+                        AssignmentBlock::getAssignmentName
+                ).toList()
+        ));
+        InitBeliefStmtCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_INIT_BELIEF_STMT_TITLE,NotificationUtils.DELETED_INIT_BELIEF_STMT_TEXT);
+    }
+
+    public void handleDeleteSpecialStatesBTNClick(ActionEvent event) {
+        Integer selected = Integer.valueOf(SpecialStatesCBX.selectionModelProperty().getValue().getSelectedItem());
+        envModel.getSpecialStates().remove(selected-1);
+        AtomicInteger i = new AtomicInteger(0);
+        SpecialStatesCBX.setItems(FXCollections.observableArrayList(
+                envModel.getSpecialStates()
+                        .stream().map(
+                                (model) -> {
+                                    i.getAndIncrement();
+                                    return String.valueOf(i.get());
+                                }
+                        ).toList()
+        ));
+
+        SpecialStatesCBX.setValue("");
+        UtilsFXML.showNotification(NotificationUtils.DELETED_SPECIAL_STATE_TITLE,NotificationUtils.DELETED_SPECIAL_STATE_TEXT);
     }
 }
