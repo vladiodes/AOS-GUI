@@ -155,7 +155,7 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<List<String>> showAllSkillsInProject(String projectName) {
-        return Response.OK(new ArrayList<>(Arrays.stream(new String[]{"Skill1","Skill2"}).toList()));
+        return Response.OK(new ArrayList<>(Arrays.stream(new String[]{"Skill1","Skill2","Navigate"}).toList()));
     }
 
     public Response<Boolean> checkDocumentationFile(String file, DocumentationFile fileType) {

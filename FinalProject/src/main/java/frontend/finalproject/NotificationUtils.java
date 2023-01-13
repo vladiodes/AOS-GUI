@@ -66,5 +66,6 @@ public class NotificationUtils {
     public static final String ADDED_RESPONSE_RULE_TEXT = "You've successfully added a new response rule!";
 
     // ================================================= Other notifications =================================================
+    public static final String GENERAL_ERROR_TITLE = "Error";
 
 }

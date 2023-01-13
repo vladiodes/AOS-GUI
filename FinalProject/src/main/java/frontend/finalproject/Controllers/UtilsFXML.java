@@ -84,4 +84,10 @@ public class UtilsFXML {
 
         notificationBuilder.showConfirm();
     }
+
+    enum Source {
+        EDIT_ENV,
+    }
 }
+
+

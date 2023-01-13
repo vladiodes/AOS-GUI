@@ -15,6 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CreateEnvController {
 
+    @FXML private Label titleLBL;
+    @FXML private Button createProjectBTN;
     @FXML private ChoiceBox<String> compoundVarsCBX;
     @FXML private ChoiceBox<String> enumValueCBX;
     @FXML private ChoiceBox<String> GlobalVarTypeCBX;
@@ -87,6 +89,7 @@ public class CreateEnvController {
     @FXML
     private TextField enumValueTXT;
 
+    private UtilsFXML.Source source;
     private GlobalVariableTypeModel currentGlobVarType = null;
 
     private final IAOSFacade facade = AOSFacade.getInstance();
@@ -267,10 +270,16 @@ public class CreateEnvController {
 
     public void handleCreateProjBTNClick(ActionEvent event) {
         addPlpAndEnvGeneralToModel();
-        if(facade.createNewProject(envModel).getValue() != null)
-            UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TITLE,NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TEXT,null);
-        else{
-            UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_FAIL_TITLE,NotificationUtils.CREATED_NEW_PROJECT_FAIL_TEXT,null);
+        if(source== UtilsFXML.Source.EDIT_ENV){
+            //@TODO: Change this implementation
+            System.out.println("Work in progress...");
+        }
+        else {
+            if (facade.createNewProject(envModel).getValue() != null)
+                UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TITLE, NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TEXT, null);
+            else {
+                UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_FAIL_TITLE, NotificationUtils.CREATED_NEW_PROJECT_FAIL_TEXT, null);
+            }
         }
     }
 
@@ -362,5 +371,43 @@ public class CreateEnvController {
 
         SpecialStatesCBX.setValue("");
         UtilsFXML.showNotification(NotificationUtils.DELETED_SPECIAL_STATE_TITLE,NotificationUtils.DELETED_SPECIAL_STATE_TEXT,null);
+    }
+
+    public void setSource(UtilsFXML.Source source) {
+        this.source = source;
+        createProjectBTN.setText("Save changes");
+        titleLBL.setText("Edit Project");
+    }
+
+    public void setEnv(EnvModel value) {
+        envModel = value;
+        ProjectNameTXT.setText(envModel.getPlpMain().getProject());
+        HorizonTXT.setText(String.valueOf(envModel.getEnvironmentGeneral().getHorizon()));
+        DiscountTXT.setText(String.valueOf(envModel.getEnvironmentGeneral().getDiscount()));
+        populateAllChoiceBoxesWithEnvValues();
+    }
+
+    private void populateAllChoiceBoxesWithEnvValues() {
+        GlobalVarTypeCBX.setItems(FXCollections.observableArrayList(
+                envModel.getGlobalVariableTypes().stream().map(GlobalVariableTypeModel::getTypeName).toList()
+        ));
+        GlobalVarDecCBX.setItems(FXCollections.observableArrayList(
+                envModel.getGlobalVariablesDeclaration().stream().map(GlobalVariablesDeclarationModel::getName).toList()
+        ));
+        InitBeliefStmtCBX.setItems(FXCollections.observableArrayList(
+                envModel.getInitialBeliefStateAssignments().stream().map(AssignmentBlock::getAssignmentName).toList()
+        ));
+        AtomicInteger i = new AtomicInteger(0);
+        SpecialStatesCBX.setItems(FXCollections.observableArrayList(
+                envModel.getSpecialStates().stream().map(
+                        (x) -> String.valueOf(i.incrementAndGet())
+                ).toList()
+        ));
+        i.set(0);
+        ExChangesDynModelCBX.setItems(FXCollections.observableArrayList(
+                envModel.getExtrinsicChangesDynamicModel().stream().map(
+                        (x) -> String.valueOf(i.incrementAndGet())
+                ).toList()
+        ));
     }
 }

@@ -10,7 +10,7 @@
     <children>
         <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label layoutX="73.0" layoutY="30.0" text="Create New Project" textFill="WHITE">
+                <Label fx:id="titleLBL" layoutX="73.0" layoutY="30.0" text="Create New Project" textFill="WHITE">
                     <font>
                         <Font size="48.0" />
                     </font>
@@ -254,7 +254,7 @@
         <Pane layoutX="12.0" layoutY="802.0" prefHeight="39.0" prefWidth="1065.0">
             <children>
                 <Button layoutX="228.0" layoutY="8.0" mnemonicParsing="false" onAction="#handlePreviewBTNClick" text="Preview JSON" />
-            <Button layoutX="840.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleCreateProjBTNClick" text="Create Project" />
+            <Button fx:id="createProjectBTN" layoutX="840.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleCreateProjBTNClick" text="Create Project" />
             <Button layoutX="91.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackBTNClick" text="&lt;&lt; Back" />
             </children></Pane>
     </children>

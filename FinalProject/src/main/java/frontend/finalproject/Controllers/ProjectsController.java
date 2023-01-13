@@ -2,6 +2,8 @@ package frontend.finalproject.Controllers;
 
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.Model.Env.EnvModel;
+import frontend.finalproject.NotificationUtils;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import utils.Response;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,6 +63,27 @@ public class ProjectsController {
             Parent root = loader.load();
             CreateSkillController controller = loader.getController();
             controller.setProjectName(projectList.getSelectionModel().getSelectedItem());
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void handleEditEnvBTNClick(ActionEvent event) {
+        Response<EnvModel> response = facade.getProjectEnv();
+        if(response.hasErrorOccurred()) {
+            UtilsFXML.showNotification(NotificationUtils.GENERAL_ERROR_TITLE, response.getMessage(), response);
+        }
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        try{
+            FXMLLoader loader = new FXMLLoader(ProjectsController.class.getResource(UtilsFXML.CREATE_PROJECT_PATH));
+            Parent root = loader.load();
+            CreateEnvController controller = loader.getController();
+            controller.setSource(UtilsFXML.Source.EDIT_ENV);
+            controller.setEnv(response.getValue());
             stage.setScene(new Scene(root));
             stage.show();
         }
