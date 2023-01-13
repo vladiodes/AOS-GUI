@@ -1,10 +1,12 @@
 package backend.finalproject.ProjectFiles.Env;
 
 
-import backend.finalproject.ProjectFiles.Common.AssignmentBlock;
+import backend.finalproject.ProjectFiles.Common.AssignmentBlockMultipleLines;
+import backend.finalproject.ProjectFiles.Common.IAssignmentBlock;
 import backend.finalproject.ProjectFiles.Common.PlpMain;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.*;
 import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
 import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
@@ -18,14 +20,13 @@ public class Environment {
     private backend.finalproject.ProjectFiles.Common.PlpMain PlpMain;
     private EnvironmentGeneral EnvironmentGeneral;
     private List<GlobalVariableType> GlobalVariableTypes;
-
     private List<GlobalVariablesDeclaration> GlobalVariablesDeclaration;
 
-    private List<AssignmentBlock> InitialBeliefStateAssignments;
+    private List<IAssignmentBlock> InitialBeliefStateAssignments;
 
     private List<SpecialState> SpecialStates;
 
-    private List<AssignmentBlock> ExtrinsicChangesDynamicModel;
+    private List<IAssignmentBlock> ExtrinsicChangesDynamicModel;
 
 
     public Environment(EnvModel envModel) {
@@ -34,13 +35,20 @@ public class Environment {
         GlobalVariableTypes = CopyGlobalVariableTypes(envModel.getGlobalVariableTypes());
         GlobalVariablesDeclaration = envModel.getGlobalVariablesDeclaration().stream()
                 .map(GlobalVariablesDeclaration::new).collect(Collectors.toList());
+        InitialBeliefStateAssignments = CopyAssignmentBlocks(envModel.getInitialBeliefStateAssignments());
         InitialBeliefStateAssignments = envModel.getInitialBeliefStateAssignments().stream()
-                .map(AssignmentBlock::new).collect(Collectors.toList());
+                .map(AssignmentBlockMultipleLines::new).collect(Collectors.toList());
         SpecialStates = envModel.getSpecialStates().stream()
                 .map(SpecialState::new).collect(Collectors.toList());
         ExtrinsicChangesDynamicModel = envModel.getExtrinsicChangesDynamicModel().stream()
-                .map(AssignmentBlock::new).collect(Collectors.toList());
+                .map(AssignmentBlockMultipleLines::new).collect(Collectors.toList());
     }
+
+    private List<IAssignmentBlock> CopyAssignmentBlocks(List<AssignmentBlock> initialBeliefStateAssignments) {
+        InitialBeliefStateAssignments = new ArrayList<>();
+        return InitialBeliefStateAssignments;
+    }
+
 
     private List<GlobalVariableType> CopyGlobalVariableTypes(List<GlobalVariableTypeModel> globalVariableTypesToCopy) {
         GlobalVariableTypes = new ArrayList<>();
@@ -75,7 +83,7 @@ public class Environment {
         return GlobalVariablesDeclaration;
     }
 
-    public List<AssignmentBlock> getInitialBeliefStateAssignments() {
+    public List<IAssignmentBlock> getInitialBeliefStateAssignments() {
         return InitialBeliefStateAssignments;
     }
 
@@ -83,7 +91,7 @@ public class Environment {
         return SpecialStates;
     }
 
-    public List<AssignmentBlock> getExtrinsicChangesDynamicModel() {
+    public List<IAssignmentBlock> getExtrinsicChangesDynamicModel() {
         return ExtrinsicChangesDynamicModel;
     }
 

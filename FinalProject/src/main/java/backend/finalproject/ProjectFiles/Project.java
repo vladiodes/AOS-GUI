@@ -2,16 +2,28 @@ package backend.finalproject.ProjectFiles;
 
 import backend.finalproject.Constants;
 import backend.finalproject.ProjectFiles.AM.AM;
+import backend.finalproject.ProjectFiles.AM.LocalVariablesInit.LocalVariablesInitialization;
+import backend.finalproject.ProjectFiles.Common.IAssignmentBlock;
 import backend.finalproject.ProjectFiles.Common.PlpMain;
 import backend.finalproject.ProjectFiles.Env.Environment;
+import backend.finalproject.ProjectFiles.Env.GlobalVariableType;
 import backend.finalproject.ProjectFiles.SD.SD;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Env.EnvModel;
+import utils.Json.CustomDeserializers.AssignmentBlockDeserializer;
+import utils.Json.CustomDeserializers.LocalVariablesInitializationDeserializer;
+import utils.Json.PolymorphDeserializer.PolymorphDeserializer;
+import utils.Pair;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
 
 public class Project {
     Environment Environment;
@@ -22,6 +34,79 @@ public class Project {
         Skills = new ArrayList<>();
     }
 
+    public Project(String projectName) throws IOException {
+        String projectPath = Constants.PROJECTS_FOLDER_PATH + "/" + projectName;
+        File[] projectFiles = new File(projectPath).listFiles();
+        Skills = new ArrayList<>();
+        HashMap<String, Pair<SD, AM>> skills = new HashMap<>();
+
+        assert projectFiles != null;
+        for (File file : projectFiles){
+            String fileName = file.getName();
+            if (fileName.contains("environment")){
+                loadEnvFile(file);
+            }
+            else if (fileName.contains("glue")){
+                AM am = loadAMFile(file);
+                String skillName = am.getPlpMain().getName();
+                if (skills.containsKey(skillName)){
+                    Pair<SD, AM> pair = skills.get(skillName);
+                    pair.second = am;
+                }
+                else {
+                    Pair<SD, AM> pair = new Pair<>();
+                    pair.second = am;
+                    skills.put(skillName, pair);
+                }
+            }
+            else if (fileName.contains(projectName)){ // TODO: better recognition of sd file
+                SD sd = loadSDFile(file);
+                String skillName = sd.getPlpMain().getName();
+                if (skills.containsKey(skillName)){
+                    Pair<SD, AM> pair = skills.get(skillName);
+                    pair.first = sd;
+                }
+                else {
+                    Pair<SD, AM> pair = new Pair<>();
+                    pair.first = sd;
+                    skills.put(skillName, pair);
+                }
+            }
+        }
+
+        for (Pair<SD, AM> pair : skills.values()){
+            Skills.add(new Skill(pair.first, pair.second));
+        }
+
+    }
+
+
+    private SD loadSDFile(File file) throws IOException {
+        String content = new String(Files.readAllBytes(file.toPath()));
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(IAssignmentBlock.class, new AssignmentBlockDeserializer())
+                .create();
+        return gson.fromJson(content, SD.class);
+    }
+
+    private AM loadAMFile(File file) throws IOException {
+        String content = new String(Files.readAllBytes(file.toPath()));
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalVariablesInitialization.class, new LocalVariablesInitializationDeserializer())
+                .registerTypeAdapter(IAssignmentBlock.class, new AssignmentBlockDeserializer())
+                .create();
+        return gson.fromJson(content, AM.class);
+    }
+
+    private void loadEnvFile(File file) throws IOException {
+        String content = new String(Files.readAllBytes(file.toPath()));
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(GlobalVariableType.class, new PolymorphDeserializer<GlobalVariableType>())
+                .registerTypeAdapter(IAssignmentBlock.class, new AssignmentBlockDeserializer())
+                .create();
+        Environment = gson.fromJson(content, Environment.class);
+    }
+
     public Environment getEnvironment() {
         return Environment;
     }
@@ -30,7 +115,6 @@ public class Project {
         return Skills;
     }
 
-    // TODO: consider refactor to utils
     public void saveEnv() throws IOException {
         String jsonEnv = Environment.toJson();
         StringBuilder envSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);

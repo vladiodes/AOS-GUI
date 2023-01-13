@@ -9,10 +9,13 @@ import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static backend.finalproject.Constants.*;
 
@@ -63,7 +66,14 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<List<String>> getAllProjects() {
-        return null;
+        try {
+            File[] directories = new File(PROJECTS_FOLDER_PATH).listFiles(File::isDirectory);
+            assert directories != null;
+            return Response.OK(Arrays.stream(directories).map(File::getName).collect(Collectors.toList()));
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     public Response<EnvModel> loadProject(String name) {
@@ -93,7 +103,14 @@ public class AOSFacade implements IAOSFacade {
 
     @Override
     public Response<Boolean> setCurrentWorkingProject(String projectName) {
-        return null;
+        try{
+            currentProject = new Project(projectName);
+            return Response.OK(true);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
+
     }
 
 
