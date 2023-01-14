@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Project {
@@ -48,7 +49,9 @@ public class Project {
         Skills = new ArrayList<>();
     }
 
-    public Project(String projectName) throws IOException {
+    // load a project into program memory from file system.
+    // project name is the name of the dir where all project documents are (env file, am+sd files)
+    public Project(String projectName) throws Exception {
         String projectPath = Constants.PROJECTS_FOLDER_PATH + "/" + projectName;
         File[] projectFiles = new File(projectPath).listFiles();
         Skills = new ArrayList<>();
@@ -138,15 +141,6 @@ public class Project {
         if (!sdPlp.getProject().equals(amPlp.getProject()) || !sdPlp.getProject().equals(getProjectName())){
             throw new Exception("SD and AM files has to have matching Project field in PlpMain");
         }
-        if (!sdPlp.getName().equals(amPlp.getName())){
-            throw new Exception("SD and AM files has to have matching skill name");
-        }
-        if (!amPlp.getType().equals("Glue")){
-            throw new Exception("AM Plp has to be type Glue");
-        }
-        if (!sdPlp.getType().equals("PLP")){
-            throw new Exception("SD Plp has to be type PLP");
-        }
         Skill skill = new Skill(sd, am);
         Skills.add(skill);
         saveSkill(skill);
@@ -154,17 +148,28 @@ public class Project {
 
     public void saveSkill(Skill skill) throws IOException {
         String jsonSD = gson.toJson(skill.getSd());
-        StringBuilder sdSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
-        sdSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(".").append(skill.getSkillName()).append(".json");
+        String sdSavePath = getSDSavePath(skill.getSkillName());
 
         String jsonAM = gson.toJson(skill.getAm());
-        StringBuilder amSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
-        amSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(".").append(skill.getSkillName()).append(" glue.json");
+        String amSavePath = getAMSavePath(skill.getSkillName());
 
-        writeToFile(sdSavePath.toString(), jsonSD);
-        writeToFile(amSavePath.toString(), jsonAM);
+        writeToFile(sdSavePath, jsonSD);
+        writeToFile(amSavePath, jsonAM);
 
     }
+
+    private String getAMSavePath(String skillName) {
+        StringBuilder amSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
+        amSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(".").append(skillName).append(" glue.json");
+        return amSavePath.toString();
+    }
+
+    private String getSDSavePath(String skillName) {
+        StringBuilder sdSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
+        sdSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(".").append(skillName).append(".json");
+        return sdSavePath.toString();
+    }
+
 
     public void saveEnv() throws IOException {
         String jsonEnv = gson.toJson(Environment);
@@ -180,5 +185,38 @@ public class Project {
             }
         }
         throw new Exception("Skill with name " + skillName + " has not found.");
+    }
+
+    public List<String> getSkillsNames() {
+        return Skills.stream().map(Skill::getSkillName).collect(Collectors.toList());
+    }
+
+    // TODO: add more validations here
+    public void setEnvironment(Environment environment) throws Exception {
+        if (!environment.getProjectName().equals(Environment.getProjectName())){
+            throw new Exception("Can not change environment project name. please create new project");
+        }
+        this.Environment = environment;
+        saveEnv();
+    }
+
+    public void editSkill(String prevSkillName, Skill skill) throws Exception {
+        Skill oldSkill = getSkill(prevSkillName);
+        Skills.remove(oldSkill); // TODO: consider change skills to type Set instead of list
+        Skills.add(skill);
+        if (!prevSkillName.equals(skill.getSkillName())){
+            deleteSkillFromFS(oldSkill);
+        }
+        saveSkill(skill);
+    }
+
+    // TODO: think about rollback
+    private boolean deleteSkillFromFS(Skill oldSkill) {
+        String sdSavePath = getSDSavePath(oldSkill.getSkillName());
+        String amSavePath = getAMSavePath(oldSkill.getSkillName());
+
+        File sdFile = new File(sdSavePath);
+        File amFile = new File(amSavePath);
+        return sdFile.delete() && amFile.delete();
     }
 }

@@ -1,6 +1,5 @@
 package backend.finalproject;
 
-import backend.finalproject.ProjectFiles.Project;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
@@ -71,10 +70,10 @@ public interface IAOSFacade {
     /**
      * Creating a new project
      * @param envModel the model as recieved from the FE
-     * @return returns a response object wrapped with true - success or false - failure
+     * @return returns a response object wrapped with the env model
      * REQ 2.1
      */
-    Response<Project> createNewProject(EnvModel envModel);
+    Response<EnvModel> createNewProject(EnvModel envModel);
 
     Response<Boolean> setCurrentWorkingProject(String projectName);
 
@@ -100,7 +99,7 @@ public interface IAOSFacade {
      * @return a response object wrapped with a list of the names of the skills
      * REQ 2.5
      */
-    Response<List<String>> showAllSkillsInProject(String projectName);
+    Response<List<String>> getSkillNames();
 
     Response<Boolean> saveChangesToEnv(EnvModel newEnvModel);
 
