@@ -24,4 +24,8 @@ public class DynamicModelModel {
     public List<AssignmentBlock> getNextStateAssignments() {
         return NextStateAssignments;
     }
+
+    public void setNextStateAssignments(List<AssignmentBlock> lst){
+        this.NextStateAssignments = lst;
+    }
 }

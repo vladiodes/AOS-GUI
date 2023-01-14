@@ -159,10 +159,10 @@ public class Project {
 
         String jsonAM = gson.toJson(skill.getAm());
         StringBuilder amSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
-        sdSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(".").append(skill.getSkillName()).append(" glue.json");
+        amSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(".").append(skill.getSkillName()).append(" glue.json");
 
         writeToFile(sdSavePath.toString(), jsonSD);
-        writeToFile(sdSavePath.toString(), jsonAM);
+        writeToFile(amSavePath.toString(), jsonAM);
 
     }
 

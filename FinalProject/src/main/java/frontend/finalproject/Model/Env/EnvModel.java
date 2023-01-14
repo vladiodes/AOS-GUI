@@ -75,6 +75,10 @@ public class EnvModel {
         return GlobalVariableTypes;
     }
 
+    public void setGlobalVariableTypes(List<GlobalVariableTypeModel> lst){
+        this.GlobalVariableTypes = lst;
+    }
+
     public List<GlobalVariablesDeclarationModel> getGlobalVariablesDeclaration() {
         return GlobalVariablesDeclaration;
     }
@@ -83,12 +87,20 @@ public class EnvModel {
         return InitialBeliefStateAssignments;
     }
 
+    public void setInitialBeliefStateAssignments(List<AssignmentBlock> lst){
+        this.InitialBeliefStateAssignments = lst;
+    }
+
     public List<SpecialStateModel> getSpecialStates() {
         return SpecialStates;
     }
 
     public List<AssignmentBlock> getExtrinsicChangesDynamicModel() {
         return ExtrinsicChangesDynamicModel;
+    }
+
+    public void setExtrinsicChangesDynamicModel(List<AssignmentBlock> lst){
+        this.ExtrinsicChangesDynamicModel = lst;
     }
 
     public void addGlobalVarType(GlobalVariableTypeModel model){
@@ -109,6 +121,10 @@ public class EnvModel {
 
     public void addDynamicChange(AssignmentBlock model) {
         ExtrinsicChangesDynamicModel.add(model);
+    }
+
+    public void setGlobalVariablesDeclaration(List<GlobalVariablesDeclarationModel> lst){
+        this.GlobalVariablesDeclaration = lst;
     }
 
     public String toString() {

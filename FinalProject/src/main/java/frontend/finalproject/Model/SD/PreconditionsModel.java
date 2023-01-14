@@ -8,8 +8,8 @@ import java.util.List;
 
 public class PreconditionsModel {
     private double ViolatingPreconditionPenalty;
-    private final List<AssignmentBlock> GlobalVariablePreconditionAssignments;
-    private final List<AssignmentBlock> PlannerAssistancePreconditionsAssignments;
+    private List<AssignmentBlock> GlobalVariablePreconditionAssignments;
+    private List<AssignmentBlock> PlannerAssistancePreconditionsAssignments;
 
     public PreconditionsModel(){
         GlobalVariablePreconditionAssignments = new ArrayList<>();
@@ -45,5 +45,13 @@ public class PreconditionsModel {
 
     public List<AssignmentBlock> getPlannerAssistancePreconditionsAssignments() {
         return PlannerAssistancePreconditionsAssignments;
+    }
+
+    public void setGlobalVariablePreconditionAssignments(List<AssignmentBlock> lst){
+        this.GlobalVariablePreconditionAssignments = lst;
+    }
+
+    public void setPlannerAssistancePreconditionsAssignments(List<AssignmentBlock> lst){
+        this.PlannerAssistancePreconditionsAssignments = lst;
     }
 }

@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -154,6 +155,16 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<List<String>> showAllSkillsInProject(String projectName) {
+        return Response.OK(new ArrayList<>(Arrays.stream(new String[]{"Skill1","Skill2","Navigate"}).toList()));
+    }
+
+    @Override
+    public Response<Boolean> saveChangesToEnv(EnvModel newEnvModel) {
+        return null;
+    }
+
+    @Override
+    public Response<Boolean> saveChangesToSkill(String prevSkillName, SDModel newSDModel, AMModel newAMModel) {
         return null;
     }
 

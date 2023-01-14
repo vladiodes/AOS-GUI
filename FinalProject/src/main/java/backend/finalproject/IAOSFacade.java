@@ -102,6 +102,10 @@ public interface IAOSFacade {
      */
     Response<List<String>> showAllSkillsInProject(String projectName);
 
+    Response<Boolean> saveChangesToEnv(EnvModel newEnvModel);
+
+    Response<Boolean> saveChangesToSkill(String prevSkillName, SDModel newSDModel, AMModel newAMModel);
+
     // ============= Documentation Files REQ =============
 
     /**
