@@ -49,7 +49,7 @@ public class ProjectsController {
     }
 
     private void populateSkillsList(String selectedProj) {
-        List<String> skills = facade.showAllSkillsInProject(selectedProj).getValue();
+        List<String> skills = facade.getSkillNames().getValue(); // TODO: validate response
         this.skillsList.setItems(FXCollections.observableArrayList(skills));
     }
 

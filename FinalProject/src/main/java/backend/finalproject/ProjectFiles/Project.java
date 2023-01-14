@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class Project {
@@ -48,7 +49,9 @@ public class Project {
         Skills = new ArrayList<>();
     }
 
-    public Project(String projectName) throws IOException {
+    // load a project into program memory from file system.
+    // project name is the name of the dir where all project documents are (env file, am+sd files)
+    public Project(String projectName) throws Exception {
         String projectPath = Constants.PROJECTS_FOLDER_PATH + "/" + projectName;
         File[] projectFiles = new File(projectPath).listFiles();
         Skills = new ArrayList<>();
@@ -138,15 +141,6 @@ public class Project {
         if (!sdPlp.getProject().equals(amPlp.getProject()) || !sdPlp.getProject().equals(getProjectName())){
             throw new Exception("SD and AM files has to have matching Project field in PlpMain");
         }
-        if (!sdPlp.getName().equals(amPlp.getName())){
-            throw new Exception("SD and AM files has to have matching skill name");
-        }
-        if (!amPlp.getType().equals("Glue")){
-            throw new Exception("AM Plp has to be type Glue");
-        }
-        if (!sdPlp.getType().equals("PLP")){
-            throw new Exception("SD Plp has to be type PLP");
-        }
         Skill skill = new Skill(sd, am);
         Skills.add(skill);
         saveSkill(skill);
@@ -180,5 +174,9 @@ public class Project {
             }
         }
         throw new Exception("Skill with name " + skillName + " has not found.");
+    }
+
+    public List<String> getSkillsNames() {
+        return Skills.stream().map(Skill::getSkillName).collect(Collectors.toList());
     }
 }

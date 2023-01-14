@@ -112,11 +112,12 @@ public class AOSFacade implements IAOSFacade {
         }
     }
 
-    public Response<Project> createNewProject(EnvModel envModel) {
+    public Response<EnvModel> createNewProject(EnvModel envModel) {
         try{
             Project project = new Project(envModel);
+            EnvModel createdEnvModel = new EnvModel(project.getEnvironment());
             project.saveEnv();
-            return Response.OK(project);
+            return Response.OK(createdEnvModel);
         }
         catch (Exception e){
             return Response.FAIL(e);
@@ -154,7 +155,20 @@ public class AOSFacade implements IAOSFacade {
         return null;
     }
 
-    public Response<List<String>> showAllSkillsInProject(String projectName) {
+    @Override
+    public Response<List<String>> getSkillNames() {
+        if (currentProject == null){
+            return Response.FAIL(new Exception("First have to set the current project in order to get the project's skills"));
+        }
+        try {
+            return Response.OK(currentProject.getSkillsNames());
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
+    }
+
+    public Response<List<String>> getSkillNames(String projectName) {
         return Response.OK(new ArrayList<>(Arrays.stream(new String[]{"Skill1","Skill2","Navigate"}).toList()));
     }
 
