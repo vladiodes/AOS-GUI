@@ -79,6 +79,7 @@ public class AOSFacade implements IAOSFacade {
 
     public Response<EnvModel> getProjectEnv() {
         try{
+            validateCurrentProjectExists();
             Environment environment = currentProject.getEnvironment();
             EnvModel envModel = new EnvModel(environment);
             return Response.OK(envModel);
@@ -91,6 +92,7 @@ public class AOSFacade implements IAOSFacade {
     @Override
     public Response<SDModel> getProjectSkillSD(String skillName) {
         try{
+            validateCurrentProjectExists();
             Skill skill = currentProject.getSkill(skillName);
             SDModel sdModel = new SDModel(skill.getSd());
             return Response.OK(sdModel);
@@ -103,6 +105,7 @@ public class AOSFacade implements IAOSFacade {
     @Override
     public Response<AMModel> getProjectSkillAM(String skillName) {
         try{
+            validateCurrentProjectExists();
             Skill skill = currentProject.getSkill(skillName);
             AMModel amModel = new AMModel(skill.getAm());
             return Response.OK(amModel);
@@ -138,10 +141,8 @@ public class AOSFacade implements IAOSFacade {
 
 
     public Response<Boolean> addSkillToProject(SDModel sdModel, AMModel amModel) {
-        if (currentProject == null){
-            return Response.OK(false);
-        }
         try {
+            validateCurrentProjectExists();
             currentProject.addSkill(new SD(sdModel), new AM(amModel));
             return Response.OK(true);
         }
@@ -157,10 +158,9 @@ public class AOSFacade implements IAOSFacade {
 
     @Override
     public Response<List<String>> getSkillNames() {
-        if (currentProject == null){
-            return Response.FAIL(new Exception("First have to set the current project in order to get the project's skills"));
-        }
+
         try {
+            validateCurrentProjectExists();
             return Response.OK(currentProject.getSkillsNames());
         }
         catch (Exception e){
@@ -174,12 +174,27 @@ public class AOSFacade implements IAOSFacade {
 
     @Override
     public Response<Boolean> saveChangesToEnv(EnvModel newEnvModel) {
-        return null;
+        try{
+            validateCurrentProjectExists();
+            Environment environment = new Environment(newEnvModel);
+            currentProject.setEnvironment(environment);
+            return Response.OK(true);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     @Override
     public Response<Boolean> saveChangesToSkill(String prevSkillName, SDModel newSDModel, AMModel newAMModel) {
-        return null;
+        try{
+            validateCurrentProjectExists();
+            currentProject.editSkill(prevSkillName, new Skill(new SD(newSDModel), new AM(newAMModel)));
+            return Response.OK(true);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     public Response<Boolean> checkDocumentationFile(String file, DocumentationFile fileType) {
@@ -274,5 +289,12 @@ public class AOSFacade implements IAOSFacade {
         } catch (IOException e) {
             return false; // Either timeout or unreachable or failed DNS lookup.
         }
+    }
+
+    private Exception validateCurrentProjectExists() {
+        if (currentProject == null){
+            return new Exception("Please first set current project");
+        }
+        return null;
     }
 }
