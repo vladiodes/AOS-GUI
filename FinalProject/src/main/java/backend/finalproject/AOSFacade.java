@@ -291,10 +291,9 @@ public class AOSFacade implements IAOSFacade {
         }
     }
 
-    private Exception validateCurrentProjectExists() {
+    private void validateCurrentProjectExists() throws Exception {
         if (currentProject == null){
-            return new Exception("Please first set current project");
+            throw new Exception("Please first set current project");
         }
-        return null;
     }
 }
