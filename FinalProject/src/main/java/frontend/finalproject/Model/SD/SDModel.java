@@ -1,12 +1,15 @@
 package frontend.finalproject.Model.SD;
 
+import backend.finalproject.ProjectFiles.SD.SD;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Common.AssignmentBlock;
+import frontend.finalproject.Model.Env.GlobalVariablesDeclarationModel;
 import frontend.finalproject.Model.Env.PlpMainModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SDModel {
     public static final String PLP_NAME = "PLP";
@@ -14,6 +17,14 @@ public class SDModel {
     private List<GlobalVariableModuleParametersModel> GlobalVariableModuleParameters;
     private PreconditionsModel Preconditions;
     private DynamicModelModel DynamicModel;
+
+    public SDModel(SD sd) {
+        PlpMain = new PlpMainModel(sd.getPlpMain());
+        GlobalVariableModuleParameters = sd.getGlobalVariableModuleParameters().stream()
+                .map(GlobalVariableModuleParametersModel::new).collect(Collectors.toList());
+        Preconditions = new PreconditionsModel(sd.getPreconditions());
+        DynamicModel = new DynamicModelModel(sd.getDynamicModel());
+    }
 
     public PlpMainModel getPlpMain() {
         return PlpMain;
@@ -66,8 +77,7 @@ public class SDModel {
         PlpMain = new PlpMainModel(projectName,skillName,PLP_NAME);
     }
 
-    public String toString() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return gson.toJson(this);
+    public void setGlobalVariableModuleParameters(List<GlobalVariableModuleParametersModel> lst){
+        this.GlobalVariableModuleParameters = lst;
     }
 }

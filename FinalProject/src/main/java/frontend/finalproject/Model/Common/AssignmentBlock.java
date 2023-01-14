@@ -1,5 +1,9 @@
 package frontend.finalproject.Model.Common;
 
+import backend.finalproject.ProjectFiles.Common.AssignmentBlockMultipleLines;
+import backend.finalproject.ProjectFiles.Common.AssignmentBlockSingleLine;
+import backend.finalproject.ProjectFiles.Common.IAssignmentBlock;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +41,21 @@ public class AssignmentBlock {
 
     public List<String> getAssignmentCode() {
         return AssignmentCode;
+    }
+
+    public static List<AssignmentBlock> CopyAssignmentBlocks(List<IAssignmentBlock> iAssignmentBlocks) {
+        ArrayList<AssignmentBlock> assignmentBlocks = new ArrayList<>();
+        for (IAssignmentBlock assignmentBlock : iAssignmentBlocks){
+            if (assignmentBlock instanceof AssignmentBlockMultipleLines){
+                AssignmentBlockMultipleLines assignmentBlockMultipleLines = (AssignmentBlockMultipleLines)  assignmentBlock;
+                assignmentBlocks.add(new AssignmentBlock(assignmentBlockMultipleLines.getAssignmentName(), assignmentBlockMultipleLines.getAssignmentCode()));
+            }
+            else if (assignmentBlock instanceof AssignmentBlockSingleLine){
+                AssignmentBlockSingleLine assignmentBlockSingleLine = (AssignmentBlockSingleLine) assignmentBlock;
+                assignmentBlocks.add(new AssignmentBlock(assignmentBlockSingleLine.getAssignmentName(), assignmentBlockSingleLine.getAssignmentCode()));
+            }
+        }
+        return assignmentBlocks;
     }
 }
 

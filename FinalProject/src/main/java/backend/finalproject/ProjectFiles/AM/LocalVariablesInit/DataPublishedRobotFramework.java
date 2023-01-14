@@ -2,6 +2,7 @@ package backend.finalproject.ProjectFiles.AM.LocalVariablesInit;
 
 import backend.finalproject.ProjectFiles.Common.ImportCode;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +16,7 @@ public class DataPublishedRobotFramework extends LocalVariablesInitialization{
 
     private List<ImportCode> ImportCode;
 
-    private List<String> AssignmentCode;
+    private List<String> AssignmentCode; // TODO: this can be single line also
 
     public DataPublishedRobotFramework(String localVariableName, String rosTopicPath, String variableType, String initialValue, String topicMessageType, List<ImportCode> importCode, List<String> assignmentCode) {
         LocalVariableName = localVariableName;
@@ -30,11 +31,12 @@ public class DataPublishedRobotFramework extends LocalVariablesInitialization{
     public DataPublishedRobotFramework(frontend.finalproject.Model.AM.DataPublishedRobotFramework initializationModel) {
         LocalVariableName = initializationModel.getLocalVariableName();
         RosTopicPath = initializationModel.getRosTopicPath();
-        VariableType = initializationModel.getInitialValue();
+        VariableType = initializationModel.getVariableType();
+        InitialValue = initializationModel.getInitialValue();
         TopicMessageType = initializationModel.getTopicMessageType();
         ImportCode = initializationModel.getImportCode().stream()
                 .map(ImportCode::new).collect(Collectors.toList());
-
+        AssignmentCode = Arrays.stream(initializationModel.getAssignmentCode().split("\n")).collect(Collectors.toList());
     }
 
     public String getLocalVariableName() {

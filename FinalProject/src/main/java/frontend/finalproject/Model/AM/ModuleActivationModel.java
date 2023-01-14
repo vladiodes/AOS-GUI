@@ -1,5 +1,6 @@
 package frontend.finalproject.Model.AM;
 
+import backend.finalproject.ProjectFiles.AM.ModuleActivation;
 import frontend.finalproject.Model.Common.ImportCodeModel;
 
 import java.util.ArrayList;
@@ -11,6 +12,10 @@ public class ModuleActivationModel {
 
     public ModuleActivationModel(){
         RosService = new RosServiceModel();
+    }
+
+    public ModuleActivationModel(ModuleActivation moduleActivation) {
+        RosService = new RosServiceModel(moduleActivation.getRosService());
     }
 
     public void addImportCode(ImportCodeModel model){

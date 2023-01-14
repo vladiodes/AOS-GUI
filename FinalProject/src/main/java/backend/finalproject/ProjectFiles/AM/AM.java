@@ -5,10 +5,16 @@ import backend.finalproject.ProjectFiles.AM.LocalVariablesInit.SDParameters;
 import backend.finalproject.ProjectFiles.AM.LocalVariablesInit.SkillCodeReturnValue;
 import backend.finalproject.ProjectFiles.Common.PlpMain;
 import backend.finalproject.ProjectFiles.AM.LocalVariablesInit.LocalVariablesInitialization;
+import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeCompound;
+import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeEnum;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.AM.LocalVariablesInitializationModel;
 import frontend.finalproject.Model.AM.SDParametersModel;
 import frontend.finalproject.Model.AM.SkillCodeReturnValueModel;
+import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
+import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
 
 
 import java.util.ArrayList;
@@ -38,6 +44,7 @@ public class AM {
         LocalVariablesInitialization = CopyLocalVariablesInitialization(amModel.getLocalVariablesInitialization());
     }
 
+
     private List<LocalVariablesInitialization> CopyLocalVariablesInitialization(List<LocalVariablesInitializationModel> localVariablesInitialization) {
         LocalVariablesInitialization = new ArrayList<>();
         for (LocalVariablesInitializationModel initializationModel : localVariablesInitialization){
@@ -54,7 +61,7 @@ public class AM {
         return LocalVariablesInitialization;
     }
 
-    public backend.finalproject.ProjectFiles.Common.PlpMain getPlpMain() {
+    public PlpMain getPlpMain() {
         return PlpMain;
     }
 
@@ -73,4 +80,19 @@ public class AM {
     public List<backend.finalproject.ProjectFiles.AM.LocalVariablesInit.LocalVariablesInitialization> getLocalVariablesInitialization() {
         return LocalVariablesInitialization;
     }
+
+    public String toJson() {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .create();
+
+        return gson.toJson(this);
+    }
+
+    public String getProjectName() {
+        return PlpMain.getProject();
+    }
+
+
 }

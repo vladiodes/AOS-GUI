@@ -1,5 +1,6 @@
 package frontend.finalproject.Model.Env;
 
+import backend.finalproject.ProjectFiles.Env.EnvironmentGeneral;
 import com.google.gson.Gson;
 
 public class EnvironmentGeneralModel {
@@ -9,6 +10,11 @@ public class EnvironmentGeneralModel {
     public EnvironmentGeneralModel(int Horizon, double Discount){
         this.Horizon = Horizon;
         this.Discount = Discount;
+    }
+
+    public EnvironmentGeneralModel(EnvironmentGeneral environmentGeneral) {
+        this.Horizon = environmentGeneral.getHorizon();
+        this.Discount = environmentGeneral.getDiscount();
     }
 
     public String toString(){

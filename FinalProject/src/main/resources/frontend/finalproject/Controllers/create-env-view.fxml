@@ -10,7 +10,7 @@
     <children>
         <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label layoutX="73.0" layoutY="30.0" text="Create New Project" textFill="WHITE">
+                <Label fx:id="titleLBL" layoutX="73.0" layoutY="30.0" text="Create New Project" textFill="WHITE">
                     <font>
                         <Font size="48.0" />
                     </font>
@@ -73,6 +73,10 @@
                             <Font size="12.0" />
                         </font>
                     </Label>
+                    <ChoiceBox fx:id="GlobalVarTypeCBX" layoutX="887.0" layoutY="253.0" prefHeight="24.0" prefWidth="170.0">
+                        <items>
+                        </items>
+                    </ChoiceBox>
                     <ChoiceBox fx:id="CompoundEnumChoiceBox" layoutX="234.0" layoutY="344.0" prefHeight="24.0" prefWidth="170.0">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
@@ -216,13 +220,41 @@
                     </Label>
                     <TextArea fx:id="AssignmentCodeChangeTXT" layoutX="235.0" layoutY="1374.0" prefHeight="115.0" prefWidth="344.0" />
                     <Button layoutX="48.0" layoutY="1505.0" mnemonicParsing="false" onAction="#handleInsertAnotherChangeClick" prefHeight="24.0" prefWidth="357.0" text="Insert another change" />
-                </children></Pane>
+                    <ChoiceBox fx:id="GlobalVarDecCBX" layoutX="887.0" layoutY="474.0" prefHeight="24.0" prefWidth="170.0">
+                        <items>
+                        </items>
+                    </ChoiceBox>
+                    <ChoiceBox fx:id="InitBeliefStmtCBX" layoutX="887.0" layoutY="686.0" prefHeight="24.0" prefWidth="170.0">
+                        <items>
+                        </items>
+                    </ChoiceBox>
+                    <ChoiceBox fx:id="SpecialStatesCBX" layoutX="887.0" layoutY="962.0" prefHeight="24.0" prefWidth="170.0">
+                        <items>
+                        </items>
+                    </ChoiceBox>
+                    <ChoiceBox fx:id="ExChangesDynModelCBX" layoutX="887.0" layoutY="1318.0" prefHeight="24.0" prefWidth="170.0">
+                        <items>
+                        </items>
+                    </ChoiceBox>
+                  <ChoiceBox fx:id="enumValueCBX" layoutX="928.0" layoutY="337.0" prefWidth="150.0" visible="false">
+                          <items>
+                          </items>
+                  </ChoiceBox>
+                  <ChoiceBox fx:id="compoundVarsCBX" layoutX="928.0" layoutY="350.0" prefWidth="150.0" visible="false" />
+                  <Button layoutX="784.0" layoutY="253.0" mnemonicParsing="false" onAction="#handleDeleteGlobalVarTypeBTNClick" text="Delete" />
+                  <Button layoutX="784.0" layoutY="474.0" mnemonicParsing="false" onAction="#handleGlobalVarDecDeleteBTNClick" text="Delete" />
+                    <Button layoutX="784.0" layoutY="686.0" mnemonicParsing="false" onAction="#handleDeleteInitBeliefBTNClick" text="Delete" />
+                    <Button layoutX="784.0" layoutY="962.0" mnemonicParsing="false" onAction="#handleDeleteSpecialStatesBTNClick" text="Delete" />
+                    <Button layoutX="784.0" layoutY="1318.0" mnemonicParsing="false" onAction="#handleDeleteExChangeDynModelBTNClick" text="Delete" />
+
+                </children>
+            </Pane>
         </content>
       </ScrollPane>
         <Pane layoutX="12.0" layoutY="802.0" prefHeight="39.0" prefWidth="1065.0">
             <children>
                 <Button layoutX="228.0" layoutY="8.0" mnemonicParsing="false" onAction="#handlePreviewBTNClick" text="Preview JSON" />
-            <Button layoutX="840.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleCreateProjBTNClick" text="Create Project" />
+            <Button fx:id="createProjectBTN" layoutX="840.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleCreateProjBTNClick" text="Create Project" />
             <Button layoutX="91.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackBTNClick" text="&lt;&lt; Back" />
             </children></Pane>
     </children>

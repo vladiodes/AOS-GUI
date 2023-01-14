@@ -1,5 +1,7 @@
 package frontend.finalproject.Model.Common;
 
+import backend.finalproject.ProjectFiles.Common.ImportCode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,12 @@ public class ImportCodeModel {
 
     public ImportCodeModel() {
         Import = new ArrayList<>();
+    }
+
+    public ImportCodeModel(ImportCode i) {
+        this.From = i.getFrom();
+        this.Import = new ArrayList<>();
+        this.Import.addAll(i.getImport());
     }
 
     public String getFrom() {

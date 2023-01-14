@@ -1,6 +1,7 @@
 package backend.finalproject.ProjectFiles.SD;
 
-import backend.finalproject.ProjectFiles.Common.AssignmentBlock;
+import backend.finalproject.ProjectFiles.Common.AssignmentBlockMultipleLines;
+import backend.finalproject.ProjectFiles.Common.IAssignmentBlock;
 import frontend.finalproject.Model.SD.PreconditionsModel;
 
 import java.util.ArrayList;
@@ -9,11 +10,11 @@ import java.util.stream.Collectors;
 
 // doc: https://github.com/orhaimwerthaim/AOS-WebAPI/blob/master/docs/version2/AOS_documentation_manual.md#assisting-the-planner
 public class Precondition {
-    private List<AssignmentBlock> GlobalVariablePreconditionAssignments;
-    private List<AssignmentBlock> PlannerAssistancePreconditionsAssignments;
+    private List<IAssignmentBlock> GlobalVariablePreconditionAssignments;
+    private List<IAssignmentBlock> PlannerAssistancePreconditionsAssignments;
     private double ViolatingPreconditionPenalty;
 
-    public Precondition(List<AssignmentBlock> globalVariablePreconditionAssignments, List<AssignmentBlock> plannerAssistancePreconditionsAssignments, double violatingPreconditionPenalty) {
+    public Precondition(List<IAssignmentBlock> globalVariablePreconditionAssignments, List<IAssignmentBlock> plannerAssistancePreconditionsAssignments, double violatingPreconditionPenalty) {
         GlobalVariablePreconditionAssignments = globalVariablePreconditionAssignments;
         PlannerAssistancePreconditionsAssignments = plannerAssistancePreconditionsAssignments;
         ViolatingPreconditionPenalty = violatingPreconditionPenalty;
@@ -24,19 +25,20 @@ public class Precondition {
         PlannerAssistancePreconditionsAssignments = new ArrayList<>();
     }
 
+    // TODO: change to generic IAssignmentBlock
     public Precondition(PreconditionsModel preconditions) {
         GlobalVariablePreconditionAssignments = preconditions.getGlobalVariablePreconditionAssignments().stream()
-                .map(AssignmentBlock::new).collect(Collectors.toList());
+                .map(AssignmentBlockMultipleLines::new).collect(Collectors.toList());
         PlannerAssistancePreconditionsAssignments = preconditions.getPlannerAssistancePreconditionsAssignments().stream()
-                .map(AssignmentBlock::new).collect(Collectors.toList());
+                .map(AssignmentBlockMultipleLines::new).collect(Collectors.toList());
         ViolatingPreconditionPenalty = preconditions.getViolatingPreconditionPenalty();
     }
 
-    public List<AssignmentBlock> getGlobalVariablePreconditionAssignments() {
+    public List<IAssignmentBlock> getGlobalVariablePreconditionAssignments() {
         return GlobalVariablePreconditionAssignments;
     }
 
-    public List<AssignmentBlock> getPlannerAssistancePreconditionsAssignments() {
+    public List<IAssignmentBlock> getPlannerAssistancePreconditionsAssignments() {
         return PlannerAssistancePreconditionsAssignments;
     }
 

@@ -27,7 +27,7 @@ public class ModuleResponse {
         return ResponseRules;
     }
 
-    private class ResponseRule {
+    public class ResponseRule {
         private String Response;
         private String ConditionCodeWithLocalVariables;
 

@@ -1,5 +1,7 @@
 package frontend.finalproject.Model.Env;
 
+import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeEnum;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +16,13 @@ public class GlobalVariableTypeEnumModel extends GlobalVariableTypeModel {
 
     public GlobalVariableTypeEnumModel(String TypeName, String Type, List<String> EnumValues) {
         super(TypeName, Type);
+
+    }
+
+    public GlobalVariableTypeEnumModel(GlobalVariableTypeEnum globalVariableType) {
+        super(globalVariableType.getTypeName(), globalVariableType.getType());
         this.EnumValues = new ArrayList<>();
-        this.EnumValues.addAll(EnumValues);
+        this.EnumValues.addAll(globalVariableType.getEnumValues());
     }
 
     public void addEnumValue(String value){

@@ -5,6 +5,7 @@ import frontend.finalproject.Model.Common.ImportCodeModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DataPublishedRobotFramework extends LocalVariablesInitializationModel {
     private String LocalVariableName;
@@ -13,10 +14,20 @@ public class DataPublishedRobotFramework extends LocalVariablesInitializationMod
     private String InitialValue;
     private String TopicMessageType;
     private List<ImportCodeModel> ImportCode;
-    private String AssignmentCode;
+    private String AssignmentCode; // TODO: change to List?
 
     public DataPublishedRobotFramework() {
         ImportCode = new ArrayList<>();
+    }
+
+    public DataPublishedRobotFramework(backend.finalproject.ProjectFiles.AM.LocalVariablesInit.DataPublishedRobotFramework dataPublishedRobotFramework) {
+        this.LocalVariableName = dataPublishedRobotFramework.getLocalVariableName();
+        this.RosTopicPath = dataPublishedRobotFramework.getRosTopicPath();
+        this.VariableType = dataPublishedRobotFramework.getVariableType();
+        this.InitialValue = dataPublishedRobotFramework.getInitialValue();
+        this.TopicMessageType = dataPublishedRobotFramework.getTopicMessageType();
+        this.ImportCode = dataPublishedRobotFramework.getImportCode().stream().map(ImportCodeModel::new).collect(Collectors.toList());
+        this.AssignmentCode = String.join("\n", dataPublishedRobotFramework.getAssignmentCode());
     }
 
     public void addImportCodeModel(ImportCodeModel model) {

@@ -1,5 +1,7 @@
 package frontend.finalproject.Model.Env;
 
+import backend.finalproject.ProjectFiles.Env.GlobalVariablesDeclaration;
+
 public class GlobalVariablesDeclarationModel {
     private String Name;
     private String Type;
@@ -11,6 +13,13 @@ public class GlobalVariablesDeclarationModel {
         this.Type = Type;
         this.DefaultCode = DefaultCode;
         this.IsActionParameterValue = IsActionParamValue;
+    }
+
+    public GlobalVariablesDeclarationModel(GlobalVariablesDeclaration i) {
+        this.Name = i.getName();
+        this.Type = i.getType();
+        this.DefaultCode = i.getDefaultCode();
+        this.IsActionParameterValue = i.isActionParameterValue();
     }
 
     public String getName() {

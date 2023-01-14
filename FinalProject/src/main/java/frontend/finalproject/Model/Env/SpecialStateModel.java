@@ -1,5 +1,7 @@
 package frontend.finalproject.Model.Env;
 
+import backend.finalproject.ProjectFiles.Env.SpecialState;
+
 public class SpecialStateModel {
     private String StateConditionCode;
     private double Reward;
@@ -11,6 +13,13 @@ public class SpecialStateModel {
         this.Reward = Reward;
         this.IsGoalState = IsGoalState;
         this.IsOneTimeReward = IsOneTimeReward;
+    }
+
+    public SpecialStateModel(SpecialState i) {
+        this.StateConditionCode = i.getStateConditionCode();
+        this.Reward = i.getReward();
+        this.IsGoalState = i.isGoalState();
+        this.IsOneTimeReward = i.isOneTimeReward();
     }
 
     public String getStateConditionCode() {
