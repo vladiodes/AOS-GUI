@@ -158,6 +158,16 @@ public class AOSFacade implements IAOSFacade {
         return Response.OK(new ArrayList<>(Arrays.stream(new String[]{"Skill1","Skill2","Navigate"}).toList()));
     }
 
+    @Override
+    public Response<Boolean> saveChangesToEnv(EnvModel newEnvModel) {
+        return null;
+    }
+
+    @Override
+    public Response<Boolean> saveChangesToSkill(String prevSkillName, SDModel newSDModel, AMModel newAMModel) {
+        return null;
+    }
+
     public Response<Boolean> checkDocumentationFile(String file, DocumentationFile fileType) {
         return null;
     }
