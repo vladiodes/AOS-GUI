@@ -68,4 +68,8 @@ public class NotificationUtils {
     // ================================================= Other notifications =================================================
     public static final String GENERAL_ERROR_TITLE = "Error";
 
+    public static final String SAVED_CHANGES_TO_PROJECT_TITLE = "Saving changes to skill";
+    public static final String SAVED_CHANGES_TO_PROJECT_TEXT = "You've successfully saved your skill changes!";
+    public static final String SAVED_CHANGES_TO_ENV_TITLE = "Saving changes to env file";
+    public static final String SAVED_CHANGES_TO_ENV_TEXT = "You've successfully saved change to env file!";
 }

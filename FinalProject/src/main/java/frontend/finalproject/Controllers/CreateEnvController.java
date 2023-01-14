@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import utils.Response;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -271,16 +272,21 @@ public class CreateEnvController {
     public void handleCreateProjBTNClick(ActionEvent event) {
         addPlpAndEnvGeneralToModel();
         if(source== UtilsFXML.Source.EDIT_ENV){
-            //@TODO: Change this implementation
-            System.out.println("Work in progress...");
+            saveChangesToEnv();
         }
         else {
-            if (facade.createNewProject(envModel).getValue() != null)
-                UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TITLE, NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TEXT, null);
-            else {
-                UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_FAIL_TITLE, NotificationUtils.CREATED_NEW_PROJECT_FAIL_TEXT, null);
-            }
+            createNewProject();
         }
+    }
+
+    private void createNewProject() {
+        Response<EnvModel> response = facade.createNewProject(envModel);
+        UtilsFXML.showNotification(NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TITLE,NotificationUtils.CREATED_NEW_PROJECT_SUCCESS_TEXT,response);
+    }
+
+    private void saveChangesToEnv() {
+        Response<Boolean> response = facade.saveChangesToEnv(envModel);
+        UtilsFXML.showNotification(NotificationUtils.SAVED_CHANGES_TO_ENV_TITLE,NotificationUtils.SAVED_CHANGES_TO_ENV_TEXT,response);
     }
 
     private void addPlpAndEnvGeneralToModel() {

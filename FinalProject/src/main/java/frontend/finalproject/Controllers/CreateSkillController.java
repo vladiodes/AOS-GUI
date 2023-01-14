@@ -75,6 +75,7 @@ public class CreateSkillController {
     private DataPublishedRobotFramework curRobotFramework = null;
     private IAOSFacade facade = AOSFacade.getInstance();
     private UtilsFXML.Source source;
+    private String originalSkillName;
 
     public String getProjectName() {
         return projectName;
@@ -158,10 +159,21 @@ public class CreateSkillController {
     public void handleAddSkillBTNClick(ActionEvent event) {
         buildSingleFieldsSD();
         buildSingleFieldsAM();
-        if(source == UtilsFXML.Source.EDIT_SKILL){
-            System.out.println("WORK IN PROGRESS!");
-            return;
+        if (source == UtilsFXML.Source.EDIT_SKILL)
+            saveSkillChanges();
+        else
+            addNewSkill();
+    }
+
+    private void saveSkillChanges() {
+        Response<Boolean> response = facade.saveChangesToSkill(this.originalSkillName,SDmodel,AMmodel);
+        UtilsFXML.showNotification(NotificationUtils.SAVED_CHANGES_TO_PROJECT_TITLE,NotificationUtils.SAVED_CHANGES_TO_PROJECT_TEXT,response);
+        if(!response.hasErrorOccurred() && response.getValue()){
+            this.originalSkillName = SkillNameTXT.getText();
         }
+    }
+
+    private void addNewSkill() {
         Response<Boolean> response = facade.addSkillToProject(SDmodel, AMmodel);
         UtilsFXML.showNotification(NotificationUtils.ADD_SKILL_TITLE,
                 response.getMessage() == null ? NotificationUtils.ADD_SKILL_SUCCESS_TEXT : response.getMessage(),
@@ -445,6 +457,7 @@ public class CreateSkillController {
     }
 
     public void setSD(SDModel value) {
+        this.originalSkillName = value.getPlpMain().getName();
         SDmodel = value;
         SkillNameTXT.setText(SDmodel.getPlpMain().getName());
         ViolatingPreconditionPenaltyTXT.setText(String.valueOf(SDmodel.getPreconditions().getViolatingPreconditionPenalty()));

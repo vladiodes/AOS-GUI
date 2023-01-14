@@ -53,8 +53,6 @@ public interface IAOSFacade {
 
     /**
      * Loading a project from the disc into the system
-     * @param name the name of the project to load.
-     * There should be a project with such name in the system.
      * @return a JSON string that represents the project and all of its properties.
      * @TODO: Maybe this should return a DTO object representing the project itself
      * REQ 1.4
@@ -95,7 +93,6 @@ public interface IAOSFacade {
 
     /**
      * Returns all existing skills in a specific project
-     * @param projectName the name of the queried project
      * @return a response object wrapped with a list of the names of the skills
      * REQ 2.5
      */

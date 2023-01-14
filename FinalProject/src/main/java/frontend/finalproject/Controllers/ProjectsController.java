@@ -43,8 +43,8 @@ public class ProjectsController {
         populateProjectsList();
         projectList.setOnMouseClicked(mouseEvent -> {
             String selectedProj = projectList.getSelectionModel().getSelectedItem();
-            populateSkillsList(selectedProj);
             facade.setCurrentWorkingProject(selectedProj);
+            populateSkillsList(selectedProj);
         });
     }
 
