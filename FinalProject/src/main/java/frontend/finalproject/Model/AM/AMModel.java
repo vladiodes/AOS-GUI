@@ -37,13 +37,16 @@ public class AMModel {
     private List<LocalVariablesInitializationModel> CopyLocalVariablesInits(List<LocalVariablesInitialization> localVariablesInitialization) {
         List<LocalVariablesInitializationModel> localVariablesInitializationModels = new ArrayList<>();
         for (LocalVariablesInitialization initialization : localVariablesInitialization){
-            if (initialization instanceof DataPublishedRobotFramework dataPublishedRobotFramework){
+            if (initialization instanceof DataPublishedRobotFramework){
+                DataPublishedRobotFramework dataPublishedRobotFramework = (DataPublishedRobotFramework) initialization;
                 localVariablesInitializationModels.add(new frontend.finalproject.Model.AM.DataPublishedRobotFramework(dataPublishedRobotFramework));
             }
-            else if (initialization instanceof SDParameters sdParameters){
+            else if (initialization instanceof SDParameters){
+                SDParameters sdParameters = (SDParameters) initialization;
                 localVariablesInitializationModels.add(new SDParametersModel(sdParameters));
             }
-            else if (initialization instanceof SkillCodeReturnValue skillCodeReturnValue){
+            else if (initialization instanceof SkillCodeReturnValue){
+                SkillCodeReturnValue skillCodeReturnValue = (SkillCodeReturnValue) initialization;
                 localVariablesInitializationModels.add(new SkillCodeReturnValueModel(skillCodeReturnValue));
             }
         }

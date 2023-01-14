@@ -46,10 +46,12 @@ public class AssignmentBlock {
     public static List<AssignmentBlock> CopyAssignmentBlocks(List<IAssignmentBlock> iAssignmentBlocks) {
         ArrayList<AssignmentBlock> assignmentBlocks = new ArrayList<>();
         for (IAssignmentBlock assignmentBlock : iAssignmentBlocks){
-            if (assignmentBlock instanceof AssignmentBlockMultipleLines assignmentBlockMultipleLines){
+            if (assignmentBlock instanceof AssignmentBlockMultipleLines){
+                AssignmentBlockMultipleLines assignmentBlockMultipleLines = (AssignmentBlockMultipleLines)  assignmentBlock;
                 assignmentBlocks.add(new AssignmentBlock(assignmentBlockMultipleLines.getAssignmentName(), assignmentBlockMultipleLines.getAssignmentCode()));
             }
-            else if (assignmentBlock instanceof AssignmentBlockSingleLine assignmentBlockSingleLine){
+            else if (assignmentBlock instanceof AssignmentBlockSingleLine){
+                AssignmentBlockSingleLine assignmentBlockSingleLine = (AssignmentBlockSingleLine) assignmentBlock;
                 assignmentBlocks.add(new AssignmentBlock(assignmentBlockSingleLine.getAssignmentName(), assignmentBlockSingleLine.getAssignmentCode()));
             }
         }
