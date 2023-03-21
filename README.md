@@ -1,5 +1,6 @@
 # Autonomous-Operating-System
 ## In order to run the project, use the following commands from the shell:
+0. Make sure you have Java and Maven installed.
 1. cd FinalProject
 2. mvn clean javafx:run
 
