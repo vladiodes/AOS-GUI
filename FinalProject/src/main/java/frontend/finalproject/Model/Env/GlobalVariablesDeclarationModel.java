@@ -37,4 +37,10 @@ public class GlobalVariablesDeclarationModel {
     public boolean isActionParameterValue() {
         return IsActionParameterValue;
     }
+
+    public String toString(){
+        return String.format("Type: %s\n" +
+                "Default code: %s\n" +
+                "isActionParameterValue: %b",getType(),getDefaultCode(),isActionParameterValue());
+    }
 }

@@ -72,4 +72,16 @@ public class NotificationUtils {
     public static final String SAVED_CHANGES_TO_PROJECT_TEXT = "You've successfully saved your skill changes!";
     public static final String SAVED_CHANGES_TO_ENV_TITLE = "Saving changes to env file";
     public static final String SAVED_CHANGES_TO_ENV_TEXT = "You've successfully saved change to env file!";
+    public static final String DELETED_GLOBAL_VAR_TYPE_FAIL_TITLE = "Failed to delete global variable type";
+    public static final String DELETED_GLOBAL_VAR_TYPE_CHOOSE_GLOBAL_VAR_TEXT = "Please select a global variable type";
+    public static final String ADDED_GLOBAL_VAR_TYPE_FAILED_TEXT = "Please add content about the global variable type you want to add";
+    public static final String ADDED_GLOBAL_VAR_NEW_TYPE_FAILED_TITLE = "Missing information regarding the type";
+    public static final String DELETED_VAR_DEC_FAIL_TEXT = "Please select a variable declaration";
+    public static final String DELETE_VAR_DEC_TITLE_FAIL = "Failed to delete a variable declaration";
+    public static final String DELETED_INIT_BELIEF_STMT_FAIL_TITLE = "Failed to delete initial belief state assignment";
+    public static final String DELETED_INIT_BELIEF_STMT_FAIL_TEXT = "Please select an initial belief state assignment to delete";
+    public static final String DELETED_EX_CHANGE_DYN_MODEL_FAIL_TEXT = "Please select an Ex Change dynamic model to delete";
+    public static final String DELETED_EX_CHANGE_DYN_MODEL_FAIL_TITLE = "Failed to delete ex change dynamic model";
+    public static final String DELETED_SPECIAL_STATE_FAIL_TEXT = "Please select a special state to delete";
+    public static final String DELETED_SPECIAL_STATE_FAIL_TITLE = "Failed to delete special state";
 }

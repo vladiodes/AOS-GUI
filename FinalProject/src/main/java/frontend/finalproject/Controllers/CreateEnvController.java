@@ -12,19 +12,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import utils.Response;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CreateEnvController {
 
+    public TreeView<String> SpecialStatesTreeView;
+    public TreeView<String> ExChangesDynModelTreeView;
+    @FXML private TreeView<String> InitialBeliefStateAssTreeView;
+    @FXML private TreeView<String> GlobalVarDecTreeView;
+    @FXML private TreeView<String> GlobalVarTypesTreeView;
     @FXML private Label titleLBL;
     @FXML private Button createProjectBTN;
-    @FXML private ChoiceBox<String> compoundVarsCBX;
-    @FXML private ChoiceBox<String> enumValueCBX;
-    @FXML private ChoiceBox<String> GlobalVarTypeCBX;
-    @FXML private ChoiceBox<String> InitBeliefStmtCBX;
-    @FXML private ChoiceBox<String> SpecialStatesCBX;
-    @FXML private ChoiceBox<String> ExChangesDynModelCBX;
-    @FXML private ChoiceBox<String> GlobalVarDecCBX;
     @FXML private TextArea AssignmentCodeChangeTXT;
     @FXML private TextArea StateConditionCodeTXT;
     @FXML private TextField RewardTXT;
@@ -94,16 +93,18 @@ public class CreateEnvController {
     private GlobalVariableTypeModel currentGlobVarType = null;
 
     private final IAOSFacade facade = AOSFacade.getInstance();
+    private Object SpecialStatesCBX;
 
 
     @FXML
     public void initialize(){
         CompoundEnumChoiceBox.valueProperty().addListener(
                 getListenerForCompoundOrEnumCBX());
-
-//        GlobalVarTypeCBX.valueProperty().addListener(
-//                getListenerForGlobalVarTypeCBX()
-//        );
+        GlobalVarTypesTreeView.setRoot(new TreeItem<>("Global Variable Types"));
+        GlobalVarDecTreeView.setRoot(new TreeItem<>("Global Variable Declarations"));
+        InitialBeliefStateAssTreeView.setRoot(new TreeItem<>("Initial Belief State Assignments"));
+        SpecialStatesTreeView.setRoot(new TreeItem<>("Special states"));
+        ExChangesDynModelTreeView.setRoot(new TreeItem<>("Extrinsic Changes Dynamic Model"));
     }
 
     private ChangeListener<String> getListenerForCompoundOrEnumCBX() {
@@ -119,34 +120,10 @@ public class CreateEnvController {
         };
     }
 
-    private ChangeListener<String> getListenerForGlobalVarTypeCBX() {
-        return (observable, oldValue, newValue) -> {
-
-            for (GlobalVariableTypeModel type : envModel.getGlobalVariableTypes()) {
-                if (type.getTypeName().equals(newValue)) {
-                    GlobalVarTypeNameTXT.setText(type.getTypeName());
-                    if (type instanceof GlobalVariableTypeEnumModel enumModel) {
-                        makeEnumOptVisible(true);
-                        CompoundEnumChoiceBox.setValue("enum");
-                        enumValueCBX.setItems(FXCollections.observableArrayList(enumModel.getEnumValues()));
-                    } else {
-                        makeEnumOptVisible(false);
-                        GlobalVariableTypeCompoundModel compoundModel = (GlobalVariableTypeCompoundModel) type;
-                        CompoundEnumChoiceBox.setValue("compound");
-                        compoundVarsCBX.setItems(FXCollections.observableArrayList(
-                                compoundModel.getVariables().stream().map(CompoundVariable::getName).toList()
-                        ));
-                    }
-                }
-            }
-        };
-    }
-
     private void makeEnumOptVisible(boolean val) {
         enumValueLBL.setVisible(val);
         nextValBTN.setVisible(val);
         enumValueTXT.setVisible(val);
-        //enumValueCBX.setVisible(val);
 
         nextVarBTN.setVisible(!val);
         NameLBL.setVisible(!val);
@@ -155,14 +132,12 @@ public class CreateEnvController {
         CompoundTypeTXT.setVisible(!val);
         DefaultLBL.setVisible(!val);
         CompoundDefaultTXT.setVisible(!val);
-        //compoundVarsCBX.setVisible(!val);
     }
 
     private void makeAllVarInvisible(boolean val) {
         enumValueLBL.setVisible(val);
         nextValBTN.setVisible(val);
         enumValueTXT.setVisible(val);
-        //enumValueCBX.setVisible(val);
 
         nextVarBTN.setVisible(val);
         NameLBL.setVisible(val);
@@ -171,7 +146,6 @@ public class CreateEnvController {
         CompoundTypeTXT.setVisible(val);
         DefaultLBL.setVisible(val);
         CompoundDefaultTXT.setVisible(val);
-        //compoundVarsCBX.setVisible(val);
     }
 
 
@@ -187,13 +161,38 @@ public class CreateEnvController {
     public void handleInsertAnotherGlobalVarTypeClick(ActionEvent event) {
         if(currentGlobVarType!=null) {
             envModel.addGlobalVarType(currentGlobVarType);
-            GlobalVarTypeCBX.getItems().add(currentGlobVarType.getTypeName());
+            addTypeToTree();
             currentGlobVarType = null;
-        }
-        GlobalVarTypeNameTXT.setText("");
-        makeAllVarInvisible(false);
+            GlobalVarTypeNameTXT.setText("");
+            makeAllVarInvisible(false);
 
-        UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TITLE, NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TEXT,null);
+            UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TITLE, NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TEXT,null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_FAILED_TITLE,NotificationUtils.ADDED_GLOBAL_VAR_TYPE_FAILED_TEXT);
+        }
+
+
+
+    }
+
+    private void addTypeToTree() {
+        if(currentGlobVarType.getType().equals("enum")) {
+            GlobalVariableTypeEnumModel enumType = (GlobalVariableTypeEnumModel)currentGlobVarType;
+            TreeItem<String> newType = new TreeItem<>(enumType.getTypeName() + " - enum");
+            for(String enumVal : enumType.getEnumValues())
+                newType.getChildren().add(new TreeItem<>(enumVal));
+
+            GlobalVarTypesTreeView.getRoot().getChildren().add(newType);
+        }
+        else{ // compound type
+            GlobalVariableTypeCompoundModel compoundModel = (GlobalVariableTypeCompoundModel)currentGlobVarType;
+            TreeItem<String> newType = new TreeItem<>(compoundModel.getTypeName() + " - compound");
+            for(CompoundVariable cv : compoundModel.getVariables())
+                newType.getChildren().add(new TreeItem<>(cv.toString()));
+
+            GlobalVarTypesTreeView.getRoot().getChildren().add(newType);
+        }
 
     }
 
@@ -228,7 +227,7 @@ public class CreateEnvController {
                 Boolean.parseBoolean(IsActionParameterValueTXT.getText()));
 
         envModel.addGlobalVarDec(globalVarDec);
-        GlobalVarDecCBX.getItems().add(globalVarDec.getName());
+        addGlobalVarDecToTree(globalVarDec);
 
         IsActionParameterValueTXT.setText("");
         NameGlobalVarDecTXT.setText("");
@@ -237,13 +236,26 @@ public class CreateEnvController {
         UtilsFXML.showNotification(NotificationUtils.ADDED_VARIABLE_DECLARATION_TITLE,NotificationUtils.ADDED_VARIABLE_DECLARATION_TEXT,null);
     }
 
+    private void addGlobalVarDecToTree(GlobalVariablesDeclarationModel globalVarDec) {
+        TreeItem<String> newItem = new TreeItem<>(globalVarDec.getName());
+        newItem.getChildren().add(new TreeItem<>(globalVarDec.toString()));
+        GlobalVarDecTreeView.getRoot().getChildren().add(newItem);
+    }
+
     public void handleInsertAnotherAssClick(ActionEvent event){
         AssignmentBlock initBeliefModel = new AssignmentBlock(InitBeliefAssNameTXT.getText(),InitBeliefAssCodeTXT.getText());
         envModel.addInitBeliefAss(initBeliefModel);
         InitBeliefAssCodeTXT.setText("");
         InitBeliefAssNameTXT.setText("");
-        InitBeliefStmtCBX.getItems().add(initBeliefModel.getAssignmentName());
+        addInitBeliefAssToTree(initBeliefModel);
         UtilsFXML.showNotification(NotificationUtils.ADDED_ASSIGNMENT_TITLE,NotificationUtils.ADDED_ASSIGMENT_TEXT,null);
+    }
+
+    private void addInitBeliefAssToTree(AssignmentBlock initBeliefModel) {
+        TreeItem<String> newItem = new TreeItem<>(initBeliefModel.getAssignmentName());
+        for(String code : initBeliefModel.getAssignmentCode())
+            newItem.getChildren().add(new TreeItem<>(code));
+        InitialBeliefStateAssTreeView.getRoot().getChildren().add(newItem);
     }
 
     public void handleInsertAnotherStateClick(ActionEvent event) {
@@ -257,16 +269,29 @@ public class CreateEnvController {
         RewardTXT.setText("");
         IsGoalStateBOX.setValue("");
         IsOneTimeRewardBOX.setValue("");
-        SpecialStatesCBX.getItems().add(String.valueOf(SpecialStatesCBX.getItems().size() + 1));
+        addSpecialStateToTree(model);
         UtilsFXML.showNotification(NotificationUtils.ADDED_STATE_TITLE,NotificationUtils.ADDED_STATE_TEXT,null);
+    }
+
+    private void addSpecialStateToTree(SpecialStateModel model) {
+        TreeItem<String> newItem = new TreeItem<>("Special state");
+        newItem.getChildren().add(new TreeItem<>(model.toString()));
+        SpecialStatesTreeView.getRoot().getChildren().add(newItem);
     }
 
     public void handleInsertAnotherChangeClick(ActionEvent event) {
         AssignmentBlock model = new AssignmentBlock(AssignmentCodeChangeTXT.getText());
         envModel.addDynamicChange(model);
         AssignmentCodeChangeTXT.setText("");
-        ExChangesDynModelCBX.getItems().add(String.valueOf(ExChangesDynModelCBX.getItems().size() + 1));
+        addExChangeDynModelToTree(model);
         UtilsFXML.showNotification(NotificationUtils.ADDED_CHANGE_TITLE,NotificationUtils.ADDED_CHANGE_TEXT,null);
+    }
+
+    private void addExChangeDynModelToTree(AssignmentBlock model) {
+        TreeItem<String> newItem = new TreeItem<>("Ex change dynamic model");
+        for(String code : model.getAssignmentCode())
+            newItem.getChildren().add(new TreeItem<>(code));
+        ExChangesDynModelTreeView.getRoot().getChildren().add(newItem);
     }
 
     public void handleCreateProjBTNClick(ActionEvent event) {
@@ -298,85 +323,62 @@ public class CreateEnvController {
         UtilsFXML.navToHome(event);
     }
 
-    public void handleDeleteGlobalVarTypeBTNClick(ActionEvent event) {
-        String selected = GlobalVarTypeCBX.selectionModelProperty().getValue().getSelectedItem();
-        envModel.setGlobalVariableTypes(
-                envModel.getGlobalVariableTypes().stream().filter(
-                                (type) -> !type.getTypeName().equals(selected))
-                        .toList());
-        GlobalVarTypeCBX.setItems(FXCollections.observableArrayList(
-                envModel.getGlobalVariableTypes().stream().map(
-                        GlobalVariableTypeModel::getTypeName
-                ).toList()
-        ));
-        GlobalVarTypeCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TEXT,null);
-    }
-
     public void handleGlobalVarDecDeleteBTNClick(ActionEvent event) {
-        String selected = GlobalVarDecCBX.selectionModelProperty().getValue().getSelectedItem();
-        envModel.setGlobalVariablesDeclaration(envModel.getGlobalVariablesDeclaration().
-                stream().filter(
-                        (dec) -> !dec.getName().equals(selected)
-                ).toList());
-        GlobalVarDecCBX.setItems(FXCollections.observableArrayList(
-                envModel.getGlobalVariablesDeclaration().stream().map(
-                        GlobalVariablesDeclarationModel::getName
-                ).toList()
-        ));
-        GlobalVarDecCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_VAR_DECLARATION_TITLE,NotificationUtils.DELETED_VAR_DECLARATION_TEXT,null);
+        TreeItem<String> val = GlobalVarDecTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if(GlobalVarDecTreeView.getRoot().getChildren().contains(val)) {
+            String selected = val.getValue();
+            envModel.setGlobalVariablesDeclaration(envModel.getGlobalVariablesDeclaration().
+                    stream().filter(
+                            (dec) -> !dec.getName().equals(selected)
+                    ).toList());
+            GlobalVarDecTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_VAR_DECLARATION_TITLE, NotificationUtils.DELETED_VAR_DECLARATION_TEXT, null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETE_VAR_DEC_TITLE_FAIL,NotificationUtils.DELETED_VAR_DEC_FAIL_TEXT);
+        }
     }
 
     public void handleDeleteExChangeDynModelBTNClick(ActionEvent event) {
-        Integer selected = Integer.valueOf(ExChangesDynModelCBX.selectionModelProperty().getValue().getSelectedItem());
-        envModel.getExtrinsicChangesDynamicModel().remove(selected - 1);
-        AtomicInteger i = new AtomicInteger(0);
-        ExChangesDynModelCBX.setItems(FXCollections.observableArrayList(
-                envModel.getExtrinsicChangesDynamicModel()
-                        .stream().map(
-                        (model) -> {
-                            i.getAndIncrement();
-                            return String.valueOf(i.get());
-                        }
-                ).toList()
-        ));
-
-        ExChangesDynModelCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TITLE,NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TEXT,null);
+        TreeItem<String> val = ExChangesDynModelTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if(ExChangesDynModelTreeView.getRoot().getChildren().contains(val)) {
+            int selected = ExChangesDynModelTreeView.getRoot().getChildren().indexOf(val);
+            envModel.getExtrinsicChangesDynamicModel().remove(selected);
+            ExChangesDynModelTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TITLE, NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_TEXT, null);
+        }
+        else
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_FAIL_TITLE, NotificationUtils.DELETED_EX_CHANGE_DYN_MODEL_FAIL_TEXT);
     }
 
     public void handleDeleteInitBeliefBTNClick(ActionEvent event) {
-        String selected = InitBeliefStmtCBX.selectionModelProperty().getValue().getSelectedItem();
-        envModel.setInitialBeliefStateAssignments(
-                envModel.getInitialBeliefStateAssignments().stream().filter(
-                        (state) -> !state.getAssignmentName().equals(selected)
-                ).toList());
-        InitBeliefStmtCBX.setItems(FXCollections.observableArrayList(
-                envModel.getInitialBeliefStateAssignments().stream().map(
-                        AssignmentBlock::getAssignmentName
-                ).toList()
-        ));
-        InitBeliefStmtCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_INIT_BELIEF_STMT_TITLE,NotificationUtils.DELETED_INIT_BELIEF_STMT_TEXT,null);
+        TreeItem<String> val = InitialBeliefStateAssTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if(InitialBeliefStateAssTreeView.getRoot().getChildren().contains(val)) {
+            String selected = val.getValue();
+            envModel.setInitialBeliefStateAssignments(
+                    envModel.getInitialBeliefStateAssignments().stream().filter(
+                            (state) -> !state.getAssignmentName().equals(selected)
+                    ).toList());
+            InitialBeliefStateAssTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_INIT_BELIEF_STMT_TITLE, NotificationUtils.DELETED_INIT_BELIEF_STMT_TEXT, null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETED_INIT_BELIEF_STMT_FAIL_TITLE,NotificationUtils.DELETED_INIT_BELIEF_STMT_FAIL_TEXT);
+        }
     }
 
     public void handleDeleteSpecialStatesBTNClick(ActionEvent event) {
-        Integer selected = Integer.valueOf(SpecialStatesCBX.selectionModelProperty().getValue().getSelectedItem());
-        envModel.getSpecialStates().remove(selected-1);
-        AtomicInteger i = new AtomicInteger(0);
-        SpecialStatesCBX.setItems(FXCollections.observableArrayList(
-                envModel.getSpecialStates()
-                        .stream().map(
-                                (model) -> {
-                                    i.getAndIncrement();
-                                    return String.valueOf(i.get());
-                                }
-                        ).toList()
-        ));
+        TreeItem<String> val = SpecialStatesTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if(SpecialStatesTreeView.getRoot().getChildren().contains(val)) {
+            int selected = SpecialStatesTreeView.getRoot().getChildren().indexOf(val);
+            envModel.getSpecialStates().remove(selected);
+            SpecialStatesTreeView.getRoot().getChildren().remove(val);
 
-        SpecialStatesCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_SPECIAL_STATE_TITLE,NotificationUtils.DELETED_SPECIAL_STATE_TEXT,null);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_SPECIAL_STATE_TITLE, NotificationUtils.DELETED_SPECIAL_STATE_TEXT, null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETED_SPECIAL_STATE_FAIL_TITLE,NotificationUtils.DELETED_SPECIAL_STATE_FAIL_TEXT);
+        }
     }
 
     public void setSource(UtilsFXML.Source source) {
@@ -394,26 +396,56 @@ public class CreateEnvController {
     }
 
     private void populateAllChoiceBoxesWithEnvValues() {
-        GlobalVarTypeCBX.setItems(FXCollections.observableArrayList(
-                envModel.getGlobalVariableTypes().stream().map(GlobalVariableTypeModel::getTypeName).toList()
-        ));
-        GlobalVarDecCBX.setItems(FXCollections.observableArrayList(
-                envModel.getGlobalVariablesDeclaration().stream().map(GlobalVariablesDeclarationModel::getName).toList()
-        ));
-        InitBeliefStmtCBX.setItems(FXCollections.observableArrayList(
-                envModel.getInitialBeliefStateAssignments().stream().map(AssignmentBlock::getAssignmentName).toList()
-        ));
-        AtomicInteger i = new AtomicInteger(0);
-        SpecialStatesCBX.setItems(FXCollections.observableArrayList(
-                envModel.getSpecialStates().stream().map(
-                        (x) -> String.valueOf(i.incrementAndGet())
-                ).toList()
-        ));
-        i.set(0);
-        ExChangesDynModelCBX.setItems(FXCollections.observableArrayList(
-                envModel.getExtrinsicChangesDynamicModel().stream().map(
-                        (x) -> String.valueOf(i.incrementAndGet())
-                ).toList()
-        ));
+        addAllGlobalVarTypesToTreeView();
+        addAllGlobalVarDecToTreeView();
+        addAllInitBeliefStmtToTreeView();
+        addAllSpecialStatesToTreeView();
+        addAllExChangesDynModelToTreeView();
+    }
+
+    private void addAllExChangesDynModelToTreeView() {
+        for(AssignmentBlock model : envModel.getExtrinsicChangesDynamicModel())
+            addExChangeDynModelToTree(model);
+    }
+
+    private void addAllSpecialStatesToTreeView() {
+        for(SpecialStateModel model : envModel.getSpecialStates())
+            addSpecialStateToTree(model);
+    }
+
+    private void addAllInitBeliefStmtToTreeView() {
+        for(AssignmentBlock block : envModel.getInitialBeliefStateAssignments())
+            addInitBeliefAssToTree(block);
+    }
+
+    private void addAllGlobalVarDecToTreeView() {
+        for (GlobalVariablesDeclarationModel var : envModel.getGlobalVariablesDeclaration())
+            addGlobalVarDecToTree(var);
+    }
+
+    private void addAllGlobalVarTypesToTreeView() {
+        for(GlobalVariableTypeModel variableTypeModel : envModel.getGlobalVariableTypes()){
+            this.currentGlobVarType = variableTypeModel;
+            addTypeToTree();
+        }
+        this.currentGlobVarType = null;
+
+    }
+
+    public void handleDeleteSelectedGlobalVarTypeBTNClick(ActionEvent event) {
+        TreeItem<String> val = GlobalVarTypesTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if(GlobalVarTypesTreeView.getRoot().getChildren().contains(val)) {
+            String selected = val.getValue().endsWith("enum") ? val.getValue().substring(0,val.getValue().length()-7) : val.getValue().substring(0,val.getValue().length()-11);
+            System.out.println(selected);
+            envModel.setGlobalVariableTypes(
+                    envModel.getGlobalVariableTypes().stream().filter(
+                                    (type) -> !type.getTypeName().equals(selected))
+                            .toList());
+            GlobalVarTypesTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TITLE, NotificationUtils.DELETED_GLOBAL_VAR_TYPE_TEXT, null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETED_GLOBAL_VAR_TYPE_FAIL_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_TYPE_CHOOSE_GLOBAL_VAR_TEXT);
+        }
     }
 }
