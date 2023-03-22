@@ -63,7 +63,7 @@ public class UtilsFXML {
                     response.getMessage() == null ? text : response.getMessage());
     }
 
-    private static void showErrorNotification(String title, String text) {
+    public static void showErrorNotification(String title, String text) {
         Notifications notificationBuilder = Notifications.create()
                 .title(title)
                 .text(text)

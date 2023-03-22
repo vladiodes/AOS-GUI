@@ -30,4 +30,8 @@ public class CompoundVariable {
     public String getDefault() {
         return Default;
     }
+
+    public String toString(){
+        return String.format("Name: %s, Type: %s, Default: %s",getName(),getType(),getDefault());
+    }
 }

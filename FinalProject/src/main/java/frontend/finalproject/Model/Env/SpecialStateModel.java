@@ -37,4 +37,11 @@ public class SpecialStateModel {
     public boolean isOneTimeReward() {
         return IsOneTimeReward;
     }
+
+    public String toString(){
+        return String.format("State condition code: %s\n" +
+                "Reward: %f\n" +
+                "IsGoalState: %b\n" +
+                "IsOneTimeReward: %b",getStateConditionCode(),getReward(),isGoalState(),isOneTimeReward());
+    }
 }
