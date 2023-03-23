@@ -31,17 +31,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="btnCreateProject" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Create New Project" onAction="#handleButtonClicks">
+                <Button styleClass="homeBtn" fx:id="btnCreateProject" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Create New Project" onAction="#handleButtonClicks">
                 </Button>
-                <Button fx:id="btnProjects" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="All Projects" onAction="#handleButtonClicks" GridPane.columnIndex="1">
+                <Button styleClass="homeBtn" fx:id="btnProjects" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="All Projects" onAction="#handleButtonClicks" GridPane.columnIndex="1">
                 </Button>
-                <Button fx:id="btnCodeCheck" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Code Check" GridPane.columnIndex="2">
+                <Button styleClass="homeBtn" fx:id="btnCodeCheck" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Code Check" GridPane.columnIndex="2" onAction="#handleButtonClicks">
                 </Button>
-                <Button fx:id="btnRobotExecution" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Robot Execution" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Button styleClass="homeBtn" fx:id="btnRobotExecution" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Robot Execution" GridPane.columnIndex="1" GridPane.rowIndex="1">
                 </Button>
-                <Button fx:id="btnIntegrationRequests" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Integration Requests" GridPane.rowIndex="1">
+                <Button styleClass="homeBtn" fx:id="btnIntegrationRequests" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Integration Requests" GridPane.rowIndex="1">
                 </Button>
-                <Button fx:id="btnActivateAOS" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#handleActivationOfAOSRequest" />
+                <Button styleClass="homeBtn" fx:id="btnActivateAOS" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#handleActivationOfAOSRequest" />
             </children>
         </GridPane>
     </children>

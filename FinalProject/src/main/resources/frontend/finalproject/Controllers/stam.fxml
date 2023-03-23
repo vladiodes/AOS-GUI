@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css">
+    <children>
+        <Pane prefHeight="139.0" minWidth="1150" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label fx:id="titleLBL" layoutX="73.0" layoutY="30.0" text="Add Skill" textFill="WHITE">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+        <Tab text="SD">
+        <content>
+
+        <ScrollPane prefHeight="650.0" minWidth="1200">
+        <content>
+        <VBox spacing="10">
+
+        <Label text="PlpMain" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Skill Name" styleClass="TextFieldLabel"/>
+                <TextField text="NewSkill" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+
+        <Label text="GlobalVariableModuleParameters" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Name" styleClass="TextFieldLabel"/>
+                <TextField styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <children>
+                <Label text="Type" styleClass="TextFieldLabel"/>
+                <TextField styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button  styleClass="formBtn" text="Insert Module" />
+            <Button styleClass="formBtn" text="Edit Module" />
+            <Button styleClass="formBtn" text="Delete Module" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" /></HBox>
+
+        <Label text="Preconditions" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="ViolationPreconditionPenalty" styleClass="TextFieldLabel"/>
+                <TextField styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+
+        <Label text="GlobalVariablePreconditionAssignments" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <TextField styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <TextArea styleClass="TextAreaForm"/>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button  styleClass="formBtn" text="Insert Assignment" />
+            <Button styleClass="formBtn" text="Edit Assignment" />
+            <Button styleClass="formBtn" text="Delete Assignment" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" /></HBox>
+
+        <Label text="PlannerAssistancePreconditionsAssignments" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <TextField styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <TextArea styleClass="TextAreaForm"/>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button  styleClass="formBtn" text="Insert Assignment" />
+            <Button styleClass="formBtn" text="Edit Assignment" />
+            <Button styleClass="formBtn" text="Delete Assignment" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" /></HBox>
+
+        <Label text="DynamicModel" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <TextField styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <TextArea styleClass="TextAreaForm"/>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button  styleClass="formBtn" text="Insert Assignment" />
+            <Button styleClass="formBtn" text="Edit Assignment" />
+            <Button styleClass="formBtn" text="Delete Assignment" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" /></HBox>
+        </VBox>
+        </content>
+        </ScrollPane>
+        </content>
+        </Tab>
+
+
+            <Tab text="Glue">
+                <ScrollPane prefHeight="650.0" minWidth="1200">
+                <content>
+                <VBox spacing="10">
+                    <Label text="GlueFramework" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                            <Label text="GlueFramework" styleClass="TextFieldLabel"/>
+                            <TextField styleClass="TextFieldForm"/>
+                    </HBox>
+
+
+                    <Label text="ResponseRules" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="Response" styleClass="TextFieldLabel"/>
+                        <TextField styleClass="TextFieldForm"/>
+                    </HBox>
+                    <HBox>
+                        <Label text="ConditionCode" styleClass="TextFieldLabel"/>
+                        <TextArea styleClass="TextAreaForm"/>
+                    </HBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button  styleClass="formBtn" text="Insert Rule" />
+                        <Button styleClass="formBtn" text="Edit Rule" />
+                        <Button styleClass="formBtn" text="Delete Rule" />
+                    </HBox>
+                    <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" /></HBox>
+
+
+                    <Label text="ImportCode" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="From" styleClass="TextFieldLabel"/>
+                        <TextField styleClass="TextFieldForm"/>
+                    </HBox>
+                    <HBox>
+                        <Label text="Import" styleClass="TextFieldLabel"/>
+                        <TextArea text="Insert all import values, each in newline" styleClass="TextAreaForm"/>
+                    </HBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button  styleClass="formBtn" text="Insert ImportCode" />
+                        <Button styleClass="formBtn" text="Edit ImportCode" />
+                        <Button styleClass="formBtn" text="Delete ImportCode" />
+                    </HBox>
+                    <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" /></HBox>
+
+
+                    <Label text="ServicePath" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="Service Path" styleClass="TextFieldLabel"/>
+                        <TextField styleClass="TextFieldForm"/>
+                    </HBox>
+
+
+                    <Label text="ServiceName" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="Service Name" styleClass="TextFieldLabel"/>
+                        <TextField styleClass="TextFieldForm"/>
+                    </HBox>
+
+
+                    <Label text="ServiceParameters" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="Service Field Name" styleClass="TextFieldLabel"/>
+                        <TextField styleClass="TextFieldForm"/>
+                    </HBox>
+                    <HBox>
+                        <Label text="AssignServiceFieldCode" styleClass="TextFieldLabel"/>
+                        <TextArea styleClass="TextAreaForm"/>
+                    </HBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button  styleClass="formBtn" text="Insert Parameters" />
+                        <Button styleClass="formBtn" text="Edit Parameters" />
+                        <Button styleClass="formBtn" text="Delete Parameters" />
+                    </HBox>
+                    <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" /></HBox>
+
+
+                    <Label text="LocalVariablesInitialization" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+
+                    <HBox spacing="20">
+                        <VBox spacing="10">
+                            <Label text="SD file skill parameters" styleClass="Separator_Text" />
+                            <HBox>
+                                <Label text="InputLocalVariable" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="FromGlobalVariable" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox style="-fx-alignment: center">
+                            <Button styleClass="formBtn" text="Insert initialization" />
+                            </HBox>
+
+                        </VBox>
+                        <Separator orientation="VERTICAL" prefHeight="557.0" prefWidth="0.0" />
+                        <VBox spacing="10">
+                            <Label text="Skill-code returned value" styleClass="Separator_Text" />
+                            <HBox>
+                                <Label text="LocalVariableName" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="VariableType" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="FromROSServiceResponse" styleClass="TextFieldLabel"/>
+                            <ChoiceBox styleClass="formCBx">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="true" />
+                                        <String fx:value="false" />
+                                    </FXCollections>
+                                </items>
+                            </ChoiceBox>
+                            </HBox>
+                            <HBox>
+                                <Label text="AssignmentCode" styleClass="TextFieldLabel"/>
+                                <TextArea styleClass="TextAreaForm" />
+                            </HBox>
+                            <Label text="ImportCode" styleClass="Separator_Text" />
+                            <HBox>
+                                <Label text="From" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="Import" styleClass="TextFieldLabel"/>
+                                <TextArea text="Insert all import values, each in newline" styleClass="TextAreaForm"/>
+                            </HBox>
+                            <HBox styleClass="CRUDBtn">
+                                <Button  styleClass="formBtn" text="Insert ImportCode" />
+                                <Button styleClass="formBtn" text="Edit ImportCode" />
+                                <Button styleClass="formBtn" text="Delete ImportCode" />
+                            </HBox>
+                            <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="SmallTreeViewForm" /></HBox>
+                            <HBox style="-fx-alignment: center">
+                                <Button styleClass="formBtn" text="Insert initialization" />
+                            </HBox>
+
+                        </VBox>
+                        <Separator orientation="VERTICAL" prefHeight="557.0" prefWidth="0.0" />
+                        <VBox spacing="10">
+                            <Label text="Public data from robot framework" styleClass="Separator_Text" />
+                            <HBox>
+                                <Label text="LocalVariableName" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="ROSTopicPath" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="VariableType" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="InitialValue" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="TopicMessageType" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+                               <TextArea styleClass="TextAreaForm" />
+                            </HBox>
+                            <Label text="ImportCode" styleClass="Separator_Text" />
+                            <HBox>
+                                <Label text="From" styleClass="TextFieldLabel"/>
+                                <TextField styleClass="TextFieldForm"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="Import" styleClass="TextFieldLabel"/>
+                                <TextArea text="Insert all import values, each in newline" styleClass="TextAreaForm"/>
+                            </HBox>
+                            <HBox styleClass="CRUDBtn">
+                                <Button  styleClass="formBtn" text="Insert ImportCode" />
+                                <Button styleClass="formBtn" text="Edit ImportCode" />
+                                <Button styleClass="formBtn" text="Delete ImportCode" />
+                            </HBox>
+                            <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="SmallTreeViewForm" /></HBox>
+                            <HBox style="-fx-alignment: center">
+                                <Button styleClass="formBtn" text="Insert initialization" />
+                            </HBox>
+
+                        </VBox>
+                    </HBox>
+                    <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" /></HBox>
+                </VBox>
+                </content>
+                </ScrollPane>
+            </Tab>
+        </tabs>
+        </TabPane>
+    </children>
+    <HBox styleClass="CreateProjBTNsHBox">
+        <Button styleClass="formBtn" text="Back" />
+        <Button styleClass="formBtn" text="Preview SD JSON" />
+        <Button styleClass="formBtn" text="Preview AM JSON" />
+        <Button styleClass="formBtn" text="Add Skill" />
+    </HBox>
+</VBox>

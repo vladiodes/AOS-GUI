@@ -1,12 +1,12 @@
-.button
+.homeBtn
 {
     -fx-background-color : #F3F3F3;
 }
-.button:hover
+.homeBtn:hover
 {
     -fx-background-color : #A1C1F4 ;
 }
-.button:pressed
+.homeBtn:pressed
 {
     -fx-background-color : #73A3EF ;
 }
@@ -32,8 +32,68 @@
 }
 
 
+.Separator_Text {
+    -fx-padding: 0 0 0 20;
+    -fx-font-weight: BOLD;
+    -fx-font-size: 1.5em;
+    -fx-font-family: sans-serif;
+}
 
+.Separator_Line{
+    -fx-padding: 0 0 0 20;
+}
 
+.TextFieldLabel {
+    -fx-padding: 0 0 0 20;
+    -fx-pref-width: 150;
+}
 
+.TextFieldForm {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
 
+}
 
+.GlobalVarTypeVBox {
+    -fx-padding: 0 0 0 250 ;
+}
+
+.formBtn {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
+}
+
+.formCBx {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 20px;
+}
+
+.TextAreaForm {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 250px;
+}
+
+.CRUDBtn {
+    -fx-padding: 70 0 0 30;
+    -fx-spacing: 30;
+}
+
+.CreateProjBTNsHBox {
+    -fx-padding: 20 0 50 30;
+    -fx-spacing: 100;
+    -fx-alignment: center;
+}
+
+.TreeViewForm {
+    -fx-pref-width: 350;
+    -fx-pref-height: 200;
+}
+
+.TreeBoxWrapper {
+    -fx-alignment: center;
+}
+
+.SmallTreeViewForm {
+    -fx-pref-width: 175;
+    -fx-pref-height: 70;
+}

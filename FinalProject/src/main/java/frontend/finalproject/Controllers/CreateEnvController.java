@@ -17,8 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CreateEnvController {
 
-    public TreeView<String> SpecialStatesTreeView;
-    public TreeView<String> ExChangesDynModelTreeView;
+    @FXML private TreeView<String> SpecialStatesTreeView;
+    @FXML private TreeView<String> ExChangesDynModelTreeView;
     @FXML private TreeView<String> InitialBeliefStateAssTreeView;
     @FXML private TreeView<String> GlobalVarDecTreeView;
     @FXML private TreeView<String> GlobalVarTypesTreeView;
@@ -93,7 +93,6 @@ public class CreateEnvController {
     private GlobalVariableTypeModel currentGlobVarType = null;
 
     private final IAOSFacade facade = AOSFacade.getInstance();
-    private Object SpecialStatesCBX;
 
 
     @FXML

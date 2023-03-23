@@ -29,6 +29,9 @@ public class HomeController {
         else if(event.getSource() == btnCreateProject){
             UtilsFXML.loadStage(UtilsFXML.CREATE_PROJECT_PATH,stage);
         }
+        else if(event.getSource() == btnCodeCheck){
+            UtilsFXML.loadStage("stam.fxml",stage);
+        }
     }
 
     @FXML
