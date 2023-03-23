@@ -83,3 +83,12 @@
     -fx-spacing: 100;
     -fx-alignment: center;
 }
+
+.TreeViewForm {
+    -fx-pref-width: 350;
+    -fx-pref-height: 200;
+}
+
+.TreeBoxWrapper {
+    -fx-alignment: center;
+}
