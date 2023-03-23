@@ -92,3 +92,8 @@
 .TreeBoxWrapper {
     -fx-alignment: center;
 }
+
+.SmallTreeViewForm {
+    -fx-pref-width: 175;
+    -fx-pref-height: 70;
+}

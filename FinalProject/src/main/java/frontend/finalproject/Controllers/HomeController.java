@@ -30,7 +30,7 @@ public class HomeController {
             UtilsFXML.loadStage(UtilsFXML.CREATE_PROJECT_PATH,stage);
         }
         else if(event.getSource() == btnCodeCheck){
-            UtilsFXML.loadStage(UtilsFXML.CREATE_PROJECT_PATH,stage);
+            UtilsFXML.loadStage("stam.fxml",stage);
         }
     }
 
