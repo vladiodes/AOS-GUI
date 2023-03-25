@@ -94,6 +94,11 @@
 }
 
 .SmallTreeViewForm {
-    -fx-pref-width: 175;
-    -fx-pref-height: 70;
+    -fx-pref-width: 200;
+    -fx-pref-height: 150;
+}
+
+.SubMenuVBox {
+    -fx-padding: 20 0 0 20;
+    -fx-spacing: 10;
 }

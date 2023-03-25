@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="frontend.finalproject.Controllers.SubControllers.AddVarTypeCompoundController"
+      prefHeight="550.0" prefWidth="600.0"
+      stylesheets="@../../style.css">
+    <Pane prefHeight="80" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <Label fx:id="titleLBL" layoutX="73.0" layoutY="30.0" text="Add global variable type (compound)" textFill="WHITE">
+                <font>
+                    <Font size="28.0" />
+                </font>
+            </Label>
+        </children>
+    </Pane>
+
+    <VBox styleClass="SubMenuVBox" spacing="10">
+        <HBox>
+            <Label text="TypeName" styleClass="TextFieldLabel"/>
+            <TextField fx:id="GlobalVarTypeNameTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label  text="Name" styleClass="TextFieldLabel"/>
+            <TextField fx:id="CompoundNameTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="Type" styleClass="TextFieldLabel"/>
+            <TextField fx:id="CompoundTypeTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="Default" styleClass="TextFieldLabel" />
+            <TextField fx:id="CompoundDefaultTXT" styleClass="TextFieldForm" />
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button onAction="#handleInsertNextCompoundVarClick" styleClass="formBtn" text="Insert variable"/>
+            <Button onAction="#handleDeleteCompoundVarClick" styleClass="formBtn" text="Delete variable"/>
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="compoundVarsTreeView" styleClass="SmallTreeViewForm"/></HBox>
+        <HBox styleClass="TreeBoxWrapper"><Button fx:id="SubmitBTN" text="Add global variable type" onAction="#handleAddVarTypeClick" styleClass="formBtn" /></HBox>
+    </VBox>
+
+</VBox>

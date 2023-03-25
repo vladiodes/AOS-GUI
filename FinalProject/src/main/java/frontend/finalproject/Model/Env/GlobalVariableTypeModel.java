@@ -19,6 +19,10 @@ public abstract class GlobalVariableTypeModel {
         this.Type = Type;
     }
 
+    public void setTypeName(String typeName) {
+        TypeName = typeName;
+    }
+
     public String getTypeName() {
         return TypeName;
     }

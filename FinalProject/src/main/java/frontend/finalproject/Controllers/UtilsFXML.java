@@ -1,6 +1,6 @@
 package frontend.finalproject.Controllers;
 
-import backend.finalproject.IAOSFacade;
+import frontend.finalproject.Controllers.SubControllers.AddVarTypeEnumController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -23,6 +23,8 @@ public class UtilsFXML {
     public static final String ADD_SKILL_FXML_PATH = "create-skill-view.fxml";
     public static final String RUNNING_AOS_BUTTON_TXT = "AOS: UP\nTap to shut down AOS";
     public static final String SHUTDOWN_AOS_BUTTON_TXT = "AOS: DOWN\nTap to activate AOS";
+    public static final String ADD_VAR_TYPE_PATH = "add-var-type-enum-view.fxml";
+    public static final String ADD_VAR_TYPE_COMPOUND_PATH = "add-var-type-compound-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {
@@ -85,8 +87,8 @@ public class UtilsFXML {
         notificationBuilder.showConfirm();
     }
 
-    enum Source {
-        EDIT_ENV, EDIT_SKILL,
+    public enum Source {
+        EDIT_ENV, EDIT_SKILL,EDIT_VAR_TYPE
     }
 }
 

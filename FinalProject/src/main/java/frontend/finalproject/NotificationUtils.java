@@ -84,4 +84,17 @@ public class NotificationUtils {
     public static final String DELETED_EX_CHANGE_DYN_MODEL_FAIL_TITLE = "Failed to delete ex change dynamic model";
     public static final String DELETED_SPECIAL_STATE_FAIL_TEXT = "Please select a special state to delete";
     public static final String DELETED_SPECIAL_STATE_FAIL_TITLE = "Failed to delete special state";
+    public static final String ADDED_ENUM_VALUE_FAILED_TITLE = "Failed to add enum value";
+    public static final String ADDED_ENUM_VALUE_FAILED_TEXT = "Please add content about the enum value you want to add";
+    public static final String REMOVED_ENUM_VALUE_TITLE = "Enum value removed";
+    public static final String REMOVED_ENUM_VALUE_TEXT = "You've successfully removed an enum value!";
+    public static final String REMOVED_ENUM_VALUE_FAILED_TITLE = "Failed to remove enum value";
+    public static final String REMOVED_ENUM_VALUE_FAILED_TEXT = "Please select an enum value to remove";
+    public static final String EDIT_GLOBAL_VAR_TYPE_FAIL_TITLE = "Failed to edit global variable type";
+    public static final String EDIT_GLOBAL_VAR_TYPE_FAIL_TEXT = "Please select a global variable type to edit";
+
+    public static final String ADD_VAR_TYPE_COMPOUND_TITLE = "Add Compound Variable Type";
+    public static final String ADD_VAR_TYPE_COMPOUND_TEXT = "Compound variable type added successfully";
+    public static final String ADD_VAR_TYPE_COMPOUND_FAILED_TITLE = "Add Compound Variable Type Failed";
+    public static final String ADD_VAR_TYPE_COMPOUND_FAILED_TEXT = "Please fill all the fields";
 }
