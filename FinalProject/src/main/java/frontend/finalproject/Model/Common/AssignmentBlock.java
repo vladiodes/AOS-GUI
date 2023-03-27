@@ -3,11 +3,12 @@ package frontend.finalproject.Model.Common;
 import backend.finalproject.ProjectFiles.Common.AssignmentBlockMultipleLines;
 import backend.finalproject.ProjectFiles.Common.AssignmentBlockSingleLine;
 import backend.finalproject.ProjectFiles.Common.IAssignmentBlock;
+import frontend.finalproject.Model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AssignmentBlock {
+public class AssignmentBlock implements Model {
     private String AssignmentName;
     private List<String> AssignmentCode;
 

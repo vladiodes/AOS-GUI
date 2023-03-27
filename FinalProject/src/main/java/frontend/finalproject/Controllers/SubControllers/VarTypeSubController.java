@@ -4,7 +4,7 @@ import frontend.finalproject.Controllers.UtilsFXML;
 import frontend.finalproject.Model.Env.GlobalVariableTypeModel;
 import java.util.*;
 
-public interface SubController {
+public interface VarTypeSubController {
     void setSource(UtilsFXML.Source source);
 
     void setGlobalVarType(GlobalVariableTypeModel type);

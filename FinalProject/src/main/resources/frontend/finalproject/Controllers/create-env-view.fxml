@@ -141,7 +141,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherStateClick" styleClass="formBtn" text="Insert State" />
-            <Button styleClass="formBtn" text="Edit State" />
+            <Button styleClass="formBtn" text="Edit State" onAction="#handleEditStateBTNClick" />
             <Button onAction="#handleDeleteSpecialStatesBTNClick" styleClass="formBtn" text="Delete State" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="SpecialStatesTreeView" styleClass="TreeViewForm" /></HBox>

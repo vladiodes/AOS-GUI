@@ -3,7 +3,6 @@ package frontend.finalproject.Controllers.SubControllers;
 import frontend.finalproject.Controllers.UtilsFXML;
 import frontend.finalproject.Model.Env.CompoundVariable;
 import frontend.finalproject.Model.Env.GlobalVariableTypeCompoundModel;
-import frontend.finalproject.Model.Env.GlobalVariableTypeEnumModel;
 import frontend.finalproject.Model.Env.GlobalVariableTypeModel;
 import frontend.finalproject.NotificationUtils;
 import javafx.event.ActionEvent;
@@ -13,7 +12,7 @@ import javafx.scene.control.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AddVarTypeCompoundController implements SubController {
+public class AddVarTypeCompoundController implements VarTypeSubController {
     @FXML private TreeView<String> compoundVarsTreeView;
     @FXML private Button SubmitBTN;
     @FXML private Label titleLBL;

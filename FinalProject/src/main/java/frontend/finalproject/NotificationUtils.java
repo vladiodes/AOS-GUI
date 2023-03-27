@@ -105,4 +105,8 @@ public class NotificationUtils {
     public static final String EDIT_ASS_CODE_TITLE = "Assignment code edited";
     public static final String EDIT_INIT_BELIEF_FAIL_TITLE = "Failed to edit initial belief state assignment";
     public static final String EDIT_INIT_BELIEF_FAIL_TEXT = "Please select an initial belief state assignment to edit";
+    public static final String EDIT_SPECIAL_STATE_SUCCESS = "Special state edited successfully";
+    public static final String EDIT_SPECIAL_STATE_SUCCESS_MSG = "You've successfully edited a special state!";
+    public static final String EDIT_STATE_FAIL_TITLE = "Failed to edit state";
+    public static final String EDIT_STATE_FAIL_TEXT = "Please select a state to edit";
 }

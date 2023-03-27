@@ -1,8 +1,9 @@
 package frontend.finalproject.Model.Env;
 
 import backend.finalproject.ProjectFiles.Env.GlobalVariablesDeclaration;
+import frontend.finalproject.Model.Model;
 
-public class GlobalVariablesDeclarationModel {
+public class GlobalVariablesDeclarationModel implements Model {
     private String Name;
     private String Type;
     private String DefaultCode;

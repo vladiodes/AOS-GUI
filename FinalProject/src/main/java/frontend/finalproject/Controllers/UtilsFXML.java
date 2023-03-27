@@ -27,6 +27,7 @@ public class UtilsFXML {
     public static final String ADD_VAR_TYPE_COMPOUND_PATH = "add-var-type-compound-view.fxml";
     public static final String EDIT_GLOBAL_VAR_DEC_PATH = "edit-global-var-decl-view.fxml";
     public static final String EDIT_ASS_CODE_PATH  ="edit-ass-code-view.fxml" ;
+    public static final String EDIT_STATE_PATH = "edit-special-state-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {

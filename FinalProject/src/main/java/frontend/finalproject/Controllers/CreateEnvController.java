@@ -5,8 +5,8 @@ import backend.finalproject.IAOSFacade;
 import frontend.finalproject.Controllers.SubControllers.*;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.*;
+import frontend.finalproject.Model.Model;
 import frontend.finalproject.NotificationUtils;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,11 +35,8 @@ public class CreateEnvController {
     @FXML
     private TextArea InitBeliefAssCodeTXT;
     @FXML private TextField InitBeliefAssNameTXT;
-    @FXML private TextField GlobalVarTypeNameTXT;
     private EnvModel envModel = new EnvModel();
 
-    @FXML
-    private Button previewBTN;
     @FXML
     private TextField ProjectNameTXT;
 
@@ -62,35 +59,7 @@ public class CreateEnvController {
     private TextArea DefaultCodeGlobVarDecTXT;
 
     @FXML
-    private TextField CompoundNameTXT;
-    @FXML
-    private Label NameLBL;
-
-    @FXML
-    private Label TypeLBL;
-
-    @FXML
-    private TextField CompoundTypeTXT;
-
-    @FXML
-    private Label DefaultLBL;
-
-    @FXML
-    private TextField CompoundDefaultTXT;
-
-    @FXML
     private ChoiceBox<String> CompoundEnumChoiceBox;
-    @FXML
-    private Button nextValBTN;
-
-    @FXML
-    private Button nextVarBTN;
-
-    @FXML
-    private Label enumValueLBL;
-
-    @FXML
-    private TextField enumValueTXT;
 
     private UtilsFXML.Source source;
     private GlobalVariableTypeModel currentGlobVarType = null;
@@ -127,9 +96,6 @@ public class CreateEnvController {
         else{ // compound
             loadSubStage(UtilsFXML.ADD_VAR_TYPE_COMPOUND_PATH);
         }
-
-
-
     }
 
     private void loadSubStage(String fxml) {
@@ -137,7 +103,7 @@ public class CreateEnvController {
         try{
             FXMLLoader loader = new FXMLLoader(AddVarTypeEnumController.class.getResource(fxml));
             Parent root = loader.load();
-            SubController controller = loader.getController();
+            VarTypeSubController controller = loader.getController();
             stage.setOnCloseRequest(e -> {
                 controller.getAddedVars().forEach(var -> {
                     currentGlobVarType = var;
@@ -172,20 +138,6 @@ public class CreateEnvController {
             GlobalVarTypesTreeView.getRoot().getChildren().add(newType);
         }
 
-    }
-
-
-    public void handleInsertNextCompoundVarClick(ActionEvent event) {
-        if(currentGlobVarType==null){
-            currentGlobVarType = new GlobalVariableTypeCompoundModel(GlobalVarTypeNameTXT.getText(),"compound");
-        }
-        GlobalVariableTypeCompoundModel compoundModel = (GlobalVariableTypeCompoundModel) currentGlobVarType;
-        CompoundVariable variable = new CompoundVariable(CompoundNameTXT.getText(),CompoundTypeTXT.getText(),CompoundDefaultTXT.getText());
-        compoundModel.insertVariable(variable);
-        CompoundNameTXT.setText("");
-        CompoundTypeTXT.setText("");
-        CompoundDefaultTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_COMPOUND_VARIABLE_TITLE,NotificationUtils.ADDED_COMPOUND_VARIABLE_TEXT,null);
     }
 
     public void handleInsertAnotherVarDecClick(ActionEvent event) {
@@ -447,7 +399,7 @@ public class CreateEnvController {
 
     private void editType(TreeItem<String> selected, GlobalVariableTypeModel type, FXMLLoader loader) throws IOException {
         Parent root = loader.load();
-        SubController controller = loader.getController();
+        VarTypeSubController controller = loader.getController();
         controller.setSource(UtilsFXML.Source.EDIT_VAR_TYPE);
         controller.setGlobalVarType(type);
 
@@ -484,31 +436,16 @@ public class CreateEnvController {
         if (GlobalVarDecTreeView.getRoot().getChildren().contains(selectedItem)) {
             GlobalVariablesDeclarationModel model = envModel.getGlobalVariablesDeclaration()
                     .stream().filter((var) -> var.getName().equals(selectedItem.getValue())).findFirst().orElse(null);
-            loadEditGlobalVarDecStage(UtilsFXML.EDIT_GLOBAL_VAR_DEC_PATH, model,selectedItem);
+            loadEditStage(UtilsFXML.EDIT_GLOBAL_VAR_DEC_PATH,model,selectedItem,
+                    () -> {
+                        assert model != null;
+                        selectedItem.setValue(model.getName());
+                        selectedItem.getChildren().remove(0);
+                        selectedItem.getChildren().add(new TreeItem<>(model.toString()));
+                    });
         }
         else{
             UtilsFXML.showErrorNotification(NotificationUtils.EDIT_GLOBAL_VAR_DEC_FAIL_TITLE,NotificationUtils.EDIT_GLOBAL_VAR_DEC_FAIL_TEXT);
-        }
-    }
-
-    private void loadEditGlobalVarDecStage(String fxml, GlobalVariablesDeclarationModel model,TreeItem<String> treeItem) {
-        Stage stage = new Stage();
-        try{
-            FXMLLoader loader = new FXMLLoader(EditGlobalVarDeclSubController.class.getResource(fxml));
-            Parent root = loader.load();
-            EditGlobalVarDeclSubController controller = loader.getController();
-            controller.setModel(model);
-            controller.setOnCloseCallback(() -> {
-                treeItem.setValue(model.getName());
-                treeItem.getChildren().remove(0);
-                treeItem.getChildren().add(new TreeItem<>(model.toString()));
-            });
-
-            stage.setScene(new Scene(root));
-            stage.show();
-        }
-        catch (IOException e){
-            e.printStackTrace();
         }
     }
 
@@ -517,24 +454,43 @@ public class CreateEnvController {
         if (InitialBeliefStateAssTreeView.getRoot().getChildren().contains(selectedItem)) {
             AssignmentBlock model = envModel.getInitialBeliefStateAssignments()
                     .stream().filter((var) -> var.getAssignmentName().equals(selectedItem.getValue())).findFirst().orElse(null);
-            loadEditInitBeliefStage(UtilsFXML.EDIT_ASS_CODE_PATH, model,selectedItem);
+            loadEditStage(UtilsFXML.EDIT_ASS_CODE_PATH,model,selectedItem,
+                    () -> {
+                        assert model != null;
+                        selectedItem.setValue(model.getAssignmentName());
+                        selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
+                    });
         }
         else{
             UtilsFXML.showErrorNotification(NotificationUtils.EDIT_INIT_BELIEF_FAIL_TITLE,NotificationUtils.EDIT_INIT_BELIEF_FAIL_TEXT);
         }
     }
 
-    private void loadEditInitBeliefStage(String fxml, AssignmentBlock model, TreeItem<String> selectedItem) {
+
+    public void handleEditStateBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = SpecialStatesTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if (SpecialStatesTreeView.getRoot().getChildren().contains(selectedItem)) {
+            SpecialStateModel model = envModel.getSpecialStates().get(SpecialStatesTreeView.getRoot().getChildren().indexOf(selectedItem));
+            loadEditStage(UtilsFXML.EDIT_STATE_PATH, model,selectedItem,
+                        () -> {
+                            selectedItem.getChildren().remove(0);
+                            selectedItem.getChildren().add(new TreeItem<>(model.toString()));
+                        }
+                    );
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_STATE_FAIL_TITLE,NotificationUtils.EDIT_STATE_FAIL_TEXT);
+        }
+    }
+
+    private void loadEditStage(String fxml, Model model, TreeItem<String> selectedItem, Runnable callback){
         Stage stage = new Stage();
         try{
-            FXMLLoader loader = new FXMLLoader(EditAssCodeSubController.class.getResource(fxml));
+            FXMLLoader loader = new FXMLLoader(EditSubController.class.getResource(fxml));
             Parent root = loader.load();
-            EditAssCodeSubController controller = loader.getController();
+            EditSubController controller = loader.getController();
             controller.setModel(model);
-            controller.setCallback(() -> {
-                selectedItem.setValue(model.getAssignmentName());
-                selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
-            });
+            controller.setCallback(callback);
 
             stage.setScene(new Scene(root));
             stage.show();
@@ -542,5 +498,7 @@ public class CreateEnvController {
         catch (IOException e){
             e.printStackTrace();
         }
+
     }
+
 }

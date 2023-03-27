@@ -2,6 +2,7 @@ package frontend.finalproject.Controllers.SubControllers;
 
 import frontend.finalproject.Controllers.UtilsFXML;
 import frontend.finalproject.Model.Common.AssignmentBlock;
+import frontend.finalproject.Model.Model;
 import frontend.finalproject.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class EditAssCodeSubController {
+public class EditAssCodeSubController implements EditSubController {
 
 
     @FXML private TextArea AssCodeTXT;
@@ -32,7 +33,7 @@ public class EditAssCodeSubController {
         UtilsFXML.showNotification(NotificationUtils.EDIT_ASS_CODE_TITLE,NotificationUtils.EDIT_ASS_CODE_TXT,null);
     }
 
-    public void setModel(AssignmentBlock model) {
+    private void setModel(AssignmentBlock model) {
         this.model = model;
         AssNameTXT.setText(model.getAssignmentName());
         StringBuilder sb = new StringBuilder();
@@ -42,7 +43,16 @@ public class EditAssCodeSubController {
         AssCodeTXT.setText(sb.toString());
     }
 
+    @Override
+    public void setModel(Model model) {
+        setModel((AssignmentBlock) model);
+    }
+
     public void setCallback(Runnable callback) {
         this.callback = callback;
+    }
+
+    public void setTitleLBL(String title){
+        titleLBL.setText(title);
     }
 }

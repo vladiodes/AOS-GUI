@@ -11,7 +11,7 @@ import javafx.scene.control.*;
 
 import java.util.*;
 
-public class AddVarTypeEnumController implements SubController{
+public class AddVarTypeEnumController implements VarTypeSubController {
     @FXML private Button SubmitBTN;
     @FXML private TreeView<String> enumTreeView;
     @FXML private TextField GlobalVarTypeNameTXT;
