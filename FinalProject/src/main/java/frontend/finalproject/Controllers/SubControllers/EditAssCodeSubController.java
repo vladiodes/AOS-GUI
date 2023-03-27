@@ -17,7 +17,6 @@ public class EditAssCodeSubController implements EditSubController {
 
     @FXML private TextArea AssCodeTXT;
     @FXML private Button editBTN;
-    @FXML private Label titleLBL;
     @FXML private TextField AssNameTXT;
     private AssignmentBlock model;
     private Runnable callback;
@@ -50,9 +49,5 @@ public class EditAssCodeSubController implements EditSubController {
 
     public void setCallback(Runnable callback) {
         this.callback = callback;
-    }
-
-    public void setTitleLBL(String title){
-        titleLBL.setText(title);
     }
 }

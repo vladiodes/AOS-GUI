@@ -501,4 +501,18 @@ public class CreateEnvController {
 
     }
 
+    public void handleExChangeEditBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = ExChangesDynModelTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if (ExChangesDynModelTreeView.getRoot().getChildren().contains(selectedItem)) {
+            AssignmentBlock model = envModel.getExtrinsicChangesDynamicModel().get(ExChangesDynModelTreeView.getRoot().getChildren().indexOf(selectedItem));
+            loadEditStage(UtilsFXML.EDIT_ASS_CODE_PATH, model,selectedItem,
+                    () -> {
+                        selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
+                    }
+            );
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_EXCHANGE_FAIL_TITLE,NotificationUtils.EDIT_EXCHANGE_FAIL_TEXT);
+        }
+    }
 }

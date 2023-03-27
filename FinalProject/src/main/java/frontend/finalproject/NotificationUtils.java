@@ -109,4 +109,6 @@ public class NotificationUtils {
     public static final String EDIT_SPECIAL_STATE_SUCCESS_MSG = "You've successfully edited a special state!";
     public static final String EDIT_STATE_FAIL_TITLE = "Failed to edit state";
     public static final String EDIT_STATE_FAIL_TEXT = "Please select a state to edit";
+    public static final String EDIT_EXCHANGE_FAIL_TITLE = "Failed to edit extrinsic change";
+    public static final String EDIT_EXCHANGE_FAIL_TEXT = "Please select an extrinsic change to edit";
 }

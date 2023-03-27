@@ -14,7 +14,7 @@
       stylesheets="@../../style.css">
     <Pane prefHeight="80" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
-            <Label layoutX="73.0" layoutY="30.0" fx:id="titleLBL" textFill="WHITE">
+            <Label layoutX="73.0" layoutY="30.0" text="Edit assignment code block" fx:id="titleLBL" textFill="WHITE">
                 <font>
                     <Font size="28.0" />
                 </font>

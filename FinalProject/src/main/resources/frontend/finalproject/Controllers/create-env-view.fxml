@@ -153,7 +153,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherChangeClick" styleClass="formBtn" text="Insert Change" />
-            <Button styleClass="formBtn" text="Edit Change" />
+            <Button styleClass="formBtn" text="Edit Change" onAction="#handleExChangeEditBTNClick" />
             <Button onAction="#handleDeleteExChangeDynModelBTNClick" styleClass="formBtn" text="Delete Change" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper">
