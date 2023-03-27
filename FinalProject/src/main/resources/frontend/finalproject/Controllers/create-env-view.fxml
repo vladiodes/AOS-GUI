@@ -87,7 +87,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherVarDecClick" styleClass="formBtn" text="Insert Declaration" />
-            <Button styleClass="formBtn" text="Edit Declaration" />
+            <Button styleClass="formBtn" text="Edit Declaration" onAction="#handledEditGlobalVarDecEditBTNClick" />
             <Button onAction="#handleGlobalVarDecDeleteBTNClick" styleClass="formBtn" text="Delete Declaration" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" fx:id="GlobalVarDecTreeView" /></HBox>

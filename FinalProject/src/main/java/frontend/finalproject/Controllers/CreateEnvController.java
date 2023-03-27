@@ -4,6 +4,7 @@ import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
 import frontend.finalproject.Controllers.SubControllers.AddVarTypeCompoundController;
 import frontend.finalproject.Controllers.SubControllers.AddVarTypeEnumController;
+import frontend.finalproject.Controllers.SubControllers.EditGlobalVarDeclSubController;
 import frontend.finalproject.Controllers.SubControllers.SubController;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.*;
@@ -478,6 +479,36 @@ public class CreateEnvController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void handledEditGlobalVarDecEditBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = GlobalVarDecTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if (GlobalVarDecTreeView.getRoot().getChildren().contains(selectedItem)) {
+            GlobalVariablesDeclarationModel model = envModel.getGlobalVariablesDeclaration()
+                    .stream().filter((var) -> var.getName().equals(selectedItem.getValue())).findFirst().orElse(null);
+            loadEditGlobalVarDecStage(UtilsFXML.EDIT_GLOBAL_VAR_DEC_PATH, model,selectedItem);
+        }
+    }
+
+    private void loadEditGlobalVarDecStage(String fxml, GlobalVariablesDeclarationModel model,TreeItem<String> treeItem) {
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(EditGlobalVarDeclSubController.class.getResource(fxml));
+            Parent root = loader.load();
+            EditGlobalVarDeclSubController controller = loader.getController();
+            controller.setModel(model);
+            controller.setOnCloseCallback(() -> {
+                treeItem.setValue(model.getName());
+                treeItem.getChildren().remove(0);
+                treeItem.getChildren().add(new TreeItem<>(model.toString()));
+            });
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
     }
 }

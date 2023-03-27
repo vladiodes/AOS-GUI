@@ -43,4 +43,20 @@ public class GlobalVariablesDeclarationModel {
                 "Default code: %s\n" +
                 "isActionParameterValue: %b",getType(),getDefaultCode(),isActionParameterValue());
     }
+
+    public void setDefaultCode(String defaultCode) {
+        DefaultCode = defaultCode;
+    }
+
+    public void setActionParameterValue(boolean actionParameterValue) {
+        IsActionParameterValue = actionParameterValue;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
 }

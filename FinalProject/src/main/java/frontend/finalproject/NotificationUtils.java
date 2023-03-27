@@ -97,4 +97,6 @@ public class NotificationUtils {
     public static final String ADD_VAR_TYPE_COMPOUND_TEXT = "Compound variable type added successfully";
     public static final String ADD_VAR_TYPE_COMPOUND_FAILED_TITLE = "Add Compound Variable Type Failed";
     public static final String ADD_VAR_TYPE_COMPOUND_FAILED_TEXT = "Please fill all the fields";
+    public static final String EDIT_GLOBAL_VAR_DEC_SUCCESS = "Global variable declaration edited successfully";
+    public static final String EDIT_GLOBAL_VAR_DEC_SUCCESS_MSG = "You've successfully edited a global variable declaration!";
 }

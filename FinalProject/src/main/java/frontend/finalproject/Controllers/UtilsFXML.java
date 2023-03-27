@@ -25,6 +25,7 @@ public class UtilsFXML {
     public static final String SHUTDOWN_AOS_BUTTON_TXT = "AOS: DOWN\nTap to activate AOS";
     public static final String ADD_VAR_TYPE_PATH = "add-var-type-enum-view.fxml";
     public static final String ADD_VAR_TYPE_COMPOUND_PATH = "add-var-type-compound-view.fxml";
+    public static final String EDIT_GLOBAL_VAR_DEC_PATH = "edit-global-var-decl-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {
