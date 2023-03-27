@@ -99,4 +99,10 @@ public class NotificationUtils {
     public static final String ADD_VAR_TYPE_COMPOUND_FAILED_TEXT = "Please fill all the fields";
     public static final String EDIT_GLOBAL_VAR_DEC_SUCCESS = "Global variable declaration edited successfully";
     public static final String EDIT_GLOBAL_VAR_DEC_SUCCESS_MSG = "You've successfully edited a global variable declaration!";
+    public static final String EDIT_GLOBAL_VAR_DEC_FAIL_TITLE = "Failed to edit global variable declaration";
+    public static final String EDIT_GLOBAL_VAR_DEC_FAIL_TEXT = "Please select a global variable declaration to edit";
+    public static final String EDIT_ASS_CODE_TXT = "You've successfully edited assignment code!";
+    public static final String EDIT_ASS_CODE_TITLE = "Assignment code edited";
+    public static final String EDIT_INIT_BELIEF_FAIL_TITLE = "Failed to edit initial belief state assignment";
+    public static final String EDIT_INIT_BELIEF_FAIL_TEXT = "Please select an initial belief state assignment to edit";
 }

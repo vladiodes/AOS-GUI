@@ -103,7 +103,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherAssClick" styleClass="formBtn" text="Insert Assignment" />
-            <Button styleClass="formBtn" text="Edit Assignment" />
+            <Button styleClass="formBtn" text="Edit Assignment" onAction="#handleEditInitBeliefBTNClick" />
             <Button onAction="#handleDeleteInitBeliefBTNClick" styleClass="formBtn" text="Delete Assignment" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="InitialBeliefStateAssTreeView" styleClass="TreeViewForm" /></HBox>

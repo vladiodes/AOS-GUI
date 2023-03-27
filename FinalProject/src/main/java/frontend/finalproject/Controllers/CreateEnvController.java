@@ -2,10 +2,7 @@ package frontend.finalproject.Controllers;
 
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
-import frontend.finalproject.Controllers.SubControllers.AddVarTypeCompoundController;
-import frontend.finalproject.Controllers.SubControllers.AddVarTypeEnumController;
-import frontend.finalproject.Controllers.SubControllers.EditGlobalVarDeclSubController;
-import frontend.finalproject.Controllers.SubControllers.SubController;
+import frontend.finalproject.Controllers.SubControllers.*;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.*;
 import frontend.finalproject.NotificationUtils;
@@ -489,6 +486,9 @@ public class CreateEnvController {
                     .stream().filter((var) -> var.getName().equals(selectedItem.getValue())).findFirst().orElse(null);
             loadEditGlobalVarDecStage(UtilsFXML.EDIT_GLOBAL_VAR_DEC_PATH, model,selectedItem);
         }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_GLOBAL_VAR_DEC_FAIL_TITLE,NotificationUtils.EDIT_GLOBAL_VAR_DEC_FAIL_TEXT);
+        }
     }
 
     private void loadEditGlobalVarDecStage(String fxml, GlobalVariablesDeclarationModel model,TreeItem<String> treeItem) {
@@ -502,6 +502,38 @@ public class CreateEnvController {
                 treeItem.setValue(model.getName());
                 treeItem.getChildren().remove(0);
                 treeItem.getChildren().add(new TreeItem<>(model.toString()));
+            });
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void handleEditInitBeliefBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = InitialBeliefStateAssTreeView.selectionModelProperty().getValue().getSelectedItem();
+        if (InitialBeliefStateAssTreeView.getRoot().getChildren().contains(selectedItem)) {
+            AssignmentBlock model = envModel.getInitialBeliefStateAssignments()
+                    .stream().filter((var) -> var.getAssignmentName().equals(selectedItem.getValue())).findFirst().orElse(null);
+            loadEditInitBeliefStage(UtilsFXML.EDIT_ASS_CODE_PATH, model,selectedItem);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_INIT_BELIEF_FAIL_TITLE,NotificationUtils.EDIT_INIT_BELIEF_FAIL_TEXT);
+        }
+    }
+
+    private void loadEditInitBeliefStage(String fxml, AssignmentBlock model, TreeItem<String> selectedItem) {
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(EditAssCodeSubController.class.getResource(fxml));
+            Parent root = loader.load();
+            EditAssCodeSubController controller = loader.getController();
+            controller.setModel(model);
+            controller.setCallback(() -> {
+                selectedItem.setValue(model.getAssignmentName());
+                selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
             });
 
             stage.setScene(new Scene(root));

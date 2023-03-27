@@ -57,5 +57,13 @@ public class AssignmentBlock {
         }
         return assignmentBlocks;
     }
+
+    public void setAssignmentName(String assignmentName) {
+        AssignmentName = assignmentName;
+    }
+
+    public void setAssignmentCode(List<String> assignmentCode) {
+        AssignmentCode = assignmentCode;
+    }
 }
 
