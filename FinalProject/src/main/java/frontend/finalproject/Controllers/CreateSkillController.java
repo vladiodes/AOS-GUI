@@ -2,18 +2,27 @@ package frontend.finalproject.Controllers;
 
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.Controllers.SubControllers.EditResponseRuleController;
+import frontend.finalproject.Controllers.SubControllers.EditSubController;
 import frontend.finalproject.Model.AM.*;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Common.ImportCodeModel;
+import frontend.finalproject.Model.Model;
 import frontend.finalproject.Model.SD.GlobalVariableModuleParametersModel;
 import frontend.finalproject.Model.SD.SDModel;
 import frontend.finalproject.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+
+import java.io.IOException;
 import java.util.*;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.stage.Stage;
 import utils.Response;
 
 
@@ -155,11 +164,14 @@ public class CreateSkillController {
 
 
     public void handleInsertGlobalVarPreconditionAssignment(ActionEvent event) {
-        SDmodel.addGlobalVariablePreconditionAssignment(new AssignmentBlock(
+        AssignmentBlock assignmentBlock = new AssignmentBlock(
                 AssignmentNameGlobVarPreCondTXT.getText(),
-                AssignmentCodeGlobVarPreCondTXT.getText()));
+                AssignmentCodeGlobVarPreCondTXT.getText());
+        SDmodel.addGlobalVariablePreconditionAssignment(assignmentBlock);
+        addAssBlockToTree(GlobalVarPreconditionAssTreeView,null,assignmentBlock);
         AssignmentNameGlobVarPreCondTXT.setText("");
         AssignmentCodeGlobVarPreCondTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_PRECOND_ASS_TITLE,NotificationUtils.ADDED_GLOBAL_VAR_PRECOND_ASS_TXT,null);
     }
 
     public void handleInsertGlobalPlannerPrecondition(ActionEvent event) {
@@ -643,5 +655,80 @@ public class CreateSkillController {
     private void populateLocalVarInitTree() {
         for (LocalVariablesInitializationModel model : AMmodel.getLocalVariablesInitialization())
             addLocalVarInitToTree(model);
+    }
+
+    public void handleEditResponseRuleBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selected = ResponseRulesTreeView.getSelectionModel().getSelectedItem();
+        if(ResponseRulesTreeView.getRoot().getChildren().contains(selected)) {
+            ResponseRule rule = AMmodel.getModuleResponse().getResponseRules().stream().
+                    filter(r -> r.getResponse().equals(selected.getValue())).findFirst().orElse(null);
+
+            loadEditStage(UtilsFXML.EDIT_RESPONSE_RULE_PATH, rule, selected,
+                    () -> {
+                        assert rule != null;
+                        selected.setValue(rule.getResponse());
+                        selected.getChildren().get(0).setValue(rule.getConditionCodeWithLocalVariables());
+                    });
+
+        }
+        else {
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_RESPONSE_RULE_FAIL_TITLE, NotificationUtils.EDIT_RESPONSE_RULE_FAIL_TEXT);
+        }
+    }
+
+    private void loadEditStage(String fxml, Model model, TreeItem<String> selectedItem, Runnable callback){
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(EditSubController.class.getResource(fxml));
+            Parent root = loader.load();
+            EditSubController controller = loader.getController();
+            controller.setModel(model);
+            controller.setCallback(callback);
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void handleEditGlobalVarModuleParamsBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selected = GlobalVarModuleParamsTreeView.getSelectionModel().getSelectedItem();
+        if(GlobalVarModuleParamsTreeView.getRoot().getChildren().contains(selected)) {
+            GlobalVariableModuleParametersModel model = SDmodel.getGlobalVariableModuleParameters().stream().
+                    filter(p -> p.getName().equals(selected.getValue())).findFirst().orElse(null);
+
+            loadEditStage(UtilsFXML.EDIT_GLOBAL_VAR_MODULE_PARAMS_PATH, model, selected,
+                    () -> {
+                        assert model != null;
+                        selected.setValue(model.getName());
+                        selected.getChildren().get(0).setValue("Type: " + model.getType());
+                    });
+        }
+        else {
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_GLOBAL_VAR_MODULE_PARAMS_FAIL_TITLE, NotificationUtils.EDIT_GLOBAL_VAR_MODULE_PARAMS_FAIL_TEXT);
+        }
+    }
+
+    public void handleEditGlobalVarPrecondAssBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = GlobalVarPreconditionAssTreeView.getSelectionModel().getSelectedItem();
+        if(GlobalVarPreconditionAssTreeView.getRoot().getChildren().contains(selectedItem)){
+            AssignmentBlock model = SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments().get(GlobalVarPreconditionAssTreeView.getRoot().getChildren().indexOf(selectedItem));
+
+
+            loadEditStage(UtilsFXML.EDIT_ASS_CODE_PATH, model,selectedItem,
+                    () -> {
+                        assert model != null;
+                        selectedItem.setValue(model.getAssignmentName() == null || model.getAssignmentName().isEmpty() ? "Global variable precondition" : model.getAssignmentName());
+                        selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
+                    }
+            );
+
+        }
+        else {
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_GLOBAL_VAR_PRECOND_ASS_FAIL_TITLE,NotificationUtils.EDIT_GLOBAL_VAR_PRECOND_ASS_FAIL_TEXT);
+        }
     }
 }

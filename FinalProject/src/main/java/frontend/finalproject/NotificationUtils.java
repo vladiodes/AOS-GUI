@@ -125,4 +125,16 @@ public class NotificationUtils {
     public static final String DELETE_IMPORT_CODE_RESPONSE_RULE_SECTION_FAIL_TEXT = "Please select an import code response rule section to delete";
     public static final String DELETE_SERVICE_PARAMS_FAIL_TITLE = "Failed to delete service parameters";
     public static final String DELETE_SERVICE_PARAMS_FAIL_TEXT = "Please select a service parameters to delete";
+    public static final String EDIT_RESPONSE_RULE_SUCCESS_TITLE = "Response rule edited";
+    public static final String EDIT_RESPONSE_RULE_SUCCESS_TEXT = "You've successfully edited a response rule!";
+    public static final String EDIT_RESPONSE_RULE_FAIL_TITLE = "Failed to edit response rule";
+    public static final String EDIT_RESPONSE_RULE_FAIL_TEXT = "Please select a response rule to edit";
+    public static final String EDIT_GLOBAL_VAR_MODULE_PARAMS_SUCCESS_TEXT = "You've successfully edited global variable module parameters!";
+    public static final String EDIT_GLOBAL_VAR_MODULE_PARAMS_SUCCESS_TITLE = "Global variable module parameters edited";
+    public static final String EDIT_GLOBAL_VAR_PRECOND_ASS_FAIL_TEXT = "Please select a global variable precondition assignment to edit";
+    public static final String EDIT_GLOBAL_VAR_PRECOND_ASS_FAIL_TITLE = "Failed to edit global variable precondition assignment";
+    public static final String EDIT_GLOBAL_VAR_MODULE_PARAMS_FAIL_TITLE = "Failed to edit global variable module parameters";
+    public static final String EDIT_GLOBAL_VAR_MODULE_PARAMS_FAIL_TEXT = "Please select a global variable module parameters to edit";
+    public static final String ADDED_GLOBAL_VAR_PRECOND_ASS_TITLE = "Global variable precondition assignment added";
+    public static final String ADDED_GLOBAL_VAR_PRECOND_ASS_TXT = "You've successfully added a global variable precondition assignment!";
 }

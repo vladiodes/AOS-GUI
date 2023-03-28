@@ -53,7 +53,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertGlobalVarModuleParamSD" styleClass="formBtn" text="Insert Module" />
-            <Button styleClass="formBtn" text="Edit Module" />
+            <Button onAction="#handleEditGlobalVarModuleParamsBTNClick" styleClass="formBtn" text="Edit Module" />
             <Button onAction="#handleDeleteGlobalVarModuleBTNClick" styleClass="formBtn" text="Delete Module" />
         </HBox>
         <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="GlobalVarModuleParamsTreeView" styleClass="TreeViewForm" /></HBox>
@@ -81,7 +81,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertGlobalVarPreconditionAssignment"  styleClass="formBtn" text="Insert Assignment" />
-            <Button  styleClass="formBtn" text="Edit Assignment" />
+            <Button onAction="#handleEditGlobalVarPrecondAssBTNClick"  styleClass="formBtn" text="Edit Assignment" />
             <Button onAction="#handleDeleteGlobalVarPreconditionAssBTNClick" styleClass="formBtn" text="Delete Assignment" />
         </HBox>
         <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="GlobalVarPreconditionAssTreeView" styleClass="TreeViewForm" /></HBox>
@@ -154,7 +154,7 @@
                     </HBox>
                     <HBox styleClass="CRUDBtn">
                         <Button onAction="#handleInsertResponseRuleBTNClick"  styleClass="formBtn" text="Insert Rule" />
-                        <Button styleClass="formBtn" text="Edit Rule" />
+                        <Button onAction="#handleEditResponseRuleBTNClick" styleClass="formBtn" text="Edit Rule" />
                         <Button onAction="#handleResponseRuleDeleteBTNClick" styleClass="formBtn" text="Delete Rule" />
                     </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ResponseRulesTreeView" styleClass="TreeViewForm" /></HBox>
