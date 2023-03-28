@@ -31,12 +31,21 @@
     -fx-background-color: #fa5e5e;
 }
 
+.scroll-pane{
+    -fx-border-color:transparent;
+    -fx-background-color:transparent;
+}
 
-.Separator_Text {
+
+.Separator_Text{
     -fx-padding: 0 0 0 20;
-    -fx-font-weight: BOLD;
-    -fx-font-size: 1.5em;
-    -fx-font-family: sans-serif;
+    -fx-border-radius: 2 !important;
+    -fx-background-radius: 2 !important;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+    -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+    -fx-font-weight: 400;
+    /* -fx-text-fill: rgb(18, 122, 214); */
 }
 
 .Separator_Line{
@@ -45,13 +54,24 @@
 
 .TextFieldLabel {
     -fx-padding: 0 0 0 20;
-    -fx-pref-width: 150;
+    -fx-pref-width: 200;
+    -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
 }
 
+/* TextField */
 .TextFieldForm {
     -fx-pref-width: 150px;
     -fx-pref-height: 20px;
+    -fx-background-color: white;
+    -fx-border-color: #7a7a7a;
+    -fx-border-radius: 1.4;
+    -fx-border-width: 2;
+}
 
+.TextFieldForm:hover {}
+
+.TextFieldForm:focused {
+    -fx-border-color: #007ACC;
 }
 
 .GlobalVarTypeVBox {
@@ -59,9 +79,45 @@
 }
 
 .formBtn {
-    -fx-pref-width: 150px;
-    -fx-pref-height: 20px;
+    -fx-background-color: rgb(18, 122, 214);
+    -fx-text-fill: white;
+    -fx-border-width: 0px;
 }
+
+.formBtn:hover
+{
+    -fx-background-color: rgb(16, 110, 190);
+}
+
+/* TextArea */
+.text-area {
+    -fx-background-color: white;
+    -fx-border-color: #7a7a7a;
+    -fx-border-radius: 1.4;
+    -fx-border-width: 2;
+}
+
+
+.TextAreaForm:focused {
+    -fx-border-color: #007ACC;
+}
+
+.TextAreaForm .content {
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: white;
+}
+
+.TextAreaForm .scroll-bar {
+    -fx-background-insets: 0 -0.5 0.5 0;
+}
+
+.TextAreaForm .scroll-bar .thumb {
+    -fx-background-insets: 0 2 0 2;
+}
+
+
 
 .formCBx {
     -fx-pref-width: 150px;
@@ -101,4 +157,75 @@
 .SubMenuVBox {
     -fx-padding: 20 0 0 20;
     -fx-spacing: 10;
+}
+
+
+/* ScrollBar */
+.scroll-bar {
+    -fx-background-radius: 0;
+    -fx-background-color: transparent !important;
+    -fx-pref-width: 9;
+}
+
+.scroll-bar:hover {
+    -fx-background-radius: 0;
+    -fx-background-color: #bdbdbd !important;
+    -fx-pref-width: 16;
+}
+
+.scroll-bar>.decrement-button {
+    -fx-background-color: #bdbdbd;
+    -fx-background-radius: 0;
+    -fx-border-width: 0;
+    -fx-cursor: HAND;
+}
+
+.scroll-bar .decrement-button,
+.scroll-bar .increment-button {
+    -fx-cursor: HAND;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar .decrement-button:hover,
+.scroll-bar .increment-button:hover {
+    -fx-background-color: #bdbdbd;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow,
+.scroll-bar:horizontal .increment-arrow,
+.scroll-bar:horizontal .decrement-arrow {
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #7c7c7c;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: HAND;
+}
+
+/* TreeView */
+.tree-view .scroll-bar {
+    -fx-background-insets: 0 -1 0 0;
+}
+
+.tree-view .scroll-bar .thumb {
+    -fx-background-insets: 0 3 0 2;
+}
+
+.tree-view {
+    -fx-background-insets: 2;
+    -fx-background-color: #f8f8f8;
+    -fx-padding: 0 0 0 0;
+}
+
+
+.tree-view:hover {
+     -fx-border-color: #3E3E40;
+}
+
+.tree-view:focused {
+     -fx-border-color: #007ACC;
 }
