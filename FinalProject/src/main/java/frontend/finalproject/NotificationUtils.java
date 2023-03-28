@@ -111,4 +111,12 @@ public class NotificationUtils {
     public static final String EDIT_STATE_FAIL_TEXT = "Please select a state to edit";
     public static final String EDIT_EXCHANGE_FAIL_TITLE = "Failed to edit extrinsic change";
     public static final String EDIT_EXCHANGE_FAIL_TEXT = "Please select an extrinsic change to edit";
+    public static final String DELETE_GLOBAL_VAR_MODULE_FAIL_TITLE = "Failed to delete global variable module";
+    public static final String DELETE_GLOBAL_VAR_MODULE_FAIL_TEXT = "Please select a global variable module to delete";
+    public static final String DELETED_GLOBAL_VAR_PRECONDITION_ASS_FAIL_TITLE = "Failed to delete global variable precondition assignment";
+    public static final String DELETED_GLOBAL_VAL_PRECONDITION_ASS_FAIL_TEXT = "Please select a global variable precondition assignment to delete";
+    public static final String DELETED_PLANNER_ASS_PRECONDITION_FAIL_TITLE = "Failed to delete planner assignment precondition";
+    public static final String DELETED_PLANNER_ASS_PRECONDITION_FAIL_TEXT = "Please select a planner assignment precondition to delete";
+    public static final String DELETE_DYNAMIC_MODEL_FAIL_TEXT = "Please select a dynamic model to delete";
+    public static final String DELETE_DYNAMIC_MODEL_FAIL_TITLE = "Failed to delete dynamic model";
 }

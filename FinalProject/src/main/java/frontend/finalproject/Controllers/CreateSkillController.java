@@ -8,63 +8,110 @@ import frontend.finalproject.Model.Common.ImportCodeModel;
 import frontend.finalproject.Model.SD.GlobalVariableModuleParametersModel;
 import frontend.finalproject.Model.SD.SDModel;
 import frontend.finalproject.NotificationUtils;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import java.util.*;
 
 import javafx.scene.control.*;
 
 import utils.Response;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 
 public class CreateSkillController {
-    @FXML private Button addSkillBTN;
-    @FXML private Label titleLBL;
-    @FXML private ChoiceBox<String> ResponseRulesCBX;
-    @FXML private ChoiceBox<String> ImportCodeResponseRuleSectionCBX;
-    @FXML private ChoiceBox<String> ServiceParametersCBX;
-    @FXML private ChoiceBox<String> LocalVarsInitCBX;
-    @FXML private ChoiceBox<String> GlobalVarModuleParamsCBX;
-    @FXML private ChoiceBox<String> GlobalVarPrecondAssCBX;
-    @FXML private ChoiceBox<String> PlannerAssPrecondAssCBX;
-    @FXML private ChoiceBox<String> DynamicModelCBX;
-    @FXML private TextArea AssCodeSkillCodeRetValueTXT;
-    @FXML private TextField SkillCodeImportTXT;
-    @FXML private TextField SkillCodeFromTXT;
-    @FXML private TextField LocalVarNameRobotFrameWorkTXT;
-    @FXML private TextField ROSTopicPathTXT;
-    @FXML private TextField RobotFrameworkFromTXT;
-    @FXML private TextField RobotFrameworkImportTXT;
-    @FXML private TextArea AssCodeRobotFrameworkTXT;
-    @FXML private TextField VarTypeRobotFrameworkTXT;
-    @FXML private TextField InitialValueTXT;
-    @FXML private TextField TopicMessageTypeTXT;
-    @FXML private ChoiceBox<String> FromROSCBX;
-    @FXML private TextField VarTypeSkillCodeTXT;
-    @FXML private TextField LocalVarNameSkillCodeTXT;
-    @FXML private TextField FromGlobalVarTXT;
-    @FXML private TextField InputLocalVarTXT;
-    @FXML private TextField AssignServiceFieldCodeTXT;
-    @FXML private TextField ServiceFieldNameTXT;
-    @FXML private TextField ServiceNameTXT;
-    @FXML private TextField ServicePathTXT;
-    @FXML private TextField ImportTXT;
-    @FXML private TextField FromTXT;
-    @FXML private TextField ConditionCodeTXT;
-    @FXML private TextField ResponseTXT;
-    @FXML private TextField GlueFrameWorkTXT;
-    @FXML private TextField AssignmentCodeDynamicModelTXT;
-    @FXML private TextField AssignmentNameDynamicModelTXT;
-    @FXML private TextField ViolatingPreconditionPenaltyTXT;
-    @FXML private TextField AssignmentCodePlannerAssistancePreCondTXT;
-    @FXML private TextField AssignmentNamePlannerAssistancePreCondTXT;
-    @FXML private TextField AssignmentCodeGlobVarPreCondTXT;
-    @FXML private TextField AssignmentNameGlobVarPreCondTXT;
-    @FXML private TextField GlobalVarModuleParamTypeTXT;
-    @FXML private TextField GlobalVarModuleParamNameTXT;
-    @FXML private TextField SkillNameTXT;
+    @FXML
+    private TreeView<String> LocalVarInitTreeView;
+    @FXML
+    private TreeView<String> ImportCodeRobotFWTreeView;
+    @FXML
+    private TreeView<String> GlobalVarModuleParamsTreeView;
+    @FXML
+    private TreeView<String> GlobalVarPreconditionAssTreeView;
+    @FXML
+    private TreeView<String> PlannerAssistancePreconditionAssTreeView;
+    @FXML
+    private TreeView<String> DynamicModelTreeView;
+    @FXML
+    private TreeView<String> ResponseRulesTreeView;
+    @FXML
+    private TreeView<String> ImportCodeMainTreeView;
+    @FXML
+    private TreeView<String> ServicesParamsTreeView;
+    @FXML
+    private TreeView<String> ImportCodeSkillCodeTreeView;
+    @FXML
+    private Button addSkillBTN;
+    @FXML
+    private Label titleLBL;
+    @FXML
+    private TextArea AssCodeSkillCodeRetValueTXT;
+    @FXML
+    private TextArea SkillCodeImportTXT;
+    @FXML
+    private TextField SkillCodeFromTXT;
+    @FXML
+    private TextField LocalVarNameRobotFrameWorkTXT;
+    @FXML
+    private TextField ROSTopicPathTXT;
+    @FXML
+    private TextField RobotFrameworkFromTXT;
+    @FXML
+    private TextArea RobotFrameworkImportTXT;
+    @FXML
+    private TextArea AssCodeRobotFrameworkTXT;
+    @FXML
+    private TextField VarTypeRobotFrameworkTXT;
+    @FXML
+    private TextField InitialValueTXT;
+    @FXML
+    private TextField TopicMessageTypeTXT;
+    @FXML
+    private ChoiceBox<String> FromROSCBX;
+    @FXML
+    private TextField VarTypeSkillCodeTXT;
+    @FXML
+    private TextField LocalVarNameSkillCodeTXT;
+    @FXML
+    private TextField FromGlobalVarTXT;
+    @FXML
+    private TextField InputLocalVarTXT;
+    @FXML
+    private TextArea AssignServiceFieldCodeTXT;
+    @FXML
+    private TextField ServiceFieldNameTXT;
+    @FXML
+    private TextField ServiceNameTXT;
+    @FXML
+    private TextField ServicePathTXT;
+    @FXML
+    private TextArea ImportTXT;
+    @FXML
+    private TextField FromTXT;
+    @FXML
+    private TextArea ConditionCodeTXT;
+    @FXML
+    private TextField ResponseTXT;
+    @FXML
+    private TextField GlueFrameWorkTXT;
+    @FXML
+    private TextArea AssignmentCodeDynamicModelTXT;
+    @FXML
+    private TextField AssignmentNameDynamicModelTXT;
+    @FXML
+    private TextField ViolatingPreconditionPenaltyTXT;
+    @FXML
+    private TextArea AssignmentCodePlannerAssistancePreCondTXT;
+    @FXML
+    private TextField AssignmentNamePlannerAssistancePreCondTXT;
+    @FXML
+    private TextArea AssignmentCodeGlobVarPreCondTXT;
+    @FXML
+    private TextField AssignmentNameGlobVarPreCondTXT;
+    @FXML
+    private TextField GlobalVarModuleParamTypeTXT;
+    @FXML
+    private TextField GlobalVarModuleParamNameTXT;
+    @FXML
+    private TextField SkillNameTXT;
     private String projectName;
     private SDModel SDmodel = new SDModel();
     private AMModel AMmodel = new AMModel();
@@ -86,10 +133,24 @@ public class CreateSkillController {
     }
 
     public void handleInsertGlobalVarModuleParamSD(ActionEvent event) {
-        SDmodel.addGlobalVariableModuleParameter(GlobalVarModuleParamNameTXT.getText(),GlobalVarModuleParamTypeTXT.getText());
-        GlobalVarModuleParamsCBX.getItems().add(GlobalVarModuleParamNameTXT.getText());
+        SDmodel.addGlobalVariableModuleParameter(GlobalVarModuleParamNameTXT.getText(), GlobalVarModuleParamTypeTXT.getText());
+        addGlobalVarModuleParamToTree(new GlobalVariableModuleParametersModel(GlobalVarModuleParamNameTXT.getText(), GlobalVarModuleParamTypeTXT.getText()));
         GlobalVarModuleParamNameTXT.setText("");
         GlobalVarModuleParamTypeTXT.setText("");
+    }
+
+    @FXML
+    public void initialize() {
+        LocalVarInitTreeView.setRoot(new TreeItem<>("Local Variables Initialization"));
+        ImportCodeRobotFWTreeView.setRoot(new TreeItem<>("Import Code"));
+        GlobalVarModuleParamsTreeView.setRoot(new TreeItem<>("Global Variables Module Parameters"));
+        GlobalVarPreconditionAssTreeView.setRoot(new TreeItem<>("Global Variables Precondition Assignments"));
+        PlannerAssistancePreconditionAssTreeView.setRoot(new TreeItem<>("Planner Assistance Precondition Assignments"));
+        DynamicModelTreeView.setRoot(new TreeItem<>("Dynamic Models"));
+        ResponseRulesTreeView.setRoot(new TreeItem<>("Response Rules"));
+        ImportCodeMainTreeView.setRoot(new TreeItem<>("Import Code"));
+        ServicesParamsTreeView.setRoot(new TreeItem<>("Services Parameters"));
+        ImportCodeSkillCodeTreeView.setRoot(new TreeItem<>("Import Code"));
     }
 
 
@@ -97,7 +158,6 @@ public class CreateSkillController {
         SDmodel.addGlobalVariablePreconditionAssignment(new AssignmentBlock(
                 AssignmentNameGlobVarPreCondTXT.getText(),
                 AssignmentCodeGlobVarPreCondTXT.getText()));
-        GlobalVarPrecondAssCBX.getItems().add(AssignmentNameGlobVarPreCondTXT.getText());
         AssignmentNameGlobVarPreCondTXT.setText("");
         AssignmentCodeGlobVarPreCondTXT.setText("");
     }
@@ -107,7 +167,6 @@ public class CreateSkillController {
                 AssignmentNamePlannerAssistancePreCondTXT.getText(),
                 AssignmentCodePlannerAssistancePreCondTXT.getText()
         ));
-        PlannerAssPrecondAssCBX.getItems().add(AssignmentNamePlannerAssistancePreCondTXT.getText());
         AssignmentNamePlannerAssistancePreCondTXT.setText("");
         AssignmentCodePlannerAssistancePreCondTXT.setText("");
     }
@@ -117,42 +176,40 @@ public class CreateSkillController {
                 AssignmentNameDynamicModelTXT.getText(),
                 AssignmentCodeDynamicModelTXT.getText()
         ));
-        DynamicModelCBX.getItems().add(AssignmentNameDynamicModelTXT.getText());
         AssignmentNameDynamicModelTXT.setText("");
         AssignmentCodeDynamicModelTXT.setText("");
     }
 
     public void handleSDPreviewBTNClick(ActionEvent event) {
-        UtilsFXML.handlePreviewBTNClick(event,generateSDJSON());
+        UtilsFXML.handlePreviewBTNClick(event, generateSDJSON());
     }
 
     private String generateSDJSON() {
         buildSingleFieldsSD();
         Response<String> response = facade.previewSDJSON(SDmodel);
-        if(response.hasErrorOccurred())
-            UtilsFXML.showNotification(null,null,response);
+        if (response.hasErrorOccurred())
+            UtilsFXML.showNotification(null, null, response);
         else
             return response.getValue();
         return "";
     }
 
     private void buildSingleFieldsSD() {
-        SDmodel.buildPlpMain(projectName,SkillNameTXT.getText());
+        SDmodel.buildPlpMain(projectName, SkillNameTXT.getText());
         SDmodel.setViolatingPreconditionPenalty(Double.parseDouble(ViolatingPreconditionPenaltyTXT.getText()));
     }
 
     public void handleAMPreviewBTNClick(ActionEvent event) {
-        UtilsFXML.handlePreviewBTNClick(event,generateAMJSON());
+        UtilsFXML.handlePreviewBTNClick(event, generateAMJSON());
     }
 
     private String generateAMJSON() {
         buildSingleFieldsAM();
         Response<String> response = facade.previewAMJSON(AMmodel);
-        if(response.hasErrorOccurred()){
-            UtilsFXML.showNotification(null,null,response);
+        if (response.hasErrorOccurred()) {
+            UtilsFXML.showNotification(null, null, response);
             return "";
-        }
-        else
+        } else
             return response.getValue();
     }
 
@@ -166,9 +223,9 @@ public class CreateSkillController {
     }
 
     private void saveSkillChanges() {
-        Response<Boolean> response = facade.saveChangesToSkill(this.originalSkillName,SDmodel,AMmodel);
-        UtilsFXML.showNotification(NotificationUtils.SAVED_CHANGES_TO_PROJECT_TITLE,NotificationUtils.SAVED_CHANGES_TO_PROJECT_TEXT,response);
-        if(!response.hasErrorOccurred() && response.getValue()){
+        Response<Boolean> response = facade.saveChangesToSkill(this.originalSkillName, SDmodel, AMmodel);
+        UtilsFXML.showNotification(NotificationUtils.SAVED_CHANGES_TO_PROJECT_TITLE, NotificationUtils.SAVED_CHANGES_TO_PROJECT_TEXT, response);
+        if (!response.hasErrorOccurred() && response.getValue()) {
             this.originalSkillName = SkillNameTXT.getText();
         }
     }
@@ -181,7 +238,7 @@ public class CreateSkillController {
     }
 
     private void buildSingleFieldsAM() {
-        AMmodel.buildPlpMain(getProjectName(),SkillNameTXT.getText());
+        AMmodel.buildPlpMain(getProjectName(), SkillNameTXT.getText());
         AMmodel.setGlueFramework(GlueFrameWorkTXT.getText());
         AMmodel.getModuleActivation().setServicePath(ServicePathTXT.getText());
         AMmodel.getModuleActivation().setServiceName(ServiceNameTXT.getText());
@@ -191,19 +248,9 @@ public class CreateSkillController {
         AMmodel.addResponseRule(
                 ResponseTXT.getText(),
                 ConditionCodeTXT.getText());
-        ResponseRulesCBX.getItems().add(ResponseTXT.getText());
         ResponseTXT.setText("");
         ConditionCodeTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_RESPONSE_RULE_TITLE,NotificationUtils.ADDED_RESPONSE_RULE_TEXT,null);
-    }
-
-    public void handleInsertImportValueImportCodeSectionBTNClick(ActionEvent event) {
-        if(curImportCodeModelModuleActivationSection == null){
-            curImportCodeModelModuleActivationSection = new ImportCodeModel();
-        }
-        curImportCodeModelModuleActivationSection.addImportValue(ImportTXT.getText());
-        ImportTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_VALUE_TITLE,NotificationUtils.ADDED_IMPORT_VALUE_TEXT,null);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_RESPONSE_RULE_TITLE, NotificationUtils.ADDED_RESPONSE_RULE_TEXT, null);
     }
 
     public void handleInsertImportCodeSectionBTNClick(ActionEvent event) {
@@ -212,8 +259,7 @@ public class CreateSkillController {
         ImportTXT.setText("");
         AMmodel.getModuleActivation().addImportCode(curImportCodeModelModuleActivationSection);
         curImportCodeModelModuleActivationSection = null;
-        ImportCodeResponseRuleSectionCBX.getItems().add(String.valueOf(AMmodel.getModuleActivation().getRosService().getImportCode().size()));
-        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE,NotificationUtils.ADDED_IMPORT_CODE_TEXT,null);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
     }
 
     public void handleInsertServiceParamBTNClick(ActionEvent event) {
@@ -221,10 +267,9 @@ public class CreateSkillController {
                 ServiceFieldNameTXT.getText(),
                 AssignServiceFieldCodeTXT.getText()
         );
-        ServiceParametersCBX.getItems().add(ServiceFieldNameTXT.getText());
         ServiceFieldNameTXT.setText("");
         AssignServiceFieldCodeTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_SERVICE_PARAM_TITLE,NotificationUtils.ADDED_SERVICE_PARAM_TEXT,null);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_SERVICE_PARAM_TITLE, NotificationUtils.ADDED_SERVICE_PARAM_TEXT, null);
     }
 
     public void handleInsertLocalVarInitSDbtnClick(ActionEvent event) {
@@ -232,14 +277,13 @@ public class CreateSkillController {
                 InputLocalVarTXT.getText(),
                 FromGlobalVarTXT.getText()
         ));
-        LocalVarsInitCBX.getItems().add(String.valueOf(AMmodel.getLocalVariablesInitialization().size()));
         InputLocalVarTXT.setText("");
         FromGlobalVarTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_FROM_SD_TITLE,NotificationUtils.ADDED_LOCAL_VAR_INIT_FROM_SD_TEXT,null);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_FROM_SD_TITLE, NotificationUtils.ADDED_LOCAL_VAR_INIT_FROM_SD_TEXT, null);
     }
 
     public void handleInsertLocalVarInitSkillCodeBTNClick(ActionEvent event) {
-        if(curSkillCodeReturnValue == null)
+        if (curSkillCodeReturnValue == null)
             curSkillCodeReturnValue = new SkillCodeReturnValueModel();
 
         curSkillCodeReturnValue.setLocalVariableName(LocalVarNameSkillCodeTXT.getText());
@@ -247,27 +291,18 @@ public class CreateSkillController {
         curSkillCodeReturnValue.setFromROSServiceResponse(Boolean.parseBoolean(FromROSCBX.getValue()));
         curSkillCodeReturnValue.setAssignmentCode(AssCodeSkillCodeRetValueTXT.getText());
         AMmodel.addLocalVariableInitialization(curSkillCodeReturnValue);
-        LocalVarsInitCBX.getItems().add(String.valueOf(AMmodel.getLocalVariablesInitialization().size()));
         LocalVarNameSkillCodeTXT.setText("");
         VarTypeSkillCodeTXT.setText("");
         FromROSCBX.setValue("");
         AssCodeSkillCodeRetValueTXT.setText("");
         curSkillCodeReturnValue = null;
-        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TITLE,NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TEXT,null);
-    }
-
-    public void handleInsertImportValueSkillCodeBTNClick(ActionEvent event) {
-        if(curSkillCodeRetValueImportCode == null)
-            curSkillCodeRetValueImportCode = new ImportCodeModel();
-        curSkillCodeRetValueImportCode.addImportValue(SkillCodeImportTXT.getText());
-        SkillCodeImportTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_VALUE_TITLE,NotificationUtils.ADDED_IMPORT_VALUE_TEXT,null);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TITLE, NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TEXT, null);
     }
 
     public void handleInsertImportCodeSkillCodeBTNClick(ActionEvent event) {
-        if(curSkillCodeRetValueImportCode == null)
+        if (curSkillCodeRetValueImportCode == null)
             curSkillCodeRetValueImportCode = new ImportCodeModel();
-        if(curSkillCodeReturnValue == null)
+        if (curSkillCodeReturnValue == null)
             curSkillCodeReturnValue = new SkillCodeReturnValueModel();
 
         curSkillCodeRetValueImportCode.setFrom(SkillCodeFromTXT.getText());
@@ -275,7 +310,7 @@ public class CreateSkillController {
         curSkillCodeRetValueImportCode = null;
         SkillCodeImportTXT.setText("");
         SkillCodeFromTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE,NotificationUtils.ADDED_IMPORT_CODE_TEXT,null);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
     }
 
     public void handleInsertLocalVarINITRobotFrameworkBTNClick(ActionEvent event) {
@@ -288,7 +323,6 @@ public class CreateSkillController {
         curRobotFramework.setTopicMessageType(TopicMessageTypeTXT.getText());
         curRobotFramework.setAssignmentCode(AssCodeRobotFrameworkTXT.getText());
         AMmodel.addLocalVariableInitialization(curRobotFramework);
-        LocalVarsInitCBX.getItems().add(String.valueOf(AMmodel.getLocalVariablesInitialization().size()));
         LocalVarNameRobotFrameWorkTXT.setText("");
         ROSTopicPathTXT.setText("");
         VarTypeRobotFrameworkTXT.setText("");
@@ -296,21 +330,13 @@ public class CreateSkillController {
         TopicMessageTypeTXT.setText("");
         AssCodeRobotFrameworkTXT.setText("");
         curRobotFramework = null;
-        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TITLE,NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TEXT,null);
-    }
-
-    public void handleInsertImportValueRobotFrameworkBTNClick(ActionEvent event) {
-        if(curRobotFrameworkImportCode == null)
-            curRobotFrameworkImportCode = new ImportCodeModel();
-        curRobotFrameworkImportCode.addImportValue(RobotFrameworkImportTXT.getText());
-        RobotFrameworkImportTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_VALUE_TITLE,NotificationUtils.ADDED_IMPORT_VALUE_TEXT,null);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TITLE, NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TEXT, null);
     }
 
     public void handleInsertImportCodeRobotFrameworkBTNClick(ActionEvent event) {
-        if(curRobotFrameworkImportCode == null)
+        if (curRobotFrameworkImportCode == null)
             curRobotFrameworkImportCode = new ImportCodeModel();
-        if(curRobotFramework == null)
+        if (curRobotFramework == null)
             curRobotFramework = new DataPublishedRobotFramework();
 
         curRobotFrameworkImportCode.setFrom(RobotFrameworkFromTXT.getText());
@@ -318,7 +344,7 @@ public class CreateSkillController {
         curRobotFrameworkImportCode = null;
         RobotFrameworkFromTXT.setText("");
         RobotFrameworkImportTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE,NotificationUtils.ADDED_IMPORT_CODE_TEXT,null);
+        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
     }
 
     public void handleBackBTNClick(ActionEvent event) {
@@ -326,128 +352,91 @@ public class CreateSkillController {
     }
 
     public void handleDeleteGlobalVarModuleBTNClick(ActionEvent event) {
-        String selected = GlobalVarModuleParamsCBX.selectionModelProperty().getValue().getSelectedItem();
-        SDmodel.setGlobalVariableModuleParameters(
-                SDmodel.getGlobalVariableModuleParameters()
-                        .stream().filter(
-                                (var) -> !var.getName().equals(selected)
-                        ).toList());
-        GlobalVarModuleParamsCBX.setItems(FXCollections.observableArrayList(
-                SDmodel.getGlobalVariableModuleParameters().stream()
-                        .map(GlobalVariableModuleParametersModel::getName).toList()
-        ));
-        GlobalVarModuleParamsCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TEXT,null);
+        TreeItem<String> val = GlobalVarModuleParamsTreeView.getSelectionModel().getSelectedItem();
+        if(GlobalVarModuleParamsTreeView.getRoot().getChildren().contains(val)){
+            String selected = val.getValue();
+
+            SDmodel.setGlobalVariableModuleParameters(SDmodel.getGlobalVariableModuleParameters().
+                    stream().filter(
+                            (dec) -> !dec.getName().equals(selected)
+                    ).toList());
+            GlobalVarModuleParamsTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_MODULE_TEXT,null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETE_GLOBAL_VAR_MODULE_FAIL_TITLE,NotificationUtils.DELETE_GLOBAL_VAR_MODULE_FAIL_TEXT);
+        }
+
     }
 
     public void handleDeleteGlobalVarPreconditionAssBTNClick(ActionEvent event) {
-        String selected = GlobalVarPrecondAssCBX.selectionModelProperty().getValue().getSelectedItem();
-        SDmodel.getPreconditions().setGlobalVariablePreconditionAssignments(
-                SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments().stream().filter(
-                        (assignment) -> !assignment.getAssignmentName().equals(selected)
-                ).toList()
-        );
-        GlobalVarPrecondAssCBX.setItems(FXCollections.observableArrayList(
-                SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments().
-                        stream().map(AssignmentBlock::getAssignmentName).toList()
-        ));
-        GlobalVarPrecondAssCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TEXT,null);
+        TreeItem<String> val = GlobalVarPreconditionAssTreeView.getSelectionModel().getSelectedItem();
+        if(GlobalVarPreconditionAssTreeView.getRoot().getChildren().contains(val)){
+            int selected = GlobalVarPreconditionAssTreeView.getRoot().getChildren().indexOf(val);
+            SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments().remove(selected);
+            GlobalVarPreconditionAssTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TITLE,NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_TEXT,null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETED_GLOBAL_VAR_PRECONDITION_ASS_FAIL_TITLE,NotificationUtils.DELETED_GLOBAL_VAL_PRECONDITION_ASS_FAIL_TEXT);
+        }
+
     }
 
     public void handleDeletePlannerAssPrecondAssBTNClick(ActionEvent event) {
-        String selected = PlannerAssPrecondAssCBX.selectionModelProperty().getValue().getSelectedItem();
-        SDmodel.getPreconditions().setPlannerAssistancePreconditionsAssignments(
-                SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments().stream().filter(
-                        (ass) -> !ass.getAssignmentName().equals(selected)
-                ).toList()
-        );
-        PlannerAssPrecondAssCBX.setItems(FXCollections.observableArrayList(
-                SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments()
-                        .stream().map(AssignmentBlock::getAssignmentName).toList()
-        ));
-        PlannerAssPrecondAssCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TITLE,NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TEXT,null);
+        TreeItem<String> val = PlannerAssistancePreconditionAssTreeView.getSelectionModel().getSelectedItem();
+        if(PlannerAssistancePreconditionAssTreeView.getRoot().getChildren().contains(val)){
+            int selected = PlannerAssistancePreconditionAssTreeView.getRoot().getChildren().indexOf(val);
+            SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments().remove(selected);
+            PlannerAssistancePreconditionAssTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TITLE,NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_TEXT,null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_FAIL_TITLE,NotificationUtils.DELETED_PLANNER_ASS_PRECONDITION_FAIL_TEXT);
+        }
     }
 
     public void handleDeleteDynamicModelBTNClick(ActionEvent event) {
-        String selected = DynamicModelCBX.selectionModelProperty().getValue().getSelectedItem();
-        SDmodel.getDynamicModel().setNextStateAssignments(
-                SDmodel.getDynamicModel().getNextStateAssignments().stream().filter(
-                        (ass) -> !ass.getAssignmentName().equals(selected)
-                ).toList()
-        );
-        DynamicModelCBX.setItems(FXCollections.observableArrayList(
-                SDmodel.getDynamicModel().getNextStateAssignments()
-                        .stream().map(AssignmentBlock::getAssignmentName).toList()
-        ));
-        DynamicModelCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_DYNAMIC_MODEL_TITLE,NotificationUtils.DELETED_DYNAMIC_MODEL_TEXT,null);
+        TreeItem<String> val = DynamicModelTreeView.getSelectionModel().getSelectedItem();
+        if(DynamicModelTreeView.getRoot().getChildren().contains(val)){
+            int selected = DynamicModelTreeView.getRoot().getChildren().indexOf(val);
+            SDmodel.getDynamicModel().getNextStateAssignments().remove(selected);
+            DynamicModelTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_DYNAMIC_MODEL_TITLE,NotificationUtils.DELETED_DYNAMIC_MODEL_TEXT,null);
+        }
+        else {
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETE_DYNAMIC_MODEL_FAIL_TITLE,NotificationUtils.DELETE_DYNAMIC_MODEL_FAIL_TEXT);
+        }
     }
 
     public void handleResponseRuleDeleteBTNClick(ActionEvent event) {
-        String selected = ResponseRulesCBX.selectionModelProperty().getValue().getSelectedItem();
-        AMmodel.getModuleResponse().setResponseRules(
-                AMmodel.getModuleResponse().getResponseRules().stream().filter(
-                        (rule) -> !rule.getResponse().equals(selected)
-                ).toList()
-        );
-        ResponseRulesCBX.setItems(FXCollections.observableArrayList(
-                AMmodel.getModuleResponse().getResponseRules()
-                        .stream().map(ResponseRule::getResponse).toList()
-        ));
-        ResponseRulesCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_RESPONSE_RULE_TITLE,NotificationUtils.DELETED_RESPONSE_RULE_TEXT,null);
+
     }
 
     public void handleImportCodeResponseRuleSectionDeleteBTNClick(ActionEvent event) {
-        Integer selected = Integer.valueOf(ImportCodeResponseRuleSectionCBX.selectionModelProperty().getValue().getSelectedItem());
-        AMmodel.getModuleActivation().getRosService().getImportCode().remove(selected - 1);
-        AtomicInteger i = new AtomicInteger(0);
-        ImportCodeResponseRuleSectionCBX.setItems(FXCollections.observableArrayList(
-                AMmodel.getModuleActivation().getRosService().getImportCode()
-                        .stream().map(
-                                (code) -> {
-                                    i.getAndIncrement();
-                                    return String.valueOf(i.get());
-                                }
-                        ).toList()
-        ));
 
-        ImportCodeResponseRuleSectionCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_IMPORT_CODE_TITLE,NotificationUtils.DELETED_IMPORT_CODE_TEXT,null);
     }
 
     public void handleDeleteServiceParamsBTNClick(ActionEvent event) {
-        String selected = ServiceParametersCBX.selectionModelProperty().getValue().getSelectedItem();
-        AMmodel.getModuleActivation().getRosService().setServiceParameters(
-                AMmodel.getModuleActivation().getRosService().getServiceParameters().stream().filter(
-                        (param) -> !param.getServiceFieldName().equals(selected)
-                ).toList()
-        );
-        ServiceParametersCBX.setItems(FXCollections.observableArrayList(
-                AMmodel.getModuleActivation().getRosService().getServiceParameters()
-                        .stream().map(ServiceParameter::getServiceFieldName).toList()));
-        ServiceParametersCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_SERVICE_PARAM_TITLE,NotificationUtils.DELETED_SERVICE_PARAM_TEXT,null);
+
     }
 
-    public void handleLocalVarInitDeleteBTNClick(ActionEvent event) {
-        Integer selected = Integer.valueOf(LocalVarsInitCBX.selectionModelProperty().getValue().getSelectedItem());
-        AMmodel.getLocalVariablesInitialization().remove(selected - 1);
-        AtomicInteger i = new AtomicInteger(0);
-        LocalVarsInitCBX.setItems(FXCollections.observableArrayList(
-                AMmodel.getLocalVariablesInitialization().stream().map(
-                        (x) -> {
-                            i.incrementAndGet();
-                            return String.valueOf(i.get());
-                        }
-                ).toList()
-        ));
-
-        LocalVarsInitCBX.setValue("");
-        UtilsFXML.showNotification(NotificationUtils.DELETED_LOCAL_VAR_INIT_TITLE,NotificationUtils.DELETED_LOCAL_VAR_INIT_TEXT,null);
-    }
+//    public void handleLocalVarInitDeleteBTNClick(ActionEvent event) {
+//        Integer selected = Integer.valueOf(LocalVarsInitCBX.selectionModelProperty().getValue().getSelectedItem());
+//        AMmodel.getLocalVariablesInitialization().remove(selected - 1);
+//        AtomicInteger i = new AtomicInteger(0);
+//        LocalVarsInitCBX.setItems(FXCollections.observableArrayList(
+//                AMmodel.getLocalVariablesInitialization().stream().map(
+//                        (x) -> {
+//                            i.incrementAndGet();
+//                            return String.valueOf(i.get());
+//                        }
+//                ).toList()
+//        ));
+//
+//        LocalVarsInitCBX.setValue("");
+//        UtilsFXML.showNotification(NotificationUtils.DELETED_LOCAL_VAR_INIT_TITLE,NotificationUtils.DELETED_LOCAL_VAR_INIT_TEXT,null);
+//    }
 
     public void setSource(UtilsFXML.Source source) {
         this.source = source;
@@ -461,36 +450,51 @@ public class CreateSkillController {
         SDmodel = value;
         SkillNameTXT.setText(SDmodel.getPlpMain().getName());
         ViolatingPreconditionPenaltyTXT.setText(String.valueOf(SDmodel.getPreconditions().getViolatingPreconditionPenalty()));
-        populateAllSDChoiceBoxes();
-
+        populateSDTree();
     }
 
-    private void populateAllSDChoiceBoxes() {
-        GlobalVarModuleParamsCBX.setItems(
-                FXCollections.observableArrayList(
-                        SDmodel.getGlobalVariableModuleParameters().stream().map(
-                                GlobalVariableModuleParametersModel::getName
-                        ).toList()
-                )
-        );
-        GlobalVarPrecondAssCBX.setItems(
-                FXCollections.observableArrayList(
-                        SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments()
-                                .stream().map(AssignmentBlock::getAssignmentName).toList()
-                )
-        );
-        PlannerAssPrecondAssCBX.setItems(
-                FXCollections.observableArrayList(
-                        SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments()
-                                .stream().map(AssignmentBlock::getAssignmentName).toList()
-                )
-        );
-        DynamicModelCBX.setItems(
-                FXCollections.observableArrayList(
-                        SDmodel.getDynamicModel().getNextStateAssignments()
-                                .stream().map(AssignmentBlock::getAssignmentName).toList()
-                )
-        );
+    private void populateSDTree() {
+        populateGlobalVarModuleParamsTree();
+        populateGlobalVarPreconditionAssTree();
+        populatePlannerAssistancePreconditionAssTree();
+        populateDynamicModelTree();
+    }
+
+    private void populateDynamicModelTree() {
+        populateAssignmentBlocksInTree(DynamicModelTreeView, SDmodel.getDynamicModel().getNextStateAssignments(), "Dynamic model");
+    }
+
+    private void populateAssignmentBlocksInTree(TreeView<String> treeView, List<AssignmentBlock> assignmentBlocks, String defaultName) {
+        for (AssignmentBlock block : assignmentBlocks) {
+            addAssBlockToTree(treeView, defaultName, block);
+        }
+    }
+
+    private void addAssBlockToTree(TreeView<String> treeView, String defaultName, AssignmentBlock block) {
+        TreeItem<String> newItem = new TreeItem<>(block.getAssignmentName() == null || block.getAssignmentName().isEmpty() ? defaultName : block.getAssignmentName());
+        for (String code : block.getAssignmentCode())
+            newItem.getChildren().add(new TreeItem<>(code));
+        treeView.getRoot().getChildren().add(newItem);
+    }
+
+    private void populatePlannerAssistancePreconditionAssTree() {
+        populateAssignmentBlocksInTree(PlannerAssistancePreconditionAssTreeView, SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments(), "Planner assistance precondition");
+    }
+
+    private void populateGlobalVarPreconditionAssTree() {
+        populateAssignmentBlocksInTree(GlobalVarPreconditionAssTreeView, SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments(), "Global variable precondition");
+    }
+
+    private void populateGlobalVarModuleParamsTree() {
+        for (GlobalVariableModuleParametersModel model : SDmodel.getGlobalVariableModuleParameters()) {
+            addGlobalVarModuleParamToTree(model);
+        }
+    }
+
+    private void addGlobalVarModuleParamToTree(GlobalVariableModuleParametersModel model) {
+        TreeItem<String> item = new TreeItem<>(model.getName());
+        item.getChildren().add(new TreeItem<>("Type: " + model.getType()));
+        GlobalVarModuleParamsTreeView.getRoot().getChildren().add(item);
     }
 
     public void setAM(AMModel value) {
@@ -498,39 +502,99 @@ public class CreateSkillController {
         GlueFrameWorkTXT.setText(AMmodel.getGlueFramework());
         ServicePathTXT.setText(AMmodel.getModuleActivation().getRosService().getServicePath());
         ServiceNameTXT.setText(AMmodel.getModuleActivation().getRosService().getServiceName());
-        populateAllAMChoiceBoxes();
+        populateAMTree();
     }
 
-    private void populateAllAMChoiceBoxes() {
-        ResponseRulesCBX.setItems(
-                FXCollections.observableArrayList(
-                        AMmodel.getModuleResponse().getResponseRules()
-                                .stream().map(ResponseRule::getResponse).toList()
-                )
-        );
-        AtomicInteger i = new AtomicInteger(0);
-        ImportCodeResponseRuleSectionCBX.setItems(
-                FXCollections.observableArrayList(
-                        AMmodel.getModuleActivation().getRosService().getImportCode()
-                                .stream().map(
-                                        (x) -> String.valueOf(i.incrementAndGet())
-                                ).toList()
-                )
-        );
-        ServiceParametersCBX.setItems(
-                FXCollections.observableArrayList(
-                        AMmodel.getModuleActivation().getRosService().getServiceParameters()
-                                .stream().map(ServiceParameter::getServiceFieldName).toList()
-                )
-        );
-        i.set(0);
-        LocalVarsInitCBX.setItems(
-                FXCollections.observableArrayList(
-                        AMmodel.getLocalVariablesInitialization()
-                                .stream().map(
-                                        (x) -> String.valueOf(i.incrementAndGet())
-                                ).toList()
-                )
-        );
+    private void populateAMTree() {
+        populateLocalVarInitTree();
+        populateResponseRulesTree();
+        populateImportCodeMainTree();
+        populateServicesParamsTree();
+
+    }
+
+    private void populateServicesParamsTree() {
+        for (ServiceParameter param : AMmodel.getModuleActivation().getRosService().getServiceParameters()) {
+            addServiceParamToTree(param);
+        }
+    }
+
+    private void addServiceParamToTree(ServiceParameter param) {
+        TreeItem<String> newItem = new TreeItem<>(param.getServiceFieldName());
+        newItem.getChildren().add(new TreeItem<>(param.getAssignServiceFieldCode()));
+        ServicesParamsTreeView.getRoot().getChildren().add(newItem);
+    }
+
+    private void populateImportCodeMainTree() {
+        TreeItem<String> imports = createImportCodeTree(AMmodel.getModuleActivation().getRosService().getImportCode());
+        for (TreeItem<String> item : imports.getChildren())
+            ImportCodeMainTreeView.getRoot().getChildren().add(item);
+    }
+
+    private void populateResponseRulesTree() {
+        for (ResponseRule rule : AMmodel.getModuleResponse().getResponseRules()) {
+            addResponseRuleToTree(rule);
+        }
+    }
+
+    private void addResponseRuleToTree(ResponseRule rule) {
+        TreeItem<String> newItem = new TreeItem<>(rule.getResponse());
+        newItem.getChildren().add(new TreeItem<>(rule.getConditionCodeWithLocalVariables()));
+        ResponseRulesTreeView.getRoot().getChildren().add(newItem);
+    }
+
+
+    private TreeItem<String> createImportCodeTree(List<ImportCodeModel> imports) {
+        TreeItem<String> importItems = new TreeItem<>("Import code");
+        for (ImportCodeModel imp : imports) {
+            TreeItem<String> impItem = new TreeItem<>("From: " + imp.getFrom());
+            for (String code : imp.getImport())
+                impItem.getChildren().add(new TreeItem<>(code));
+            importItems.getChildren().add(impItem);
+        }
+        return importItems;
+    }
+
+    private void addLocalVarInitToTree(LocalVariablesInitializationModel model) {
+        if (model instanceof SDParametersModel) {
+            addSDParamModelToTree((SDParametersModel) model);
+        } else if (model instanceof SkillCodeReturnValueModel) {
+            addSkillCodeRetValueToTree((SkillCodeReturnValueModel) model);
+        } else if (model instanceof DataPublishedRobotFramework) {
+            addDataPublishedRobotFWToTree((DataPublishedRobotFramework) model);
+        }
+    }
+
+    private void addDataPublishedRobotFWToTree(DataPublishedRobotFramework model) {
+        TreeItem<String> newItem = new TreeItem<>("Data published: " + model.getLocalVariableName());
+        newItem.getChildren().add(new TreeItem<>("ROS topic path: " + model.getRosTopicPath()));
+        newItem.getChildren().add(new TreeItem<>("Variable type: " + model.getVariableType()));
+        newItem.getChildren().add(new TreeItem<>("Initial value: " + model.getInitialValue()));
+        newItem.getChildren().add(new TreeItem<>("Topic message type" + model.getTopicMessageType()));
+        newItem.getChildren().add(new TreeItem<>("Assignment code: " + model.getAssignmentCode()));
+        newItem.getChildren().add(createImportCodeTree(model.getImportCode()));
+
+        LocalVarInitTreeView.getRoot().getChildren().add(newItem);
+    }
+
+    private void addSkillCodeRetValueToTree(SkillCodeReturnValueModel model) {
+        TreeItem<String> newItem = new TreeItem<>("Skill code return value: " + model.getLocalVariableName());
+        newItem.getChildren().add(new TreeItem<>("Variable type: " + model.getVariableType()));
+        newItem.getChildren().add(new TreeItem<>("From ROS Service Response: " + model.isFromROSServiceResponse()));
+        newItem.getChildren().add(new TreeItem<>("Assignment code: " + model.getAssignmentCode()));
+        newItem.getChildren().add(createImportCodeTree(model.getImportCode()));
+
+        LocalVarInitTreeView.getRoot().getChildren().add(newItem);
+    }
+
+    private void addSDParamModelToTree(SDParametersModel model) {
+        TreeItem<String> newItem = new TreeItem<>("SD parameter: " + model.getInputLocalVariable());
+        newItem.getChildren().add(new TreeItem<>("From Global Variable: " + model.getFromGlobalVariable()));
+        LocalVarInitTreeView.getRoot().getChildren().add(newItem);
+    }
+
+    private void populateLocalVarInitTree() {
+        for (LocalVariablesInitializationModel model : AMmodel.getLocalVariablesInitialization())
+            addLocalVarInitToTree(model);
     }
 }
