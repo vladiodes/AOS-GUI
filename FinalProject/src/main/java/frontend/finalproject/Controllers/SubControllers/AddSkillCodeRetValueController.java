@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+import static frontend.finalproject.Controllers.UtilsFXML.*;
+
 public class AddSkillCodeRetValueController implements AddSubController, EditSubController {
 
     @FXML private TextArea SkillCodeImportTXT;
@@ -62,7 +64,7 @@ public class AddSkillCodeRetValueController implements AddSubController, EditSub
         SkillCodeImportTXT.setText("");
         model.addImportCodeModel(importCodeModel);
 
-        CreateSkillController.addImportCodeModelToTree(ImportCodeSkillCodeTreeView.getRoot(),importCodeModel);
+        addImportCodeModelToTree(ImportCodeSkillCodeTreeView.getRoot(),importCodeModel);
         UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
 
     }
@@ -104,7 +106,7 @@ public class AddSkillCodeRetValueController implements AddSubController, EditSub
         VarTypeSkillCodeTXT.setText(model.getVariableType());
         FromROSCBX.setValue(model.isFromROSServiceResponse() ? "true" : "false");
         AssCodeSkillCodeRetValueTXT.setText(model.getAssignmentCode());
-        TreeItem<String> importItems = CreateSkillController.createImportCodeTree(model.getImportCode());
+        TreeItem<String> importItems = createImportCodeTree(model.getImportCode());
         for(TreeItem<String> item : importItems.getChildren())
             ImportCodeSkillCodeTreeView.getRoot().getChildren().add(item);
 
@@ -129,7 +131,7 @@ public class AddSkillCodeRetValueController implements AddSubController, EditSub
                     (ImportCodeSkillCodeTreeView.getRoot().getChildren().indexOf(selectedItem));
 
 
-            CreateSkillController.loadEditStage(UtilsFXML.EDIT_IMPORT_CODE_PATH, m,selectedItem,
+            loadEditStage(UtilsFXML.EDIT_IMPORT_CODE_PATH, m,selectedItem,
                     () -> {
                         assert model != null;
                         selectedItem.setValue("From: " + m.getFrom());

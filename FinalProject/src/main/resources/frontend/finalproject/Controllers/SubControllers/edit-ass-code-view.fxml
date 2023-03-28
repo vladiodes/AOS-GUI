@@ -32,7 +32,7 @@
             <TextArea fx:id="AssCodeTXT" styleClass="TextAreaForm"/>
         </HBox>
         <HBox styleClass="CRUDBtn">
-            <Button fx:id="editBTN" text="Edit" onAction="#handleEditBTNClick" />
+            <Button styleClass="formBtn" fx:id="editBTN" text="Edit" onAction="#handleEditBTNClick" />
         </HBox>
 
     </VBox>

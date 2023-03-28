@@ -1,18 +1,23 @@
 package frontend.finalproject.Controllers;
 
 import frontend.finalproject.Controllers.SubControllers.AddVarTypeEnumController;
+import frontend.finalproject.Controllers.SubControllers.EditSubController;
+import frontend.finalproject.Model.Common.ImportCodeModel;
+import frontend.finalproject.Model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TreeItem;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import utils.Response;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class UtilsFXML {
@@ -95,6 +100,39 @@ public class UtilsFXML {
                 .position(Pos.TOP_RIGHT);
 
         notificationBuilder.showConfirm();
+    }
+
+    public static TreeItem<String> createImportCodeTree(List<ImportCodeModel> imports) {
+        TreeItem<String> importItems = new TreeItem<>("Import code");
+        for (ImportCodeModel imp : imports) {
+            addImportCodeModelToTree(importItems, imp);
+        }
+        return importItems;
+    }
+
+    public static void addImportCodeModelToTree(TreeItem<String> importItems, ImportCodeModel imp) {
+        TreeItem<String> impItem = new TreeItem<>("From: " + imp.getFrom());
+        for (String code : imp.getImport())
+            impItem.getChildren().add(new TreeItem<>(code));
+        importItems.getChildren().add(impItem);
+    }
+
+    public static void loadEditStage(String fxml, Model model, TreeItem<String> selectedItem, Runnable callback){
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(EditSubController.class.getResource(fxml));
+            Parent root = loader.load();
+            EditSubController controller = loader.getController();
+            controller.setModel(model);
+            controller.setCallback(callback);
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     public enum Source {

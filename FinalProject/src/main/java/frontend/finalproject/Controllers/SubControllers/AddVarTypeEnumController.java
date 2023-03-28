@@ -4,14 +4,16 @@ import frontend.finalproject.Controllers.UtilsFXML;
 import frontend.finalproject.Controllers.UtilsFXML.Source;
 import frontend.finalproject.Model.Env.GlobalVariableTypeEnumModel;
 import frontend.finalproject.Model.Env.GlobalVariableTypeModel;
+import frontend.finalproject.Model.Model;
 import frontend.finalproject.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.util.*;
 
-public class AddVarTypeEnumController implements VarTypeSubController {
+public class AddVarTypeEnumController implements EditSubController,AddSubController {
     @FXML private Button SubmitBTN;
     @FXML private TreeView<String> enumTreeView;
     @FXML private TextField GlobalVarTypeNameTXT;
@@ -19,10 +21,9 @@ public class AddVarTypeEnumController implements VarTypeSubController {
     @FXML private TextField enumValueTXT;
     @FXML private Button nextValBTN;
     @FXML private Label titleLBL;
-    private UtilsFXML.Source source = null;
+    private UtilsFXML.Source source = Source.ADD;
 
     private GlobalVariableTypeEnumModel enumModel;
-    private final List<GlobalVariableTypeModel> addedVars = new LinkedList<>();
     private Runnable callback;
 
     @FXML
@@ -31,13 +32,19 @@ public class AddVarTypeEnumController implements VarTypeSubController {
         enumTreeView.setRoot(new TreeItem<>("Enum values"));
     }
 
-    public List<GlobalVariableTypeModel> getAddedVars() {
-        return addedVars;
+    @Override
+    public void setModel(Model model) {
+        setGlobalVarType((GlobalVariableTypeModel) model);
     }
 
     @Override
     public void setCallback(Runnable callback) {
         this.callback = callback;
+    }
+
+    @Override
+    public Model getModel() {
+        return enumModel;
     }
 
     public void handleInsertNextEnumValClick(ActionEvent event) {
@@ -55,19 +62,29 @@ public class AddVarTypeEnumController implements VarTypeSubController {
     }
 
     public void handleAddVarTypeClick(ActionEvent actionEvent) {
-        enumModel.setTypeName(GlobalVarTypeNameTXT.getText());
-
-        if(!enumModel.getTypeName().equals("")) {
-            if(source != Source.EDIT_ENV || addedVars.size() == 0) {
-                addedVars.add(enumModel);
-                this.initialize();
-                UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TITLE, NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TEXT, null);
-            }
+        if(source == Source.ADD){
+            handleAddModel();
         }
         else{
-            UtilsFXML.showErrorNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_FAILED_TITLE,NotificationUtils.ADDED_GLOBAL_VAR_TYPE_FAILED_TEXT);
+            handleEditModel();
         }
+    }
 
+    private void handleEditModel() {
+        updateModule();
+        UtilsFXML.showNotification(NotificationUtils.EDIT_GLOBAL_VAR_NEW_TYPE_TITLE, NotificationUtils.EDIT_GLOBAL_VAR_NEW_TYPE_TEXT, null);
+    }
+
+    private void updateModule() {
+        enumModel.setTypeName(GlobalVarTypeNameTXT.getText());
+        callback.run();
+        Stage stage = (Stage) SubmitBTN.getScene().getWindow();
+        stage.close();
+    }
+
+    private void handleAddModel() {
+        updateModule();
+        UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TITLE, NotificationUtils.ADDED_GLOBAL_VAR_NEW_TYPE_TEXT, null);
     }
 
     public void handleDeleteEnumValClick(ActionEvent actionEvent) {
@@ -90,6 +107,7 @@ public class AddVarTypeEnumController implements VarTypeSubController {
 
     public void setGlobalVarType(GlobalVariableTypeModel type) {
         if(type instanceof GlobalVariableTypeEnumModel enumType){
+            setSource(Source.EDIT);
             GlobalVarTypeNameTXT.setText(enumType.getTypeName());
             enumModel = enumType;
             for(String value : enumType.getEnumValues()){

@@ -18,6 +18,8 @@ import utils.Response;
 
 import java.io.IOException;
 
+import static frontend.finalproject.Controllers.UtilsFXML.loadEditStage;
+
 public class CreateEnvController {
 
     @FXML private TreeView<String> SpecialStatesTreeView;
@@ -103,13 +105,11 @@ public class CreateEnvController {
         try{
             FXMLLoader loader = new FXMLLoader(AddVarTypeEnumController.class.getResource(fxml));
             Parent root = loader.load();
-            VarTypeSubController controller = loader.getController();
+            AddSubController controller = loader.getController();
             controller.setCallback(() -> {
-                controller.getAddedVars().forEach(var -> {
-                    currentGlobVarType = var;
-                    envModel.addGlobalVarType(currentGlobVarType);
-                    addTypeToTree();
-                });
+                currentGlobVarType = (GlobalVariableTypeModel) controller.getModel();
+                envModel.addGlobalVarType(currentGlobVarType);
+                addTypeToTree();
             });
 
             stage.setScene(new Scene(root));
@@ -356,7 +356,6 @@ public class CreateEnvController {
         TreeItem<String> val = GlobalVarTypesTreeView.selectionModelProperty().getValue().getSelectedItem();
         if(GlobalVarTypesTreeView.getRoot().getChildren().contains(val)) {
             String selected = val.getValue().endsWith("enum") ? val.getValue().substring(0,val.getValue().length()-7) : val.getValue().substring(0,val.getValue().length()-11);
-            System.out.println(selected);
             envModel.setGlobalVariableTypes(
                     envModel.getGlobalVariableTypes().stream().filter(
                                     (type) -> !type.getTypeName().equals(selected))
@@ -385,49 +384,35 @@ public class CreateEnvController {
     }
 
     private void editGlobalVarCompoundType(TreeItem<String> selected) {
+
         String selectedType = selected.getValue().substring(0, selected.getValue().length() - 11);
         GlobalVariableTypeModel type = envModel.getGlobalVariableTypes().stream().filter((t) -> t.getTypeName().equals(selectedType)).findFirst().orElse(null);
         if (type != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(AddVarTypeCompoundController.class.getResource(UtilsFXML.ADD_VAR_TYPE_COMPOUND_PATH));
-                editType(selected, type, loader);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            loadEditStage(UtilsFXML.ADD_VAR_TYPE_COMPOUND_PATH, type, selected,
+                    () -> {
+                        currentGlobVarType = type;
+                        GlobalVariableTypeCompoundModel compoundModel = (GlobalVariableTypeCompoundModel) currentGlobVarType;
+                        selected.setValue(compoundModel.getTypeName() + " - compound");
+                        selected.getChildren().clear();
+                        for (CompoundVariable cv : compoundModel.getVariables())
+                            selected.getChildren().add(new TreeItem<>(cv.toString()));
+                    });
         }
-    }
-
-    private void editType(TreeItem<String> selected, GlobalVariableTypeModel type, FXMLLoader loader) throws IOException {
-        Parent root = loader.load();
-        VarTypeSubController controller = loader.getController();
-        controller.setSource(UtilsFXML.Source.EDIT_VAR_TYPE);
-        controller.setGlobalVarType(type);
-
-
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-
-        stage.setOnCloseRequest(e -> {
-            controller.getAddedVars().forEach(var -> {
-                currentGlobVarType = var;
-                GlobalVarTypesTreeView.getRoot().getChildren().remove(selected);
-                addTypeToTree();
-            });
-        });
-
-        stage.show();
     }
 
     private void editGlobalVarEnumType(TreeItem<String> selected) {
         String selectedType = selected.getValue().substring(0, selected.getValue().length() - 7);
         GlobalVariableTypeModel type = envModel.getGlobalVariableTypes().stream().filter((t) -> t.getTypeName().equals(selectedType)).findFirst().orElse(null);
         if (type != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(AddVarTypeEnumController.class.getResource(UtilsFXML.ADD_VAR_TYPE_PATH));
-                editType(selected, type, loader);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            loadEditStage(UtilsFXML.ADD_VAR_TYPE_PATH,type,selected,
+                    () -> {
+                        currentGlobVarType = type;
+                        GlobalVariableTypeEnumModel enumType = (GlobalVariableTypeEnumModel)currentGlobVarType;
+                        selected.setValue(enumType.getTypeName() + " - enum");
+                        selected.getChildren().clear();
+                        for(String enumVal : enumType.getEnumValues())
+                            selected.getChildren().add(new TreeItem<>(enumVal));
+                    });
         }
     }
 
@@ -481,24 +466,6 @@ public class CreateEnvController {
         else{
             UtilsFXML.showErrorNotification(NotificationUtils.EDIT_STATE_FAIL_TITLE,NotificationUtils.EDIT_STATE_FAIL_TEXT);
         }
-    }
-
-    private void loadEditStage(String fxml, Model model, TreeItem<String> selectedItem, Runnable callback){
-        Stage stage = new Stage();
-        try{
-            FXMLLoader loader = new FXMLLoader(EditSubController.class.getResource(fxml));
-            Parent root = loader.load();
-            EditSubController controller = loader.getController();
-            controller.setModel(model);
-            controller.setCallback(callback);
-
-            stage.setScene(new Scene(root));
-            stage.show();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-
     }
 
     public void handleExChangeEditBTNClick(ActionEvent actionEvent) {

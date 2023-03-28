@@ -164,4 +164,8 @@ public class NotificationUtils {
     public static final String DELETE_LOCAL_VAR_INIT_SUCCESS_TEXT = "You've successfully deleted a local variable initial public data from robot framework!";
     public static final String DELETE_LOCAL_VAR_INIT_FAIL_TITLE = "Failed to delete local variable initial public data from robot framework";
     public static final String DELETE_LOCAL_VAR_INIT_FAIL_TEXT = "Please select a local variable initial public data from robot framework to delete";
+    public static final String EDIT_VAR_TYPE_COMPOUND_TITLE = "Variable type compound edited";
+    public static final String EDIT_VAR_TYPE_COMPOUND_TEXT = "You've successfully edited a variable type compound!";
+    public static final String EDIT_GLOBAL_VAR_NEW_TYPE_TITLE = "Global variable new type edited";
+    public static final String EDIT_GLOBAL_VAR_NEW_TYPE_TEXT = "You've successfully edited a global variable new type!";
 }

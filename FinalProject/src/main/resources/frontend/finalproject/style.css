@@ -220,6 +220,9 @@
     -fx-background-insets: 2;
     -fx-background-color: #f8f8f8;
     -fx-padding: 0 0 0 0;
+    -fx-border-color: #7a7a7a;
+    -fx-border-radius: 1.4;
+    -fx-border-width: 2;
 }
 
 

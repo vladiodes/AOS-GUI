@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import static frontend.finalproject.Controllers.UtilsFXML.*;
+
 public class AddRobotFrameworkLocalVarController implements AddSubController, EditSubController {
     @FXML private Label titleLBL;
     @FXML private TextField LocalVarNameRobotFrameWorkTXT;
@@ -47,7 +49,7 @@ public class AddRobotFrameworkLocalVarController implements AddSubController, Ed
         TopicMessageTypeTXT.setText(model.getTopicMessageType());
         AssCodeRobotFrameworkTXT.setText(model.getAssignmentCode());
 
-        TreeItem<String> importItems = CreateSkillController.createImportCodeTree(model.getImportCode());
+        TreeItem<String> importItems = createImportCodeTree(model.getImportCode());
         for(TreeItem<String> item : importItems.getChildren())
             ImportCodeRobotFWTreeView.getRoot().getChildren().add(item);
 
@@ -81,7 +83,7 @@ public class AddRobotFrameworkLocalVarController implements AddSubController, Ed
         RobotFrameworkImportTXT.setText("");
         model.addImportCodeModel(importCodeModel);
 
-        CreateSkillController.addImportCodeModelToTree(ImportCodeRobotFWTreeView.getRoot(),importCodeModel);
+        addImportCodeModelToTree(ImportCodeRobotFWTreeView.getRoot(),importCodeModel);
         UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
 
     }
@@ -124,7 +126,7 @@ public class AddRobotFrameworkLocalVarController implements AddSubController, Ed
                     (ImportCodeRobotFWTreeView.getRoot().getChildren().indexOf(selectedItem));
 
 
-            CreateSkillController.loadEditStage(UtilsFXML.EDIT_IMPORT_CODE_PATH, m,selectedItem,
+            loadEditStage(UtilsFXML.EDIT_IMPORT_CODE_PATH, m,selectedItem,
                     () -> {
                         assert model != null;
                         selectedItem.setValue("From: " + m.getFrom());

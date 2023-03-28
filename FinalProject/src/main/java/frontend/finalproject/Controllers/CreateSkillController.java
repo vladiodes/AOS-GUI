@@ -24,6 +24,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import utils.Response;
 
+import static frontend.finalproject.Controllers.UtilsFXML.createImportCodeTree;
+import static frontend.finalproject.Controllers.UtilsFXML.loadEditStage;
+
 
 public class CreateSkillController {
     public static final String GLOBAL_VARIABLE_PRECONDITION = "Global variable precondition";
@@ -246,7 +249,7 @@ public class CreateSkillController {
         ImportTXT.setText("");
         AMmodel.getModuleActivation().addImportCode(importCodeModel);
 
-        addImportCodeModelToTree(ImportCodeMainTreeView.getRoot(),importCodeModel);
+        UtilsFXML.addImportCodeModelToTree(ImportCodeMainTreeView.getRoot(),importCodeModel);
         UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
     }
 
@@ -507,22 +510,6 @@ public class CreateSkillController {
         ResponseRulesTreeView.getRoot().getChildren().add(newItem);
     }
 
-
-    public static TreeItem<String> createImportCodeTree(List<ImportCodeModel> imports) {
-        TreeItem<String> importItems = new TreeItem<>("Import code");
-        for (ImportCodeModel imp : imports) {
-            addImportCodeModelToTree(importItems, imp);
-        }
-        return importItems;
-    }
-
-    public static void addImportCodeModelToTree(TreeItem<String> importItems, ImportCodeModel imp) {
-        TreeItem<String> impItem = new TreeItem<>("From: " + imp.getFrom());
-        for (String code : imp.getImport())
-            impItem.getChildren().add(new TreeItem<>(code));
-        importItems.getChildren().add(impItem);
-    }
-
     private void addLocalVarInitToTree(LocalVariablesInitializationModel model) {
         if (model instanceof SDParametersModel) {
             addSDParamModelToTree((SDParametersModel) model);
@@ -583,24 +570,6 @@ public class CreateSkillController {
         else {
             UtilsFXML.showErrorNotification(NotificationUtils.EDIT_RESPONSE_RULE_FAIL_TITLE, NotificationUtils.EDIT_RESPONSE_RULE_FAIL_TEXT);
         }
-    }
-
-    public static void loadEditStage(String fxml, Model model, TreeItem<String> selectedItem, Runnable callback){
-        Stage stage = new Stage();
-        try{
-            FXMLLoader loader = new FXMLLoader(EditSubController.class.getResource(fxml));
-            Parent root = loader.load();
-            EditSubController controller = loader.getController();
-            controller.setModel(model);
-            controller.setCallback(callback);
-
-            stage.setScene(new Scene(root));
-            stage.show();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-
     }
 
     private void loadAddStage(String fxml, AddModelCallback addToTreeCallBack){
