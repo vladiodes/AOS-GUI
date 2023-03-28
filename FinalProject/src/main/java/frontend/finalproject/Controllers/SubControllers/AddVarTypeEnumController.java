@@ -23,6 +23,7 @@ public class AddVarTypeEnumController implements VarTypeSubController {
 
     private GlobalVariableTypeEnumModel enumModel;
     private final List<GlobalVariableTypeModel> addedVars = new LinkedList<>();
+    private Runnable callback;
 
     @FXML
     public void initialize(){
@@ -32,6 +33,11 @@ public class AddVarTypeEnumController implements VarTypeSubController {
 
     public List<GlobalVariableTypeModel> getAddedVars() {
         return addedVars;
+    }
+
+    @Override
+    public void setCallback(Runnable callback) {
+        this.callback = callback;
     }
 
     public void handleInsertNextEnumValClick(ActionEvent event) {

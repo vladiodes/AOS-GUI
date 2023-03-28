@@ -23,7 +23,7 @@
                 </Label>
             </children>
         </Pane>
-        <ScrollPane prefHeight="650.0" minWidth="1150">
+        <ScrollPane prefHeight="650.0" minWidth="1000">
             <content>
                 <VBox spacing="10">
         <Label text="PlpMain" styleClass="Separator_Text" />

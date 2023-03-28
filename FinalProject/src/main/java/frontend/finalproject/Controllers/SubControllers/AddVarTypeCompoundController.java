@@ -24,6 +24,7 @@ public class AddVarTypeCompoundController implements VarTypeSubController {
 
     private GlobalVariableTypeCompoundModel compoundModel;
     private final List<GlobalVariableTypeModel> addedVars = new LinkedList<>();
+    private Runnable callback;
 
     @FXML
     public void initialize(){
@@ -86,6 +87,11 @@ public class AddVarTypeCompoundController implements VarTypeSubController {
 
     public List<GlobalVariableTypeModel> getAddedVars() {
         return addedVars;
+    }
+
+    @Override
+    public void setCallback(Runnable callback) {
+        this.callback = callback;
     }
 
     public void handleDeleteCompoundVarClick(ActionEvent actionEvent) {

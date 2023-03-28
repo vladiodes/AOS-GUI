@@ -10,7 +10,7 @@
 <?import javafx.collections.FXCollections?>
 <VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.CreateSkillController">
     <children>
-        <Pane prefHeight="139.0" minWidth="1150" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Label fx:id="titleLBL" layoutX="73.0" layoutY="30.0" text="Add Skill" textFill="WHITE">
                     <font>
@@ -24,7 +24,7 @@
         <Tab text="SD">
         <content>
 
-        <ScrollPane prefHeight="650.0" minWidth="1200">
+        <ScrollPane prefHeight="650.0" minWidth="1000">
         <content>
         <VBox spacing="10">
 
@@ -131,7 +131,7 @@
 
 
             <Tab text="Glue">
-                <ScrollPane prefHeight="650.0" minWidth="1200">
+                <ScrollPane prefHeight="650.0" minWidth="1000">
                 <content>
                 <VBox spacing="10">
                     <Label text="GlueFramework" styleClass="Separator_Text" />
@@ -172,7 +172,7 @@
                     </HBox>
                     <HBox styleClass="CRUDBtn">
                         <Button onAction="#handleInsertImportCodeSectionBTNClick"  styleClass="formBtn" text="Insert ImportCode" />
-                        <Button styleClass="formBtn" text="Edit ImportCode" />
+                        <Button onAction="#handleEditImportCodeMainEditBTNClick" styleClass="formBtn" text="Edit ImportCode" />
                         <Button onAction="#handleImportCodeResponseRuleSectionDeleteBTNClick" styleClass="formBtn" text="Delete ImportCode" />
                     </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ImportCodeMainTreeView" styleClass="TreeViewForm" /></HBox>
@@ -206,126 +206,23 @@
                     </HBox>
                     <HBox styleClass="CRUDBtn">
                         <Button onAction="#handleInsertServiceParamBTNClick"  styleClass="formBtn" text="Insert Parameters" />
-                        <Button styleClass="formBtn" text="Edit Parameters" />
+                        <Button onAction="#handleEditServiceParamsEditBTNClick" styleClass="formBtn" text="Edit Parameters" />
                         <Button onAction="#handleDeleteServiceParamsBTNClick" styleClass="formBtn" text="Delete Parameters" />
                     </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ServicesParamsTreeView" styleClass="TreeViewForm" /></HBox>
 
-
                     <Label text="LocalVariablesInitialization" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
-
-                    <HBox spacing="20">
-                        <VBox spacing="10">
-                            <Label text="SD file skill parameters" styleClass="Separator_Text" />
-                            <HBox>
-                                <Label text="InputLocalVariable" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="InputLocalVarTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="FromGlobalVariable" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="FromGlobalVarTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox style="-fx-alignment: center">
-                            <Button onAction="#handleInsertLocalVarInitSDbtnClick" styleClass="formBtn" text="Insert initialization" />
-                            </HBox>
-
-                        </VBox>
-                        <Separator orientation="VERTICAL" prefHeight="557.0" prefWidth="0.0" />
-                        <VBox spacing="10">
-                            <Label text="Skill-code returned value" styleClass="Separator_Text" />
-                            <HBox>
-                                <Label text="LocalVariableName" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="LocalVarNameSkillCodeTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="VariableType" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="VarTypeSkillCodeTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="FromROSServiceResponse" styleClass="TextFieldLabel"/>
-                            <ChoiceBox fx:id="FromROSCBX" styleClass="formCBx">
-                                <items>
-                                    <FXCollections fx:factory="observableArrayList">
-                                        <String fx:value="true" />
-                                        <String fx:value="false" />
-                                    </FXCollections>
-                                </items>
-                            </ChoiceBox>
-                            </HBox>
-                            <HBox>
-                                <Label text="AssignmentCode" styleClass="TextFieldLabel"/>
-                                <TextArea fx:id="AssCodeSkillCodeRetValueTXT" styleClass="TextAreaForm" />
-                            </HBox>
-                            <Label text="ImportCode" styleClass="Separator_Text" />
-                            <HBox>
-                                <Label text="From" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="SkillCodeFromTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="Import" styleClass="TextFieldLabel"/>
-                                <TextArea fx:id="SkillCodeImportTXT" text="Insert all import values, each in newline" styleClass="TextAreaForm"/>
-                            </HBox>
-                            <HBox styleClass="CRUDBtn">
-                                <Button onAction="#handleInsertImportCodeSkillCodeBTNClick"  styleClass="formBtn" text="Insert ImportCode" />
-                                <Button styleClass="formBtn" text="Edit ImportCode" />
-                                <Button styleClass="formBtn" text="Delete ImportCode" />
-                            </HBox>
-                            <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ImportCodeSkillCodeTreeView" styleClass="SmallTreeViewForm" /></HBox>
-                            <HBox style="-fx-alignment: center">
-                                <Button onAction="#handleInsertLocalVarInitSkillCodeBTNClick" styleClass="formBtn" text="Insert initialization" />
-                            </HBox>
-
-                        </VBox>
-                        <Separator orientation="VERTICAL" prefHeight="557.0" prefWidth="0.0" />
-                        <VBox spacing="10">
-                            <Label text="Public data from robot framework" styleClass="Separator_Text" />
-                            <HBox>
-                                <Label text="LocalVariableName" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="LocalVarNameRobotFrameWorkTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="ROSTopicPath" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="ROSTopicPathTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="VariableType" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="VarTypeRobotFrameworkTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="InitialValue" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="InitialValueTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="TopicMessageType" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="TopicMessageTypeTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="Assignment Code" styleClass="TextFieldLabel"/>
-                               <TextArea fx:id="AssCodeRobotFrameworkTXT" styleClass="TextAreaForm" />
-                            </HBox>
-                            <Label text="ImportCode" styleClass="Separator_Text" />
-                            <HBox>
-                                <Label text="From" styleClass="TextFieldLabel"/>
-                                <TextField fx:id="RobotFrameworkFromTXT" styleClass="TextFieldForm"/>
-                            </HBox>
-                            <HBox>
-                                <Label text="Import" styleClass="TextFieldLabel"/>
-                                <TextArea fx:id="RobotFrameworkImportTXT" text="Insert all import values, each in newline" styleClass="TextAreaForm"/>
-                            </HBox>
-                            <HBox styleClass="CRUDBtn">
-                                <Button onAction="#handleInsertImportCodeRobotFrameworkBTNClick"  styleClass="formBtn" text="Insert ImportCode" />
-                                <Button styleClass="formBtn" text="Edit ImportCode" />
-                                <Button styleClass="formBtn" text="Delete ImportCode" />
-                            </HBox>
-                            <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ImportCodeRobotFWTreeView" styleClass="SmallTreeViewForm" /></HBox>
-                            <HBox style="-fx-alignment: center">
-                                <Button onAction="#handleInsertLocalVarINITRobotFrameworkBTNClick" styleClass="formBtn" text="Insert initialization" />
-                            </HBox>
-
-                        </VBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button onAction="#handleInsertLocalVarInitSDbtnClick"  styleClass="formBtn" text="Insert SD file skill parameters" />
+                        <Button onAction="#handleInsertLocalVarInitSkillCodeBTNClick" styleClass="formBtn" text="Insert Skill-code returned value" />
+                        <Button onAction="#handleInsertLocalVarINITRobotFrameworkBTNClick" styleClass="formBtn" text="Insert data from robot FW" />
                     </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="LocalVarInitTreeView" styleClass="TreeViewForm" /></HBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button onAction="#handleEditLocalVarInitBtnClick"  styleClass="formBtn" text="Edit" />
+                        <Button onAction="#handleDeleteLocalVarInitBTNClick" styleClass="formBtn" text="Delete" />
+                    </HBox>
                 </VBox>
                 </content>
                 </ScrollPane>

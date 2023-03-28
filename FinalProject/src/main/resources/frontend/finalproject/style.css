@@ -132,11 +132,12 @@
 .CRUDBtn {
     -fx-padding: 20 0 0 30;
     -fx-spacing: 30;
+    -fx-alignment: center;
 }
 
 .CreateProjBTNsHBox {
     -fx-padding: 20 0 50 30;
-    -fx-spacing: 100;
+    -fx-spacing: 50;
     -fx-alignment: center;
 }
 

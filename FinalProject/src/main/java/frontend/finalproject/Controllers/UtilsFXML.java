@@ -30,6 +30,11 @@ public class UtilsFXML {
     public static final String EDIT_STATE_PATH = "edit-special-state-view.fxml";
     public static final String EDIT_RESPONSE_RULE_PATH = "edit-response-rule-view.fxml";
     public static final String EDIT_GLOBAL_VAR_MODULE_PARAMS_PATH = "edit-global-var-module-param-view.fxml";
+    public static final String EDIT_IMPORT_CODE_PATH = "edit-import-code-view.fxml";
+    public static final String EDIT_SERVICE_PARAMS_PATH = "edit-service-param-view.fxml";
+    public static final String ADD_SD_FILE_SKILL_PARAMS_PATH = "add-sd-file-skill-param-view.fxml";
+    public static final String ADD_SKILL_CODE_RET_VALUE_PATH = "add-skill-code-ret-value-view.fxml";
+    public static final String ADD_ROBOT_FRAMEWORK_LOCAL_VAR_INIT_PATH = "add-robot-framework-local-var-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {
@@ -93,7 +98,7 @@ public class UtilsFXML {
     }
 
     public enum Source {
-        EDIT_ENV, EDIT_SKILL,EDIT_VAR_TYPE
+        EDIT_ENV, EDIT_SKILL,EDIT_VAR_TYPE,ADD,EDIT
     }
 }
 

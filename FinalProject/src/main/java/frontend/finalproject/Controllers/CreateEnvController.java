@@ -104,7 +104,7 @@ public class CreateEnvController {
             FXMLLoader loader = new FXMLLoader(AddVarTypeEnumController.class.getResource(fxml));
             Parent root = loader.load();
             VarTypeSubController controller = loader.getController();
-            stage.setOnCloseRequest(e -> {
+            controller.setCallback(() -> {
                 controller.getAddedVars().forEach(var -> {
                     currentGlobVarType = var;
                     envModel.addGlobalVarType(currentGlobVarType);

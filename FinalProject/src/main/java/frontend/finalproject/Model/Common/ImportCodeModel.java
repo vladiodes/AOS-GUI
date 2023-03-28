@@ -1,11 +1,12 @@
 package frontend.finalproject.Model.Common;
 
 import backend.finalproject.ProjectFiles.Common.ImportCode;
+import frontend.finalproject.Model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImportCodeModel {
+public class ImportCodeModel implements Model {
     private String From;
     private List<String> Import;
 
@@ -33,5 +34,9 @@ public class ImportCodeModel {
 
     public List<String> getImport() {
         return Import;
+    }
+
+    public void setImport(List<String> anImport) {
+        Import = anImport;
     }
 }

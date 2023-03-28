@@ -1,8 +1,9 @@
 package frontend.finalproject.Model.AM;
 
 import backend.finalproject.ProjectFiles.AM.ModuleActivation;
+import frontend.finalproject.Model.Model;
 
-public class ServiceParameter {
+public class ServiceParameter implements Model {
     private String ServiceFieldName;
     private String AssignServiceFieldCode;
 
@@ -22,5 +23,13 @@ public class ServiceParameter {
 
     public String getAssignServiceFieldCode() {
         return AssignServiceFieldCode;
+    }
+
+    public void setAssignServiceFieldCode(String assignServiceFieldCode) {
+        AssignServiceFieldCode = assignServiceFieldCode;
+    }
+
+    public void setServiceFieldName(String serviceFieldName) {
+        ServiceFieldName = serviceFieldName;
     }
 }

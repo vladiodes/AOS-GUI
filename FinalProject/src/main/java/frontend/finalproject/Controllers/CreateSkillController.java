@@ -2,8 +2,7 @@ package frontend.finalproject.Controllers;
 
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
-import frontend.finalproject.Controllers.SubControllers.EditResponseRuleController;
-import frontend.finalproject.Controllers.SubControllers.EditSubController;
+import frontend.finalproject.Controllers.SubControllers.*;
 import frontend.finalproject.Model.AM.*;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Common.ImportCodeModel;
@@ -33,8 +32,6 @@ public class CreateSkillController {
     @FXML
     private TreeView<String> LocalVarInitTreeView;
     @FXML
-    private TreeView<String> ImportCodeRobotFWTreeView;
-    @FXML
     private TreeView<String> GlobalVarModuleParamsTreeView;
     @FXML
     private TreeView<String> GlobalVarPreconditionAssTreeView;
@@ -49,43 +46,9 @@ public class CreateSkillController {
     @FXML
     private TreeView<String> ServicesParamsTreeView;
     @FXML
-    private TreeView<String> ImportCodeSkillCodeTreeView;
-    @FXML
     private Button addSkillBTN;
     @FXML
     private Label titleLBL;
-    @FXML
-    private TextArea AssCodeSkillCodeRetValueTXT;
-    @FXML
-    private TextArea SkillCodeImportTXT;
-    @FXML
-    private TextField SkillCodeFromTXT;
-    @FXML
-    private TextField LocalVarNameRobotFrameWorkTXT;
-    @FXML
-    private TextField ROSTopicPathTXT;
-    @FXML
-    private TextField RobotFrameworkFromTXT;
-    @FXML
-    private TextArea RobotFrameworkImportTXT;
-    @FXML
-    private TextArea AssCodeRobotFrameworkTXT;
-    @FXML
-    private TextField VarTypeRobotFrameworkTXT;
-    @FXML
-    private TextField InitialValueTXT;
-    @FXML
-    private TextField TopicMessageTypeTXT;
-    @FXML
-    private ChoiceBox<String> FromROSCBX;
-    @FXML
-    private TextField VarTypeSkillCodeTXT;
-    @FXML
-    private TextField LocalVarNameSkillCodeTXT;
-    @FXML
-    private TextField FromGlobalVarTXT;
-    @FXML
-    private TextField InputLocalVarTXT;
     @FXML
     private TextArea AssignServiceFieldCodeTXT;
     @FXML
@@ -153,7 +116,6 @@ public class CreateSkillController {
     @FXML
     public void initialize() {
         LocalVarInitTreeView.setRoot(new TreeItem<>("Local Variables Initialization"));
-        ImportCodeRobotFWTreeView.setRoot(new TreeItem<>("Import Code"));
         GlobalVarModuleParamsTreeView.setRoot(new TreeItem<>("Global Variables Module Parameters"));
         GlobalVarPreconditionAssTreeView.setRoot(new TreeItem<>("Global Variables Precondition Assignments"));
         PlannerAssistancePreconditionAssTreeView.setRoot(new TreeItem<>("Planner Assistance Precondition Assignments"));
@@ -161,7 +123,6 @@ public class CreateSkillController {
         ResponseRulesTreeView.setRoot(new TreeItem<>("Response Rules"));
         ImportCodeMainTreeView.setRoot(new TreeItem<>("Import Code"));
         ServicesParamsTreeView.setRoot(new TreeItem<>("Services Parameters"));
-        ImportCodeSkillCodeTreeView.setRoot(new TreeItem<>("Import Code"));
     }
 
 
@@ -301,79 +262,36 @@ public class CreateSkillController {
     }
 
     public void handleInsertLocalVarInitSDbtnClick(ActionEvent event) {
-        AMmodel.addLocalVariableInitialization(new SDParametersModel(
-                InputLocalVarTXT.getText(),
-                FromGlobalVarTXT.getText()
-        ));
-        InputLocalVarTXT.setText("");
-        FromGlobalVarTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_FROM_SD_TITLE, NotificationUtils.ADDED_LOCAL_VAR_INIT_FROM_SD_TEXT, null);
+        loadAddStage(UtilsFXML.ADD_SD_FILE_SKILL_PARAMS_PATH,
+                (model) -> {
+                    SDParametersModel sdParametersModel = (SDParametersModel) model;
+                    AMmodel.addLocalVariableInitialization(sdParametersModel);
+                    addLocalVarInitToTree(sdParametersModel);
+                });
     }
 
     public void handleInsertLocalVarInitSkillCodeBTNClick(ActionEvent event) {
-        if (curSkillCodeReturnValue == null)
-            curSkillCodeReturnValue = new SkillCodeReturnValueModel();
 
-        curSkillCodeReturnValue.setLocalVariableName(LocalVarNameSkillCodeTXT.getText());
-        curSkillCodeReturnValue.setVariableType(VarTypeSkillCodeTXT.getText());
-        curSkillCodeReturnValue.setFromROSServiceResponse(Boolean.parseBoolean(FromROSCBX.getValue()));
-        curSkillCodeReturnValue.setAssignmentCode(AssCodeSkillCodeRetValueTXT.getText());
-        AMmodel.addLocalVariableInitialization(curSkillCodeReturnValue);
-        LocalVarNameSkillCodeTXT.setText("");
-        VarTypeSkillCodeTXT.setText("");
-        FromROSCBX.setValue("");
-        AssCodeSkillCodeRetValueTXT.setText("");
-        curSkillCodeReturnValue = null;
-        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TITLE, NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TEXT, null);
-    }
-
-    public void handleInsertImportCodeSkillCodeBTNClick(ActionEvent event) {
-        if (curSkillCodeRetValueImportCode == null)
-            curSkillCodeRetValueImportCode = new ImportCodeModel();
-        if (curSkillCodeReturnValue == null)
-            curSkillCodeReturnValue = new SkillCodeReturnValueModel();
-
-        curSkillCodeRetValueImportCode.setFrom(SkillCodeFromTXT.getText());
-        curSkillCodeReturnValue.addImportCodeModel(curSkillCodeRetValueImportCode);
-        curSkillCodeRetValueImportCode = null;
-        SkillCodeImportTXT.setText("");
-        SkillCodeFromTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
+        loadAddStage(UtilsFXML.ADD_SKILL_CODE_RET_VALUE_PATH,
+                (model) -> {
+                    SkillCodeReturnValueModel skillCodeReturnValueModel = (SkillCodeReturnValueModel) model;
+                    AMmodel.addLocalVariableInitialization(skillCodeReturnValueModel);
+                    addLocalVarInitToTree(skillCodeReturnValueModel);
+                    UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TITLE, NotificationUtils.ADDED_LOCAL_VAR_INIT_SKILL_CODE_RET_VALUE_TEXT, null);
+                });
     }
 
     public void handleInsertLocalVarINITRobotFrameworkBTNClick(ActionEvent event) {
-        if (curRobotFramework == null)
-            curRobotFramework = new DataPublishedRobotFramework();
-        curRobotFramework.setLocalVariableName(LocalVarNameRobotFrameWorkTXT.getText());
-        curRobotFramework.setRosTopicPath(ROSTopicPathTXT.getText());
-        curRobotFramework.setVariableType(VarTypeRobotFrameworkTXT.getText());
-        curRobotFramework.setInitialValue(InitialValueTXT.getText());
-        curRobotFramework.setTopicMessageType(TopicMessageTypeTXT.getText());
-        curRobotFramework.setAssignmentCode(AssCodeRobotFrameworkTXT.getText());
-        AMmodel.addLocalVariableInitialization(curRobotFramework);
-        LocalVarNameRobotFrameWorkTXT.setText("");
-        ROSTopicPathTXT.setText("");
-        VarTypeRobotFrameworkTXT.setText("");
-        InitialValueTXT.setText("");
-        TopicMessageTypeTXT.setText("");
-        AssCodeRobotFrameworkTXT.setText("");
-        curRobotFramework = null;
-        UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TITLE, NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TEXT, null);
+
+        loadAddStage(UtilsFXML.ADD_ROBOT_FRAMEWORK_LOCAL_VAR_INIT_PATH,
+                (model) -> {
+                    DataPublishedRobotFramework dataPublishedRobotFramework = (DataPublishedRobotFramework) model;
+                    AMmodel.addLocalVariableInitialization(dataPublishedRobotFramework);
+                    addLocalVarInitToTree(dataPublishedRobotFramework);
+                    UtilsFXML.showNotification(NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TITLE, NotificationUtils.ADDED_LOCAL_VAR_INIT_ROBOT_FRAMEWORK_TEXT, null);
+                });
     }
 
-    public void handleInsertImportCodeRobotFrameworkBTNClick(ActionEvent event) {
-        if (curRobotFrameworkImportCode == null)
-            curRobotFrameworkImportCode = new ImportCodeModel();
-        if (curRobotFramework == null)
-            curRobotFramework = new DataPublishedRobotFramework();
-
-        curRobotFrameworkImportCode.setFrom(RobotFrameworkFromTXT.getText());
-        curRobotFramework.addImportCodeModel(curRobotFrameworkImportCode);
-        curRobotFrameworkImportCode = null;
-        RobotFrameworkFromTXT.setText("");
-        RobotFrameworkImportTXT.setText("");
-        UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
-    }
 
     public void handleBackBTNClick(ActionEvent event) {
         UtilsFXML.navToHome(event);
@@ -484,23 +402,6 @@ public class CreateSkillController {
 
     }
 
-//    public void handleLocalVarInitDeleteBTNClick(ActionEvent event) {
-//        Integer selected = Integer.valueOf(LocalVarsInitCBX.selectionModelProperty().getValue().getSelectedItem());
-//        AMmodel.getLocalVariablesInitialization().remove(selected - 1);
-//        AtomicInteger i = new AtomicInteger(0);
-//        LocalVarsInitCBX.setItems(FXCollections.observableArrayList(
-//                AMmodel.getLocalVariablesInitialization().stream().map(
-//                        (x) -> {
-//                            i.incrementAndGet();
-//                            return String.valueOf(i.get());
-//                        }
-//                ).toList()
-//        ));
-//
-//        LocalVarsInitCBX.setValue("");
-//        UtilsFXML.showNotification(NotificationUtils.DELETED_LOCAL_VAR_INIT_TITLE,NotificationUtils.DELETED_LOCAL_VAR_INIT_TEXT,null);
-//    }
-
     public void setSource(UtilsFXML.Source source) {
         this.source = source;
         titleLBL.setText("Edit Skill");
@@ -607,7 +508,7 @@ public class CreateSkillController {
     }
 
 
-    private TreeItem<String> createImportCodeTree(List<ImportCodeModel> imports) {
+    public static TreeItem<String> createImportCodeTree(List<ImportCodeModel> imports) {
         TreeItem<String> importItems = new TreeItem<>("Import code");
         for (ImportCodeModel imp : imports) {
             addImportCodeModelToTree(importItems, imp);
@@ -615,7 +516,7 @@ public class CreateSkillController {
         return importItems;
     }
 
-    private void addImportCodeModelToTree(TreeItem<String> importItems, ImportCodeModel imp) {
+    public static void addImportCodeModelToTree(TreeItem<String> importItems, ImportCodeModel imp) {
         TreeItem<String> impItem = new TreeItem<>("From: " + imp.getFrom());
         for (String code : imp.getImport())
             impItem.getChildren().add(new TreeItem<>(code));
@@ -684,7 +585,7 @@ public class CreateSkillController {
         }
     }
 
-    private void loadEditStage(String fxml, Model model, TreeItem<String> selectedItem, Runnable callback){
+    public static void loadEditStage(String fxml, Model model, TreeItem<String> selectedItem, Runnable callback){
         Stage stage = new Stage();
         try{
             FXMLLoader loader = new FXMLLoader(EditSubController.class.getResource(fxml));
@@ -700,6 +601,24 @@ public class CreateSkillController {
             e.printStackTrace();
         }
 
+    }
+
+    private void loadAddStage(String fxml, AddModelCallback addToTreeCallBack){
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(AddVarTypeEnumController.class.getResource(fxml));
+            Parent root = loader.load();
+            AddSubController controller = loader.getController();
+            controller.setCallback(() -> {
+                addToTreeCallBack.add(controller.getModel());
+            });
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void handleEditGlobalVarModuleParamsBTNClick(ActionEvent actionEvent) {
@@ -773,6 +692,110 @@ public class CreateSkillController {
         }
         else{
             UtilsFXML.showErrorNotification(NotificationUtils.EDIT_DYNAMIC_MODEL_FAIL_TITLE,NotificationUtils.EDIT_DYNAMIC_MODEL_FAIL_TEXT);
+        }
+    }
+
+    public void handleEditImportCodeMainEditBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = ImportCodeMainTreeView.getSelectionModel().getSelectedItem();
+        if(ImportCodeMainTreeView.getRoot().getChildren().contains(selectedItem)){
+            ImportCodeModel model = AMmodel.getModuleActivation().getRosService().getImportCode()
+                    .get(ImportCodeMainTreeView.getRoot().getChildren().indexOf(selectedItem));
+
+            loadEditStage(UtilsFXML.EDIT_IMPORT_CODE_PATH, model,selectedItem,
+                    () -> {
+                        assert model != null;
+                        selectedItem.setValue("From: " + model.getFrom());
+                        selectedItem.getChildren().setAll(model.getImport().stream().map(TreeItem::new).toList());
+                    }
+            );
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_IMPORT_CODE_FAIL_TITLE,NotificationUtils.EDIT_IMPORT_CODE_FAIL_TEXT);
+        }
+    }
+
+    public void handleEditServiceParamsEditBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = ServicesParamsTreeView.getSelectionModel().getSelectedItem();
+        if(ServicesParamsTreeView.getRoot().getChildren().contains(selectedItem)){
+            ServiceParameter model = AMmodel.getModuleActivation().getRosService().getServiceParameters()
+                    .get(ServicesParamsTreeView.getRoot().getChildren().indexOf(selectedItem));
+
+            loadEditStage(UtilsFXML.EDIT_SERVICE_PARAMS_PATH, model,selectedItem,
+                    () -> {
+                        assert model != null;
+                        selectedItem.setValue(model.getServiceFieldName());
+                        selectedItem.getChildren().remove(0);
+                        selectedItem.getChildren().add(new TreeItem<>(model.getAssignServiceFieldCode()));
+                    }
+            );
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_SERVICE_PARAMS_FAIL_TITLE,NotificationUtils.EDIT_SERVICE_PARAMS_FAIL_TEXT);
+        }
+
+    }
+
+    public void handleEditLocalVarInitBtnClick(ActionEvent actionEvent) {
+        TreeItem<String> val = LocalVarInitTreeView.getSelectionModel().getSelectedItem();
+        if(LocalVarInitTreeView.getRoot().getChildren().contains(val)){
+            LocalVariablesInitializationModel model = AMmodel.getLocalVariablesInitialization()
+                    .get(LocalVarInitTreeView.getRoot().getChildren().indexOf(val));
+            editLocalVarInit(model,val);
+        }
+        else {
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_LOCAL_VAR_INIT_FAIL_TITLE,NotificationUtils.EDIT_LOCAL_VAR_INIT_FAIL_TEXT);
+        }
+
+    }
+
+    private void editLocalVarInit(LocalVariablesInitializationModel model, TreeItem<String> val) {
+        if(model instanceof SDParametersModel m){
+            loadEditStage(UtilsFXML.ADD_SD_FILE_SKILL_PARAMS_PATH, m,val,
+                    () -> {
+                        val.setValue("SD parameter: " + m.getInputLocalVariable());
+                        val.getChildren().remove(0);
+                        val.getChildren().add(new TreeItem<>("From Global Variable: " + m.getFromGlobalVariable()));
+                    }
+            );
+        }
+        else if(model instanceof DataPublishedRobotFramework m){
+            loadEditStage(UtilsFXML.ADD_ROBOT_FRAMEWORK_LOCAL_VAR_INIT_PATH, m,val,
+                    () -> {
+                        val.setValue("Data published: " + m.getLocalVariableName());
+                        val.getChildren().clear();
+                        val.getChildren().add(new TreeItem<>("ROS topic path: " + m.getRosTopicPath()));
+                        val.getChildren().add(new TreeItem<>("Variable type: " + m.getVariableType()));
+                        val.getChildren().add(new TreeItem<>("Initial value: " + m.getInitialValue()));
+                        val.getChildren().add(new TreeItem<>("Topic message type" + m.getTopicMessageType()));
+                        val.getChildren().add(new TreeItem<>("Assignment code: " + m.getAssignmentCode()));
+                        val.getChildren().add(createImportCodeTree(m.getImportCode()));
+                    }
+            );
+        }
+        else if(model instanceof SkillCodeReturnValueModel m){
+            loadEditStage(UtilsFXML.ADD_SKILL_CODE_RET_VALUE_PATH, m,val,
+                    () -> {
+
+                        val.setValue("Skill code return value: " + m.getLocalVariableName());
+                        val.getChildren().clear();
+                        val.getChildren().add(new TreeItem<>("Variable type: " + m.getVariableType()));
+                        val.getChildren().add(new TreeItem<>("From ROS Service Response: " + m.isFromROSServiceResponse()));
+                        val.getChildren().add(new TreeItem<>("Assignment code: " + m.getAssignmentCode()));
+                        val.getChildren().add(createImportCodeTree(m.getImportCode()));
+                    }
+            );
+        }
+    }
+
+    public void handleDeleteLocalVarInitBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> val = LocalVarInitTreeView.getSelectionModel().getSelectedItem();
+        if(LocalVarInitTreeView.getRoot().getChildren().contains(val)){
+            AMmodel.getLocalVariablesInitialization().remove(LocalVarInitTreeView.getRoot().getChildren().indexOf(val));
+            LocalVarInitTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETE_LOCAL_VAR_INIT_SUCCESS_TITLE,NotificationUtils.DELETE_LOCAL_VAR_INIT_SUCCESS_TEXT,null);
+        }
+        else {
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETE_LOCAL_VAR_INIT_FAIL_TITLE,NotificationUtils.DELETE_LOCAL_VAR_INIT_FAIL_TEXT);
         }
     }
 }

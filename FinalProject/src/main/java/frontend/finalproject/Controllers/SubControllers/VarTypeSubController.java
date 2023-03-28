@@ -10,4 +10,6 @@ public interface VarTypeSubController {
     void setGlobalVarType(GlobalVariableTypeModel type);
 
     List<GlobalVariableTypeModel> getAddedVars();
+
+    void setCallback(Runnable callback);
 }
