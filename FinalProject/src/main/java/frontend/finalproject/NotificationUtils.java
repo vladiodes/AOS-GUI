@@ -137,4 +137,12 @@ public class NotificationUtils {
     public static final String EDIT_GLOBAL_VAR_MODULE_PARAMS_FAIL_TEXT = "Please select a global variable module parameters to edit";
     public static final String ADDED_GLOBAL_VAR_PRECOND_ASS_TITLE = "Global variable precondition assignment added";
     public static final String ADDED_GLOBAL_VAR_PRECOND_ASS_TXT = "You've successfully added a global variable precondition assignment!";
+    public static final String EDIT_PLANNER_ASSISTANCE_PRECOND_ASS_FAIL_TEXT = "Please select a planner assignment precondition to edit";
+    public static final String EDIT_PLANNER_ASSISTANCE_PRECOND_ASS_FAIL_TITLE = "Failed to edit planner assignment precondition";
+    public static final String ADDED_GLOBAL_PLANNER_PRECOND_TITLE = "Planner assignment precondition added";
+    public static final String ADDED_GLOBAL_PLANNER_PRECOND_TXT = "You've successfully added a planner assignment precondition!";
+    public static final String ADDED_DYNAMIC_MODEL_TITLE = "Dynamic model added";
+    public static final String ADDED_DYNAMIC_MODEL_TXT = "You've successfully added a dynamic model!";
+    public static final String EDIT_DYNAMIC_MODEL_FAIL_TITLE = "Failed to edit dynamic model";
+    public static final String EDIT_DYNAMIC_MODEL_FAIL_TEXT = "Please select a dynamic model to edit";
 }

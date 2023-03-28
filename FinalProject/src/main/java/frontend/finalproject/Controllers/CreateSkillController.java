@@ -27,6 +27,9 @@ import utils.Response;
 
 
 public class CreateSkillController {
+    public static final String GLOBAL_VARIABLE_PRECONDITION = "Global variable precondition";
+    public static final String PLANNER_ASSISTANCE_PRECONDITION = "Planner assistance precondition";
+    public static final String DYNAMIC_MODEL = "Dynamic model";
     @FXML
     private TreeView<String> LocalVarInitTreeView;
     @FXML
@@ -124,7 +127,6 @@ public class CreateSkillController {
     private String projectName;
     private SDModel SDmodel = new SDModel();
     private AMModel AMmodel = new AMModel();
-    private ImportCodeModel curImportCodeModelModuleActivationSection = null;
     private SkillCodeReturnValueModel curSkillCodeReturnValue = null;
     private ImportCodeModel curSkillCodeRetValueImportCode = null;
     private ImportCodeModel curRobotFrameworkImportCode = null;
@@ -168,28 +170,34 @@ public class CreateSkillController {
                 AssignmentNameGlobVarPreCondTXT.getText(),
                 AssignmentCodeGlobVarPreCondTXT.getText());
         SDmodel.addGlobalVariablePreconditionAssignment(assignmentBlock);
-        addAssBlockToTree(GlobalVarPreconditionAssTreeView,null,assignmentBlock);
+        addAssBlockToTree(GlobalVarPreconditionAssTreeView,GLOBAL_VARIABLE_PRECONDITION,assignmentBlock);
         AssignmentNameGlobVarPreCondTXT.setText("");
         AssignmentCodeGlobVarPreCondTXT.setText("");
         UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_VAR_PRECOND_ASS_TITLE,NotificationUtils.ADDED_GLOBAL_VAR_PRECOND_ASS_TXT,null);
     }
 
     public void handleInsertGlobalPlannerPrecondition(ActionEvent event) {
-        SDmodel.addPlannerAssistancePreconditionsAssignment(new AssignmentBlock(
+        AssignmentBlock block = new AssignmentBlock(
                 AssignmentNamePlannerAssistancePreCondTXT.getText(),
                 AssignmentCodePlannerAssistancePreCondTXT.getText()
-        ));
+        );
+        SDmodel.addPlannerAssistancePreconditionsAssignment(block);
+        addAssBlockToTree(PlannerAssistancePreconditionAssTreeView,PLANNER_ASSISTANCE_PRECONDITION,block);
         AssignmentNamePlannerAssistancePreCondTXT.setText("");
         AssignmentCodePlannerAssistancePreCondTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_GLOBAL_PLANNER_PRECOND_TITLE,NotificationUtils.ADDED_GLOBAL_PLANNER_PRECOND_TXT,null);
     }
 
     public void handleInsertDynamicModel(ActionEvent event) {
-        SDmodel.addDynamicModelAssignment(new AssignmentBlock(
+        AssignmentBlock block = new AssignmentBlock(
                 AssignmentNameDynamicModelTXT.getText(),
                 AssignmentCodeDynamicModelTXT.getText()
-        ));
+        );
+        SDmodel.addDynamicModelAssignment(block);
+        addAssBlockToTree(DynamicModelTreeView,DYNAMIC_MODEL,block);
         AssignmentNameDynamicModelTXT.setText("");
         AssignmentCodeDynamicModelTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.ADDED_DYNAMIC_MODEL_TITLE,NotificationUtils.ADDED_DYNAMIC_MODEL_TXT,null);
     }
 
     public void handleSDPreviewBTNClick(ActionEvent event) {
@@ -516,7 +524,7 @@ public class CreateSkillController {
     }
 
     private void populateDynamicModelTree() {
-        populateAssignmentBlocksInTree(DynamicModelTreeView, SDmodel.getDynamicModel().getNextStateAssignments(), "Dynamic model");
+        populateAssignmentBlocksInTree(DynamicModelTreeView, SDmodel.getDynamicModel().getNextStateAssignments(), DYNAMIC_MODEL);
     }
 
     private void populateAssignmentBlocksInTree(TreeView<String> treeView, List<AssignmentBlock> assignmentBlocks, String defaultName) {
@@ -533,11 +541,11 @@ public class CreateSkillController {
     }
 
     private void populatePlannerAssistancePreconditionAssTree() {
-        populateAssignmentBlocksInTree(PlannerAssistancePreconditionAssTreeView, SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments(), "Planner assistance precondition");
+        populateAssignmentBlocksInTree(PlannerAssistancePreconditionAssTreeView, SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments(), PLANNER_ASSISTANCE_PRECONDITION);
     }
 
     private void populateGlobalVarPreconditionAssTree() {
-        populateAssignmentBlocksInTree(GlobalVarPreconditionAssTreeView, SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments(), "Global variable precondition");
+        populateAssignmentBlocksInTree(GlobalVarPreconditionAssTreeView, SDmodel.getPreconditions().getGlobalVariablePreconditionAssignments(), GLOBAL_VARIABLE_PRECONDITION);
     }
 
     private void populateGlobalVarModuleParamsTree() {
@@ -721,7 +729,7 @@ public class CreateSkillController {
             loadEditStage(UtilsFXML.EDIT_ASS_CODE_PATH, model,selectedItem,
                     () -> {
                         assert model != null;
-                        selectedItem.setValue(model.getAssignmentName() == null || model.getAssignmentName().isEmpty() ? "Global variable precondition" : model.getAssignmentName());
+                        selectedItem.setValue(model.getAssignmentName() == null || model.getAssignmentName().isEmpty() ? GLOBAL_VARIABLE_PRECONDITION : model.getAssignmentName());
                         selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
                     }
             );
@@ -729,6 +737,42 @@ public class CreateSkillController {
         }
         else {
             UtilsFXML.showErrorNotification(NotificationUtils.EDIT_GLOBAL_VAR_PRECOND_ASS_FAIL_TITLE,NotificationUtils.EDIT_GLOBAL_VAR_PRECOND_ASS_FAIL_TEXT);
+        }
+    }
+
+    public void handleEditPlannerAssistancePreconditionAssEditBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = PlannerAssistancePreconditionAssTreeView.getSelectionModel().getSelectedItem();
+        if (PlannerAssistancePreconditionAssTreeView.getRoot().getChildren().contains(selectedItem)) {
+            AssignmentBlock model = SDmodel.getPreconditions().getPlannerAssistancePreconditionsAssignments().get(PlannerAssistancePreconditionAssTreeView.getRoot().getChildren().indexOf(selectedItem));
+
+            loadEditStage(UtilsFXML.EDIT_ASS_CODE_PATH, model,selectedItem,
+                    () -> {
+                        assert model != null;
+                        selectedItem.setValue(model.getAssignmentName() == null || model.getAssignmentName().isEmpty() ? PLANNER_ASSISTANCE_PRECONDITION : model.getAssignmentName());
+                        selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
+                    }
+            );
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_PLANNER_ASSISTANCE_PRECOND_ASS_FAIL_TITLE,NotificationUtils.EDIT_PLANNER_ASSISTANCE_PRECOND_ASS_FAIL_TEXT);
+        }
+    }
+
+    public void handleEditDynamicModelBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = DynamicModelTreeView.getSelectionModel().getSelectedItem();
+        if(DynamicModelTreeView.getRoot().getChildren().contains(selectedItem)){
+            AssignmentBlock model = SDmodel.getDynamicModel().getNextStateAssignments().get(DynamicModelTreeView.getRoot().getChildren().indexOf(selectedItem));
+
+            loadEditStage(UtilsFXML.EDIT_ASS_CODE_PATH, model,selectedItem,
+                    () -> {
+                        assert model != null;
+                        selectedItem.setValue(model.getAssignmentName() == null || model.getAssignmentName().isEmpty() ? DYNAMIC_MODEL : model.getAssignmentName());
+                        selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
+                    }
+            );
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.EDIT_DYNAMIC_MODEL_FAIL_TITLE,NotificationUtils.EDIT_DYNAMIC_MODEL_FAIL_TEXT);
         }
     }
 }

@@ -100,7 +100,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertGlobalPlannerPrecondition"  styleClass="formBtn" text="Insert Assignment" />
-            <Button styleClass="formBtn" text="Edit Assignment" />
+            <Button onAction="#handleEditPlannerAssistancePreconditionAssEditBTNClick" styleClass="formBtn" text="Edit Assignment" />
             <Button onAction="#handleDeletePlannerAssPrecondAssBTNClick" styleClass="formBtn" text="Delete Assignment" />
         </HBox>
         <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="PlannerAssistancePreconditionAssTreeView" styleClass="TreeViewForm" /></HBox>
@@ -119,7 +119,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertDynamicModel"  styleClass="formBtn" text="Insert Assignment" />
-            <Button styleClass="formBtn" text="Edit Assignment" />
+            <Button onAction="#handleEditDynamicModelBTNClick" styleClass="formBtn" text="Edit Assignment" />
             <Button onAction="#handleDeleteDynamicModelBTNClick" styleClass="formBtn" text="Delete Assignment" />
         </HBox>
         <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="DynamicModelTreeView" styleClass="TreeViewForm" /></HBox>
