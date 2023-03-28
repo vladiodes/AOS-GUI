@@ -248,17 +248,24 @@ public class CreateSkillController {
         AMmodel.addResponseRule(
                 ResponseTXT.getText(),
                 ConditionCodeTXT.getText());
+        addResponseRuleToTree(new ResponseRule(ResponseTXT.getText(), ConditionCodeTXT.getText()));
         ResponseTXT.setText("");
         ConditionCodeTXT.setText("");
         UtilsFXML.showNotification(NotificationUtils.ADDED_RESPONSE_RULE_TITLE, NotificationUtils.ADDED_RESPONSE_RULE_TEXT, null);
     }
 
     public void handleInsertImportCodeSectionBTNClick(ActionEvent event) {
-        curImportCodeModelModuleActivationSection.setFrom(FromTXT.getText());
+        String[] imports = ImportTXT.getText().split("\n");
+        ImportCodeModel importCodeModel = new ImportCodeModel();
+        importCodeModel.setFrom(FromTXT.getText());
+        for (String importCode : imports)
+            importCodeModel.addImportValue(importCode);
+
         FromTXT.setText("");
         ImportTXT.setText("");
-        AMmodel.getModuleActivation().addImportCode(curImportCodeModelModuleActivationSection);
-        curImportCodeModelModuleActivationSection = null;
+        AMmodel.getModuleActivation().addImportCode(importCodeModel);
+
+        addImportCodeModelToTree(ImportCodeMainTreeView.getRoot(),importCodeModel);
         UtilsFXML.showNotification(NotificationUtils.ADDED_IMPORT_CODE_TITLE, NotificationUtils.ADDED_IMPORT_CODE_TEXT, null);
     }
 
@@ -267,6 +274,7 @@ public class CreateSkillController {
                 ServiceFieldNameTXT.getText(),
                 AssignServiceFieldCodeTXT.getText()
         );
+        addServiceParamToTree(new ServiceParameter(ServiceFieldNameTXT.getText(), AssignServiceFieldCodeTXT.getText()));
         ServiceFieldNameTXT.setText("");
         AssignServiceFieldCodeTXT.setText("");
         UtilsFXML.showNotification(NotificationUtils.ADDED_SERVICE_PARAM_TITLE, NotificationUtils.ADDED_SERVICE_PARAM_TEXT, null);
@@ -410,14 +418,49 @@ public class CreateSkillController {
     }
 
     public void handleResponseRuleDeleteBTNClick(ActionEvent event) {
+        TreeItem<String> val = ResponseRulesTreeView.getSelectionModel().getSelectedItem();
+        if(ResponseRulesTreeView.getRoot().getChildren().contains(val)){
+            String selected = val.getValue();
+            AMmodel.getModuleResponse().setResponseRules(AMmodel.getModuleResponse().getResponseRules().stream().filter(
+                    (x) -> !x.getResponse().equals(selected)
+            ).toList());
+            ResponseRulesTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_RESPONSE_RULE_TITLE,NotificationUtils.DELETED_RESPONSE_RULE_TEXT,null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETE_RESPONSE_RULE_FAIL_TITLE,NotificationUtils.DELETE_RESPONSE_RULE_FAIL_TEXT);
+        }
 
     }
 
     public void handleImportCodeResponseRuleSectionDeleteBTNClick(ActionEvent event) {
+        TreeItem<String> val = ImportCodeMainTreeView.getSelectionModel().getSelectedItem();
+        if(ImportCodeMainTreeView.getRoot().getChildren().contains(val)){
+            int selected = ImportCodeMainTreeView.getRoot().getChildren().indexOf(val);
+            AMmodel.getModuleActivation().getRosService().getImportCode().remove(selected);
+            ImportCodeMainTreeView.getRoot().getChildren().remove(val);
 
+            UtilsFXML.showNotification(NotificationUtils.DELETED_IMPORT_CODE_TITLE,NotificationUtils.DELETED_IMPORT_CODE_TEXT,null);
+        }
+        else {
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETE_IMPORT_CODE_RESPONSE_RULE_SECTION_FAIL_TITLE,NotificationUtils.DELETE_IMPORT_CODE_RESPONSE_RULE_SECTION_FAIL_TEXT);
+        }
     }
 
     public void handleDeleteServiceParamsBTNClick(ActionEvent event) {
+        TreeItem<String> val = ServicesParamsTreeView.getSelectionModel().getSelectedItem();
+        if(ServicesParamsTreeView.getRoot().getChildren().contains(val)){
+            String selected = val.getValue();
+            AMmodel.getModuleActivation().getRosService().setServiceParameters(AMmodel.getModuleActivation().getRosService().getServiceParameters().stream().filter(
+                    (x) -> !x.getServiceFieldName().equals(selected)
+            ).toList());
+            ServicesParamsTreeView.getRoot().getChildren().remove(val);
+
+            UtilsFXML.showNotification(NotificationUtils.DELETED_SERVICE_PARAM_TITLE,NotificationUtils.DELETED_SERVICE_PARAM_TEXT,null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETE_SERVICE_PARAMS_FAIL_TITLE,NotificationUtils.DELETE_SERVICE_PARAMS_FAIL_TEXT);
+        }
 
     }
 
@@ -547,12 +590,16 @@ public class CreateSkillController {
     private TreeItem<String> createImportCodeTree(List<ImportCodeModel> imports) {
         TreeItem<String> importItems = new TreeItem<>("Import code");
         for (ImportCodeModel imp : imports) {
-            TreeItem<String> impItem = new TreeItem<>("From: " + imp.getFrom());
-            for (String code : imp.getImport())
-                impItem.getChildren().add(new TreeItem<>(code));
-            importItems.getChildren().add(impItem);
+            addImportCodeModelToTree(importItems, imp);
         }
         return importItems;
+    }
+
+    private void addImportCodeModelToTree(TreeItem<String> importItems, ImportCodeModel imp) {
+        TreeItem<String> impItem = new TreeItem<>("From: " + imp.getFrom());
+        for (String code : imp.getImport())
+            impItem.getChildren().add(new TreeItem<>(code));
+        importItems.getChildren().add(impItem);
     }
 
     private void addLocalVarInitToTree(LocalVariablesInitializationModel model) {

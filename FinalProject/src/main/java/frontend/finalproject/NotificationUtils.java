@@ -119,4 +119,10 @@ public class NotificationUtils {
     public static final String DELETED_PLANNER_ASS_PRECONDITION_FAIL_TEXT = "Please select a planner assignment precondition to delete";
     public static final String DELETE_DYNAMIC_MODEL_FAIL_TEXT = "Please select a dynamic model to delete";
     public static final String DELETE_DYNAMIC_MODEL_FAIL_TITLE = "Failed to delete dynamic model";
+    public static final String DELETE_RESPONSE_RULE_FAIL_TITLE = "Failed to delete response rule";
+    public static final String DELETE_RESPONSE_RULE_FAIL_TEXT = "Please select a response rule to delete";
+    public static final String DELETE_IMPORT_CODE_RESPONSE_RULE_SECTION_FAIL_TITLE = "Failed to delete import code response rule section";
+    public static final String DELETE_IMPORT_CODE_RESPONSE_RULE_SECTION_FAIL_TEXT = "Please select an import code response rule section to delete";
+    public static final String DELETE_SERVICE_PARAMS_FAIL_TITLE = "Failed to delete service parameters";
+    public static final String DELETE_SERVICE_PARAMS_FAIL_TEXT = "Please select a service parameters to delete";
 }
