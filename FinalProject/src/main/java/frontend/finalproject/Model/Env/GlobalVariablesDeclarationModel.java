@@ -1,8 +1,9 @@
 package frontend.finalproject.Model.Env;
 
 import backend.finalproject.ProjectFiles.Env.GlobalVariablesDeclaration;
+import frontend.finalproject.Model.Model;
 
-public class GlobalVariablesDeclarationModel {
+public class GlobalVariablesDeclarationModel implements Model {
     private String Name;
     private String Type;
     private String DefaultCode;
@@ -42,5 +43,21 @@ public class GlobalVariablesDeclarationModel {
         return String.format("Type: %s\n" +
                 "Default code: %s\n" +
                 "isActionParameterValue: %b",getType(),getDefaultCode(),isActionParameterValue());
+    }
+
+    public void setDefaultCode(String defaultCode) {
+        DefaultCode = defaultCode;
+    }
+
+    public void setActionParameterValue(boolean actionParameterValue) {
+        IsActionParameterValue = actionParameterValue;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 }

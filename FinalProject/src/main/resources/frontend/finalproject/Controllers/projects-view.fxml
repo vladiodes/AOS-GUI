@@ -26,17 +26,17 @@
                  <Font name="System Bold" size="20.0" />
              </font>
          </Label>
-            <Button alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleEditEnvBTNClick" stylesheets="@../style.css" text="Edit Env" />
-            <Button alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleEditSkillBTNClick" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Edit Skill" />
+            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleEditEnvBTNClick" stylesheets="@../style.css" text="Edit Env" />
+            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleEditSkillBTNClick" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Edit Skill" />
             <Label layoutX="22.0" layoutY="7.0" text="Project Info" textFill="#222">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleAddSkillAction" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Add Skill" />
-            <Button alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open SD" />
-            <Button alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open AM" />
-            <Button alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open Env" />
+            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleAddSkillAction" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Add Skill" />
+            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open SD" />
+            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open AM" />
+            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="328.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open Env" />
          </children>
       </Pane>
       <Button fx:id="backButton" layoutX="20.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleButtonClicks" prefHeight="46.0" prefWidth="150.0" text="Back">

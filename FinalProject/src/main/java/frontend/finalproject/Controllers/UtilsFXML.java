@@ -1,18 +1,23 @@
 package frontend.finalproject.Controllers;
 
-import backend.finalproject.IAOSFacade;
+import frontend.finalproject.Controllers.SubControllers.AddVarTypeEnumController;
+import frontend.finalproject.Controllers.SubControllers.EditSubController;
+import frontend.finalproject.Model.Common.ImportCodeModel;
+import frontend.finalproject.Model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TreeItem;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import utils.Response;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class UtilsFXML {
@@ -23,6 +28,18 @@ public class UtilsFXML {
     public static final String ADD_SKILL_FXML_PATH = "create-skill-view.fxml";
     public static final String RUNNING_AOS_BUTTON_TXT = "AOS: UP\nTap to shut down AOS";
     public static final String SHUTDOWN_AOS_BUTTON_TXT = "AOS: DOWN\nTap to activate AOS";
+    public static final String ADD_VAR_TYPE_PATH = "add-var-type-enum-view.fxml";
+    public static final String ADD_VAR_TYPE_COMPOUND_PATH = "add-var-type-compound-view.fxml";
+    public static final String EDIT_GLOBAL_VAR_DEC_PATH = "edit-global-var-decl-view.fxml";
+    public static final String EDIT_ASS_CODE_PATH  ="edit-ass-code-view.fxml" ;
+    public static final String EDIT_STATE_PATH = "edit-special-state-view.fxml";
+    public static final String EDIT_RESPONSE_RULE_PATH = "edit-response-rule-view.fxml";
+    public static final String EDIT_GLOBAL_VAR_MODULE_PARAMS_PATH = "edit-global-var-module-param-view.fxml";
+    public static final String EDIT_IMPORT_CODE_PATH = "edit-import-code-view.fxml";
+    public static final String EDIT_SERVICE_PARAMS_PATH = "edit-service-param-view.fxml";
+    public static final String ADD_SD_FILE_SKILL_PARAMS_PATH = "add-sd-file-skill-param-view.fxml";
+    public static final String ADD_SKILL_CODE_RET_VALUE_PATH = "add-skill-code-ret-value-view.fxml";
+    public static final String ADD_ROBOT_FRAMEWORK_LOCAL_VAR_INIT_PATH = "add-robot-framework-local-var-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {
@@ -85,8 +102,41 @@ public class UtilsFXML {
         notificationBuilder.showConfirm();
     }
 
-    enum Source {
-        EDIT_ENV, EDIT_SKILL,
+    public static TreeItem<String> createImportCodeTree(List<ImportCodeModel> imports) {
+        TreeItem<String> importItems = new TreeItem<>("Import code");
+        for (ImportCodeModel imp : imports) {
+            addImportCodeModelToTree(importItems, imp);
+        }
+        return importItems;
+    }
+
+    public static void addImportCodeModelToTree(TreeItem<String> importItems, ImportCodeModel imp) {
+        TreeItem<String> impItem = new TreeItem<>("From: " + imp.getFrom());
+        for (String code : imp.getImport())
+            impItem.getChildren().add(new TreeItem<>(code));
+        importItems.getChildren().add(impItem);
+    }
+
+    public static void loadEditStage(String fxml, Model model, TreeItem<String> selectedItem, Runnable callback){
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(EditSubController.class.getResource(fxml));
+            Parent root = loader.load();
+            EditSubController controller = loader.getController();
+            controller.setModel(model);
+            controller.setCallback(callback);
+
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public enum Source {
+        EDIT_ENV, EDIT_SKILL,EDIT_VAR_TYPE,ADD,EDIT
     }
 }
 

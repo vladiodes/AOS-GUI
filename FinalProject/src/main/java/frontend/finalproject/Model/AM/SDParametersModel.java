@@ -23,4 +23,12 @@ public class SDParametersModel extends LocalVariablesInitializationModel {
     public String getFromGlobalVariable() {
         return FromGlobalVariable;
     }
+
+    public void setInputLocalVariable(String InputLocalVariable) {
+        this.InputLocalVariable = InputLocalVariable;
+    }
+
+    public void setFromGlobalVariable(String FromGlobalVariable) {
+        this.FromGlobalVariable = FromGlobalVariable;
+    }
 }

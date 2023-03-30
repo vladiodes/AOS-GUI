@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import javafx.collections.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.CreateSkillController">
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.CreateSkillController">
     <children>
-        <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Label fx:id="titleLBL" layoutX="73.0" layoutY="30.0" text="Add Skill" textFill="WHITE">
                     <font>
@@ -17,455 +19,221 @@
                 </Label>
             </children>
         </Pane>
-        
-        <Pane layoutX="12.0" layoutY="802.0" prefHeight="39.0" prefWidth="1065.0">
-            <children>
-                <Button fx:id="addSkillBTN" layoutX="900.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleAddSkillBTNClick" text="Add Skill" />
-                <Button layoutX="428.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleAMPreviewBTNClick" text="Preview AM JSON" />
-            <Button layoutX="280.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleSDPreviewBTNClick" text="Preview SD JSON" />
-            <Button layoutX="80.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleBackBTNClick" text="&lt;&lt; Back" />
-            </children></Pane>
-      <TabPane layoutX="6.0" layoutY="143.0" prefHeight="650.0" prefWidth="1108.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="SD">
-              <content>
-                  <ScrollPane layoutX="6.0" layoutY="143.0" prefHeight="650.0" prefWidth="1108.0">
-                      <content>
-                          <Pane layoutX="4.0" layoutY="146.0" prefHeight="1000" prefWidth="1088.0" xmlns="http://javafx.com/javafx/17.0.2-ea">
-                              <children>
-                                  <Label layoutX="19.0" layoutY="14.0" text="PlpMain">
-                                      <font>
-                                          <Font name="System Bold" size="18.0" />
-                                      </font>
-                                  </Label>
-                                  <Separator layoutX="9.0" layoutY="43.0" prefHeight="14.0" prefWidth="1073.0" />
-                                  <Label layoutX="48.0" layoutY="66.0" text="Skill Name">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField fx:id="SkillNameTXT" layoutX="234.0" layoutY="63.0" />
-                                  <Label layoutX="19.0" layoutY="108.0" text="GlobalVariableModuleParameters">
-                                      <font>
-                                          <Font name="System Bold" size="18.0" />
-                                      </font>
-                                  </Label>
-                                  <Separator layoutX="9.0" layoutY="137.0" prefHeight="14.0" prefWidth="1073.0" />
-                                  <Label layoutX="48.0" layoutY="160.0" text="Name">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField fx:id="GlobalVarModuleParamNameTXT" layoutX="234.0" layoutY="157.0" />
-                                  <Label layoutX="48.0" layoutY="194.0" text="Type">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField fx:id="GlobalVarModuleParamTypeTXT" layoutX="234.0" layoutY="191.0" />
-                                  <Label layoutX="29.0" layoutY="362.0" text="GlobalVariablePreconditionAssignments">
-                                      <font>
-                                          <Font name="System Bold" size="18.0" />
-                                      </font>
-                                  </Label>
-                                  <Separator layoutX="19.0" layoutY="391.0" prefHeight="14.0" prefWidth="1073.0" />
-                                  <Label layoutX="48.0" layoutY="414.0" text="AssignmentName">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField fx:id="AssignmentNameGlobVarPreCondTXT" layoutX="234.0" layoutY="411.0" />
-                                  <Label layoutX="48.0" layoutY="448.0" text="AssignmentCode">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <Label layoutX="544.0" layoutY="313.0" text="Enum Value" visible="false">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField layoutX="730.0" layoutY="309.0" visible="false" />
-                                  <Button layoutX="928.0" layoutY="308.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next value" visible="false" />
-                                  <Label layoutX="544.0" layoutY="347.0" text="Name" visible="false">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField layoutX="730.0" layoutY="343.0" visible="false" />
-                                  <Button layoutX="928.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next variable" visible="false" />
-                                  <Label layoutX="544.0" layoutY="381.0" text="Type" visible="false">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField layoutX="730.0" layoutY="378.0" visible="false" />
-                                  <Label layoutX="544.0" layoutY="415.0" text="Default" visible="false">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField layoutX="730.0" layoutY="412.0" visible="false" />
-                                  <Label layoutX="29.0" layoutY="522.0" text="PlannerAssistancePreconditionsAssignments">
-                                      <font>
-                                          <Font name="System Bold" size="18.0" />
-                                      </font>
-                                  </Label>
-                                  <Separator layoutX="19.0" layoutY="551.0" prefHeight="14.0" prefWidth="1073.0" />
-                                  <Button layoutX="48.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleInsertGlobalVarModuleParamSD" prefHeight="24.0" prefWidth="357.0" text="Insert" />
-                                  <Button layoutX="48.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleInsertGlobalVarPreconditionAssignment" prefHeight="24.0" prefWidth="357.0" text="Insert" />
-                                  <TextField fx:id="AssignmentCodeGlobVarPreCondTXT" layoutX="234.0" layoutY="444.0" />
-                                  <Label layoutX="48.0" layoutY="574.0" text="AssignmentName">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField fx:id="AssignmentNamePlannerAssistancePreCondTXT" layoutX="234.0" layoutY="571.0" />
-                                  <Label layoutX="48.0" layoutY="608.0" text="AssignmentCode">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <Button layoutX="48.0" layoutY="640.0" mnemonicParsing="false" onAction="#handleInsertGlobalPlannerPrecondition" prefHeight="24.0" prefWidth="357.0" text="Insert" />
-                                  <TextField fx:id="AssignmentCodePlannerAssistancePreCondTXT" layoutX="234.0" layoutY="604.0" />
-                                  <Label layoutX="29.0" layoutY="682.0" text="DynamicModel">
-                                      <font>
-                                          <Font name="System Bold" size="18.0" />
-                                      </font>
-                                  </Label>
-                                  <Separator layoutX="19.0" layoutY="711.0" prefHeight="14.0" prefWidth="1073.0" />
-                                  <Label layoutX="19.0" layoutY="268.0" text="Preconditions">
-                                      <font>
-                                          <Font name="System Bold" size="18.0" />
-                                      </font>
-                                  </Label>
-                                  <Separator layoutX="9.0" layoutY="297.0" prefHeight="14.0" prefWidth="1073.0" />
-                                  <Label layoutX="48.0" layoutY="320.0" text="ViolatingPreconditionPenalty">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField fx:id="ViolatingPreconditionPenaltyTXT" layoutX="234.0" layoutY="317.0" />
-                                  <Label layoutX="48.0" layoutY="734.0" text="AssignmentName">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <TextField fx:id="AssignmentNameDynamicModelTXT" layoutX="234.0" layoutY="731.0" />
-                                  <Label layoutX="48.0" layoutY="768.0" text="AssignmentCode">
-                                      <font>
-                                          <Font size="12.0" />
-                                      </font>
-                                  </Label>
-                                  <Button layoutX="48.0" layoutY="800.0" mnemonicParsing="false" onAction="#handleInsertDynamicModel" prefHeight="24.0" prefWidth="357.0" text="Insert another" />
-                                  <TextField fx:id="AssignmentCodeDynamicModelTXT" layoutX="234.0" layoutY="764.0" />
-                                  <ChoiceBox fx:id="GlobalVarModuleParamsCBX" layoutX="900.0" layoutY="108.0" prefWidth="150.0">
-                                      <items>
-                                      </items>
-                                  </ChoiceBox>
-                                  <Button layoutX="815.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleDeleteGlobalVarModuleBTNClick" text="Delete" />
-                                  <ChoiceBox fx:id="GlobalVarPrecondAssCBX" layoutX="900.0" layoutY="362.0" prefWidth="150.0">
+        <Tab text="SD">
+        <content>
 
-                                  </ChoiceBox>
-                                  <Button layoutX="815.0" layoutY="362.0" mnemonicParsing="false" onAction="#handleDeleteGlobalVarPreconditionAssBTNClick" text="Delete" />
-                                  <ChoiceBox fx:id="PlannerAssPrecondAssCBX" layoutX="900.0" layoutY="522.0" prefWidth="150.0">
-                                  </ChoiceBox>
-                                  <Button layoutX="815.0" layoutY="522.0" mnemonicParsing="false" onAction="#handleDeletePlannerAssPrecondAssBTNClick" text="Delete" />
-                                  <ChoiceBox fx:id="DynamicModelCBX" layoutX="900.0" layoutY="682.0" prefWidth="150.0">
-                                      <items>
-                                      </items>
-                                  </ChoiceBox>
-                                  <Button layoutX="815.0" layoutY="682.0" mnemonicParsing="false" onAction="#handleDeleteDynamicModelBTNClick" text="Delete" />
-                              </children></Pane>
-                      </content>
-                  </ScrollPane>
-              </content>
+        <ScrollPane prefHeight="650.0" minWidth="1000">
+        <content>
+        <VBox spacing="10">
 
-          </Tab>
-          <Tab text="Glue">
-              <content>
-                  <ScrollPane layoutX="6.0" layoutY="143.0" prefHeight="650.0" prefWidth="1108.0">
-                          <content>
-                  <Pane layoutX="4.0" layoutY="146.0" prefHeight="1500" prefWidth="1088.0">
-                          <children>
-                              <Label layoutX="19.0" layoutY="14.0" text="GlueFramework">
-                                  <font>
-                                      <Font name="System Bold" size="18.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="9.0" layoutY="43.0" prefHeight="14.0" prefWidth="1073.0" />
-                              <Label layoutX="48.0" layoutY="66.0" text="GlueFramework">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="GlueFrameWorkTXT" layoutX="234.0" layoutY="63.0" />
-                              <Label layoutX="19.0" layoutY="108.0" text="ResponseRules">
-                                  <font>
-                                      <Font name="System Bold" size="18.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="9.0" layoutY="137.0" prefHeight="14.0" prefWidth="1073.0" />
-                              <Label layoutX="48.0" layoutY="160.0" text="Response">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="ResponseTXT" layoutX="234.0" layoutY="157.0" />
-                              <Label layoutX="48.0" layoutY="194.0" text="ConditionCode">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="ConditionCodeTXT" layoutX="234.0" layoutY="191.0" />
-                              <Label layoutX="544.0" layoutY="313.0" text="Enum Value" visible="false">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField layoutX="730.0" layoutY="309.0" visible="false" />
-                              <Button layoutX="928.0" layoutY="308.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next value" visible="false" />
-                              <Label layoutX="544.0" layoutY="347.0" text="Name" visible="false">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField layoutX="730.0" layoutY="343.0" visible="false" />
-                              <Button layoutX="928.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="152.0" text="Insert next variable" visible="false" />
-                              <Label layoutX="544.0" layoutY="381.0" text="Type" visible="false">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField layoutX="730.0" layoutY="378.0" visible="false" />
-                              <Label layoutX="544.0" layoutY="415.0" text="Default" visible="false">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField layoutX="730.0" layoutY="412.0" visible="false" />
-                              <Button layoutX="48.0" layoutY="226.0" mnemonicParsing="false" onAction="#handleInsertResponseRuleBTNClick" prefHeight="24.0" prefWidth="357.0" text="Insert" />
-                              <Label layoutX="19.0" layoutY="268.0" text="ImportCode">
-                                  <font>
-                                      <Font name="System Bold" size="18.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="9.0" layoutY="297.0" prefHeight="14.0" prefWidth="1073.0" />
-                              <Label layoutX="48.0" layoutY="321.0" text="From">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="FromTXT" layoutX="234.0" layoutY="318.0" />
-                              <Label layoutX="48.0" layoutY="355.0" text="Import">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="ImportTXT" layoutX="234.0" layoutY="352.0" />
-                              <Button layoutX="48.0" layoutY="387.0" mnemonicParsing="false" onAction="#handleInsertImportValueImportCodeSectionBTNClick" prefHeight="24.0" prefWidth="357.0" text="Insert import value" />
-                              <Button layoutX="48.0" layoutY="424.0" mnemonicParsing="false" onAction="#handleInsertImportCodeSectionBTNClick" prefHeight="24.0" prefWidth="357.0" text="Insert import code" />
-                              <Label layoutX="19.0" layoutY="466.0" text="ServicePath">
-                                  <font>
-                                      <Font name="System Bold" size="18.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="9.0" layoutY="495.0" prefHeight="14.0" prefWidth="1073.0" />
-                              <Label layoutX="48.0" layoutY="518.0" text="ServicePath">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="ServicePathTXT" layoutX="234.0" layoutY="515.0" />
-                              <Label layoutX="19.0" layoutY="560.0" text="ServiceName">
-                                  <font>
-                                      <Font name="System Bold" size="18.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="9.0" layoutY="589.0" prefHeight="14.0" prefWidth="1073.0" />
-                              <Label layoutX="48.0" layoutY="612.0" text="ServiceName">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="ServiceNameTXT" layoutX="234.0" layoutY="609.0" />
-                              <Label layoutX="19.0" layoutY="654.0" text="ServiceParameters">
-                                  <font>
-                                      <Font name="System Bold" size="18.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="9.0" layoutY="683.0" prefHeight="14.0" prefWidth="1073.0" />
-                              <Label layoutX="48.0" layoutY="706.0" text="ServiceFieldName">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="ServiceFieldNameTXT" layoutX="234.0" layoutY="703.0" />
-                              <Label layoutX="48.0" layoutY="740.0" text="AssignServiceFieldCode">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="AssignServiceFieldCodeTXT" layoutX="234.0" layoutY="737.0" />
-                              <Button layoutX="48.0" layoutY="772.0" mnemonicParsing="false" onAction="#handleInsertServiceParamBTNClick" prefHeight="24.0" prefWidth="357.0" text="Insert" />
-                              <Label layoutX="18.0" layoutY="814.0" text="LocalVariablesInitialization">
-                                  <font>
-                                      <Font name="System Bold" size="18.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="8.0" layoutY="843.0" prefHeight="14.0" prefWidth="1073.0" />
-                              <Label layoutX="81.0" layoutY="871.0" text="SD file skill parameters">
-                                  <font>
-                                      <Font name="System Bold" size="14.0" />
-                                  </font>
-                              </Label>
-                              <Label layoutX="431.0" layoutY="871.0" text="Skill-code returned value">
-                                  <font>
-                                      <Font name="System Bold" size="14.0" />
-                                  </font>
-                              </Label>
-                              <Label layoutX="781.0" layoutY="871.0" text="Public data from robot framework">
-                                  <font>
-                                      <Font name="System Bold" size="14.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="340.0" layoutY="871.0" orientation="VERTICAL" prefHeight="557.0" prefWidth="0.0" />
-                              <Label layoutX="29.0" layoutY="914.0" text="InputLocalVariable">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="InputLocalVarTXT" layoutX="154.0" layoutY="911.0" />
-                              <Label layoutX="29.0" layoutY="948.0" text="FromGlobalVariable">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="FromGlobalVarTXT" layoutX="154.0" layoutY="945.0" />
-                              <Button layoutX="29.0" layoutY="978.0" mnemonicParsing="false" onAction="#handleInsertLocalVarInitSDbtnClick" prefHeight="24.0" prefWidth="294.0" text="Insert Initialization" />
-                              <Label layoutX="365.0" layoutY="914.0" text="LocalVariableName">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="LocalVarNameSkillCodeTXT" layoutX="490.0" layoutY="911.0" />
-                              <Label layoutX="365.0" layoutY="948.0" text="VariableType">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="VarTypeSkillCodeTXT" layoutX="490.0" layoutY="945.0" />
-                              <Button layoutX="365.0" layoutY="1303.0" mnemonicParsing="false" onAction="#handleInsertLocalVarInitSkillCodeBTNClick" prefHeight="24.0" prefWidth="294.0" text="Insert Initialization" />
-                              <Label layoutX="365.0" layoutY="982.0" text="FromROSServiceResponse">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <ChoiceBox fx:id="FromROSCBX" layoutX="581.0" layoutY="979.0" prefHeight="24.0" prefWidth="79.0">
-                                  <items>
-                                      <FXCollections fx:factory="observableArrayList">
-                                          <String fx:value="true" />
-                                          <String fx:value="false" />
-                                      </FXCollections>
-                                  </items>
-                              </ChoiceBox>
-                              <Label layoutX="365.0" layoutY="1016.0" text="AssignmentCode">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <Separator layoutX="733.0" layoutY="871.0" orientation="VERTICAL" prefHeight="557.0" prefWidth="6.0" />
-                              <Label layoutX="431.0" layoutY="1120.0" text="ImportCode">
-                                  <font>
-                                      <Font name="System Bold" size="14.0" />
-                                  </font>
-                              </Label>
-                              <Label layoutX="365.0" layoutY="1163.0" text="From">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="SkillCodeFromTXT" layoutX="490.0" layoutY="1160.0" />
-                              <Label layoutX="365.0" layoutY="1197.0" text="Import">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="SkillCodeImportTXT" layoutX="490.0" layoutY="1194.0" />
-                              <Button layoutX="365.0" layoutY="1229.0" mnemonicParsing="false" onAction="#handleInsertImportValueSkillCodeBTNClick" prefHeight="24.0" prefWidth="294.0" text="Insert import value" />
-                              <Button layoutX="365.0" layoutY="1266.0" mnemonicParsing="false" onAction="#handleInsertImportCodeSkillCodeBTNClick" prefHeight="24.0" prefWidth="294.0" text="Insert import code" />
-                              <Separator layoutX="1054.0" layoutY="1781.0" orientation="VERTICAL" prefHeight="404.0" prefWidth="0.0" />
-                              <TextArea fx:id="AssCodeSkillCodeRetValueTXT" layoutX="491.0" layoutY="1013.0" prefHeight="98.0" prefWidth="170.0" />
-                              <Label layoutX="748.0" layoutY="914.0" text="LocalVariableName">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="LocalVarNameRobotFrameWorkTXT" layoutX="873.0" layoutY="911.0" />
-                              <Label layoutX="748.0" layoutY="948.0" text="ROSTopicPath">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="ROSTopicPathTXT" layoutX="873.0" layoutY="945.0" />
-                              <Button layoutX="748.0" layoutY="1371.0" mnemonicParsing="false" onAction="#handleInsertLocalVarINITRobotFrameworkBTNClick" prefHeight="24.0" prefWidth="294.0" text="Insert Initialization" />
-                              <Label layoutX="748.0" layoutY="982.0" text="VariableType">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <Label layoutX="748.0" layoutY="1084.0" text="AssignmentCode">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <Label layoutX="814.0" layoutY="1188.0" text="ImportCode">
-                                  <font>
-                                      <Font name="System Bold" size="14.0" />
-                                  </font>
-                              </Label>
-                              <Label layoutX="748.0" layoutY="1231.0" text="From">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="RobotFrameworkFromTXT" layoutX="873.0" layoutY="1228.0" />
-                              <Label layoutX="748.0" layoutY="1265.0" text="Import">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="RobotFrameworkImportTXT" layoutX="873.0" layoutY="1262.0" />
-                              <Button layoutX="748.0" layoutY="1297.0" mnemonicParsing="false" onAction="#handleInsertImportValueRobotFrameworkBTNClick" prefHeight="24.0" prefWidth="294.0" text="Insert import value" />
-                              <Button layoutX="748.0" layoutY="1334.0" mnemonicParsing="false" onAction="#handleInsertImportCodeRobotFrameworkBTNClick" prefHeight="24.0" prefWidth="294.0" text="Insert import code" />
-                              <TextArea fx:id="AssCodeRobotFrameworkTXT" layoutX="874.0" layoutY="1081.0" prefHeight="98.0" prefWidth="170.0" />
-                              <TextField fx:id="VarTypeRobotFrameworkTXT" layoutX="873.0" layoutY="979.0" />
-                              <Label layoutX="748.0" layoutY="1016.0" text="InitialValue">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="InitialValueTXT" layoutX="873.0" layoutY="1013.0" />
-                              <Label layoutX="748.0" layoutY="1050.0" text="TopicMessageType">
-                                  <font>
-                                      <Font size="12.0" />
-                                  </font>
-                              </Label>
-                              <TextField fx:id="TopicMessageTypeTXT" layoutX="873.0" layoutY="1047.0" />
-                              <ChoiceBox fx:id="ResponseRulesCBX" layoutX="752.0" layoutY="108.0" prefWidth="150.0" />
-                              <Button layoutX="928.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleResponseRuleDeleteBTNClick" text="Delete" />
-                              <ChoiceBox fx:id="ImportCodeResponseRuleSectionCBX" layoutX="752.0" layoutY="268.0" prefWidth="150.0" />
-                              <Button layoutX="928.0" layoutY="268.0" mnemonicParsing="false" onAction="#handleImportCodeResponseRuleSectionDeleteBTNClick" text="Delete" />
-                              <ChoiceBox fx:id="ServiceParametersCBX" layoutX="752.0" layoutY="654.0" prefWidth="150.0" />
-                              <Button layoutX="928.0" layoutY="654.0" mnemonicParsing="false" onAction="#handleDeleteServiceParamsBTNClick" text="Delete" />
-                              <ChoiceBox fx:id="LocalVarsInitCBX" layoutX="752.0" layoutY="814.0" prefWidth="150.0" />
-                              <Button layoutX="928.0" layoutY="814.0" mnemonicParsing="false" onAction="#handleLocalVarInitDeleteBTNClick" text="Delete" />
-                          </children></Pane>
-                          </content>
-                  </ScrollPane>
-              </content>
-          </Tab>
+        <Label text="PlpMain" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Skill Name" styleClass="TextFieldLabel"/>
+                <TextField fx:id="SkillNameTXT" text="NewSkill" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+
+        <Label text="GlobalVariableModuleParameters" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Name" styleClass="TextFieldLabel"/>
+                <TextField fx:id="GlobalVarModuleParamNameTXT" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <children>
+                <Label text="Type" styleClass="TextFieldLabel"/>
+                <TextField fx:id="GlobalVarModuleParamTypeTXT" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button onAction="#handleInsertGlobalVarModuleParamSD" styleClass="formBtn" text="Insert Module" />
+            <Button onAction="#handleEditGlobalVarModuleParamsBTNClick" styleClass="formBtn" text="Edit Module" />
+            <Button onAction="#handleDeleteGlobalVarModuleBTNClick" styleClass="formBtn" text="Delete Module" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="GlobalVarModuleParamsTreeView" styleClass="TreeViewForm" /></HBox>
+
+        <Label text="Preconditions" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="ViolationPreconditionPenalty" styleClass="TextFieldLabel"/>
+                <TextField fx:id="ViolatingPreconditionPenaltyTXT" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+
+        <Label text="GlobalVariablePreconditionAssignments" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <TextField fx:id="AssignmentNameGlobVarPreCondTXT" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <TextArea fx:id="AssignmentCodeGlobVarPreCondTXT" styleClass="TextAreaForm"/>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button onAction="#handleInsertGlobalVarPreconditionAssignment"  styleClass="formBtn" text="Insert Assignment" />
+            <Button onAction="#handleEditGlobalVarPrecondAssBTNClick"  styleClass="formBtn" text="Edit Assignment" />
+            <Button onAction="#handleDeleteGlobalVarPreconditionAssBTNClick" styleClass="formBtn" text="Delete Assignment" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="GlobalVarPreconditionAssTreeView" styleClass="TreeViewForm" /></HBox>
+
+        <Label text="PlannerAssistancePreconditionsAssignments" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <TextField fx:id="AssignmentNamePlannerAssistancePreCondTXT" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <TextArea fx:id="AssignmentCodePlannerAssistancePreCondTXT" styleClass="TextAreaForm"/>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button onAction="#handleInsertGlobalPlannerPrecondition"  styleClass="formBtn" text="Insert Assignment" />
+            <Button onAction="#handleEditPlannerAssistancePreconditionAssEditBTNClick" styleClass="formBtn" text="Edit Assignment" />
+            <Button onAction="#handleDeletePlannerAssPrecondAssBTNClick" styleClass="formBtn" text="Delete Assignment" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="PlannerAssistancePreconditionAssTreeView" styleClass="TreeViewForm" /></HBox>
+
+        <Label text="DynamicModel" styleClass="Separator_Text" />
+        <Separator prefHeight="14.0" styleClass="Separator_Line" />
+        <HBox>
+            <children>
+                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <TextField fx:id="AssignmentNameDynamicModelTXT" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <TextArea fx:id="AssignmentCodeDynamicModelTXT" styleClass="TextAreaForm"/>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button onAction="#handleInsertDynamicModel"  styleClass="formBtn" text="Insert Assignment" />
+            <Button onAction="#handleEditDynamicModelBTNClick" styleClass="formBtn" text="Edit Assignment" />
+            <Button onAction="#handleDeleteDynamicModelBTNClick" styleClass="formBtn" text="Delete Assignment" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="DynamicModelTreeView" styleClass="TreeViewForm" /></HBox>
+        </VBox>
+        </content>
+        </ScrollPane>
+        </content>
+        </Tab>
+
+
+            <Tab text="Glue">
+                <ScrollPane prefHeight="650.0" minWidth="1000">
+                <content>
+                <VBox spacing="10">
+                    <Label text="GlueFramework" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                            <Label text="GlueFramework" styleClass="TextFieldLabel"/>
+                            <TextField fx:id="GlueFrameWorkTXT" styleClass="TextFieldForm"/>
+                    </HBox>
+
+
+                    <Label text="ResponseRules" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="Response" styleClass="TextFieldLabel"/>
+                        <TextField fx:id="ResponseTXT" styleClass="TextFieldForm"/>
+                    </HBox>
+                    <HBox>
+                        <Label text="ConditionCode" styleClass="TextFieldLabel"/>
+                        <TextArea fx:id="ConditionCodeTXT" styleClass="TextAreaForm"/>
+                    </HBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button onAction="#handleInsertResponseRuleBTNClick"  styleClass="formBtn" text="Insert Rule" />
+                        <Button onAction="#handleEditResponseRuleBTNClick" styleClass="formBtn" text="Edit Rule" />
+                        <Button onAction="#handleResponseRuleDeleteBTNClick" styleClass="formBtn" text="Delete Rule" />
+                    </HBox>
+                    <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ResponseRulesTreeView" styleClass="TreeViewForm" /></HBox>
+
+
+                    <Label text="ImportCode" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="From" styleClass="TextFieldLabel"/>
+                        <TextField fx:id="FromTXT" styleClass="TextFieldForm"/>
+                    </HBox>
+                    <HBox>
+                        <Label text="Import" styleClass="TextFieldLabel"/>
+                        <TextArea fx:id="ImportTXT" text="Insert all import values, each in newline" styleClass="TextAreaForm"/>
+                    </HBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button onAction="#handleInsertImportCodeSectionBTNClick"  styleClass="formBtn" text="Insert ImportCode" />
+                        <Button onAction="#handleEditImportCodeMainEditBTNClick" styleClass="formBtn" text="Edit ImportCode" />
+                        <Button onAction="#handleImportCodeResponseRuleSectionDeleteBTNClick" styleClass="formBtn" text="Delete ImportCode" />
+                    </HBox>
+                    <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ImportCodeMainTreeView" styleClass="TreeViewForm" /></HBox>
+
+
+                    <Label text="ServicePath" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="Service Path" styleClass="TextFieldLabel"/>
+                        <TextField fx:id="ServicePathTXT" styleClass="TextFieldForm"/>
+                    </HBox>
+
+
+                    <Label text="ServiceName" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="Service Name" styleClass="TextFieldLabel"/>
+                        <TextField fx:id="ServiceNameTXT" styleClass="TextFieldForm"/>
+                    </HBox>
+
+
+                    <Label text="ServiceParameters" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label text="Service Field Name" styleClass="TextFieldLabel"/>
+                        <TextField fx:id="ServiceFieldNameTXT" styleClass="TextFieldForm"/>
+                    </HBox>
+                    <HBox>
+                        <Label text="AssignServiceFieldCode" styleClass="TextFieldLabel"/>
+                        <TextArea fx:id="AssignServiceFieldCodeTXT" styleClass="TextAreaForm"/>
+                    </HBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button onAction="#handleInsertServiceParamBTNClick"  styleClass="formBtn" text="Insert Parameters" />
+                        <Button onAction="#handleEditServiceParamsEditBTNClick" styleClass="formBtn" text="Edit Parameters" />
+                        <Button onAction="#handleDeleteServiceParamsBTNClick" styleClass="formBtn" text="Delete Parameters" />
+                    </HBox>
+                    <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ServicesParamsTreeView" styleClass="TreeViewForm" /></HBox>
+
+                    <Label text="LocalVariablesInitialization" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox styleClass="CRUDBtn">
+                        <Button onAction="#handleInsertLocalVarInitSDbtnClick"  styleClass="formBtn" text="Insert SD file skill parameters" />
+                        <Button onAction="#handleInsertLocalVarInitSkillCodeBTNClick" styleClass="formBtn" text="Insert Skill-code returned value" />
+                        <Button onAction="#handleInsertLocalVarINITRobotFrameworkBTNClick" styleClass="formBtn" text="Insert data from robot FW" />
+                    </HBox>
+                    <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="LocalVarInitTreeView" styleClass="TreeViewForm" /></HBox>
+                    <HBox styleClass="CRUDBtn">
+                        <Button onAction="#handleEditLocalVarInitBtnClick"  styleClass="formBtn" text="Edit" />
+                        <Button onAction="#handleDeleteLocalVarInitBTNClick" styleClass="formBtn" text="Delete" />
+                    </HBox>
+                </VBox>
+                </content>
+                </ScrollPane>
+            </Tab>
         </tabs>
-      </TabPane>
+        </TabPane>
     </children>
-</AnchorPane>
+    <HBox styleClass="CreateProjBTNsHBox">
+        <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
+        <Button onAction="#handleSDPreviewBTNClick" styleClass="formBtn" text="Preview SD JSON" />
+        <Button onAction="#handleAMPreviewBTNClick" styleClass="formBtn" text="Preview AM JSON" />
+        <Button onAction="#handleAddSkillBTNClick" fx:id="addSkillBTN" styleClass="formBtn" text="Add Skill" />
+    </HBox>
+</VBox>

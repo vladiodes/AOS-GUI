@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="frontend.finalproject.Controllers.SubControllers.EditGlobalVarModuleParamsController"
+      prefHeight="550.0" prefWidth="600.0"
+      stylesheets="@../../style.css">
+    <Pane prefHeight="80" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <Label layoutX="73.0" layoutY="30.0" text="Edit Global Variable Module Parameters" textFill="WHITE">
+                <font>
+                    <Font size="28.0" />
+                </font>
+            </Label>
+        </children>
+    </Pane>
+
+    <VBox styleClass="SubMenuVBox" spacing="10">
+        <HBox>
+            <children>
+                <Label text="Name" styleClass="TextFieldLabel"/>
+                <TextField fx:id="GlobalVarModuleParamNameTXT" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox>
+            <children>
+                <Label text="Type" styleClass="TextFieldLabel"/>
+                <TextField fx:id="GlobalVarModuleParamTypeTXT" styleClass="TextFieldForm"/>
+            </children>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button styleClass="formBtn" fx:id="editBTN" text="Edit" onAction="#handleEditBTNClick" />
+        </HBox>
+
+    </VBox>
+
+</VBox>

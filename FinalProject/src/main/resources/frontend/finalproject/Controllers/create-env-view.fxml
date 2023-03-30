@@ -23,7 +23,7 @@
                 </Label>
             </children>
         </Pane>
-        <ScrollPane prefHeight="650.0" minWidth="1150">
+        <ScrollPane prefHeight="650.0" minWidth="1000">
             <content>
                 <VBox spacing="10">
         <Label text="PlpMain" styleClass="Separator_Text" />
@@ -51,10 +51,6 @@
         <Label text="GlobalVariableTypes" styleClass="Separator_Text" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>
-            <Label text="TypeName" styleClass="TextFieldLabel"/>
-            <TextField fx:id="GlobalVarTypeNameTXT" styleClass="TextFieldForm"/>
-        </HBox>
-        <HBox>
             <Label text="Type" styleClass="TextFieldLabel"/>
             <ChoiceBox fx:id="CompoundEnumChoiceBox" styleClass="formCBx">
                 <items>
@@ -64,30 +60,10 @@
                     </FXCollections>
                 </items>
             </ChoiceBox>
-            <VBox styleClass="GlobalVarTypeVBox" spacing="10">
-                <HBox spacing="30">
-                    <Label fx:id="enumValueLBL" text="Enum Value" styleClass="TextFieldLabel" visible="false"/>
-                    <TextField fx:id="enumValueTXT" styleClass="TextFieldForm" visible="false"/>
-                    <Button onAction="#handleInsertNextEnumValClick" fx:id="nextValBTN" styleClass="formBtn" text="Insert enum value" visible="false" />
-                </HBox>
-                <HBox spacing="30">
-                    <Label fx:id="NameLBL" text="Name" styleClass="TextFieldLabel" visible="false"/>
-                    <TextField fx:id="CompoundNameTXT" styleClass="TextFieldForm" visible="false"/>
-                </HBox>
-                <HBox spacing="30">
-                    <Label fx:id="TypeLBL" text="Type" styleClass="TextFieldLabel" visible="false"/>
-                    <TextField fx:id="CompoundTypeTXT" styleClass="TextFieldForm" visible="false"/>
-                    <Button onAction="#handleInsertNextCompoundVarClick" fx:id="nextVarBTN" styleClass="formBtn" text="Insert variable" visible="false" />
-                </HBox>
-                <HBox spacing="30">
-                    <Label fx:id="DefaultLBL" text="Default" styleClass="TextFieldLabel" visible="false"/>
-                    <TextField fx:id="CompoundDefaultTXT" styleClass="TextFieldForm" visible="false"/>
-                </HBox>
-            </VBox>
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherGlobalVarTypeClick" styleClass="formBtn" text="Add Type" />
-            <Button styleClass="formBtn" text="Edit Type" />
+            <Button styleClass="formBtn" text="Edit Type" onAction="#handleEditGlobalVarTypeClick" />
             <Button onAction="#handleDeleteSelectedGlobalVarTypeBTNClick" styleClass="formBtn" text="Delete Type" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" fx:id="GlobalVarTypesTreeView" /></HBox>
@@ -111,7 +87,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherVarDecClick" styleClass="formBtn" text="Insert Declaration" />
-            <Button styleClass="formBtn" text="Edit Declaration" />
+            <Button styleClass="formBtn" text="Edit Declaration" onAction="#handledEditGlobalVarDecEditBTNClick" />
             <Button onAction="#handleGlobalVarDecDeleteBTNClick" styleClass="formBtn" text="Delete Declaration" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView styleClass="TreeViewForm" fx:id="GlobalVarDecTreeView" /></HBox>
@@ -127,7 +103,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherAssClick" styleClass="formBtn" text="Insert Assignment" />
-            <Button styleClass="formBtn" text="Edit Assignment" />
+            <Button styleClass="formBtn" text="Edit Assignment" onAction="#handleEditInitBeliefBTNClick" />
             <Button onAction="#handleDeleteInitBeliefBTNClick" styleClass="formBtn" text="Delete Assignment" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="InitialBeliefStateAssTreeView" styleClass="TreeViewForm" /></HBox>
@@ -165,7 +141,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherStateClick" styleClass="formBtn" text="Insert State" />
-            <Button styleClass="formBtn" text="Edit State" />
+            <Button styleClass="formBtn" text="Edit State" onAction="#handleEditStateBTNClick" />
             <Button onAction="#handleDeleteSpecialStatesBTNClick" styleClass="formBtn" text="Delete State" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="SpecialStatesTreeView" styleClass="TreeViewForm" /></HBox>
@@ -177,7 +153,7 @@
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherChangeClick" styleClass="formBtn" text="Insert Change" />
-            <Button styleClass="formBtn" text="Edit Change" />
+            <Button styleClass="formBtn" text="Edit Change" onAction="#handleExChangeEditBTNClick" />
             <Button onAction="#handleDeleteExChangeDynModelBTNClick" styleClass="formBtn" text="Delete Change" />
         </HBox>
                     <HBox styleClass="TreeBoxWrapper">

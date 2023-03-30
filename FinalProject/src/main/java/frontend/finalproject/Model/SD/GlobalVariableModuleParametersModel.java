@@ -1,8 +1,9 @@
 package frontend.finalproject.Model.SD;
 
 import backend.finalproject.ProjectFiles.SD.GlobalVariableModuleParameter;
+import frontend.finalproject.Model.Model;
 
-public class GlobalVariableModuleParametersModel {
+public class GlobalVariableModuleParametersModel implements Model {
     private String Name;
     private String Type;
 
@@ -22,5 +23,13 @@ public class GlobalVariableModuleParametersModel {
 
     public String getType() {
         return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
+
+    public void setName(String name) {
+        Name = name;
     }
 }
