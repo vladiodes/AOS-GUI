@@ -40,6 +40,7 @@ public class UtilsFXML {
     public static final String ADD_SD_FILE_SKILL_PARAMS_PATH = "add-sd-file-skill-param-view.fxml";
     public static final String ADD_SKILL_CODE_RET_VALUE_PATH = "add-skill-code-ret-value-view.fxml";
     public static final String ADD_ROBOT_FRAMEWORK_LOCAL_VAR_INIT_PATH = "add-robot-framework-local-var-view.fxml";
+    public static final String INITIALIZE_PROJECT_PATH = "init-project-request-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {

@@ -233,3 +233,7 @@
 .tree-view:focused {
      -fx-border-color: #007ACC;
 }
+
+.BrowseBTNWrapper {
+    -fx-padding: 2 0 0 50;
+}

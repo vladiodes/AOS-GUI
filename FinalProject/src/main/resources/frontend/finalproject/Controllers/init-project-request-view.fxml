@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.InitializeProjectRequestController">
+    <children>
+        <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="73.0" layoutY="30.0" text="Initialize project request" textFill="WHITE">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <ScrollPane prefHeight="650.0" minWidth="1000">
+                <content>
+        <VBox spacing="10">
+            <Label text="General Parameters" styleClass="Separator_Text" />
+            <Separator prefHeight="14.0" styleClass="Separator_Line" />
+            <HBox>
+            <Label styleClass="TextFieldLabel" text="Select Project" />
+            <ChoiceBox fx:id="ProjectNameCBX" styleClass="formCBx" />
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Only generate code" />
+                <ChoiceBox fx:id="OnlyGenerateCodeCBX" styleClass="formCBx">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="true" />
+                            <String fx:value="false" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Run without rebuild" />
+                <ChoiceBox fx:id="RunWithoutRebuildCBX" styleClass="formCBx">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="true" />
+                            <String fx:value="false" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+            </HBox>
+            <Label text="RosTarget Parameters" styleClass="Separator_Text" />
+            <Separator prefHeight="14.0" styleClass="Separator_Line" />
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Ros Distribution" />
+                <TextField styleClass="TextFieldForm" fx:id="RosDistributionTXT"/>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Workspace Directory" />
+                <TextField styleClass="TextFieldForm" fx:id="WorkspaceDirPathTXT"/>
+                <VBox styleClass="BrowseBTNWrapper">
+                <Button styleClass="formBtn" text="Browse" onAction="#handleBrowseWorkspaceDirPathClick"/>
+                </VBox>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Target Project Launch File" />
+                <TextField styleClass="TextFieldForm" fx:id="TargetLaunchFileTXT"/>
+                <VBox styleClass="BrowseBTNWrapper">
+                <Button styleClass="formBtn" text="Browse" onAction="#handleBrowseTargetProjectLaunchFileClick"/>
+                </VBox>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="RosTargetProjectPackages" />
+                <TextArea styleClass="TextAreaForm" fx:id="RosTargetProjectPackagesTXT" text="Insert all packages separated by a newline"/>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Initialization Time" />
+                <TextField styleClass="TextFieldForm" fx:id="TargetProjectInitializationTimeInSecondsTXT"/>
+            </HBox>
+            <Label text="Solver Configuration Parameters" styleClass="Separator_Text" />
+            <Separator prefHeight="14.0" styleClass="Separator_Line" />
+
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Policy Graph Depth" />
+                <TextField styleClass="TextFieldForm" fx:id="PolicyGraphDepthTXT"/>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Load Belief From DB" />
+                <ChoiceBox fx:id="LoadBeliefFromDBCBX" styleClass="formCBx">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="true" />
+                            <String fx:value="false" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Debug On" />
+                <ChoiceBox fx:id="DebugOnSolverConfigCBX" styleClass="formCBx">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="true" />
+                            <String fx:value="false" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="NumOfParticles" />
+                <TextField styleClass="TextFieldForm" fx:id="NumOfParticlesTXT"/>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="BeliefStateParticlesToSave" />
+                <TextField styleClass="TextFieldForm" fx:id="NumOfBeliefStateParticlesToSaveInDBTXT"/>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Verbosity" />
+                <ChoiceBox fx:id="VerbosityCBX" styleClass="formCBx">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="true" />
+                            <String fx:value="false" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Actions To Simulate" />
+                <TextArea styleClass="TextAreaForm" fx:id="ActionsToSimulateTXT" text="Insert all actions separated by a newline"/>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Is Internal Simulation" />
+                <ChoiceBox fx:id="IsInternalSimulationCBX" styleClass="formCBx">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="true" />
+                            <String fx:value="false" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Planning Time Per Move" />
+                <TextField styleClass="TextFieldForm" fx:id="PlanningTimePerMoveInSecondsTXT"/>
+            </HBox>
+
+            <Label text="Middleware Configuration Parameters" styleClass="Separator_Text" />
+            <Separator prefHeight="14.0" styleClass="Separator_Line" />
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Debug On" />
+                <ChoiceBox fx:id="DebugOnMiddlewareConfigCBX" styleClass="formCBx">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="true" />
+                            <String fx:value="false" />
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+            </HBox>
+        </VBox>
+                </content>
+        </ScrollPane>
+        <HBox styleClass="CreateProjBTNsHBox">
+            <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
+            <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />
+        </HBox>
+    </children>
+</VBox>

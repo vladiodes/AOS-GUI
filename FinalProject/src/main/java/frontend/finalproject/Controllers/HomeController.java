@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 public class HomeController {
 
+    @FXML private Button btnIntegrationRequests;
     @FXML private Button btnActivateAOS;
     @FXML
     private Button btnCreateProject;
@@ -31,6 +32,9 @@ public class HomeController {
         }
         else if(event.getSource() == btnCodeCheck){
             UtilsFXML.loadStage("create-skill-view.fxml",stage);
+        }
+        else if(event.getSource() == btnIntegrationRequests){
+            UtilsFXML.loadStage(UtilsFXML.INITIALIZE_PROJECT_PATH,stage);
         }
     }
 
@@ -66,4 +70,5 @@ public class HomeController {
             System.out.println("WTF");
         }
     }
+
 }
