@@ -1,5 +1,7 @@
 package backend.finalproject;
 
+import DTO.HttpRequests.HttpRequestDTO;
+import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 import backend.finalproject.ProjectFiles.AM.AM;
 import backend.finalproject.ProjectFiles.Env.Environment;
 import backend.finalproject.ProjectFiles.Project;
@@ -280,6 +282,12 @@ public class AOSFacade implements IAOSFacade {
 
     public Response<Boolean> openFileInSpecificError(String errorInfo) {
         return null;
+    }
+
+    @Override
+    public Response<String> sendRequest(HttpRequestDTO request) {
+        IntegrationRequestsHandler handler = new IntegrationRequestsHandler();
+        return Response.OK(request.visit(handler));
     }
 
     private static boolean pingTcp(String host, int port, int timeout) {

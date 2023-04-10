@@ -24,8 +24,11 @@
             <Label text="General Parameters" styleClass="Separator_Text" />
             <Separator prefHeight="14.0" styleClass="Separator_Line" />
             <HBox>
-            <Label styleClass="TextFieldLabel" text="Select Project" />
-            <ChoiceBox fx:id="ProjectNameCBX" styleClass="formCBx" />
+            <Label styleClass="TextFieldLabel" text="PLP directory" />
+                <TextField styleClass="TextFieldForm" fx:id="PLPDirPathTXT"/>
+                <VBox styleClass="BrowseBTNWrapper">
+                    <Button styleClass="formBtn" text="Browse" onAction="#handleBrowsePLPDirectoryBTNClick"/>
+                </VBox>
             </HBox>
             <HBox>
                 <Label styleClass="TextFieldLabel" text="Only generate code" />
