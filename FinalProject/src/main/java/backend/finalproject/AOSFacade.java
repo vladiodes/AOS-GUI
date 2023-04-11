@@ -286,8 +286,14 @@ public class AOSFacade implements IAOSFacade {
 
     @Override
     public Response<String> sendRequest(HttpRequestDTO request) {
-        IntegrationRequestsHandler handler = new IntegrationRequestsHandler();
-        return Response.OK(request.visit(handler));
+        try {
+            IntegrationRequestsHandler handler = new IntegrationRequestsHandler();
+            String response = handler.handle(request);
+            return Response.OK(response);
+        }
+        catch (Exception e){
+            return Response.FAIL(e);
+        }
     }
 
     private static boolean pingTcp(String host, int port, int timeout) {
