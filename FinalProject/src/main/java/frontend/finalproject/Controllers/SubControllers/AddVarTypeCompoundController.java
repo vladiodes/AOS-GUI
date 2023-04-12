@@ -1,18 +1,15 @@
 package frontend.finalproject.Controllers.SubControllers;
 
-import frontend.finalproject.Controllers.UtilsFXML;
+import frontend.finalproject.Utils.UtilsFXML;
 import frontend.finalproject.Model.Env.CompoundVariable;
 import frontend.finalproject.Model.Env.GlobalVariableTypeCompoundModel;
 import frontend.finalproject.Model.Env.GlobalVariableTypeModel;
 import frontend.finalproject.Model.Model;
-import frontend.finalproject.NotificationUtils;
+import frontend.finalproject.Utils.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class AddVarTypeCompoundController implements AddSubController,EditSubController {
     @FXML private TreeView<String> compoundVarsTreeView;

@@ -29,4 +29,7 @@ module frontend.finalproject {
     opens backend.finalproject.ProjectFiles.Common to com.google.gson;
     opens backend.finalproject.ProjectFiles.SD to com.google.gson;
     opens backend.finalproject.ProjectFiles.AM to com.google.gson;
-    opens backend.finalproject.ProjectFiles.AM.LocalVariablesInit to com.google.gson;}
+    opens backend.finalproject.ProjectFiles.AM.LocalVariablesInit to com.google.gson;
+    exports frontend.finalproject.Utils;
+    opens frontend.finalproject.Utils to javafx.fxml;
+}

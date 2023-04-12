@@ -1,4 +1,4 @@
-package frontend.finalproject;
+package frontend.finalproject.Utils;
 
 public class NotificationUtils {
     // ================================================= Env file notifications =================================================

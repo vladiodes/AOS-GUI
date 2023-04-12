@@ -3,9 +3,11 @@ package frontend.finalproject.Controllers;
 import DTO.HttpRequests.InitProjectRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
-import frontend.finalproject.NotificationUtils;
+import frontend.finalproject.Utils.NotificationUtils;
+import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -70,7 +72,7 @@ public class InitializeProjectRequestController {
     }
 
     public void handleBackBTNClick(ActionEvent event) {
-        UtilsFXML.navToHome(event);
+        UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH, (Stage) ((Node) event.getSource()).getScene().getWindow());
     }
 
     public void handleSendRequestBTN(ActionEvent event) {

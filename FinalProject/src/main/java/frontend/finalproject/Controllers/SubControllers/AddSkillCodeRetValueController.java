@@ -1,24 +1,16 @@
 package frontend.finalproject.Controllers.SubControllers;
 
-import frontend.finalproject.Controllers.CreateSkillController;
-import frontend.finalproject.Controllers.UtilsFXML;
-import frontend.finalproject.Model.AM.SDParametersModel;
+import frontend.finalproject.Utils.UtilsFXML;
 import frontend.finalproject.Model.AM.SkillCodeReturnValueModel;
 import frontend.finalproject.Model.Common.ImportCodeModel;
 import frontend.finalproject.Model.Model;
-import frontend.finalproject.NotificationUtils;
+import frontend.finalproject.Utils.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.List;
-
-import static frontend.finalproject.Controllers.UtilsFXML.*;
+import static frontend.finalproject.Utils.UtilsFXML.*;
 
 public class AddSkillCodeRetValueController implements AddSubController, EditSubController {
 

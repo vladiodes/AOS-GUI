@@ -1,13 +1,11 @@
 package frontend.finalproject.Controllers.SubControllers;
 
-import frontend.finalproject.Controllers.UtilsFXML;
+import frontend.finalproject.Utils.UtilsFXML;
 import frontend.finalproject.Model.Env.GlobalVariablesDeclarationModel;
 import frontend.finalproject.Model.Model;
-import frontend.finalproject.NotificationUtils;
-import javafx.application.Platform;
+import frontend.finalproject.Utils.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;

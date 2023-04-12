@@ -1,4 +1,4 @@
-package frontend.finalproject.Controllers;
+package frontend.finalproject.Utils;
 
 import frontend.finalproject.Model.Model;
 

@@ -273,3 +273,16 @@
     -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
     -fx-font-weight: 400;
 }
+
+.integrationBtn {
+    -fx-pref-width: 400px;
+    -fx-background-color: rgb(18, 122, 214);
+    -fx-text-fill: white;
+    -fx-border-width: 0px;
+    -fx-font-size: 20px;
+}
+
+.integrationBtn:hover
+{
+    -fx-background-color: rgb(16, 110, 190);
+}
