@@ -18,6 +18,7 @@ module frontend.finalproject {
     exports frontend.finalproject.Model.SD;
     opens frontend.finalproject.Model.Env to com.google.gson;
     opens DTO.HttpRequests to com.google.gson;
+    opens utils to com.google.gson;
     opens frontend.finalproject.Controllers to javafx.fxml;
     opens frontend.finalproject.Controllers.SubControllers to javafx.fxml;
     opens frontend.finalproject.Model.Common to com.google.gson;

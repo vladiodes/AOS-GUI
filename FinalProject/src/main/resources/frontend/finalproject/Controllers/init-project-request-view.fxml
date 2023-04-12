@@ -18,7 +18,8 @@
                 </Label>
             </children>
         </Pane>
-        <ScrollPane prefHeight="650.0" minWidth="1000">
+        <HBox>
+        <ScrollPane prefHeight="650.0" minWidth="600">
                 <content>
         <VBox spacing="10">
             <Label text="General Parameters" styleClass="Separator_Text" />
@@ -164,6 +165,14 @@
         </VBox>
                 </content>
         </ScrollPane>
+            <VBox fx:id="IntegrationResponseVBOX" prefWidth="400" visible="false">
+                <Label styleClass="RemarksTitle" text="Remarks:"/>
+                <VBox fx:id="RemarksVBOX"/>
+                <Label styleClass="ErrorsTitle" text="Errors:"/>
+                <VBox fx:id="ErrorsVBOX"/>
+            </VBox>
+
+        </HBox>
         <HBox styleClass="CreateProjBTNsHBox">
             <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
             <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />

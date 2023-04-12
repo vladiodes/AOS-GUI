@@ -1,5 +1,8 @@
 package backend.finalproject.IntegrationRequests;
 
+import utils.IntegrationRequestResponse;
+
+import java.io.IOException;
 import java.util.*;
 
 public abstract class HttpRequest {
@@ -14,5 +17,5 @@ public abstract class HttpRequest {
         headers.put("Accept","*/*");
     }
 
-    public abstract String send();
+    public abstract IntegrationRequestResponse send();
 }

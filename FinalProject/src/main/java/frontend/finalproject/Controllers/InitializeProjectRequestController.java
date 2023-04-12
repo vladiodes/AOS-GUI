@@ -3,20 +3,27 @@ package frontend.finalproject.Controllers;
 import DTO.HttpRequests.InitProjectRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import utils.IntegrationRequestResponse;
 import utils.Response;
 
 import java.io.File;
 import java.util.Objects;
 
 public class InitializeProjectRequestController {
+    @FXML private VBox IntegrationResponseVBOX;
+    @FXML private VBox RemarksVBOX;
+    @FXML private VBox ErrorsVBOX;
     @FXML private TextField PLPDirPathTXT;
     @FXML private ChoiceBox<String> OnlyGenerateCodeCBX;
     @FXML private ChoiceBox<String> RunWithoutRebuildCBX;
@@ -67,6 +74,8 @@ public class InitializeProjectRequestController {
     }
 
     public void handleSendRequestBTN(ActionEvent event) {
+        ErrorsVBOX.getChildren().clear();
+        RemarksVBOX.getChildren().clear();
 
         InitProjectRequestDTO requestDTO = initProjectRequestDTOBuilder.setPLPsDirectoryPath(PLPDirPathTXT.getText())
                 .setOnlyGenerateCode(Objects.equals(OnlyGenerateCodeCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
@@ -88,10 +97,23 @@ public class InitializeProjectRequestController {
                 .setDebugOnMiddleware(Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
                 .build();
 
-        Response<String> resp = facade.sendRequest(requestDTO);
+        Response<IntegrationRequestResponse> resp = facade.sendRequest(requestDTO);
 
-        System.out.println(resp == null ? "Resp" : resp.getValue());
+        if (resp.hasErrorOccurred())
+            UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
+        else {
+            showRemarksAndErrors(resp.getValue());
+        }
+    }
 
+    private void showRemarksAndErrors(IntegrationRequestResponse response) {
+        IntegrationResponseVBOX.visibleProperty().setValue(true);
+        for (String s : response.getErrors()) {
+            ErrorsVBOX.getChildren().add(new Label(s));
+        }
+        for (String s : response.getRemarks()) {
+            RemarksVBOX.getChildren().add(new Label(s));
+        }
     }
 
     public void handleBrowsePLPDirectoryBTNClick(ActionEvent event) {

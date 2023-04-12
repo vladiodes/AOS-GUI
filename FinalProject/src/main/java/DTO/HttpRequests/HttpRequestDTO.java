@@ -1,7 +1,8 @@
 package DTO.HttpRequests;
 
 import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
+import utils.IntegrationRequestResponse;
 
 public interface HttpRequestDTO {
-    String visit(IntegrationRequestsHandler handler);
+    IntegrationRequestResponse visit(IntegrationRequestsHandler handler);
 }
