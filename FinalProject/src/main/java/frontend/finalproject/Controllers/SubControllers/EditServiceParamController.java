@@ -1,18 +1,15 @@
 package frontend.finalproject.Controllers.SubControllers;
 
-import frontend.finalproject.Controllers.UtilsFXML;
+import frontend.finalproject.Utils.UtilsFXML;
 import frontend.finalproject.Model.AM.ServiceParameter;
 import frontend.finalproject.Model.Model;
-import frontend.finalproject.NotificationUtils;
+import frontend.finalproject.Utils.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class EditServiceParamController implements EditSubController {
     @FXML private TextField ServiceFieldNameTXT;

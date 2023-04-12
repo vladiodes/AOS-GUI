@@ -45,7 +45,6 @@
     -fx-font-size: 20px;
     -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
     -fx-font-weight: 400;
-    /* -fx-text-fill: rgb(18, 122, 214); */
 }
 
 .Separator_Line{
@@ -232,4 +231,58 @@
 
 .tree-view:focused {
      -fx-border-color: #007ACC;
+}
+
+.BrowseBTNWrapper {
+    -fx-padding: 2 0 0 50;
+}
+
+#IntegrationResponseVBOX {
+    -fx-padding: 0 20 0 20;
+    -fx-spacing: 10;
+}
+
+.RemarksTitle {
+    -fx-padding: 0 0 0 0;
+    -fx-border-radius: 2 !important;
+    -fx-background-radius: 2 !important;
+    -fx-text-fill: green;
+    -fx-font-size: 20px;
+    -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+    -fx-font-weight: 400;
+}
+
+.ErrorsTitle {
+    -fx-padding: 0 0 0 0;
+    -fx-border-radius: 2 !important;
+    -fx-background-radius: 2 !important;
+    -fx-text-fill: red;
+    -fx-font-size: 20px;
+    -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+    -fx-font-weight: 400;
+}
+
+#ErrorsVBOX #RemarksVBOX{
+    -fx-border-radius: 2;
+    -fx-border-color: #c5c5c5;
+}
+
+#ErrorsVBOX>.label, #RemarksVBOX>.label {
+    -fx-text-fill: black;
+    -fx-font-size: 11px;
+    -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+    -fx-font-weight: 400;
+}
+
+.integrationBtn {
+    -fx-pref-width: 400px;
+    -fx-background-color: rgb(18, 122, 214);
+    -fx-text-fill: white;
+    -fx-border-width: 0px;
+    -fx-font-size: 20px;
+}
+
+.integrationBtn:hover
+{
+    -fx-background-color: rgb(16, 110, 190);
 }

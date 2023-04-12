@@ -1,9 +1,9 @@
 package frontend.finalproject.Controllers.SubControllers;
 
-import frontend.finalproject.Controllers.UtilsFXML;
+import frontend.finalproject.Utils.UtilsFXML;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Model;
-import frontend.finalproject.NotificationUtils;
+import frontend.finalproject.Utils.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

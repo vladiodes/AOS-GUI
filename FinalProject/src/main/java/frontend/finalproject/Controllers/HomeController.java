@@ -2,6 +2,7 @@ package frontend.finalproject.Controllers;
 
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 
 public class HomeController {
 
+    @FXML private Button btnIntegrationRequests;
     @FXML private Button btnActivateAOS;
     @FXML
     private Button btnCreateProject;
@@ -31,6 +33,9 @@ public class HomeController {
         }
         else if(event.getSource() == btnCodeCheck){
             UtilsFXML.loadStage("create-skill-view.fxml",stage);
+        }
+        else if(event.getSource() == btnIntegrationRequests){
+            UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH,stage);
         }
     }
 
@@ -66,4 +71,5 @@ public class HomeController {
             System.out.println("WTF");
         }
     }
+
 }

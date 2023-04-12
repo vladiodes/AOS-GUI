@@ -1,4 +1,4 @@
-package frontend.finalproject;
+package frontend.finalproject.Utils;
 
 public class NotificationUtils {
     // ================================================= Env file notifications =================================================
@@ -168,4 +168,5 @@ public class NotificationUtils {
     public static final String EDIT_VAR_TYPE_COMPOUND_TEXT = "You've successfully edited a variable type compound!";
     public static final String EDIT_GLOBAL_VAR_NEW_TYPE_TITLE = "Global variable new type edited";
     public static final String EDIT_GLOBAL_VAR_NEW_TYPE_TEXT = "You've successfully edited a global variable new type!";
+    public static final String ERROR_SENDING_REQUEST_TITLE = "Error sending request";
 }

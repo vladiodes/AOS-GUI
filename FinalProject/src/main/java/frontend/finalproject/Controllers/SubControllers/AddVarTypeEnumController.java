@@ -1,17 +1,15 @@
 package frontend.finalproject.Controllers.SubControllers;
 
-import frontend.finalproject.Controllers.UtilsFXML;
-import frontend.finalproject.Controllers.UtilsFXML.Source;
+import frontend.finalproject.Utils.UtilsFXML;
+import frontend.finalproject.Utils.UtilsFXML.Source;
 import frontend.finalproject.Model.Env.GlobalVariableTypeEnumModel;
 import frontend.finalproject.Model.Env.GlobalVariableTypeModel;
 import frontend.finalproject.Model.Model;
-import frontend.finalproject.NotificationUtils;
+import frontend.finalproject.Utils.NotificationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
-import java.util.*;
 
 public class AddVarTypeEnumController implements EditSubController,AddSubController {
     @FXML private Button SubmitBTN;
