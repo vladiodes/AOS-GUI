@@ -36,7 +36,8 @@
             <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleAddSkillAction" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Add Skill" />
             <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="328.0" mnemonicParsing="false"  onAction="#handleOpenSD" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open SD" />
             <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleOpenAM" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open AM" />
-            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleOpenEnv" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open Env" />
+             <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleOpenEnv" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open Env" />
+             <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleOpenCompiledCode" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open Compiled Code" />
          </children>
       </Pane>
       <Button fx:id="backButton" layoutX="20.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleButtonClicks" prefHeight="46.0" prefWidth="150.0" text="Back">

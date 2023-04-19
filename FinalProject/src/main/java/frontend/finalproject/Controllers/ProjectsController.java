@@ -19,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import utils.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
@@ -147,7 +148,7 @@ public class ProjectsController {
         String selectedSkill = skillsList.getSelectionModel().getSelectedItem();
         String fileName = String.format("%s.%s.%s", projectName, selectedSkill, ".json");
         String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
-        Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.ENVIRONMENT);
+        Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.SD);
     }
 
     public void handleOpenAM(ActionEvent event){
@@ -158,6 +159,23 @@ public class ProjectsController {
         String selectedSkill = skillsList.getSelectionModel().getSelectedItem();
         String fileName = String.format("%s.%s.%s", projectName, selectedSkill, ".json");
         String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
-        Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.ENVIRONMENT);
+        Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.AM);
+    }
+
+    public void handleOpenCompiledCode(ActionEvent event){
+        String projectName = projectList.getSelectionModel().getSelectedItem();
+        if(projectName == null)
+            return;
+        // checking if directory and file exist
+        String path = String.format("~/AOS/AOS-Solver/examples/cpp_models/%s/src/%s.cpp", projectName, projectName);
+        File file = new File(path);
+        if(!file.exists()){
+            /*
+             TODO send integreation request to generate code only with the following flags:
+             SolverCOnfiguration.IsInternalSimulation = true
+             */
+            return;
+        }
+        Response<Boolean> response = facade.openGeneratedFile(path, null);
     }
 }
