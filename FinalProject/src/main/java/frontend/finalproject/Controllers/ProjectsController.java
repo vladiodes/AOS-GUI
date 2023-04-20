@@ -165,21 +165,4 @@ public class ProjectsController {
         String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
         Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.AM);
     }
-
-    public void handleOpenCompiledCode(ActionEvent event){
-        String projectName = projectList.getSelectionModel().getSelectedItem();
-        if(projectName == null)
-            return;
-        // checking if directory and file exist
-        String path = String.format("~/AOS/AOS-Solver/examples/cpp_models/%s/src/%s.cpp", projectName, projectName);
-        File file = new File(path);
-        if(!file.exists()){
-            /*
-             TODO send integreation request to generate code only with the following flags:
-             SolverCOnfiguration.IsInternalSimulation = true
-             */
-            return;
-        }
-        Response<Boolean> response = facade.openGeneratedFile(path, null);
-    }
 }
