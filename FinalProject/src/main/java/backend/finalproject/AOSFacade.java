@@ -74,6 +74,8 @@ public class AOSFacade implements IAOSFacade {
     public Response<List<String>> getAllProjects() {
         try {
             File[] directories = new File(PROJECTS_FOLDER_PATH).listFiles(File::isDirectory);
+            if(directories == null)
+                return Response.OK(new ArrayList<>());
             return Response.OK(Arrays.stream(directories).map(File::getName).collect(Collectors.toList()));
         }
         catch (Exception e){
@@ -275,7 +277,17 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<Boolean> openGeneratedFile(String fileName, DocumentationFile documentationFile) {
-        return null;
+        return openGeneratedFile(fileName, documentationFile, 0);
+    }
+
+    public Response<Boolean> openGeneratedFile(String fileName, DocumentationFile documentationFile, int line) {
+        try{
+            ProcessBuilder pb = new ProcessBuilder("code", fileName, ":"+line);
+            Process vs_code = pb.start();
+            return Response.OK(true);
+        } catch (IOException e) {
+            return Response.FAIL(e);
+        }
     }
 
     public Response<List<String>> showErrorsInDecisionEngine() {

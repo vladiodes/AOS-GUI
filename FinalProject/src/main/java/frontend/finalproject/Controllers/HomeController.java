@@ -32,7 +32,7 @@ public class HomeController {
             UtilsFXML.loadStage(UtilsFXML.CREATE_PROJECT_PATH,stage);
         }
         else if(event.getSource() == btnCodeCheck){
-            UtilsFXML.loadStage("create-skill-view.fxml",stage);
+            UtilsFXML.loadStage(UtilsFXML.DEBUG_PROJECT_PATH,stage);
         }
         else if(event.getSource() == btnIntegrationRequests){
             UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH,stage);

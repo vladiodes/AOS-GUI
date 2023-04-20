@@ -1,5 +1,7 @@
 package backend.finalproject.ProjectFiles.SD;
 
+import backend.finalproject.ProjectFiles.Common.AssignmentBlockMultipleLines;
+import backend.finalproject.ProjectFiles.Common.IAssignmentBlock;
 import backend.finalproject.ProjectFiles.Common.PlpMain;
 import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeCompound;
 import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeEnum;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 public class SD {
     private PlpMain PlpMain;
     private List<GlobalVariableModuleParameter> GlobalVariableModuleParameters;
+
+    private List<IAssignmentBlock> PossibleParametersValue;
     private Precondition Preconditions;
 
     private DynamicModel DynamicModel;
@@ -26,6 +30,7 @@ public class SD {
                 .map(GlobalVariableModuleParameter::new).collect(Collectors.toList());
         Preconditions = new Precondition(sdModel.getPreconditions());
         DynamicModel = new DynamicModel(sdModel.getDynamicModel());
+        PossibleParametersValue = sdModel.getPossibleParametersValue().stream().map(AssignmentBlockMultipleLines::new).collect(Collectors.toList());
     }
 
     public String toJson() {
@@ -55,5 +60,9 @@ public class SD {
 
     public backend.finalproject.ProjectFiles.SD.DynamicModel getDynamicModel() {
         return DynamicModel;
+    }
+
+    public List<IAssignmentBlock> getPossibleParametersValue() {
+        return PossibleParametersValue;
     }
 }

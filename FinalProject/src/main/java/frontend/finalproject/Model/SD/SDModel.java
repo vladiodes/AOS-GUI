@@ -8,6 +8,7 @@ import frontend.finalproject.Model.Env.GlobalVariablesDeclarationModel;
 import frontend.finalproject.Model.Env.PlpMainModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,8 @@ public class SDModel {
     public static final String PLP_NAME = "PLP";
     private PlpMainModel PlpMain;
     private List<GlobalVariableModuleParametersModel> GlobalVariableModuleParameters;
+
+    private List<AssignmentBlock> PossibleParametersValue;
     private PreconditionsModel Preconditions;
     private DynamicModelModel DynamicModel;
 
@@ -24,6 +27,7 @@ public class SDModel {
                 .map(GlobalVariableModuleParametersModel::new).collect(Collectors.toList());
         Preconditions = new PreconditionsModel(sd.getPreconditions());
         DynamicModel = new DynamicModelModel(sd.getDynamicModel());
+        PossibleParametersValue = AssignmentBlock.CopyAssignmentBlocks(sd.getPossibleParametersValue());
     }
 
     public PlpMainModel getPlpMain() {
@@ -42,10 +46,15 @@ public class SDModel {
         return DynamicModel;
     }
 
+    public List<AssignmentBlock> getPossibleParametersValue() {
+        return PossibleParametersValue;
+    }
+
     public SDModel(){
         Preconditions = new PreconditionsModel();
         DynamicModel = new DynamicModelModel();
         GlobalVariableModuleParameters = new ArrayList<>();
+        PossibleParametersValue = new ArrayList<>();
     }
 
     public void addDynamicModelAssignment(AssignmentBlock block){
@@ -79,5 +88,9 @@ public class SDModel {
 
     public void setGlobalVariableModuleParameters(List<GlobalVariableModuleParametersModel> lst){
         this.GlobalVariableModuleParameters = lst;
+    }
+
+    public void addPossibleParamsValueAssBlock(AssignmentBlock block) {
+        PossibleParametersValue.add(block);
     }
 }

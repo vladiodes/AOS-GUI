@@ -33,6 +33,9 @@ public class CreateSkillController {
     public static final String GLOBAL_VARIABLE_PRECONDITION = "Global variable precondition";
     public static final String PLANNER_ASSISTANCE_PRECONDITION = "Planner assistance precondition";
     public static final String DYNAMIC_MODEL = "Dynamic model";
+    public static final String POSSIBLE_VALUES = "Possible value";
+    @FXML private TreeView<String> PossibleParamsValueAssTreeView;
+    @FXML private TextArea AssignmentCodePossibleParamsValueTXT;
     @FXML
     private TreeView<String> LocalVarInitTreeView;
     @FXML
@@ -127,6 +130,7 @@ public class CreateSkillController {
         ResponseRulesTreeView.setRoot(new TreeItem<>("Response Rules"));
         ImportCodeMainTreeView.setRoot(new TreeItem<>("Import Code"));
         ServicesParamsTreeView.setRoot(new TreeItem<>("Services Parameters"));
+        PossibleParamsValueAssTreeView.setRoot(new TreeItem<>("Possible Parameters Values"));
     }
 
 
@@ -426,6 +430,13 @@ public class CreateSkillController {
         populateGlobalVarPreconditionAssTree();
         populatePlannerAssistancePreconditionAssTree();
         populateDynamicModelTree();
+        populatePossibleParamsValueAssTree();
+    }
+
+    private void populatePossibleParamsValueAssTree() {
+        for (AssignmentBlock block : SDmodel.getPossibleParametersValue()) {
+            addAssBlockToTree(PossibleParamsValueAssTreeView, POSSIBLE_VALUES, block);
+        }
     }
 
     private void populateDynamicModelTree() {
@@ -767,5 +778,47 @@ public class CreateSkillController {
         else {
             UtilsFXML.showErrorNotification(NotificationUtils.DELETE_LOCAL_VAR_INIT_FAIL_TITLE,NotificationUtils.DELETE_LOCAL_VAR_INIT_FAIL_TEXT);
         }
+    }
+
+    public void handleDeleteParamsValueAssBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> val = PossibleParamsValueAssTreeView.getSelectionModel().getSelectedItem();
+        if(PossibleParamsValueAssTreeView.getRoot().getChildren().contains(val)){
+            int selected = PossibleParamsValueAssTreeView.getRoot().getChildren().indexOf(val);
+            SDmodel.getPossibleParametersValue().remove(selected);
+            PossibleParamsValueAssTreeView.getRoot().getChildren().remove(val);
+            UtilsFXML.showNotification(NotificationUtils.DELETED_POSSIBLE_PARAMS_VALUE_TITLE,NotificationUtils.DELETED_POSSIBLE_PARAMS_VALUE_TEXT,null);
+        }
+        else{
+            UtilsFXML.showErrorNotification(NotificationUtils.DELETE_POSSIBLE_PARAMS_VALUE_FAIL_TITLE,NotificationUtils.DELETE_POSSIBLE_PARAMS_VALUE_FAIL_TEXT);
+        }
+
+    }
+
+    public void handleEditPossibleParamsValueAssEditBTNClick(ActionEvent actionEvent) {
+        TreeItem<String> selectedItem = PossibleParamsValueAssTreeView.getSelectionModel().getSelectedItem();
+        if (PossibleParamsValueAssTreeView.getRoot().getChildren().contains(selectedItem)) {
+            AssignmentBlock model = SDmodel.getPossibleParametersValue().get(PossibleParamsValueAssTreeView.getRoot().getChildren().indexOf(selectedItem));
+            loadEditStage(UtilsFXML.EDIT_ASS_CODE_PATH, model, selectedItem,
+                    () -> {
+                        assert model != null;
+                        selectedItem.getChildren().setAll(model.getAssignmentCode().stream().map(TreeItem::new).toList());
+                        model.setAssignmentName(null); // because we don't want a name for the assignment block.
+                    }
+            );
+
+        } else {
+            UtilsFXML.showErrorNotification(NotificationUtils.INSERT_POSSIBLE_PARAMS_VALUE_FAIL_TITLE,NotificationUtils.INSERT_POSSIBLE_PARAMS_VALUE_FAIL_TXT);
+        }
+    }
+
+    public void handleInsertPossibleParamsValueBtnClick(ActionEvent actionEvent) {
+        AssignmentBlock block = new AssignmentBlock(
+                null,
+                AssignmentCodePossibleParamsValueTXT.getText()
+        );
+        SDmodel.addPossibleParamsValueAssBlock(block);
+        addAssBlockToTree(PossibleParamsValueAssTreeView,POSSIBLE_VALUES,block);
+        AssignmentCodePossibleParamsValueTXT.setText("");
+        UtilsFXML.showNotification(NotificationUtils.INSERT_POSSIBLE_PARAMS_VALUE_SUCCESS_TITLE,NotificationUtils.INSERT_POSSIBLE_PARAMS_VALUE_SUCCESS_TEXT,null);
     }
 }

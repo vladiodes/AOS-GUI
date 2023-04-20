@@ -50,6 +50,7 @@ public class UtilsFXML {
     public static final String INTEGRATION_REQUESTS_PATH = "integration-request-view.fxml";
     public static final String GET_SOLVER_ACTIONS_PATH = "get-solver-actions-request-view.fxml";
     public static final String GET_EXECUTION_OUTCOME_PATH = "get-execution-outcome-request-view.fxml";
+    public static final String DEBUG_PROJECT_PATH = "debug-project-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {

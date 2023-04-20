@@ -170,6 +170,13 @@ public class NotificationUtils {
     public static final String EDIT_GLOBAL_VAR_NEW_TYPE_TEXT = "You've successfully edited a global variable new type!";
     public static final String ERROR_SENDING_REQUEST_TITLE = "Error sending request";
     public static final String STOP_ROBOT_REQUEST_SENT_TITLE = "Stop robot request sent";
-
     public static final String STOP_ROBOT_REQUEST_SENT_TXT = "You've successfully sent a stop robot request!";
+    public static final String INSERT_POSSIBLE_PARAMS_VALUE_SUCCESS_TITLE = "Possible parameter value added";
+    public static final String INSERT_POSSIBLE_PARAMS_VALUE_SUCCESS_TEXT = "You've successfully added a possible parameter value!";
+    public static final String DELETED_POSSIBLE_PARAMS_VALUE_TITLE = "Possible parameter value deleted";
+    public static final String DELETED_POSSIBLE_PARAMS_VALUE_TEXT = "You've successfully deleted a possible parameter value!";
+    public static final String DELETE_POSSIBLE_PARAMS_VALUE_FAIL_TITLE = "Failed to delete possible parameter value";
+    public static final String DELETE_POSSIBLE_PARAMS_VALUE_FAIL_TEXT = "Please select a possible parameter value to delete";
+    public static final String INSERT_POSSIBLE_PARAMS_VALUE_FAIL_TITLE = "Failed to add possible parameter value";
+    public static final String INSERT_POSSIBLE_PARAMS_VALUE_FAIL_TXT = "Please select a parameter to add a possible parameter value";
 }
