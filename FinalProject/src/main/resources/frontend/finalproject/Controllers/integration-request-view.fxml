@@ -15,11 +15,9 @@
         </Pane>
     <VBox styleClass="TreeBoxWrapper" spacing="10" prefWidth="800">
         <Button styleClass="integrationBtn" text="Get Execution Outcome Request"/>
-        <Button styleClass="integrationBtn" text="Activate Action Request"/>
-        <Button styleClass="integrationBtn" text="Local Variable Request"/>
-        <Button styleClass="integrationBtn" text="Solver Action Request"/>
+        <Button styleClass="integrationBtn" text="Get Solver Actions Request"/>
+        <Button styleClass="integrationBtn" text="Stop Robot" onAction="#handleStopRobotRequestBTNClick"/>
         <Button styleClass="integrationBtn" text="Initialize Project Request" onAction="#handleInitializeProjectRequestBTNClick"/>
-        <Button styleClass="integrationBtn" text="Solver Request"/>
     </VBox>
     <HBox styleClass="CreateProjBTNsHBox">
         <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />

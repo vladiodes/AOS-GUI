@@ -169,4 +169,7 @@ public class NotificationUtils {
     public static final String EDIT_GLOBAL_VAR_NEW_TYPE_TITLE = "Global variable new type edited";
     public static final String EDIT_GLOBAL_VAR_NEW_TYPE_TEXT = "You've successfully edited a global variable new type!";
     public static final String ERROR_SENDING_REQUEST_TITLE = "Error sending request";
+    public static final String STOP_ROBOT_REQUEST_SENT_TITLE = "Stop robot request sent";
+
+    public static final String STOP_ROBOT_REQUEST_SENT_TXT = "You've successfully sent a stop robot request!";
 }
