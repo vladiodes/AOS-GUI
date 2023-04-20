@@ -1,6 +1,7 @@
 package backend.finalproject.IntegrationRequests;
 
 import DTO.HttpRequests.UpdateLocalVariableRequestDTO;
+import com.google.gson.GsonBuilder;
 import okhttp3.*;
 import utils.IntegrationRequestResponse;
 
@@ -31,7 +32,10 @@ public class UpdateLocalVariableRequest extends HttpRequest {
 
             Request request = builder.build();
             Response response = client.newCall(request).execute();
-            String jsonResponse = response.body().string();
+
+            String jsonResponse = new GsonBuilder().create().toJson("");
+            if (response.body() != null)
+                 jsonResponse = response.body().string();
 
             return IntegrationRequestResponse.fromJSON(jsonResponse);
         }catch (IOException e){

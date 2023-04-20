@@ -60,7 +60,9 @@ public class UpdateLocalVariableRequestDTO implements HttpRequestDTO{
             return this;
         }
 
-
+        public UpdateLocalVariableRequestDTO build(){
+            return instance;
+        }
 
     }
 }
