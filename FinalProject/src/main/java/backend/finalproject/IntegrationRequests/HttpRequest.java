@@ -16,6 +16,4 @@ public abstract class HttpRequest {
         headers.put("Content-Type", "application/json");
         headers.put("Accept","*/*");
     }
-
-    public abstract IntegrationRequestResponse send();
 }
