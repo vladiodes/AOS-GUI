@@ -12,12 +12,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import utils.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +48,8 @@ public class UtilsFXML {
     public static final String ADD_ROBOT_FRAMEWORK_LOCAL_VAR_INIT_PATH = "add-robot-framework-local-var-view.fxml";
     public static final String INITIALIZE_PROJECT_PATH = "init-project-request-view.fxml";
     public static final String INTEGRATION_REQUESTS_PATH = "integration-request-view.fxml";
+    public static final String GET_SOLVER_ACTIONS_PATH = "get-solver-actions-request-view.fxml";
+    public static final String GET_EXECUTION_OUTCOME_PATH = "get-execution-outcome-request-view.fxml";
     public static final String DEBUG_PROJECT_PATH = "debug-project-view.fxml";
 
 
@@ -138,6 +144,22 @@ public class UtilsFXML {
             e.printStackTrace();
         }
 
+    }
+
+    public static void extractDirPathToTextField(TextField textField) {
+        final DirectoryChooser directoryChooser = new DirectoryChooser();
+        File file = directoryChooser.showDialog(new Stage());
+        if(file!=null){
+            textField.setText(file.getAbsolutePath());
+        }
+    }
+
+    public static void extractFilePathToTextField(TextField textField){
+        final FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(new Stage());
+        if(file!=null){
+            textField.setText(file.getAbsolutePath());
+        }
     }
 
     public enum Source {

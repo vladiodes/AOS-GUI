@@ -1,14 +1,14 @@
 package backend.finalproject.IntegrationRequests;
 
+import DTO.HttpRequests.UpdateLocalVariableRequestDTO;
 
-import DTO.HttpRequests.InitProjectRequestDTO;
+public class UpdateLocalVariableRequest extends HttpRequest {
 
-public class InitProjectRequest extends HttpRequest {
-    public final static String ENDPOINT = "/InitializeProject";
+    public final static String ENDPOINT = "/localvariable";
     public final static String REQUEST_TYPE = "POST";
     private final String body;
 
-    public InitProjectRequest(InitProjectRequestDTO requestDTO) {
+    public UpdateLocalVariableRequest(UpdateLocalVariableRequestDTO requestDTO) {
         super(ENDPOINT);
         body = requestDTO.toJson();
     }

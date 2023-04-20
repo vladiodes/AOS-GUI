@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.GetExecutionOutcomeRequestController">
+<children>
+    <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <Label layoutX="73.0" layoutY="30.0" text="Get Execution outcome request" textFill="WHITE">
+                <font>
+                    <Font size="48.0" />
+                </font>
+            </Label>
+        </children>
+    </Pane>
+    <HBox>
+        <ScrollPane prefHeight="650.0" minWidth="600">
+            <content>
+                <VBox spacing="10">
+                    <Label text="General Parameters" styleClass="Separator_Text" />
+                    <Separator prefHeight="14.0" styleClass="Separator_Line" />
+                    <HBox>
+                        <Label styleClass="TextFieldLabel" text="Belief size" />
+                        <TextField styleClass="TextFieldForm" fx:id="beliefSizeVal"/>
+                    </HBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+        <VBox fx:id="IntegrationResponseVBOX" prefWidth="400" visible="false">
+            <Label styleClass="RemarksTitle" text="Remarks:"/>
+            <VBox fx:id="RemarksVBOX"/>
+            <Label styleClass="ErrorsTitle" text="Errors:"/>
+            <VBox fx:id="ErrorsVBOX"/>
+        </VBox>
+    </HBox>
+    <HBox styleClass="CreateProjBTNsHBox">
+        <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
+        <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />
+    </HBox>
+</children>
+</VBox>

@@ -10,7 +10,8 @@ import backend.finalproject.ProjectFiles.Skill;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
 import java.io.File;
@@ -298,10 +299,10 @@ public class AOSFacade implements IAOSFacade {
     }
 
     @Override
-    public Response<IntegrationRequestResponse> sendRequest(HttpRequestDTO request) {
+    public Response<String> sendRequest(HttpRequestDTO request) {
         try {
             IntegrationRequestsHandler handler = new IntegrationRequestsHandler();
-            IntegrationRequestResponse response = handler.handle(request);
+            String response = handler.handle(request);
             return Response.OK(response);
         }
         catch (Exception e){

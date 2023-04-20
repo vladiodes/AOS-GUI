@@ -1,8 +1,5 @@
 package backend.finalproject.IntegrationRequests;
 
-import utils.IntegrationRequestResponse;
-
-import java.io.IOException;
 import java.util.*;
 
 public abstract class HttpRequest {
@@ -16,6 +13,4 @@ public abstract class HttpRequest {
         headers.put("Content-Type", "application/json");
         headers.put("Accept","*/*");
     }
-
-    public abstract IntegrationRequestResponse send();
 }

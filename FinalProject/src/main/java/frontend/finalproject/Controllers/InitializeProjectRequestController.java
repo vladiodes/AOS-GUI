@@ -13,13 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
-import java.io.File;
 import java.util.Objects;
 
 public class InitializeProjectRequestController {
@@ -48,27 +46,11 @@ public class InitializeProjectRequestController {
     private final IAOSFacade facade = AOSFacade.getInstance();
 
     public void handleBrowseTargetProjectLaunchFileClick(ActionEvent event) {
-        extractFilePathToTextField(TargetLaunchFileTXT);
-    }
-
-    private void extractDirPathToTextField(TextField textField) {
-        final DirectoryChooser directoryChooser = new DirectoryChooser();
-        File file = directoryChooser.showDialog(new Stage());
-        if(file!=null){
-            textField.setText(file.getAbsolutePath());
-        }
-    }
-
-    private void extractFilePathToTextField(TextField textField){
-        final FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(new Stage());
-        if(file!=null){
-            textField.setText(file.getAbsolutePath());
-        }
+        UtilsFXML.extractFilePathToTextField(TargetLaunchFileTXT);
     }
 
     public void handleBrowseWorkspaceDirPathClick(ActionEvent event) {
-        extractDirPathToTextField(WorkspaceDirPathTXT);
+        UtilsFXML.extractDirPathToTextField(WorkspaceDirPathTXT);
     }
 
     public void handleBackBTNClick(ActionEvent event) {
@@ -83,7 +65,7 @@ public class InitializeProjectRequestController {
                 .setOnlyGenerateCode(Objects.equals(OnlyGenerateCodeCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
                 .setRunWithoutRebuild(Objects.equals(RunWithoutRebuildCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
                 .setRosDistribution(RosDistributionTXT.getText())
-                .setWorkspaceDirectortyPath(WorkspaceDirPathTXT.getText())
+                .setWorkspaceDirectoryPath(WorkspaceDirPathTXT.getText())
                 .setTargetProjectLaunchFile(TargetLaunchFileTXT.getText())
                 .setRosTargetProjectPackages(RosTargetProjectPackagesTXT.getText().split("\n"))
                 .setTargetProjectInitializationTimeInSeconds(TargetProjectInitializationTimeInSecondsTXT.getText().isEmpty() ? 1 : Integer.parseInt(TargetProjectInitializationTimeInSecondsTXT.getText()))
@@ -99,7 +81,7 @@ public class InitializeProjectRequestController {
                 .setDebugOnMiddleware(Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
                 .build();
 
-        Response<IntegrationRequestResponse> resp = facade.sendRequest(requestDTO);
+        Response<String> resp = facade.sendRequest(requestDTO);
 
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
@@ -108,17 +90,12 @@ public class InitializeProjectRequestController {
         }
     }
 
-    private void showRemarksAndErrors(IntegrationRequestResponse response) {
+    private void showRemarksAndErrors(String response) {
         IntegrationResponseVBOX.visibleProperty().setValue(true);
-        for (String s : response.getErrors()) {
-            ErrorsVBOX.getChildren().add(new Label(s));
-        }
-        for (String s : response.getRemarks()) {
-            RemarksVBOX.getChildren().add(new Label(s));
-        }
+        RemarksVBOX.getChildren().add(new Label(response));
     }
 
     public void handleBrowsePLPDirectoryBTNClick(ActionEvent event) {
-        extractDirPathToTextField(PLPDirPathTXT);
+        UtilsFXML.extractDirPathToTextField(PLPDirPathTXT);
     }
 }
