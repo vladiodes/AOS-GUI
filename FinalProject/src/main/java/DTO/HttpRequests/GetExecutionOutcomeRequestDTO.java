@@ -11,7 +11,7 @@ public class GetExecutionOutcomeRequestDTO implements HttpRequestDTO{
         this.belief_size = belief_size;
     }
     @Override
-    public RequestResponse visit(IntegrationRequestsHandler handler) {
+    public String visit(IntegrationRequestsHandler handler) {
         return handler.handle(this);
     }
 

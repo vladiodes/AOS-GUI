@@ -37,12 +37,12 @@ public class GetExecutionOutcomeRequestController {
         try {
             int beliefSize = Integer.parseInt(beliefSizeVal.getText());
             GetExecutionOutcomeRequestDTO requestDTO = new GetExecutionOutcomeRequestDTO(beliefSize);
-            Response<RequestResponse> resp = facade.sendRequest(requestDTO);
+            Response<String> resp = facade.sendRequest(requestDTO);
 
             if (resp.hasErrorOccurred())
                 UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
             else {
-                showRemarksAndErrors(null);
+                showRemarksAndErrors(resp.getValue());
             }
 
 
@@ -51,12 +51,8 @@ public class GetExecutionOutcomeRequestController {
         }
     }
 
-    private void showRemarksAndErrors(InitProjectRequestResponse response) {
+    private void showRemarksAndErrors(String response) {
         IntegrationResponseVBOX.visibleProperty().setValue(true);
-        for (String s : response.getErrors()) {
-            ErrorsVBOX.getChildren().add(new Label(s));
-        }
-        for (String s : response.getRemarks()) {
-            RemarksVBOX.getChildren().add(new Label(s));
-        }
+            RemarksVBOX.getChildren().add(new Label(response));
+
     }}

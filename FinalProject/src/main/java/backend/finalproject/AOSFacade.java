@@ -287,10 +287,10 @@ public class AOSFacade implements IAOSFacade {
     }
 
     @Override
-    public Response<RequestResponse> sendRequest(HttpRequestDTO request) {
+    public Response<String> sendRequest(HttpRequestDTO request) {
         try {
             IntegrationRequestsHandler handler = new IntegrationRequestsHandler();
-            RequestResponse response = handler.handle(request);
+            String response = handler.handle(request);
             return Response.OK(response);
         }
         catch (Exception e){

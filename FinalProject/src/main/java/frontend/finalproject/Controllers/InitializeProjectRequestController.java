@@ -81,23 +81,18 @@ public class InitializeProjectRequestController {
                 .setDebugOnMiddleware(Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
                 .build();
 
-        Response<RequestResponse> resp = facade.sendRequest(requestDTO);
+        Response<String> resp = facade.sendRequest(requestDTO);
 
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else {
-            showRemarksAndErrors((InitProjectRequestResponse) resp.getValue());
+            showRemarksAndErrors(resp.getValue());
         }
     }
 
-    private void showRemarksAndErrors(InitProjectRequestResponse response) {
+    private void showRemarksAndErrors(String response) {
         IntegrationResponseVBOX.visibleProperty().setValue(true);
-        for (String s : response.getErrors()) {
-            ErrorsVBOX.getChildren().add(new Label(s));
-        }
-        for (String s : response.getRemarks()) {
-            RemarksVBOX.getChildren().add(new Label(s));
-        }
+        RemarksVBOX.getChildren().add(new Label(response));
     }
 
     public void handleBrowsePLPDirectoryBTNClick(ActionEvent event) {

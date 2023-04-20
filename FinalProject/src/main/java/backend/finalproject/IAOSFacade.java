@@ -241,7 +241,7 @@ public interface IAOSFacade {
      */
     Response<Boolean> openFileInSpecificError(String errorInfo);
 
-    Response<RequestResponse> sendRequest(HttpRequestDTO request);
+    Response<String> sendRequest(HttpRequestDTO request);
 
     /**
      * An enum that represents the type of the documentation files.

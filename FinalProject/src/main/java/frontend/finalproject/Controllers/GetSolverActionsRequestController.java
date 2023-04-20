@@ -27,20 +27,18 @@ public class GetSolverActionsRequestController {
     public void handleSendRequestBTN(ActionEvent actionEvent) {
         GetSolverActionsRequestDTO requestDTO = new GetSolverActionsRequestDTO();
 
-        Response<RequestResponse> resp = facade.sendRequest(requestDTO);
+        Response<String> resp = facade.sendRequest(requestDTO);
 
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else {
-            showActions(null);
+            showActions(resp.getValue());
         }
     }
 
-    private void showActions(InitProjectRequestResponse response) {
+    private void showActions(String response) {
         SolverActionsVBOX.getChildren().clear();
         IntegrationResponseVBOX.setVisible(true);
-        response.getRemarks().forEach(remark -> {
-            SolverActionsVBOX.getChildren().add(new Label(remark));
-        });
+        SolverActionsVBOX.getChildren().add(new Label(response));
     }
 }

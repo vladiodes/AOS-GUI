@@ -33,7 +33,7 @@ public class UpdateLocalVariableRequestDTO implements HttpRequestDTO{
 
 
     @Override
-    public RequestResponse visit(IntegrationRequestsHandler handler) {
+    public String visit(IntegrationRequestsHandler handler) {
         return handler.handle(this);
     }
 

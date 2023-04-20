@@ -25,7 +25,7 @@ public class IntegrationRequestsController {
 
     public void handleStopRobotRequestBTNClick(ActionEvent actionEvent) {
         StopRobotRequestDTO requestDTO = new StopRobotRequestDTO();
-        Response<RequestResponse> resp = facade.sendRequest(requestDTO);
+        Response<String> resp = facade.sendRequest(requestDTO);
 
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);

@@ -5,5 +5,5 @@ import utils.RequestsResponse.InitProjectRequestResponse;
 import utils.RequestsResponse.RequestResponse;
 
 public interface HttpRequestDTO {
-    RequestResponse visit(IntegrationRequestsHandler handler);
+    String visit(IntegrationRequestsHandler handler);
 }
