@@ -30,6 +30,11 @@ public class IntegrationRequestsHandler {
         return send(getSolverReq,getSolverReq.getBody(),GetSolverActionsRequest.REQUEST_TYPE);
     }
 
+    public IntegrationRequestResponse handle(GetExecutionOutcomeRequestDTO request){
+        GetExecutionOutcomeRequest getSolverReq = new GetExecutionOutcomeRequest(request.getBeliefSize());
+        return send(getSolverReq,getSolverReq.getBody(),GetSolverActionsRequest.REQUEST_TYPE);
+    }
+
     public IntegrationRequestResponse handle(HttpRequestDTO request) {
         return request.visit(this);
     }
