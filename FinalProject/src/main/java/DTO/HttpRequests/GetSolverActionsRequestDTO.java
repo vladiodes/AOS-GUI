@@ -63,5 +63,9 @@ public class GetSolverActionsRequestDTO implements HttpRequestDTO{
             return this;
         }
 
+        public GetSolverActionsRequestDTO build(){
+            return instance;
+        }
+
     }
 }

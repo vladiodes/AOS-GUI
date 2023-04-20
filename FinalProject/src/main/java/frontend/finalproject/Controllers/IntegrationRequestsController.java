@@ -33,4 +33,9 @@ public class IntegrationRequestsController {
             UtilsFXML.showNotification(NotificationUtils.STOP_ROBOT_REQUEST_SENT_TITLE, NotificationUtils.STOP_ROBOT_REQUEST_SENT_TXT, resp);
         }
     }
+
+    public void handleGetSolverActionsRequestBTNClick(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        UtilsFXML.loadStage(UtilsFXML.GET_SOLVER_ACTIONS_PATH,stage);
+    }
 }

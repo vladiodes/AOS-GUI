@@ -48,27 +48,11 @@ public class InitializeProjectRequestController {
     private final IAOSFacade facade = AOSFacade.getInstance();
 
     public void handleBrowseTargetProjectLaunchFileClick(ActionEvent event) {
-        extractFilePathToTextField(TargetLaunchFileTXT);
-    }
-
-    private void extractDirPathToTextField(TextField textField) {
-        final DirectoryChooser directoryChooser = new DirectoryChooser();
-        File file = directoryChooser.showDialog(new Stage());
-        if(file!=null){
-            textField.setText(file.getAbsolutePath());
-        }
-    }
-
-    private void extractFilePathToTextField(TextField textField){
-        final FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(new Stage());
-        if(file!=null){
-            textField.setText(file.getAbsolutePath());
-        }
+        UtilsFXML.extractFilePathToTextField(TargetLaunchFileTXT);
     }
 
     public void handleBrowseWorkspaceDirPathClick(ActionEvent event) {
-        extractDirPathToTextField(WorkspaceDirPathTXT);
+        UtilsFXML.extractDirPathToTextField(WorkspaceDirPathTXT);
     }
 
     public void handleBackBTNClick(ActionEvent event) {
@@ -119,6 +103,6 @@ public class InitializeProjectRequestController {
     }
 
     public void handleBrowsePLPDirectoryBTNClick(ActionEvent event) {
-        extractDirPathToTextField(PLPDirPathTXT);
+        UtilsFXML.extractDirPathToTextField(PLPDirPathTXT);
     }
 }

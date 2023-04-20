@@ -27,8 +27,10 @@ public class IntegrationRequestsHandler {
 
     public IntegrationRequestResponse handle(GetSolverActionsRequestDTO request){
         GetSolverActionsRequest getSolverReq = new GetSolverActionsRequest(request);
-        return send(getSolverReq,getSolverReq.getBody(),GetSolverActionsRequest.REQUEST_TYPE);
+        return send(getSolverReq,null,GetSolverActionsRequest.REQUEST_TYPE);
     }
+
+
 
     public IntegrationRequestResponse handle(GetExecutionOutcomeRequestDTO request){
         GetExecutionOutcomeRequest getSolverReq = new GetExecutionOutcomeRequest(request.getBeliefSize());
@@ -46,7 +48,7 @@ public class IntegrationRequestsHandler {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             MediaType mediaType = MediaType.parse("application/json");
-            RequestBody reqBody = RequestBody.create(mediaType, body);
+            RequestBody reqBody = body != null ? RequestBody.create(mediaType, body) : null;
             Request.Builder builder = new Request.Builder()
                     .url(httpRequest.endpoint)
                     .method(REQUEST_TYPE, reqBody);
