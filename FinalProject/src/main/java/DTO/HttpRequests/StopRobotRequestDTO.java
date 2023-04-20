@@ -1,7 +1,8 @@
 package DTO.HttpRequests;
 
 import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 
 public class StopRobotRequestDTO implements HttpRequestDTO{
 
@@ -9,7 +10,7 @@ public class StopRobotRequestDTO implements HttpRequestDTO{
 
     }
     @Override
-    public IntegrationRequestResponse visit(IntegrationRequestsHandler handler) {
+    public RequestResponse visit(IntegrationRequestsHandler handler) {
         return handler.handle(this);
     }
 

@@ -1,11 +1,6 @@
 package backend.finalproject.IntegrationRequests;
 
 import DTO.HttpRequests.UpdateLocalVariableRequestDTO;
-import com.google.gson.GsonBuilder;
-import okhttp3.*;
-import utils.IntegrationRequestResponse;
-
-import java.io.IOException;
 
 public class UpdateLocalVariableRequest extends HttpRequest {
 

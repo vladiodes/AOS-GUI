@@ -3,7 +3,8 @@ package DTO.HttpRequests;
 import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 
 public class InitProjectRequestDTO implements HttpRequestDTO {
     private String PLPsDirectoryPath;
@@ -31,7 +32,7 @@ public class InitProjectRequestDTO implements HttpRequestDTO {
     }
 
     @Override
-    public IntegrationRequestResponse visit(IntegrationRequestsHandler handler) {
+    public RequestResponse visit(IntegrationRequestsHandler handler) {
         return handler.handle(this);
     }
 

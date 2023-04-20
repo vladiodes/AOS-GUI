@@ -1,8 +1,5 @@
 package backend.finalproject.IntegrationRequests;
 
-import utils.IntegrationRequestResponse;
-
-import java.io.IOException;
 import java.util.*;
 
 public abstract class HttpRequest {

@@ -1,6 +1,5 @@
 package frontend.finalproject.Controllers;
 
-import DTO.HttpRequests.InitProjectRequestDTO;
 import DTO.HttpRequests.StopRobotRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
@@ -9,7 +8,8 @@ import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
 public class IntegrationRequestsController {
@@ -25,7 +25,7 @@ public class IntegrationRequestsController {
 
     public void handleStopRobotRequestBTNClick(ActionEvent actionEvent) {
         StopRobotRequestDTO requestDTO = new StopRobotRequestDTO();
-        Response<IntegrationRequestResponse> resp = facade.sendRequest(requestDTO);
+        Response<RequestResponse> resp = facade.sendRequest(requestDTO);
 
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);

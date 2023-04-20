@@ -1,14 +1,7 @@
 package backend.finalproject.IntegrationRequests;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import okhttp3.*;
-
 
 import DTO.HttpRequests.InitProjectRequestDTO;
-import utils.IntegrationRequestResponse;
-
-import java.io.IOException;
 
 public class InitProjectRequest extends HttpRequest {
     public final static String ENDPOINT = "/InitializeProject";

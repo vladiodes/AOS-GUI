@@ -3,47 +3,48 @@ package backend.finalproject.IntegrationRequests;
 import DTO.HttpRequests.*;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 
 import java.io.IOException;
 
 
 public class IntegrationRequestsHandler {
 
-    public IntegrationRequestResponse handle(InitProjectRequestDTO request) {
+    public InitProjectRequestResponse handle(InitProjectRequestDTO request) {
         InitProjectRequest initProjectRequest = new InitProjectRequest(request);
         return send(initProjectRequest, initProjectRequest.getBody(), InitProjectRequest.REQUEST_TYPE);
     }
 
-    public IntegrationRequestResponse handle(UpdateLocalVariableRequestDTO request){
+    public InitProjectRequestResponse handle(UpdateLocalVariableRequestDTO request){
         UpdateLocalVariableRequest updateLocalVariableRequest = new UpdateLocalVariableRequest(request);
         return send(updateLocalVariableRequest, updateLocalVariableRequest.getBody(), UpdateLocalVariableRequest.REQUEST_TYPE);
     }
 
-    public IntegrationRequestResponse handle(StopRobotRequestDTO request){
+    public InitProjectRequestResponse handle(StopRobotRequestDTO request){
         StopRobotRequest stopRobotRequest = new StopRobotRequest(request);
         return send(stopRobotRequest, stopRobotRequest.getBody(), StopRobotRequest.REQUEST_TYPE);
     }
 
-    public IntegrationRequestResponse handle(GetSolverActionsRequestDTO request){
+    public InitProjectRequestResponse handle(GetSolverActionsRequestDTO request){
         GetSolverActionsRequest getSolverReq = new GetSolverActionsRequest(request);
         return send(getSolverReq,null,GetSolverActionsRequest.REQUEST_TYPE);
     }
 
 
 
-    public IntegrationRequestResponse handle(GetExecutionOutcomeRequestDTO request){
+    public InitProjectRequestResponse handle(GetExecutionOutcomeRequestDTO request){
         GetExecutionOutcomeRequest getSolverReq = new GetExecutionOutcomeRequest(request.getBeliefSize());
         return send(getSolverReq,getSolverReq.getBody(),GetSolverActionsRequest.REQUEST_TYPE);
     }
 
-    public IntegrationRequestResponse handle(HttpRequestDTO request) {
+    public RequestResponse handle(HttpRequestDTO request) {
         return request.visit(this);
     }
 
 
 
-    public IntegrationRequestResponse send(HttpRequest httpRequest, String body, String REQUEST_TYPE) {
+    public InitProjectRequestResponse send(HttpRequest httpRequest, String body, String REQUEST_TYPE) {
         try {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
@@ -61,7 +62,7 @@ public class IntegrationRequestsHandler {
             if (response.body() != null)
                 jsonResponse = response.body().string();
 
-            return IntegrationRequestResponse.fromJSON(jsonResponse);
+            return InitProjectRequestResponse.fromJSON(jsonResponse);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

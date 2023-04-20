@@ -3,7 +3,8 @@ package DTO.HttpRequests;
 import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class UpdateLocalVariableRequestDTO implements HttpRequestDTO{
 
 
     @Override
-    public IntegrationRequestResponse visit(IntegrationRequestsHandler handler) {
+    public RequestResponse visit(IntegrationRequestsHandler handler) {
         return handler.handle(this);
     }
 

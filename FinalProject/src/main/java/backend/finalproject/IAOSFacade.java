@@ -4,7 +4,8 @@ import DTO.HttpRequests.HttpRequestDTO;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
 import java.util.List;
@@ -240,7 +241,7 @@ public interface IAOSFacade {
      */
     Response<Boolean> openFileInSpecificError(String errorInfo);
 
-    Response<IntegrationRequestResponse> sendRequest(HttpRequestDTO request);
+    Response<RequestResponse> sendRequest(HttpRequestDTO request);
 
     /**
      * An enum that represents the type of the documentation files.

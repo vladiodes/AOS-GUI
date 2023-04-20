@@ -13,13 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
-import java.io.File;
 import java.util.Objects;
 
 public class InitializeProjectRequestController {
@@ -83,16 +81,16 @@ public class InitializeProjectRequestController {
                 .setDebugOnMiddleware(Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
                 .build();
 
-        Response<IntegrationRequestResponse> resp = facade.sendRequest(requestDTO);
+        Response<RequestResponse> resp = facade.sendRequest(requestDTO);
 
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else {
-            showRemarksAndErrors(resp.getValue());
+            showRemarksAndErrors((InitProjectRequestResponse) resp.getValue());
         }
     }
 
-    private void showRemarksAndErrors(IntegrationRequestResponse response) {
+    private void showRemarksAndErrors(InitProjectRequestResponse response) {
         IntegrationResponseVBOX.visibleProperty().setValue(true);
         for (String s : response.getErrors()) {
             ErrorsVBOX.getChildren().add(new Label(s));

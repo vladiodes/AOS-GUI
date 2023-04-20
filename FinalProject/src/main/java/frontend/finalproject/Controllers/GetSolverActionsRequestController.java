@@ -11,7 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
 public class GetSolverActionsRequestController {
@@ -26,16 +27,16 @@ public class GetSolverActionsRequestController {
     public void handleSendRequestBTN(ActionEvent actionEvent) {
         GetSolverActionsRequestDTO requestDTO = new GetSolverActionsRequestDTO();
 
-        Response<IntegrationRequestResponse> resp = facade.sendRequest(requestDTO);
+        Response<RequestResponse> resp = facade.sendRequest(requestDTO);
 
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else {
-            showActions(resp.getValue());
+            showActions(null);
         }
     }
 
-    private void showActions(IntegrationRequestResponse response) {
+    private void showActions(InitProjectRequestResponse response) {
         SolverActionsVBOX.getChildren().clear();
         IntegrationResponseVBOX.setVisible(true);
         response.getRemarks().forEach(remark -> {

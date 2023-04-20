@@ -12,7 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
 public class GetExecutionOutcomeRequestController {
@@ -36,12 +37,12 @@ public class GetExecutionOutcomeRequestController {
         try {
             int beliefSize = Integer.parseInt(beliefSizeVal.getText());
             GetExecutionOutcomeRequestDTO requestDTO = new GetExecutionOutcomeRequestDTO(beliefSize);
-            Response<IntegrationRequestResponse> resp = facade.sendRequest(requestDTO);
+            Response<RequestResponse> resp = facade.sendRequest(requestDTO);
 
             if (resp.hasErrorOccurred())
                 UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
             else {
-                showRemarksAndErrors(resp.getValue());
+                showRemarksAndErrors(null);
             }
 
 
@@ -50,7 +51,7 @@ public class GetExecutionOutcomeRequestController {
         }
     }
 
-    private void showRemarksAndErrors(IntegrationRequestResponse response) {
+    private void showRemarksAndErrors(InitProjectRequestResponse response) {
         IntegrationResponseVBOX.visibleProperty().setValue(true);
         for (String s : response.getErrors()) {
             ErrorsVBOX.getChildren().add(new Label(s));

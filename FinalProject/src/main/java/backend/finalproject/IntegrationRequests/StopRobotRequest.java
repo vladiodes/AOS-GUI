@@ -1,12 +1,6 @@
 package backend.finalproject.IntegrationRequests;
 
 import DTO.HttpRequests.StopRobotRequestDTO;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import okhttp3.*;
-import utils.IntegrationRequestResponse;
-
-import java.io.IOException;
 
 public class StopRobotRequest extends HttpRequest{
 

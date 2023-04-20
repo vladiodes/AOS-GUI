@@ -1,7 +1,8 @@
 package DTO.HttpRequests;
 
 import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
-import utils.IntegrationRequestResponse;
+import utils.RequestsResponse.InitProjectRequestResponse;
+import utils.RequestsResponse.RequestResponse;
 
 public class GetExecutionOutcomeRequestDTO implements HttpRequestDTO{
 
@@ -10,7 +11,7 @@ public class GetExecutionOutcomeRequestDTO implements HttpRequestDTO{
         this.belief_size = belief_size;
     }
     @Override
-    public IntegrationRequestResponse visit(IntegrationRequestsHandler handler) {
+    public RequestResponse visit(IntegrationRequestsHandler handler) {
         return handler.handle(this);
     }
 
