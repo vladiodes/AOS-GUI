@@ -59,11 +59,11 @@ public class Project {
 
         assert projectFiles != null;
         for (File file : projectFiles){
-            String fileName = file.getName();
+            String fileName = file.getName().toLowerCase();
             if (fileName.contains("environment")){
                 loadEnvFile(file);
             }
-            else if (fileName.contains("glue")){
+            else if (fileName.contains("glue") || fileName.contains("am")){
                 AM am = loadAMFile(file);
                 String skillName = am.getPlpMain().getName();
                 if (skills.containsKey(skillName)){
@@ -76,7 +76,7 @@ public class Project {
                     skills.put(skillName, pair);
                 }
             }
-            else if (fileName.contains(projectName)){ // TODO: better recognition of sd file
+            else { // TODO: better recognition of sd file
                 SD sd = loadSDFile(file);
                 String skillName = sd.getPlpMain().getName();
                 if (skills.containsKey(skillName)){

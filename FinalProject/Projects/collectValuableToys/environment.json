@@ -1,0 +1,202 @@
+{
+    "PlpMain": {
+        "Project": "collectValuableToys",
+        "Name": "environment",
+        "Type": "Environment",
+        "Version": 1
+    },
+    "EnvironmentGeneral": {
+        "Max_concurrent_actions": 1,
+        "Horizon": 16,
+        "Discount": 0.9999
+    },
+    "GlobalVariableTypes": [
+        {
+            "TypeName": "tToy",
+            "Type": "compound",
+            "Variables": [
+                {
+                    "Name": "location",
+                    "Type": "int",
+                    "Default": "1"
+                },
+                {
+                    "Name": "type",
+                    "Type": "string",
+                    "Default": "\"green\""
+                },
+                {
+                    "Name": "reward",
+                    "Type": "float",
+                    "Default" : "0.0"
+                }
+            ]
+        }
+    ],
+    "GlobalVariablesDeclaration": [
+        {
+            "Name": "location0",
+            "Type": "int",
+            "DefaultCode": "state.location0=0;",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "location1",
+            "Type": "int",
+            "DefaultCode": "state.location1=1;",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "location2",
+            "Type": "int",
+            "DefaultCode": "state.location2=2;",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "location3",
+            "Type": "int",
+            "DefaultCode": "state.location3=3;",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "child",
+            "Type": "int",
+            "DefaultCode": "state.child=4;",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "robotArm",
+            "Type": "int",
+            "DefaultCode": "state.robotArm=5;"
+        },
+        {
+            "Name": "toy_typeGreen",
+            "Type": "string",
+            "DefaultCode": "state.toy_typeGreen=\"green\";",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "toy_typeBlue",
+            "Type": "string",
+            "DefaultCode": "state.toy_typeBlue=\"blue\";",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "toy_typeBlack",
+            "Type": "string",
+            "DefaultCode": "state.toy_typeBlack=\"black\";",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "toy_typeRed",
+            "Type": "string",
+            "DefaultCode": "state.toy_typeRed=\"red\";",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "toy1",
+            "Type": "tToy",
+            "DefaultCode": "state.toy1.type=\"green\";"
+        },
+        {
+            "Name": "toy2",
+            "Type": "tToy",
+            "DefaultCode": "state.toy2.type=\"blue\";"
+        },
+        {
+            "Name": "toy3",
+            "Type": "tToy",
+            "DefaultCode": "state.toy3.type=\"black\";"
+        },
+        {
+            "Name": "toy4",
+            "Type": "tToy",
+            "DefaultCode": "state.toy4.type=\"red\";"
+        },
+        {
+            "Name": "pickActionsLeft",
+            "Type": "int",
+            "DefaultCode": "state.pickActionsLeft=6;"
+        },
+        {
+            "Name": "robotLocation",
+            "Type": "int",
+            "DefaultCode": "state.robotLocation=state.child;"
+        }
+    ],
+    "InitialBeliefStateAssignments": [
+    {
+        "AssignmentName":"set locations",
+        "AssignmentCode":
+        [
+            "vector<float> weightsLocationGreen{0.1,0.05,0.8,0.05};",
+            "state.toy1.location = AOSUtils::SampleDiscrete(weightsLocationGreen);",
+            
+            "vector<float> weightsLocationBlue{0.7,0.1,0.1,0.1};",
+            "float selectedWeight = weightsLocationBlue[state.toy1.location];",
+            "for(int i=0;i<4;i++){weightsLocationBlue[i]+=selectedWeight/3;}",
+            "weightsLocationBlue[state.toy1.location]=0;",
+            "state.toy2.location = AOSUtils::SampleDiscrete(weightsLocationBlue);",
+            
+            "vector<float> weightsLocationBlack{0.25,0.25,0.25,0.25};",
+            "selectedWeight = weightsLocationBlack[state.toy2.location]+weightsLocationBlack[state.toy1.location];",
+            "for(int i=0;i<4;i++){weightsLocationBlack[i]+=selectedWeight/2;}",
+            "weightsLocationBlack[state.toy1.location]=0;weightsLocationBlack[state.toy2.location]=0;",
+            "state.toy3.location = AOSUtils::SampleDiscrete(weightsLocationBlack);",
+            
+            "vector<float> weightsLocationRed{1.0,1.0,1.0,1.0};",
+            "weightsLocationRed[state.toy1.location]=0;weightsLocationRed[state.toy2.location]=0;;weightsLocationRed[state.toy3.location]=0;",
+            "state.toy4.location = AOSUtils::SampleDiscrete(weightsLocationRed);"
+
+        ]
+    },
+    {
+        "AssignmentName":"set rewards",
+        "AssignmentCode":
+        [
+            "vector<float> rewards{40,20,10,10};",
+            "vector<float> weightsRewardsGreen{0.8,0.05,0.1,0.05};",
+            "int selectedRewardIndex1 = AOSUtils::SampleDiscrete(weightsRewardsGreen);",
+            "state.toy1.reward = rewards[selectedRewardIndex1];",
+            
+            "vector<float> weightsRewardsBlue{0.1,0.7,0.1,0.1};",
+            "selectedWeight = weightsRewardsBlue[selectedRewardIndex1];",
+            "for(int i=0;i<4;i++){weightsRewardsBlue[i]+=selectedWeight/3;}",
+            "weightsRewardsBlue[selectedRewardIndex1]=0;",
+            "int selectedRewardIndex2 = AOSUtils::SampleDiscrete(weightsRewardsBlue);",
+            "state.toy2.reward = rewards[selectedRewardIndex2];",
+            
+            "vector<float> weightsRewardsBlack{0.25,0.25,0.25,0.25};",
+            "selectedWeight = weightsRewardsBlack[selectedRewardIndex1] + weightsRewardsBlack[selectedRewardIndex2];",
+            "for(int i=0;i<4;i++){weightsRewardsBlack[i]+=selectedWeight/2;}",
+            "weightsRewardsBlack[selectedRewardIndex1]=0;weightsRewardsBlack[selectedRewardIndex2]=0;",
+            "int selectedRewardIndex3 = AOSUtils::SampleDiscrete(weightsRewardsBlack);",
+            "state.toy3.reward = rewards[selectedRewardIndex3];",
+            
+            "vector<float> weightsRewardsRed{1.0,1.0,1.0,1.0};",
+            "weightsRewardsRed[selectedRewardIndex1]=0;weightsRewardsRed[selectedRewardIndex2]=0;;weightsRewardsRed[selectedRewardIndex3]=0;",
+            "state.toy4.reward = rewards[AOSUtils::SampleDiscrete(weightsRewardsRed)];"
+
+        ]
+    }
+    ],
+    "SpecialStates": [
+        {
+            "StateConditionCode": "state.pickActionsLeft == 0 && !std::any_of(state.tToyObjects.cbegin(), state.tToyObjects.cend(), [&](tToy* t){ return t->location == state.robotArm; })",
+            "Reward": 0.0,
+            "IsGoalState": true
+        }, 
+        {
+            "StateConditionCode": "state.pickActionsLeft < 0",
+            "Reward": 0.0,
+            "IsGoalState": true
+        }, 
+        {
+            "StateConditionCode": "!std::any_of(state.tToyObjects.cbegin(), state.tToyObjects.cend(), [&](tToy* t){ return t->location != state.child; })",
+            "Reward": 0.0,
+            "IsGoalState": true
+        }
+    ],
+    "ExtrinsicChangesDynamicModel": [
+    ]
+}

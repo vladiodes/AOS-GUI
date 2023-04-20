@@ -1,0 +1,128 @@
+{
+    "PlpMain": {
+        "Project": "aosPaper",
+        "Name": "environment",
+        "Type": "Environment",
+        "Version": 1
+    },
+    "EnvironmentGeneral": {
+        "Horizon": 10,
+        "Discount": 0.97
+    },
+    "GlobalVariableTypes": [
+        {
+            "TypeName": "tLocation",
+            "Type": "compound",
+            "Variables": [
+                {
+                    "Name": "x",
+                    "Type": "float",
+                    "Default": "0.0"
+                },
+                {
+                    "Name": "y",
+                    "Type": "float",
+                    "Default": "0.0"
+                },
+                {
+                    "Name": "z",
+                    "Type": "float",
+                    "Default": "0.0"
+                },
+                {
+                    "Name": "discrete",
+                    "Type": "int",
+                    "Default": "-1"
+                }
+            ]
+        },
+        {
+            "TypeName": "tVisitedLocation",
+            "Type": "compound",
+            "Variables": [
+                {
+                    "Name": "discrete",
+                    "Type": "int",
+                    "Default": "1"
+                },
+                {
+                    "Name": "visited",
+                    "Type": "bool",
+                    "Default": "false"
+                }
+            ]
+        }
+    ],
+    "GlobalVariablesDeclaration": [
+        {
+            "Name": "robotLocation",
+            "Type": "tLocation",
+            "DefaultCode": "state.robotLocation.discrete = -1;"
+        },
+        {
+            "Name": "v1",
+            "Type": "tVisitedLocation",
+            "DefaultCode": "state.v1.discrete = 1;"
+        },
+        {
+            "Name": "v2",
+            "Type": "tVisitedLocation",
+            "DefaultCode": "state.v2.discrete = 2;"
+        },
+        {
+            "Name": "v3",
+            "Type": "tVisitedLocation",
+            "DefaultCode": "state.v3.discrete = 3"
+        },
+        {
+            "Name": "l1",
+            "Type": "tLocation",
+            "DefaultCode": "state.l1.x = -1.01606154442; state.l1.y = 0.660750925541; state.l1.z =-0.00454711914062; state.l1.discrete = 1;",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "l2",
+            "Type": "tLocation",
+            "DefaultCode": "state.l2.x = 0.00500533776358; state.l2.y = 0.640727937222; state.l2.z =-0.00143432617188; state.l2.discrete = 2;",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "l3",
+            "Type": "tLocation",
+            "DefaultCode": "state.l3.x = 0.986030161381; state.l3.y = 0.610693752766; state.l3.z =-0.00143432617188; state.l3.discrete = 3;",
+            "IsActionParameterValue": true
+        },
+        {
+            "Name": "l4",
+            "Type": "tLocation",
+            "DefaultCode": "state.l4.x = -2.01710748672; state.l4.y = 0.570648550987; state.l4.z =-0.165466308594; state.l4.discrete = 4;"
+        }
+    ],
+    "InitialBeliefStateAssignments": [
+        {
+            "AssignmentName": "set reachable points",
+            "AssignmentCode": [
+				"state.robotLocation.discrete = AOS.Bernoulli(0.5) ? 1 : (AOS.Bernoulli(0.2) ? 2 : 3);"
+			]
+        }
+    ],
+    "SpecialStates": [
+        {
+            "StateConditionCode": "!state.v1.visited && state.v2.visited",
+            "Reward": -50.0,
+            "IsOneTimeReward": true
+        },
+        {
+            "StateConditionCode": "state.v1.visited && state.v2.visited && state.v3.visited",
+            "Reward": 7000.0,
+            "IsGoalState": true
+        }
+    ],
+    "ExtrinsicChangesDynamicModel": [
+        {
+            "AssignmentCode": [
+				"if (AOS.Bernoulli(0.05)) state_.robotLocation.discrete = -1;"
+			]
+        }
+    ]
+}
