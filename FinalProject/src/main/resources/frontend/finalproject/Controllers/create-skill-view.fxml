@@ -58,6 +58,19 @@
         </HBox>
         <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="GlobalVarModuleParamsTreeView" styleClass="TreeViewForm" /></HBox>
 
+            <Label text="PossibleParametersValue" styleClass="Separator_Text" />
+            <Separator prefHeight="14.0" styleClass="Separator_Line" />
+            <HBox>
+                <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+                <TextArea fx:id="AssignmentCodePossibleParamsValueTXT" styleClass="TextAreaForm"/>
+            </HBox>
+            <HBox styleClass="CRUDBtn">
+                <Button onAction="#handleInsertPossibleParamsValueBtnClick"  styleClass="formBtn" text="Insert Assignment" />
+                <Button onAction="#handleEditPossibleParamsValueAssEditBTNClick" styleClass="formBtn" text="Edit Assignment" />
+                <Button onAction="#handleDeleteParamsValueAssBTNClick" styleClass="formBtn" text="Delete Assignment" />
+            </HBox>
+            <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="PossibleParamsValueAssTreeView" styleClass="TreeViewForm" /></HBox>
+
         <Label text="Preconditions" styleClass="Separator_Text" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>

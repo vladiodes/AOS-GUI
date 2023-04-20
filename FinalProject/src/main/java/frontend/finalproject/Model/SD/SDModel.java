@@ -89,4 +89,8 @@ public class SDModel {
     public void setGlobalVariableModuleParameters(List<GlobalVariableModuleParametersModel> lst){
         this.GlobalVariableModuleParameters = lst;
     }
+
+    public void addPossibleParamsValueAssBlock(AssignmentBlock block) {
+        PossibleParametersValue.add(block);
+    }
 }
