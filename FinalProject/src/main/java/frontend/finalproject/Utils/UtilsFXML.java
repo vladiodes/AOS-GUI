@@ -44,6 +44,7 @@ public class UtilsFXML {
     public static final String ADD_ROBOT_FRAMEWORK_LOCAL_VAR_INIT_PATH = "add-robot-framework-local-var-view.fxml";
     public static final String INITIALIZE_PROJECT_PATH = "init-project-request-view.fxml";
     public static final String INTEGRATION_REQUESTS_PATH = "integration-request-view.fxml";
+    public static final String DEBUG_PROJECT_PATH = "debug-project-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {

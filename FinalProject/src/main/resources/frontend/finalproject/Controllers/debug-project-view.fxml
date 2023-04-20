@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css"
+      fx:controller="frontend.finalproject.Controllers.DebugProjectController">
+    <Pane style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+          <Label fx:id="titleLBL" layoutX="73.0" layoutY="30.0" text="Debug Project" textFill="WHITE">
+              <font>
+                  <Font size="48.0"/>
+              </font>
+          </Label>
+      </children>
+    </Pane>
+    <ScrollPane prefHeight="150.0" minWidth="1000">
+        <content>
+            <HBox spacing="10">
+                <children>
+                    <Label text="compiled Project Path" styleClass="TextFieldLabel"/>
+                    <TextField text="projectPath" fx:id="ProjectNameTXT" styleClass="TextFieldForm"/>
+                    <VBox styleClass="BrowseBTNWrapper">
+                        <Button styleClass="formBtn" text="Browse" onAction="#handleBrowseFileBTNClick"/>
+                    </VBox>
+                </children>
+            </HBox>
+        </content>
+    </ScrollPane>
+    <HBox styleClass="CreateProjBTNsHBox">
+        <children>
+            <Button onAction="#handleButtonClick" styleClass="formBtn" text="Open In VS code"/>
+            <Button styleClass="formBtn" text="Return" onAction="#handleReturnBtn"/>
+        </children>
+    </HBox>
+</VBox>

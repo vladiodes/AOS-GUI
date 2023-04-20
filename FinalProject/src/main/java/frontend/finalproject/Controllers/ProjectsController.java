@@ -19,7 +19,9 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import utils.Response;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class ProjectsController {
@@ -126,5 +128,41 @@ public class ProjectsController {
             e.printStackTrace();
         }
 
+    }
+
+    public void handleOpenEnv(ActionEvent event){
+        String projectName = projectList.getSelectionModel().getSelectedItem();
+        if(projectName == null){
+            return;
+        }
+        String fileName = projectName + ".environment.json";
+        String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
+        Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.ENVIRONMENT);
+    }
+
+    public void handleOpenSD(ActionEvent event){
+        String projectName = projectList.getSelectionModel().getSelectedItem();
+        if(projectName == null){
+            return;
+        }
+        String selectedSkill = skillsList.getSelectionModel().getSelectedItem();
+        if(selectedSkill == null)
+            return;
+        String fileName = String.format("%s.%s%s", projectName, selectedSkill, ".json");
+        String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
+        Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.SD);
+    }
+
+    public void handleOpenAM(ActionEvent event){
+        String projectName = projectList.getSelectionModel().getSelectedItem();
+        if(projectName == null){
+            return;
+        }
+        String selectedSkill = skillsList.getSelectionModel().getSelectedItem();
+        if(selectedSkill == null)
+            return;
+        String fileName = String.format("%s.%s %s", projectName, selectedSkill, "glue.json");
+        String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
+        Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.AM);
     }
 }
