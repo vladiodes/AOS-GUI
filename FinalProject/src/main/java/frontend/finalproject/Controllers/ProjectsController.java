@@ -146,7 +146,9 @@ public class ProjectsController {
             return;
         }
         String selectedSkill = skillsList.getSelectionModel().getSelectedItem();
-        String fileName = String.format("%s.%s.%s", projectName, selectedSkill, ".json");
+        if(selectedSkill == null)
+            return;
+        String fileName = String.format("%s.%s%s", projectName, selectedSkill, ".json");
         String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
         Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.SD);
     }
@@ -157,7 +159,9 @@ public class ProjectsController {
             return;
         }
         String selectedSkill = skillsList.getSelectionModel().getSelectedItem();
-        String fileName = String.format("%s.%s.%s", projectName, selectedSkill, ".json");
+        if(selectedSkill == null)
+            return;
+        String fileName = String.format("%s.%s %s", projectName, selectedSkill, "glue.json");
         String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
         Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.AM);
     }
