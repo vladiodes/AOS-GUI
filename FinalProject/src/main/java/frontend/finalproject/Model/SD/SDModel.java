@@ -35,7 +35,7 @@ public class SDModel {
     }
 
     public List<GlobalVariableModuleParametersModel> getGlobalVariableModuleParameters() {
-        return GlobalVariableModuleParameters;
+        return GlobalVariableModuleParameters != null ? GlobalVariableModuleParameters : new ArrayList<>();
     }
 
     public PreconditionsModel getPreconditions() {

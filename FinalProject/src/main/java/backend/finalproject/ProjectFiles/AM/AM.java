@@ -78,7 +78,7 @@ public class AM {
     }
 
     public List<backend.finalproject.ProjectFiles.AM.LocalVariablesInit.LocalVariablesInitialization> getLocalVariablesInitialization() {
-        return LocalVariablesInitialization;
+        return LocalVariablesInitialization != null ? LocalVariablesInitialization : new ArrayList<>();
     }
 
     public String toJson() {

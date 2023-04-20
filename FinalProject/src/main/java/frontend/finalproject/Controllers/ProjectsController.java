@@ -136,7 +136,7 @@ public class ProjectsController {
             return;
         }
         String fileName = projectName + ".environment.json";
-        String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
+        String fullPath = String.format("./Projects/%s/%s", projectName, fileName);
         Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.ENVIRONMENT);
     }
 
@@ -149,7 +149,7 @@ public class ProjectsController {
         if(selectedSkill == null)
             return;
         String fileName = String.format("%s.%s%s", projectName, selectedSkill, ".json");
-        String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
+        String fullPath = String.format("./Projects/%s/%s", projectName, fileName);
         Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.SD);
     }
 
@@ -162,7 +162,7 @@ public class ProjectsController {
         if(selectedSkill == null)
             return;
         String fileName = String.format("%s.%s %s", projectName, selectedSkill, "glue.json");
-        String fullPath = String.format("../Projects/%s/%s", projectName, fileName);
+        String fullPath = String.format("./Projects/%s/%s", projectName, fileName);
         Response<Boolean> response = facade.openGeneratedFile(fullPath, IAOSFacade.DocumentationFile.AM);
     }
 }

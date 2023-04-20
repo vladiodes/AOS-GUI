@@ -14,7 +14,7 @@ public class SkillCodeReturnValue extends LocalVariablesInitialization{
     private String LocalVariableName;
     private String VariableType;
     private boolean FromROSServiceResponse;
-    private List<String> AssignmentCode; // TODO: validate this can be only an array
+    private List<String> AssignmentCode;
     private List<ImportCode> ImportCode;
 
     public SkillCodeReturnValue(String localVariableName, String variableType, boolean fromROSServiceResponse, List<String> assignmentCode, List<ImportCode> importCode) {
@@ -47,11 +47,11 @@ public class SkillCodeReturnValue extends LocalVariablesInitialization{
     }
 
     public List<String> getAssignmentCode() {
-        return AssignmentCode;
+        return AssignmentCode != null ? AssignmentCode : Collections.emptyList();
     }
 
     public List<backend.finalproject.ProjectFiles.Common.ImportCode> getImportCode() {
-        return ImportCode;
+        return ImportCode != null ? ImportCode : Collections.emptyList();
     }
 
 }

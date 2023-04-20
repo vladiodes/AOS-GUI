@@ -11,6 +11,7 @@ import frontend.finalproject.Model.SD.SDModel;
 import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
 import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public class SD {
     }
 
     public List<GlobalVariableModuleParameter> getGlobalVariableModuleParameters() {
-        return GlobalVariableModuleParameters;
+        return GlobalVariableModuleParameters != null ? GlobalVariableModuleParameters : new ArrayList<>();
     }
 
     public Precondition getPreconditions() {
@@ -63,6 +64,6 @@ public class SD {
     }
 
     public List<IAssignmentBlock> getPossibleParametersValue() {
-        return PossibleParametersValue;
+        return PossibleParametersValue != null ? PossibleParametersValue : new ArrayList<>();
     }
 }
