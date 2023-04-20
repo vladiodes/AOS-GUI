@@ -1,9 +1,6 @@
 package backend.finalproject.IntegrationRequests;
 
-import DTO.HttpRequests.HttpRequestDTO;
-import DTO.HttpRequests.InitProjectRequestDTO;
-import DTO.HttpRequests.StopRobotRequestDTO;
-import DTO.HttpRequests.UpdateLocalVariableRequestDTO;
+import DTO.HttpRequests.*;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
 import utils.IntegrationRequestResponse;
@@ -28,9 +25,16 @@ public class IntegrationRequestsHandler {
         return send(stopRobotRequest, stopRobotRequest.getBody(), StopRobotRequest.REQUEST_TYPE);
     }
 
+    public IntegrationRequestResponse handle(GetSolverActionsRequestDTO request){
+        GetSolverActionsRequest getSolverReq = new GetSolverActionsRequest(request);
+        return send(getSolverReq,getSolverReq.getBody(),GetSolverActionsRequest.REQUEST_TYPE);
+    }
+
     public IntegrationRequestResponse handle(HttpRequestDTO request) {
         return request.visit(this);
     }
+
+
 
     public IntegrationRequestResponse send(HttpRequest httpRequest, String body, String REQUEST_TYPE) {
         try {

@@ -58,8 +58,8 @@ public class InitProjectRequestDTO implements HttpRequestDTO {
             return this;
         }
 
-        public InitProjectRequestDTOBuilder setWorkspaceDirectortyPath(String val){
-            instance.RosTarget.WorkspaceDirectortyPath = val;
+        public InitProjectRequestDTOBuilder setWorkspaceDirectoryPath(String val){
+            instance.RosTarget.WorkspaceDirectoryPath = val;
             return this;
         }
 
@@ -138,13 +138,6 @@ public class InitProjectRequestDTO implements HttpRequestDTO {
 
 class MiddlewareConfiguration{
     boolean DebugOn;
-}
-class ROSTarget {
-    String RosDistribution;
-    String WorkspaceDirectortyPath;
-    String TargetProjectLaunchFile;
-    String[] RosTargetProjectPackages;
-    int TargetProjectInitializationTimeInSeconds;
 }
 
 class SolverConfiguration {

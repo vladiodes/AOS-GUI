@@ -83,7 +83,7 @@ public class InitializeProjectRequestController {
                 .setOnlyGenerateCode(Objects.equals(OnlyGenerateCodeCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
                 .setRunWithoutRebuild(Objects.equals(RunWithoutRebuildCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
                 .setRosDistribution(RosDistributionTXT.getText())
-                .setWorkspaceDirectortyPath(WorkspaceDirPathTXT.getText())
+                .setWorkspaceDirectoryPath(WorkspaceDirPathTXT.getText())
                 .setTargetProjectLaunchFile(TargetLaunchFileTXT.getText())
                 .setRosTargetProjectPackages(RosTargetProjectPackagesTXT.getText().split("\n"))
                 .setTargetProjectInitializationTimeInSeconds(TargetProjectInitializationTimeInSecondsTXT.getText().isEmpty() ? 1 : Integer.parseInt(TargetProjectInitializationTimeInSecondsTXT.getText()))
