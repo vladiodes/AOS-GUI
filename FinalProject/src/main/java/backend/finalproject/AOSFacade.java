@@ -240,41 +240,6 @@ public class AOSFacade implements IAOSFacade {
         }
     }
 
-    public Response<String> getRobotBeliefState() {
-        return null;
-    }
-
-    public Response<List<String>> getRobotBeliefStateHistory() {
-        return null;
-    }
-
-    public Response<Boolean> stopInnerSimulation() {
-        return null;
-    }
-
-    public Response<Boolean> stopRobotExec() {
-        return null;
-    }
-
-    public Response<Boolean> activateRobotRequest() {
-        return null;
-    }
-
-    public Response<Boolean> generateCodeRequest() {
-        return null;
-    }
-
-    public Response<Boolean> activateRobotRequestNoRebuild() {
-        return null;
-    }
-
-    public Response<Boolean> activateInnerSimulation() {
-        return null;
-    }
-
-    public Response<Boolean> documentationFileCheckByAOServer() {
-        return null;
-    }
 
     public Response<Boolean> openGeneratedFile(String fileName, DocumentationFile documentationFile) {
         return openGeneratedFile(fileName, documentationFile, 0);
@@ -288,10 +253,6 @@ public class AOSFacade implements IAOSFacade {
         } catch (IOException e) {
             return Response.FAIL(e);
         }
-    }
-
-    public Response<List<String>> showErrorsInDecisionEngine() {
-        return null;
     }
 
     public Response<Boolean> openFileInSpecificError(String errorInfo) {
