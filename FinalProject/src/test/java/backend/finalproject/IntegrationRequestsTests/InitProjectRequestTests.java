@@ -1,12 +1,16 @@
 package backend.finalproject.IntegrationRequestsTests;
 
 import DTO.HttpRequests.InitProjectRequestDTO;
-import com.google.gson.Gson;
+import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.Map;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class InitProjectRequestTests {
     private final static String originalJsonBody = """
@@ -34,6 +38,14 @@ public class InitProjectRequestTests {
                     \s
                 }
             }""";
+    private final static String jsonResponse = """
+            {
+                "ExecutionOutcome": [
+                    {
+                        "InitialBeliefeState": []
+                    }
+                ]
+            }""";
     private final static String PLPsDirectoryPath_Key = "PLPsDirectoryPath";
     private final static String RunWithoutRebuild_Key = "RunWithoutRebuild";
     private final static String OnlyGenerateCode_Key = "OnlyGenerateCode";
@@ -58,6 +70,7 @@ public class InitProjectRequestTests {
     private static String generatedBody;
     private static Map<String, Object> originalMap;
     private static Map<String, Object> generatedMap;
+    @Mock private static IntegrationRequestsHandler mockHandler;
     @BeforeAll
     static void setUp() {
         initProjectRequestDTO = new InitProjectRequestDTO.InitProjectRequestDTOBuilder()
@@ -78,8 +91,10 @@ public class InitProjectRequestTests {
                 .build();
 
         generatedBody = initProjectRequestDTO.toJson();
-        originalMap = jsonToMap(originalJsonBody);
-        generatedMap = jsonToMap(generatedBody);
+        originalMap = CompareJsonUtils.jsonToMap(originalJsonBody);
+        generatedMap = CompareJsonUtils.jsonToMap(generatedBody);
+        mockHandler = mock(IntegrationRequestsHandler.class);
+        when(mockHandler.handle(initProjectRequestDTO)).thenReturn(jsonResponse);
     }
 
     @Test
@@ -100,7 +115,7 @@ public class InitProjectRequestTests {
     @Test
     void testRosTarget(){
         try {
-            Assertions.assertTrue(compareMaps((Map<String, Object>) originalMap.get(RosTarget_Key), (Map<String, Object>) generatedMap.get(RosTarget_Key)));
+            Assertions.assertTrue(CompareJsonUtils.compareMaps((Map<String, Object>) originalMap.get(RosTarget_Key), (Map<String, Object>) generatedMap.get(RosTarget_Key)));
         }
         catch (Exception e){
             Assertions.fail();
@@ -110,7 +125,7 @@ public class InitProjectRequestTests {
     @Test
     void testSolverConfiguration(){
         try {
-            Assertions.assertTrue(compareMaps((Map<String, Object>) originalMap.get(SolverConfiguration_Key), (Map<String, Object>) generatedMap.get(SolverConfiguration_Key)));
+            Assertions.assertTrue(CompareJsonUtils.compareMaps((Map<String, Object>) originalMap.get(SolverConfiguration_Key), (Map<String, Object>) generatedMap.get(SolverConfiguration_Key)));
         }
         catch (Exception e){
             Assertions.fail();
@@ -120,53 +135,16 @@ public class InitProjectRequestTests {
     @Test
     void testMiddlewareConfiguration(){
         try {
-            Assertions.assertTrue(compareMaps((Map<String, Object>) originalMap.get(MiddlewareConfiguration_Key), (Map<String, Object>) generatedMap.get(MiddlewareConfiguration_Key)));
+            Assertions.assertTrue(CompareJsonUtils.compareMaps((Map<String, Object>) originalMap.get(MiddlewareConfiguration_Key), (Map<String, Object>) generatedMap.get(MiddlewareConfiguration_Key)));
         }
         catch (Exception e){
             Assertions.fail();
         }
     }
 
-    private static boolean compareMaps(Map<String, Object> originalMap, Map<String, Object> generatedMap) {
-        try {
-            for (Map.Entry<String, Object> entry : originalMap.entrySet()) {
-                if (generatedMap.get(entry.getKey()) == null) {
-                    return false;
-                }
-                if (entry.getValue() instanceof Map) {
-                    if (!compareMaps((Map<String, Object>) entry.getValue(), (Map<String, Object>) generatedMap.get(entry.getKey()))) {
-                        return false;
-                    }
-                } else if (entry.getValue() instanceof String[]) {
-                    if (!compareStringArrays((String[]) entry.getValue(), (String[]) generatedMap.get(entry.getKey()))) {
-                        return false;
-                    }
-                } else if (!entry.getValue().equals(generatedMap.get(entry.getKey()))) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        catch (Exception e){
-            return false;
-        }
+    @Test
+    void testResponseFromServer(){
+        Assertions.assertEquals(jsonResponse, initProjectRequestDTO.visit(mockHandler));
     }
 
-    private static boolean compareStringArrays(String[] value, String[] strings) {
-        if(value.length != strings.length){
-            return false;
-        }
-        for(int i = 0; i < value.length; i++){
-            if(!value[i].equals(strings[i])){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static Map<String, Object> jsonToMap(String jsonStr) {
-        Gson gson = new Gson();
-        Map<String, Object> map = gson.fromJson(jsonStr, Map.class);
-        return map;
-    }
 }
