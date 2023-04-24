@@ -3,8 +3,6 @@ package DTO.HttpRequests;
 import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import utils.RequestsResponse.InitProjectRequestResponse;
-import utils.RequestsResponse.RequestResponse;
 
 public class InitProjectRequestDTO implements HttpRequestDTO {
     private String PLPsDirectoryPath;
@@ -120,7 +118,7 @@ public class InitProjectRequestDTO implements HttpRequestDTO {
         }
 
         public InitProjectRequestDTOBuilder setBeliefStateParticlesToSave(int val){
-            instance.SolverConfiguration.BeliefStateParticlesToSave = val;
+            instance.SolverConfiguration.NumOfBeliefStateParticlesToSaveInDB = val;
             return this;
         }
 
@@ -146,7 +144,7 @@ class SolverConfiguration {
     boolean LoadBeliefFromDB;
     boolean DebugOn;
     int NumOfParticles;
-    int BeliefStateParticlesToSave;
+    int NumOfBeliefStateParticlesToSaveInDB;
     boolean Verbosity;
     String[] ActionsToSimulate;
     boolean IsInternalSimulation;
