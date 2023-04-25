@@ -2,11 +2,15 @@
 # Installation:
 
 ## First time installation:
+- Install maven:
+```code
+sudo apt install maven
+```
 - Install JDK 19, using the following commands from your terminal:
 
 ```code
-wget https://download.oracle.com/java/19/latest/jdk-19_linux-x64_bin.deb
-sudo apt-get -qqy install ./jdk-19_linux-x64_bin.deb
+wget https://download.oracle.com/java/19/latest/jdk-19_linux-x64_bin.deb](https://download.oracle.com/java/19/archive/jdk-19.0.2_linux-x64_bin.deb
+sudo apt-get -qqy install ./jdk-19.0.2_linux-x64_bin.deb
 sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-19/bin/java 1
 sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-19/bin/javac 1
 sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk-19/bin/jar 1
