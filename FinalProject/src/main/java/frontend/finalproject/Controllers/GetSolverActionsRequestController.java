@@ -11,14 +11,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import utils.RequestsResponse.InitProjectRequestResponse;
-import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
 public class GetSolverActionsRequestController {
 
-    @FXML private VBox SolverActionsVBOX;
-    @FXML private VBox IntegrationResponseVBOX;
     private IAOSFacade facade = AOSFacade.getInstance();
     public void handleBackBTNClick(ActionEvent actionEvent) {
         UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH, (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
@@ -32,13 +28,7 @@ public class GetSolverActionsRequestController {
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else {
-            showActions(resp.getValue());
+            UtilsFXML.loadResponseStage(resp.getValue());
         }
-    }
-
-    private void showActions(String response) {
-        SolverActionsVBOX.getChildren().clear();
-        IntegrationResponseVBOX.setVisible(true);
-        SolverActionsVBOX.getChildren().add(new Label(response));
     }
 }

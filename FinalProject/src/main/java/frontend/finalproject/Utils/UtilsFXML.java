@@ -1,19 +1,27 @@
 package frontend.finalproject.Utils;
 
+import com.google.gson.Gson;
 import frontend.finalproject.Controllers.CodePreviewController;
 import frontend.finalproject.Controllers.CreateEnvController;
 import frontend.finalproject.Controllers.HomeController;
+import frontend.finalproject.Controllers.ResponseRequestController;
 import frontend.finalproject.Controllers.SubControllers.EditSubController;
 import frontend.finalproject.Model.Common.ImportCodeModel;
 import frontend.finalproject.Model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -24,6 +32,7 @@ import utils.Response;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class UtilsFXML {
@@ -51,6 +60,7 @@ public class UtilsFXML {
     public static final String GET_SOLVER_ACTIONS_PATH = "get-solver-actions-request-view.fxml";
     public static final String GET_EXECUTION_OUTCOME_PATH = "get-execution-outcome-request-view.fxml";
     public static final String DEBUG_PROJECT_PATH = "debug-project-view.fxml";
+    private static final String RESPONSE_VIEW_PATH = "response-request-view.fxml";
 
 
     public static void loadStage(String fxml, Stage stage) {
@@ -160,6 +170,79 @@ public class UtilsFXML {
         if(file!=null){
             textField.setText(file.getAbsolutePath());
         }
+    }
+
+    private static Node displayJSON(String json) {
+        BorderPane borderPane = new BorderPane();
+        borderPane.setPadding(new Insets(10, 10, 10, 10));
+
+        Map<String, Object> response = jsonToMap(json);
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(20);
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+
+        for (Map.Entry<String, Object> entry : response.entrySet()) {
+            extractJsonEntry(vbox, entry);
+        }
+        borderPane.setCenter(vbox);
+        return borderPane;
+    }
+
+    private static void extractJsonEntry(VBox vbox, Map.Entry<String, Object> entry) {
+        VBox keyValuePair = new VBox();
+        keyValuePair.setAlignment(Pos.CENTER_LEFT);
+        keyValuePair.setSpacing(5);
+
+        Label titleLabel = new Label(entry.getKey());
+        titleLabel.setFont(Font.font("Segoe UI", 20));
+        titleLabel.setTextFill(Color.web("#0066cc"));
+        keyValuePair.getChildren().add(titleLabel);
+
+        Object value = entry.getValue();
+        if (value instanceof Map) {
+            keyValuePair.getChildren().add(displayJSON(new Gson().toJson(entry.getValue())));
+        } else if (value instanceof List<?>) {
+            extractJsonList(keyValuePair, (List<?>) value);
+        }
+
+        vbox.getChildren().add(keyValuePair);
+    }
+
+    private static void extractJsonList(VBox keyValuePair, List<?> value) {
+        for (Object str : value) {
+            if (str instanceof Map || str instanceof List<?>) {
+                keyValuePair.getChildren().add(displayJSON(new Gson().toJson(str)));
+            } else {
+                Label valueLabel = new Label(str.toString());
+                valueLabel.setFont(Font.font("Segoe UI", 12));
+                valueLabel.setTextFill(Color.web("#333333"));
+                keyValuePair.getChildren().add(valueLabel);
+            }
+        }
+    }
+
+    private static Map<String, Object> jsonToMap(String json){
+        Gson gson = new Gson();
+        Map<String, Object> map = gson.fromJson(json, Map.class);
+        return map;
+    }
+
+    public static void loadResponseStage(String jsonResponse) {
+        Node node = displayJSON(jsonResponse);
+        Stage stage = new Stage();
+        try{
+            FXMLLoader loader = new FXMLLoader(CreateEnvController.class.getResource(UtilsFXML.RESPONSE_VIEW_PATH));
+            Parent root = loader.load();
+            ResponseRequestController controller = loader.getController();
+            controller.setRoot(node);
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     public enum Source {

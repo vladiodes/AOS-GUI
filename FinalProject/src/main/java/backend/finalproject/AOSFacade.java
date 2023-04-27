@@ -10,8 +10,6 @@ import backend.finalproject.ProjectFiles.Skill;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
-import utils.RequestsResponse.InitProjectRequestResponse;
-import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
 import java.io.File;

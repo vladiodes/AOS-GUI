@@ -3,9 +3,6 @@ package backend.finalproject.IntegrationRequests;
 import DTO.HttpRequests.*;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
-import utils.RequestsResponse.GetSolverActionsResponse;
-import utils.RequestsResponse.InitProjectRequestResponse;
-import utils.RequestsResponse.RequestResponse;
 
 import java.io.IOException;
 

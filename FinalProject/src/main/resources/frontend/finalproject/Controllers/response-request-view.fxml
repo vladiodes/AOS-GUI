@@ -7,20 +7,22 @@
 
 <?import javafx.scene.text.Font?>
 <?import javafx.collections.FXCollections?>
-<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.GetSolverActionsRequestController">
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.ResponseRequestController">
     <children>
         <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label layoutX="73.0" layoutY="30.0" text="Get solver actions request" textFill="WHITE">
+                <Label layoutX="73.0" layoutY="30.0" text="Integration Request Response" textFill="WHITE">
                     <font>
                         <Font size="48.0" />
                     </font>
                 </Label>
             </children>
         </Pane>
+        <VBox fx:id="rootVBOX">
+
+        </VBox>
         <HBox styleClass="CreateProjBTNsHBox">
-            <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
-            <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />
+            <Button onAction="#handleCloseBTN" styleClass="formBtn" text="Close" />
         </HBox>
     </children>
 </VBox>

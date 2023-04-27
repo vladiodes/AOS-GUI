@@ -1,15 +1,14 @@
 package frontend.finalproject.Model.Env;
 
-import backend.finalproject.ProjectFiles.Common.AssignmentBlockMultipleLines;
-import backend.finalproject.ProjectFiles.Common.AssignmentBlockSingleLine;
-import backend.finalproject.ProjectFiles.Common.IAssignmentBlock;
-import backend.finalproject.ProjectFiles.Env.*;
+import backend.finalproject.ProjectFiles.Env.Environment;
+import backend.finalproject.ProjectFiles.Env.GlobalVariableType;
+import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeCompound;
+import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeEnum;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

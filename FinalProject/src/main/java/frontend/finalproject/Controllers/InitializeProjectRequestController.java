@@ -9,21 +9,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import utils.RequestsResponse.InitProjectRequestResponse;
-import utils.RequestsResponse.RequestResponse;
 import utils.Response;
 
 import java.util.Objects;
 
 public class InitializeProjectRequestController {
-    @FXML private VBox IntegrationResponseVBOX;
-    @FXML private VBox RemarksVBOX;
-    @FXML private VBox ErrorsVBOX;
+    public static final String PACKAGES_DEFAULT = "Insert all packages separated by a newline";
+    public static final String ACTIONS_DEFAULT = "Insert all actions numbers separated by a newline";
+    public static final String TRUE = "true";
     @FXML private TextField PLPDirPathTXT;
     @FXML private ChoiceBox<String> OnlyGenerateCodeCBX;
     @FXML private ChoiceBox<String> RunWithoutRebuildCBX;
@@ -58,27 +54,25 @@ public class InitializeProjectRequestController {
     }
 
     public void handleSendRequestBTN(ActionEvent event) {
-        ErrorsVBOX.getChildren().clear();
-        RemarksVBOX.getChildren().clear();
 
         InitProjectRequestDTO requestDTO = initProjectRequestDTOBuilder.setPLPsDirectoryPath(PLPDirPathTXT.getText())
-                .setOnlyGenerateCode(Objects.equals(OnlyGenerateCodeCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
-                .setRunWithoutRebuild(Objects.equals(RunWithoutRebuildCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
+                .setOnlyGenerateCode(Objects.equals(OnlyGenerateCodeCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
+                .setRunWithoutRebuild(Objects.equals(RunWithoutRebuildCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
                 .setRosDistribution(RosDistributionTXT.getText())
                 .setWorkspaceDirectoryPath(WorkspaceDirPathTXT.getText())
                 .setTargetProjectLaunchFile(TargetLaunchFileTXT.getText())
-                .setRosTargetProjectPackages(RosTargetProjectPackagesTXT.getText().split("\n"))
+                .setRosTargetProjectPackages(RosTargetProjectPackagesTXT.getText().equals(PACKAGES_DEFAULT) || RosTargetProjectPackagesTXT.getText().isBlank() ? new String[]{} : RosTargetProjectPackagesTXT.getText().split("\n"))
                 .setTargetProjectInitializationTimeInSeconds(TargetProjectInitializationTimeInSecondsTXT.getText().isEmpty() ? 1 : Integer.parseInt(TargetProjectInitializationTimeInSecondsTXT.getText()))
                 .setPolicyGraphDepth(PolicyGraphDepthTXT.getText().isEmpty() ? 1 : Integer.parseInt(PolicyGraphDepthTXT.getText()))
-                .setDebugOn(Objects.equals(DebugOnSolverConfigCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
+                .setDebugOn(Objects.equals(DebugOnSolverConfigCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
                 .setNumOfParticles(NumOfParticlesTXT.getText().isEmpty() ? 1 : Integer.parseInt(NumOfParticlesTXT.getText()))
                 .setBeliefStateParticlesToSave(NumOfBeliefStateParticlesToSaveInDBTXT.getText().isEmpty() ? 1 : Integer.parseInt(NumOfBeliefStateParticlesToSaveInDBTXT.getText()))
-                .setLoadBeliefFromDB(Objects.equals(LoadBeliefFromDBCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
-                .setVerbosity(Objects.equals(VerbosityCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
-                .setActionsToSimulate(ActionsToSimulateTXT.getText().split("\n"))
-                .setIsInternalSimulation(Objects.equals(IsInternalSimulationCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
+                .setLoadBeliefFromDB(Objects.equals(LoadBeliefFromDBCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
+                .setVerbosity(Objects.equals(VerbosityCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
+                .setActionsToSimulate(ActionsToSimulateTXT.getText().equals(ACTIONS_DEFAULT) || ActionsToSimulateTXT.getText().isBlank() ? new String[]{} : ActionsToSimulateTXT.getText().split("\n"))
+                .setIsInternalSimulation(Objects.equals(IsInternalSimulationCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
                 .setPlanningTimePerMoveInSeconds(PlanningTimePerMoveInSecondsTXT.getText().isEmpty() ? 1 : Double.parseDouble(PlanningTimePerMoveInSecondsTXT.getText()))
-                .setDebugOnMiddleware(Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), "true"))
+                .setDebugOnMiddleware(Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
                 .build();
 
         Response<String> resp = facade.sendRequest(requestDTO);
@@ -86,13 +80,8 @@ public class InitializeProjectRequestController {
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else {
-            showRemarksAndErrors(resp.getValue());
+            UtilsFXML.loadResponseStage(resp.getValue());
         }
-    }
-
-    private void showRemarksAndErrors(String response) {
-        IntegrationResponseVBOX.visibleProperty().setValue(true);
-        RemarksVBOX.getChildren().add(new Label(response));
     }
 
     public void handleBrowsePLPDirectoryBTNClick(ActionEvent event) {

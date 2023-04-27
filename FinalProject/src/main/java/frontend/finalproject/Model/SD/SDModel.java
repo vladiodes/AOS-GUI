@@ -1,14 +1,10 @@
 package frontend.finalproject.Model.SD;
 
 import backend.finalproject.ProjectFiles.SD.SD;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Common.AssignmentBlock;
-import frontend.finalproject.Model.Env.GlobalVariablesDeclarationModel;
 import frontend.finalproject.Model.Env.PlpMainModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

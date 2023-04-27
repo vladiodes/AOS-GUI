@@ -3,8 +3,6 @@ package DTO.HttpRequests;
 import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import utils.RequestsResponse.InitProjectRequestResponse;
-import utils.RequestsResponse.RequestResponse;
 
 import java.util.HashMap;
 import java.util.Map;

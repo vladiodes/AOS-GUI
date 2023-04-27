@@ -3,9 +3,6 @@ package frontend.finalproject.Model.AM;
 import backend.finalproject.ProjectFiles.AM.ModuleActivation;
 import frontend.finalproject.Model.Common.ImportCodeModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ModuleActivationModel {
 
     private RosServiceModel RosService;

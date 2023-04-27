@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
@@ -18,9 +15,6 @@
             </Label>
         </children>
     </Pane>
-    <HBox>
-        <ScrollPane prefHeight="650.0" minWidth="600">
-            <content>
                 <VBox spacing="10">
                     <Label text="General Parameters" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
@@ -29,15 +23,6 @@
                         <TextField styleClass="TextFieldForm" fx:id="beliefSizeVal"/>
                     </HBox>
                 </VBox>
-            </content>
-        </ScrollPane>
-        <VBox fx:id="IntegrationResponseVBOX" prefWidth="400" visible="false">
-            <Label styleClass="RemarksTitle" text="Remarks:"/>
-            <VBox fx:id="RemarksVBOX"/>
-            <Label styleClass="ErrorsTitle" text="Errors:"/>
-            <VBox fx:id="ErrorsVBOX"/>
-        </VBox>
-    </HBox>
     <HBox styleClass="CreateProjBTNsHBox">
         <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
         <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />

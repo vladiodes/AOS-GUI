@@ -18,8 +18,7 @@
                 </Label>
             </children>
         </Pane>
-        <HBox>
-        <ScrollPane prefHeight="650.0" minWidth="600">
+        <ScrollPane prefHeight="650.0" minWidth="800">
                 <content>
         <VBox spacing="10">
             <Label text="General Parameters" styleClass="Separator_Text" />
@@ -131,7 +130,7 @@
             </HBox>
             <HBox>
                 <Label styleClass="TextFieldLabel" text="Actions To Simulate" />
-                <TextArea styleClass="TextAreaForm" fx:id="ActionsToSimulateTXT" text="Insert all actions separated by a newline"/>
+                <TextArea styleClass="TextAreaForm" fx:id="ActionsToSimulateTXT" text="Insert all actions numbers separated by a newline"/>
             </HBox>
             <HBox>
                 <Label styleClass="TextFieldLabel" text="Is Internal Simulation" />
@@ -165,14 +164,6 @@
         </VBox>
                 </content>
         </ScrollPane>
-            <VBox fx:id="IntegrationResponseVBOX" prefWidth="400" visible="false">
-                <Label styleClass="RemarksTitle" text="Remarks:"/>
-                <VBox fx:id="RemarksVBOX"/>
-                <Label styleClass="ErrorsTitle" text="Errors:"/>
-                <VBox fx:id="ErrorsVBOX"/>
-            </VBox>
-
-        </HBox>
         <HBox styleClass="CreateProjBTNsHBox">
             <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
             <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />

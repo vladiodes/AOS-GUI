@@ -1,11 +1,11 @@
 package frontend.finalproject.Controllers.SubControllers;
 
-import frontend.finalproject.Utils.UtilsFXML;
-import frontend.finalproject.Utils.UtilsFXML.Source;
 import frontend.finalproject.Model.Env.GlobalVariableTypeEnumModel;
 import frontend.finalproject.Model.Env.GlobalVariableTypeModel;
 import frontend.finalproject.Model.Model;
 import frontend.finalproject.Utils.NotificationUtils;
+import frontend.finalproject.Utils.UtilsFXML;
+import frontend.finalproject.Utils.UtilsFXML.Source;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
