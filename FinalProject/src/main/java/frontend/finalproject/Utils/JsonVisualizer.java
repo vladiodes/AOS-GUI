@@ -1,6 +1,9 @@
 package frontend.finalproject.Utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -9,8 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,27 +25,85 @@ public class JsonVisualizer {
     }
 
     public Node displayJSON() {
-        return displayJSON(this.json);
+        return this.json.isBlank() ? new VBox() : displayJSON(this.json);
+    }
+    private Node displayJSON(String json){
+        JsonElement jsonElement = toJson(json);
+        if(jsonElement.isJsonPrimitive()){
+            return displaySingleLine(jsonElement.getAsJsonPrimitive());
+        }
+        else if (jsonElement.isJsonArray()) {
+            return displayJsonArray(jsonElement);
+        } else {
+            return displayJsonObject(jsonElement);
+        }
     }
 
-    private Node displayJSON(String json) {
+    private Node displayJsonObject(JsonElement jsonElement) {
         BorderPane borderPane = new BorderPane();
         borderPane.setPadding(new Insets(10, 10, 10, 10));
-
-        Map<String, Object> response = jsonToMap(json);
 
         VBox vbox = new VBox();
         vbox.setSpacing(20);
         vbox.setPadding(new Insets(10, 10, 10, 10));
 
-        for (Map.Entry<String, Object> entry : response.entrySet()) {
+        for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
             extractJsonEntry(vbox, entry);
         }
         borderPane.setCenter(vbox);
         return borderPane;
     }
 
-    private void extractJsonEntry(VBox vbox, Map.Entry<String, Object> entry) {
+    private Node displayJsonArray(JsonElement jsonElement) {
+        BorderPane borderPane = new BorderPane();
+        borderPane.setPadding(new Insets(10, 10, 10, 10));
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(20);
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+
+        for (JsonElement element : jsonElement.getAsJsonArray()) {
+            if (element.isJsonPrimitive()) {
+                extractSingleLine(vbox, element.getAsJsonPrimitive());
+            } else if (element.isJsonObject()) {
+                extractJsonObject(vbox, element);
+            } else if (element.isJsonArray()) {
+                extractJsonArray(vbox, element);
+            }
+        }
+        borderPane.setCenter(vbox);
+        return borderPane;
+    }
+
+    private void extractJsonArray(VBox vbox, JsonElement element) {
+        VBox vbox1 = new VBox();
+        vbox1.setSpacing(20);
+        vbox1.setPadding(new Insets(10, 10, 10, 10));
+
+        for (JsonElement element1 : element.getAsJsonArray()) {
+            if (element1.isJsonPrimitive()) {
+                extractSingleLine(vbox1, element1.getAsJsonPrimitive());
+            } else if (element1.isJsonObject()) {
+                extractJsonObject(vbox1, element1);
+            } else if (element1.isJsonArray()) {
+                extractJsonArray(vbox1, element1);
+            }
+        }
+        vbox.getChildren().add(vbox1);
+    }
+
+    private void extractJsonObject(VBox vbox, JsonElement element) {
+        VBox vbox1 = new VBox();
+        vbox1.setSpacing(20);
+        vbox1.setPadding(new Insets(10, 10, 10, 10));
+
+        for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
+            extractJsonEntry(vbox1, entry);
+        }
+        vbox.getChildren().add(vbox1);
+    }
+
+    private void extractJsonEntry(VBox vBox, Map.Entry<String, JsonElement> entry) {
         VBox keyValuePair = new VBox();
         keyValuePair.setAlignment(Pos.CENTER_LEFT);
         keyValuePair.setSpacing(5);
@@ -54,32 +113,42 @@ public class JsonVisualizer {
         titleLabel.setTextFill(Color.web("#0066cc"));
         keyValuePair.getChildren().add(titleLabel);
 
-        Object value = entry.getValue();
-        if (value instanceof Map) {
-            keyValuePair.getChildren().add(displayJSON(new Gson().toJson(entry.getValue())));
-        } else if (value instanceof List<?>) {
-            extractJsonList(keyValuePair, (List<?>) value);
+        JsonElement value = entry.getValue();
+        if (value.isJsonObject()) {
+            keyValuePair.getChildren().add(displayJsonObject(value));
+        } else if (value.isJsonArray()) {
+            keyValuePair.getChildren().add(displayJsonArray(value));
+        } else {
+            extractSingleLine(keyValuePair, value.getAsJsonPrimitive());
         }
 
-        vbox.getChildren().add(keyValuePair);
+        vBox.getChildren().add(keyValuePair);
     }
 
-    private void extractJsonList(VBox keyValuePair, List<?> value) {
-        for (Object str : value) {
-            if (str instanceof Map || str instanceof List<?>) {
-                keyValuePair.getChildren().add(displayJSON(new Gson().toJson(str)));
-            } else {
-                Label valueLabel = new Label(str.toString());
-                valueLabel.setFont(Font.font("Segoe UI", 12));
-                valueLabel.setTextFill(Color.web("#333333"));
-                keyValuePair.getChildren().add(valueLabel);
-            }
-        }
+    private Node displaySingleLine(JsonPrimitive primitive) {
+        BorderPane borderPane = new BorderPane();
+        borderPane.setPadding(new Insets(10, 10, 10, 10));
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(20);
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+        extractSingleLine(vbox, primitive);
+        borderPane.setCenter(vbox);
+        return borderPane;
     }
 
-    private Map<String, Object> jsonToMap(String json) {
-        Gson gson = new Gson();
-        Map<String, Object> map = gson.fromJson(json, Map.class);
-        return map;
+    private void extractSingleLine(VBox keyValuePair, JsonPrimitive primitive) {
+        Label valueLabel = new Label(primitive.getAsString());
+        valueLabel.setFont(Font.font("Segoe UI", 12));
+        valueLabel.setTextFill(Color.web("#333333"));
+        keyValuePair.getChildren().add(valueLabel);
     }
+
+    private JsonElement toJson(String json) {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        return gson.fromJson(json, JsonElement.class);
+    }
+
 }

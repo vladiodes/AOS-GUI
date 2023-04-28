@@ -75,6 +75,11 @@
             <version>3.12.4</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>de.saxsys</groupId>
+            <artifactId>jfx-testrunner</artifactId>
+            <version>1.2</version>
+        </dependency>
 
     </dependencies>
 
