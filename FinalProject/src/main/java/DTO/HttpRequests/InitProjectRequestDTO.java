@@ -92,8 +92,13 @@ public class InitProjectRequestDTO implements HttpRequestDTO {
             return this;
         }
 
-        public InitProjectRequestDTOBuilder setVerbosity(boolean val){
+        public InitProjectRequestDTOBuilder setVerbosity(int val){
             instance.SolverConfiguration.Verbosity = val;
+            return this;
+        }
+
+        public InitProjectRequestDTOBuilder setManualControl(boolean val){
+            instance.SolverConfiguration.ManualControl = val;
             return this;
         }
 
@@ -145,8 +150,9 @@ class SolverConfiguration {
     boolean DebugOn;
     int NumOfParticles;
     int NumOfBeliefStateParticlesToSaveInDB;
-    boolean Verbosity;
+    int Verbosity;
     String[] ActionsToSimulate;
     boolean IsInternalSimulation;
     double PlanningTimePerMoveInSeconds;
+    boolean ManualControl;
 }

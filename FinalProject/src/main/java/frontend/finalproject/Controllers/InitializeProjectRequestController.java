@@ -20,6 +20,8 @@ public class InitializeProjectRequestController {
     public static final String PACKAGES_DEFAULT = "Insert all packages separated by a newline";
     public static final String ACTIONS_DEFAULT = "Insert all actions numbers separated by a newline";
     public static final String TRUE = "true";
+    @FXML private TextField VerbosityTXT;
+    @FXML private ChoiceBox<String> ManualControlCBX;
     @FXML private TextField PLPDirPathTXT;
     @FXML private ChoiceBox<String> OnlyGenerateCodeCBX;
     @FXML private ChoiceBox<String> RunWithoutRebuildCBX;
@@ -33,7 +35,6 @@ public class InitializeProjectRequestController {
     @FXML private ChoiceBox<String> DebugOnSolverConfigCBX;
     @FXML private TextField NumOfParticlesTXT;
     @FXML private TextField NumOfBeliefStateParticlesToSaveInDBTXT;
-    @FXML private ChoiceBox<String> VerbosityCBX;
     @FXML private TextArea ActionsToSimulateTXT;
     @FXML private ChoiceBox<String> IsInternalSimulationCBX;
     @FXML private TextField PlanningTimePerMoveInSecondsTXT;
@@ -68,7 +69,8 @@ public class InitializeProjectRequestController {
                 .setNumOfParticles(NumOfParticlesTXT.getText().isEmpty() ? 1 : Integer.parseInt(NumOfParticlesTXT.getText()))
                 .setBeliefStateParticlesToSave(NumOfBeliefStateParticlesToSaveInDBTXT.getText().isEmpty() ? 1 : Integer.parseInt(NumOfBeliefStateParticlesToSaveInDBTXT.getText()))
                 .setLoadBeliefFromDB(Objects.equals(LoadBeliefFromDBCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
-                .setVerbosity(Objects.equals(VerbosityCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
+                .setManualControl(Objects.equals(ManualControlCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
+                .setVerbosity(VerbosityTXT.getText().isEmpty() ? 1 : Integer.parseInt(VerbosityTXT.getText()))
                 .setActionsToSimulate(ActionsToSimulateTXT.getText().equals(ACTIONS_DEFAULT) || ActionsToSimulateTXT.getText().isBlank() ? new String[]{} : ActionsToSimulateTXT.getText().split("\n"))
                 .setIsInternalSimulation(Objects.equals(IsInternalSimulationCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
                 .setPlanningTimePerMoveInSeconds(PlanningTimePerMoveInSecondsTXT.getText().isEmpty() ? 1 : Double.parseDouble(PlanningTimePerMoveInSecondsTXT.getText()))

@@ -119,7 +119,11 @@
             </HBox>
             <HBox>
                 <Label styleClass="TextFieldLabel" text="Verbosity" />
-                <ChoiceBox fx:id="VerbosityCBX" styleClass="formCBx">
+                <TextField styleClass="TextFieldForm" fx:id="VerbosityTXT"/>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Manual Control"/>
+                <ChoiceBox fx:id="ManualControlCBX" styleClass="formCBx">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="true" />
