@@ -1,154 +1,150 @@
 package frontend.finalproject.Utils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import com.google.gson.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import java.util.Map;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-/**
- * This class is responsible for displaying a JSON response in a readable and user-friendly way.
- */
-public class JsonVisualizer {
-    private String json;
 
-    public JsonVisualizer(String json) {
-        this.json = json;
+import java.util.ArrayList;
+import java.util.List;
+
+public class JsonVisualizer{
+
+    public static final String EXPAND = "<expand>";
+    public static final String KEY_COL_STYLE = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;";
+    public static final String VAL_COL_STYLE = "-fx-font-size: 16px; -fx-text-fill: #333333;";
+    public static final String TABLE_STYLE = "-fx-alignment: CENTER;";
+    private final List<TableView<JsonTableEntry>> tables;
+
+
+    public JsonVisualizer(String jsonString) {
+        tables = new ArrayList<>();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonElement jsonElement = gson.fromJson(jsonString, JsonElement.class);
+        createTables(jsonElement);
+    }
+
+    private void createTables(JsonElement jsonElement){
+        if (!jsonElement.isJsonArray()) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            ObservableList<JsonTableEntry> data = FXCollections.observableArrayList();
+            parseJsonObject(jsonObject, "", data);
+            tables.add(initializeTable(data));
+        }
+        else{
+            for (JsonElement element : jsonElement.getAsJsonArray()) {
+                createTables(element);
+            }
+        }
     }
 
     public Node displayJSON() {
-        return this.json.isBlank() ? new VBox() : displayJSON(this.json);
-    }
-    private Node displayJSON(String json){
-        JsonElement jsonElement = toJson(json);
-        if(jsonElement.isJsonPrimitive()){
-            return displaySingleLine(jsonElement.getAsJsonPrimitive());
-        }
-        else if (jsonElement.isJsonArray()) {
-            return displayJsonArray(jsonElement);
-        } else {
-            return displayJsonObject(jsonElement);
-        }
+        //@TODO: Change later to display all tables
+        return tables.get(0);
     }
 
-    private Node displayJsonObject(JsonElement jsonElement) {
-        BorderPane borderPane = new BorderPane();
-        borderPane.setPadding(new Insets(10, 10, 10, 10));
+    private TableView<JsonTableEntry> initializeTable(ObservableList<JsonTableEntry> data) {
+        TableView<JsonTableEntry> table = new TableView<>();
 
-        VBox vbox = new VBox();
-        vbox.setSpacing(20);
-        vbox.setPadding(new Insets(10, 10, 10, 10));
+        TableColumn<JsonTableEntry, String> keyColumn = new TableColumn<>("Key");
+        keyColumn.setCellValueFactory(new PropertyValueFactory<>("key"));
+        keyColumn.setPrefWidth(350);
 
-        for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()) {
-            extractJsonEntry(vbox, entry);
-        }
-        borderPane.setCenter(vbox);
-        return borderPane;
+        TableColumn<JsonTableEntry, String> valueColumn = new TableColumn<>("Value");
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        valueColumn.setPrefWidth(450);
+        table.getColumns().clear();
+
+        table.getColumns().add(keyColumn);
+        table.getColumns().add(valueColumn);
+        table.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 2) {
+                        JsonTableEntry entry = table.getSelectionModel().getSelectedItem();
+                        if (entry.getValue().equals(EXPAND)) {
+                            UtilsFXML.loadResponseStage(entry.getNestedValue());
+                        }
+                    }
+                }
+        );
+
+        table.setItems(data);
+
+        table.setPlaceholder(new Label("No data to display."));
+        keyColumn.setStyle(KEY_COL_STYLE);
+        valueColumn.setStyle(VAL_COL_STYLE);
+        table.setStyle(TABLE_STYLE);
+
+        return table;
     }
 
-    private Node displayJsonArray(JsonElement jsonElement) {
-        BorderPane borderPane = new BorderPane();
-        borderPane.setPadding(new Insets(10, 10, 10, 10));
-
-        VBox vbox = new VBox();
-        vbox.setSpacing(20);
-        vbox.setPadding(new Insets(10, 10, 10, 10));
-
-        for (JsonElement element : jsonElement.getAsJsonArray()) {
-            if (element.isJsonPrimitive()) {
-                extractSingleLine(vbox, element.getAsJsonPrimitive());
-            } else if (element.isJsonObject()) {
-                extractJsonObject(vbox, element);
-            } else if (element.isJsonArray()) {
-                extractJsonArray(vbox, element);
+    private void parseJsonObject(JsonObject jsonObject, String parentKey, ObservableList<JsonTableEntry> data) {
+        for (String key : jsonObject.keySet()) {
+            JsonElement jsonElement = jsonObject.get(key);
+            if (jsonElement.isJsonObject()) {
+                data.add(new JsonTableEntry(parentKey + key, EXPAND, jsonElement.toString()));
+            }
+            else if(jsonElement.isJsonArray()){
+                parseJsonArray(jsonElement.getAsJsonArray(), parentKey + key, data);
+            }
+            else {
+                data.add(new JsonTableEntry(parentKey + key, jsonElement.getAsString()));
             }
         }
-        borderPane.setCenter(vbox);
-        return borderPane;
     }
 
-    private void extractJsonArray(VBox vbox, JsonElement element) {
-        VBox vbox1 = new VBox();
-        vbox1.setSpacing(20);
-        vbox1.setPadding(new Insets(10, 10, 10, 10));
-
-        for (JsonElement element1 : element.getAsJsonArray()) {
-            if (element1.isJsonPrimitive()) {
-                extractSingleLine(vbox1, element1.getAsJsonPrimitive());
-            } else if (element1.isJsonObject()) {
-                extractJsonObject(vbox1, element1);
-            } else if (element1.isJsonArray()) {
-                extractJsonArray(vbox1, element1);
+    private void parseJsonArray(JsonArray jsonArray, String parentKey, ObservableList<JsonTableEntry> data) {
+        for (JsonElement jsonElement : jsonArray) {
+            if (jsonElement.isJsonObject()) {
+                parseJsonObject(jsonElement.getAsJsonObject(), parentKey, data);
+            }
+            else if(jsonElement.isJsonArray()){
+                parseJsonArray(jsonElement.getAsJsonArray(), parentKey, data);
+            }
+            else {
+                data.add(new JsonTableEntry(parentKey, jsonElement.getAsString()));
             }
         }
-        vbox.getChildren().add(vbox1);
     }
 
-    private void extractJsonObject(VBox vbox, JsonElement element) {
-        VBox vbox1 = new VBox();
-        vbox1.setSpacing(20);
-        vbox1.setPadding(new Insets(10, 10, 10, 10));
+    public static class JsonTableEntry {
+        private final SimpleStringProperty key;
+        private final SimpleStringProperty value;
+        private final String nestedValue;
 
-        for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
-            extractJsonEntry(vbox1, entry);
-        }
-        vbox.getChildren().add(vbox1);
-    }
-
-    private void extractJsonEntry(VBox vBox, Map.Entry<String, JsonElement> entry) {
-        VBox keyValuePair = new VBox();
-        keyValuePair.setAlignment(Pos.CENTER_LEFT);
-        keyValuePair.setSpacing(5);
-
-        Label titleLabel = new Label(entry.getKey());
-        titleLabel.setFont(Font.font("Segoe UI", 20));
-        titleLabel.setTextFill(Color.web("#0066cc"));
-        keyValuePair.getChildren().add(titleLabel);
-
-        JsonElement value = entry.getValue();
-        if (value.isJsonObject()) {
-            keyValuePair.getChildren().add(displayJsonObject(value));
-        } else if (value.isJsonArray()) {
-            keyValuePair.getChildren().add(displayJsonArray(value));
-        } else {
-            extractSingleLine(keyValuePair, value.getAsJsonPrimitive());
+        public JsonTableEntry(String key, String value) {
+            this.key = new SimpleStringProperty(key);
+            this.value = new SimpleStringProperty(value);
+            this.nestedValue = "";
         }
 
-        vBox.getChildren().add(keyValuePair);
+        public JsonTableEntry(String key, String value, String nestedValue) {
+            this.key = new SimpleStringProperty(key);
+            this.value = new SimpleStringProperty(value);
+            this.nestedValue = nestedValue;
+        }
+
+        public String getKey() {
+            return key.get();
+        }
+
+        public void setKey(String key) {
+            this.key.set(key);
+        }
+
+        public String getValue() {
+            return value.get();
+        }
+
+        public void setValue(String value) {
+            this.value.set(value);
+        }
+
+        public String getNestedValue() {
+            return nestedValue;
+        }
     }
-
-    private Node displaySingleLine(JsonPrimitive primitive) {
-        BorderPane borderPane = new BorderPane();
-        borderPane.setPadding(new Insets(10, 10, 10, 10));
-
-        VBox vbox = new VBox();
-        vbox.setSpacing(20);
-        vbox.setPadding(new Insets(10, 10, 10, 10));
-        extractSingleLine(vbox, primitive);
-        borderPane.setCenter(vbox);
-        return borderPane;
-    }
-
-    private void extractSingleLine(VBox keyValuePair, JsonPrimitive primitive) {
-        Label valueLabel = new Label(primitive.getAsString());
-        valueLabel.setFont(Font.font("Segoe UI", 12));
-        valueLabel.setTextFill(Color.web("#333333"));
-        keyValuePair.getChildren().add(valueLabel);
-    }
-
-    private JsonElement toJson(String json) {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        return gson.fromJson(json, JsonElement.class);
-    }
-
 }

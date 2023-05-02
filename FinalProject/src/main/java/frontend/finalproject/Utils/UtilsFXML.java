@@ -173,6 +173,7 @@ public class UtilsFXML {
     }
 
     public static void loadResponseStage(String jsonResponse) {
+        System.out.println(jsonResponse);
         Node node = new JsonVisualizer(jsonResponse).displayJSON();
         Stage stage = new Stage();
         try{
@@ -193,5 +194,3 @@ public class UtilsFXML {
         EDIT_ENV, EDIT_SKILL,EDIT_VAR_TYPE,ADD,EDIT
     }
 }
-
-
