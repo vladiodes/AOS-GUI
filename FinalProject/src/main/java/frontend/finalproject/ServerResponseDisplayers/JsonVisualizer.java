@@ -1,6 +1,8 @@
-package frontend.finalproject.Utils;
+package frontend.finalproject.ServerResponseDisplayers;
 
 import com.google.gson.*;
+import frontend.finalproject.ServerResponseDisplayers.IJsonVisualizer;
+import frontend.finalproject.Utils.UtilsFXML;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonVisualizer{
+public class JsonVisualizer implements IJsonVisualizer {
 
     public static final String EXPAND = "<expand>";
     public static final String KEY_COL_STYLE = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;";
@@ -78,7 +80,7 @@ public class JsonVisualizer{
                     if (event.getClickCount() == 2) {
                         JsonTableEntry entry = table.getSelectionModel().getSelectedItem();
                         if (entry.getValue().equals(EXPAND)) {
-                            UtilsFXML.loadResponseStage(entry.getNestedValue());
+                            UtilsFXML.loadResponseStage(new JsonVisualizer(entry.getNestedValue()));
                         }
                     }
                 }

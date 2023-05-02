@@ -1,7 +1,7 @@
 package backend.finalproject.JsonVisualizerTests;
 
 import de.saxsys.javafx.test.JfxRunner;
-import frontend.finalproject.Utils.JsonVisualizer;
+import frontend.finalproject.ServerResponseDisplayers.JsonVisualizer;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import org.junit.jupiter.api.Assertions;
