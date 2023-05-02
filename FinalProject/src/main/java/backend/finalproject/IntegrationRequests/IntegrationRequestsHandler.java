@@ -46,6 +46,7 @@ public class IntegrationRequestsHandler {
     public String send(HttpRequest httpRequest, String body, String REQUEST_TYPE) {
         try {
             OkHttpClient client = new OkHttpClient().newBuilder()
+                    .readTimeout(0, java.util.concurrent.TimeUnit.SECONDS)
                     .build();
             MediaType mediaType = MediaType.parse("application/json");
             RequestBody reqBody = body != null ? RequestBody.create(mediaType, body) : null;

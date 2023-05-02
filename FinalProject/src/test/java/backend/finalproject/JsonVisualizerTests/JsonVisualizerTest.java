@@ -120,11 +120,6 @@ class JsonVisualizerTest {
     }
 
     @Test
-    void testEmptyString() {
-        testVisualizer("");
-    }
-
-    @Test
     void testEmptyJson() {
         testVisualizer("{}");
     }

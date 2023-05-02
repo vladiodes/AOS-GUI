@@ -7,8 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +27,31 @@ public class JsonVisualizer{
     }
 
     private void createTables(JsonElement jsonElement){
-        if (!jsonElement.isJsonArray()) {
+        if (jsonElement.isJsonObject()) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             ObservableList<JsonTableEntry> data = FXCollections.observableArrayList();
             parseJsonObject(jsonObject, "", data);
             tables.add(initializeTable(data));
         }
-        else{
+        else if (jsonElement.isJsonArray()){
             for (JsonElement element : jsonElement.getAsJsonArray()) {
                 createTables(element);
             }
+            if(jsonElement.getAsJsonArray().size() == 0){
+                ObservableList<JsonTableEntry> data = FXCollections.observableArrayList();
+                data.add(new JsonTableEntry("Key", "[]"));
+                tables.add(initializeTable(data));
+            }
+        }
+        else if(jsonElement.isJsonNull()){
+            ObservableList<JsonTableEntry> data = FXCollections.observableArrayList();
+            data.add(new JsonTableEntry("Key", "null"));
+            tables.add(initializeTable(data));
+        }
+        else {
+            ObservableList<JsonTableEntry> data = FXCollections.observableArrayList();
+            data.add(new JsonTableEntry("Key", jsonElement.getAsString()));
+            tables.add(initializeTable(data));
         }
     }
 
@@ -88,7 +101,7 @@ public class JsonVisualizer{
                 data.add(new JsonTableEntry(parentKey + key, EXPAND, jsonElement.toString()));
             }
             else if(jsonElement.isJsonArray()){
-                parseJsonArray(jsonElement.getAsJsonArray(), parentKey + key, data);
+                data.add(new JsonTableEntry(parentKey + key, EXPAND, jsonElement.toString()));
             }
             else {
                 data.add(new JsonTableEntry(parentKey + key, jsonElement.getAsString()));
