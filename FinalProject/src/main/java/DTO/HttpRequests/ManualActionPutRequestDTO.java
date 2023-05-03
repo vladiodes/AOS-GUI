@@ -4,10 +4,10 @@ import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class ManualActionRequestDTO implements HttpRequestDTO{
+public class ManualActionPutRequestDTO implements HttpRequestDTO{
     private int ActionID;
 
-    public ManualActionRequestDTO(int ActionID) {
+    public ManualActionPutRequestDTO(int ActionID) {
         this.ActionID = ActionID;
     }
 
@@ -23,5 +23,13 @@ public class ManualActionRequestDTO implements HttpRequestDTO{
                 .create();
 
         return gson.toJson(this);
+    }
+
+    public static class ManualActionGetRequestDTO implements HttpRequestDTO{
+
+        @Override
+        public String visit(IntegrationRequestsHandler handler) {
+            return handler.handle(this);
+        }
     }
 }

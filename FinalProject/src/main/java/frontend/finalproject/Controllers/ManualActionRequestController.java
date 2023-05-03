@@ -1,6 +1,6 @@
 package frontend.finalproject.Controllers;
 
-import DTO.HttpRequests.ManualActionRequestDTO;
+import DTO.HttpRequests.ManualActionPutRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
 import frontend.finalproject.ServerResponseDisplayers.JsonTreeViewVisualizer;
@@ -22,7 +22,7 @@ public class ManualActionRequestController {
     }
 
     public void handleSendRequestBTN(ActionEvent actionEvent) {
-        ManualActionRequestDTO requestDTO = new ManualActionRequestDTO(Integer.parseInt(ActionIDTxt.getText()));
+        ManualActionPutRequestDTO requestDTO = new ManualActionPutRequestDTO(Integer.parseInt(ActionIDTxt.getText()));
         Response<String> resp = facade.sendRequest(requestDTO);
         if(resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);

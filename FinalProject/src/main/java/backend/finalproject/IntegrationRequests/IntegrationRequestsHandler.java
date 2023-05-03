@@ -39,8 +39,13 @@ public class IntegrationRequestsHandler {
         return request.visit(this);
     }
 
-    public String handle(ManualActionRequestDTO request) {
+    public String handle(ManualActionPutRequestDTO request) {
         ManualActionRequest manualActionRequest = new ManualActionRequest(request);
+        return send(manualActionRequest, manualActionRequest.getBody(), ManualActionRequest.REQUEST_TYPE);
+    }
+
+    public String handle(ManualActionPutRequestDTO.ManualActionGetRequestDTO request){
+        ManualActionGetRequest manualActionRequest = new ManualActionGetRequest();
         return send(manualActionRequest, manualActionRequest.getBody(), ManualActionRequest.REQUEST_TYPE);
     }
 
