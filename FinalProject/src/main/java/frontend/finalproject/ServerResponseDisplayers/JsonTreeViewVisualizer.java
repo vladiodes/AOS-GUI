@@ -36,7 +36,7 @@ public class JsonTreeViewVisualizer implements IJsonVisualizer {
             JsonArray array = jsonElement.getAsJsonArray();
             for (int i = 0; i < array.size(); i++) {
                 JsonElement childElement = array.get(i);
-                String childName = parent.getValue().substring(0,parent.getValue().indexOf(" ")) + "[" + i + "]";
+                String childName = parent.getValue() == null ? "Element[" + i + "]" : parent.getValue().substring(0,parent.getValue().indexOf(" ")) + "[" + i + "]";
                 TreeItem<String> child = new TreeItem<>(childName);
                 parent.getChildren().add(child);
                 populateTreeView(childElement, child);

@@ -15,15 +15,27 @@
             </Label>
         </children>
     </Pane>
+    <BorderPane>
+        <left>
+            <VBox fx:id="AvailableActionsVBOX" />
+        </left>
+        <right>
+            <VBox fx:id="ActionsSentVBOX"/>
+        </right>
+        <center>
                 <VBox spacing="10">
                     <HBox>
                         <Label styleClass="TextFieldLabel" text="Action ID" />
                         <TextField styleClass="TextFieldForm" fx:id="ActionIDTxt"/>
                     </HBox>
                 </VBox>
-    <HBox styleClass="CreateProjBTNsHBox">
-        <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
-        <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />
-    </HBox>
+        </center>
+        <bottom>
+            <HBox styleClass="CreateProjBTNsHBox">
+                <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
+                <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />
+            </HBox>
+        </bottom>
+    </BorderPane>
 </children>
 </VBox>

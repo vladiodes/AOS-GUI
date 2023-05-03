@@ -46,7 +46,7 @@ public class IntegrationRequestsHandler {
 
     public String handle(ManualActionPutRequestDTO.ManualActionGetRequestDTO request){
         ManualActionGetRequest manualActionRequest = new ManualActionGetRequest();
-        return send(manualActionRequest, manualActionRequest.getBody(), ManualActionRequest.REQUEST_TYPE);
+        return send(manualActionRequest, manualActionRequest.getBody(), ManualActionGetRequest.REQUEST_TYPE);
     }
 
 
