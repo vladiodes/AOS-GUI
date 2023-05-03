@@ -7,6 +7,7 @@ import backend.finalproject.IAOSFacade;
 import frontend.finalproject.ServerResponseDisplayers.IJsonVisualizer;
 import frontend.finalproject.ServerResponseDisplayers.JsonTreeViewVisualizer;
 import frontend.finalproject.ServerResponseDisplayers.ManualActionsSentVisualizer;
+import frontend.finalproject.ServerResponseDisplayers.SolverActionsVisualizer;
 import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
@@ -29,12 +30,12 @@ public class ManualActionRequestController {
         Response<String> availableActionsResponse = facade.sendRequest(new GetSolverActionsRequestDTO());
         Response<String> sentActionsResponse = facade.sendRequest(new ManualActionPutRequestDTO.ManualActionGetRequestDTO());
         if(!availableActionsResponse.hasErrorOccurred()){
-            JsonTreeViewVisualizer jsonTreeViewVisualizer = new JsonTreeViewVisualizer(availableActionsResponse.getValue());
+            IJsonVisualizer jsonTreeViewVisualizer = new SolverActionsVisualizer(availableActionsResponse.getValue());
             AvailableActionsVBOX.getChildren().add(jsonTreeViewVisualizer.displayJSON());
         }
         if(!sentActionsResponse.hasErrorOccurred()){
             IJsonVisualizer jsonVisualizer = new ManualActionsSentVisualizer(sentActionsResponse.getValue());
-            ActionsSentVBOX.getChildren().addAll(new Label("Sent actions"),jsonVisualizer.displayJSON());
+            ActionsSentVBOX.getChildren().addAll(jsonVisualizer.displayJSON());
         }
     }
 

@@ -17,18 +17,22 @@
     </Pane>
     <BorderPane>
         <left>
-            <VBox fx:id="AvailableActionsVBOX" />
+            <VBox fx:id="AvailableActionsVBOX" styleClass="ManActionsVBOX" prefWidth="450" spacing="10">
+                <Label styleClass="Separator_Text"  text="Solver actions" />
+            </VBox>
         </left>
         <right>
-            <VBox fx:id="ActionsSentVBOX"/>
+            <VBox prefWidth="450" spacing="10" styleClass="ManActionsVBOX" fx:id="ActionsSentVBOX">
+                <Label styleClass="Separator_Text"  text="Actions sent to robot" />
+            </VBox>
         </right>
         <center>
-                <VBox spacing="10">
-                    <HBox>
+                    <HBox spacing="10"
+                          style="-fx-padding: 50 0 0 0;
+                        -fx-alignment: center">
                         <Label styleClass="TextFieldLabel" text="Action ID" />
                         <TextField styleClass="TextFieldForm" fx:id="ActionIDTxt"/>
                     </HBox>
-                </VBox>
         </center>
         <bottom>
             <HBox styleClass="CreateProjBTNsHBox">
