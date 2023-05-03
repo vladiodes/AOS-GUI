@@ -39,6 +39,11 @@ public class IntegrationRequestsHandler {
         return request.visit(this);
     }
 
+    public String handle(GetLogsRequestDTO request){
+        GetLogsRequest getLogsRequest = new GetLogsRequest();
+        return send(getLogsRequest, getLogsRequest.getBody(), GetLogsRequest.ENDPOINT);
+    }
+
     public String handle(GetSimulatedStatesRequestDTO request){
         GetSimulatedStatesRequest getSimStatesReq = new GetSimulatedStatesRequest();
         return send(getSimStatesReq, getSimStatesReq.getBody(), GetSimulatedStatesRequest.ENDPOINT);
