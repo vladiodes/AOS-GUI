@@ -11,8 +11,7 @@ public class IntegrationRequestsHandler {
 
     public String handle(InitProjectRequestDTO request) {
         InitProjectRequest initProjectRequest = new InitProjectRequest(request);
-        String jsonResponse =  send(initProjectRequest, initProjectRequest.getBody(), InitProjectRequest.REQUEST_TYPE);
-        return jsonResponse;
+        return send(initProjectRequest, initProjectRequest.getBody(), InitProjectRequest.REQUEST_TYPE);
     }
 
     public String handle(UpdateLocalVariableRequestDTO request){
@@ -28,8 +27,7 @@ public class IntegrationRequestsHandler {
 
     public String handle(GetSolverActionsRequestDTO request){
         GetSolverActionsRequest getSolverReq = new GetSolverActionsRequest(request);
-        String jsonResponse = send(getSolverReq,null,GetSolverActionsRequest.REQUEST_TYPE);
-        return jsonResponse;
+        return send(getSolverReq,null,GetSolverActionsRequest.REQUEST_TYPE);
     }
 
     public String handle(GetExecutionOutcomeRequestDTO request){
@@ -39,6 +37,11 @@ public class IntegrationRequestsHandler {
 
     public String handle(HttpRequestDTO request) {
         return request.visit(this);
+    }
+
+    public String handle(ManualActionRequestDTO request) {
+        ManualActionRequest manualActionRequest = new ManualActionRequest(request);
+        return send(manualActionRequest, manualActionRequest.getBody(), ManualActionRequest.REQUEST_TYPE);
     }
 
 
