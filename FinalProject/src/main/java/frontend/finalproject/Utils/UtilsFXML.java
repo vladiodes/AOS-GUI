@@ -1,6 +1,5 @@
 package frontend.finalproject.Utils;
 
-import com.google.gson.Gson;
 import frontend.finalproject.Controllers.CodePreviewController;
 import frontend.finalproject.Controllers.CreateEnvController;
 import frontend.finalproject.Controllers.HomeController;
@@ -8,20 +7,15 @@ import frontend.finalproject.Controllers.ResponseRequestController;
 import frontend.finalproject.Controllers.SubControllers.EditSubController;
 import frontend.finalproject.Model.Common.ImportCodeModel;
 import frontend.finalproject.Model.Model;
+import frontend.finalproject.ServerResponseDisplayers.IJsonVisualizer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -32,7 +26,6 @@ import utils.Response;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class UtilsFXML {
@@ -60,6 +53,7 @@ public class UtilsFXML {
     public static final String GET_SOLVER_ACTIONS_PATH = "get-solver-actions-request-view.fxml";
     public static final String GET_EXECUTION_OUTCOME_PATH = "get-execution-outcome-request-view.fxml";
     public static final String DEBUG_PROJECT_PATH = "debug-project-view.fxml";
+    public static final String SEND_MANUAL_ACTION_REQUEST_PATH = "manual-action-request-view.fxml";
     private static final String RESPONSE_VIEW_PATH = "response-request-view.fxml";
 
 
@@ -172,9 +166,8 @@ public class UtilsFXML {
         }
     }
 
-    public static void loadResponseStage(String jsonResponse) {
-        System.out.println(jsonResponse);
-        Node node = new JsonVisualizer(jsonResponse).displayJSON();
+    public static void loadResponseStage(IJsonVisualizer visualizer){
+        Node node = visualizer.displayJSON();
         Stage stage = new Stage();
         try{
             FXMLLoader loader = new FXMLLoader(CreateEnvController.class.getResource(UtilsFXML.RESPONSE_VIEW_PATH));

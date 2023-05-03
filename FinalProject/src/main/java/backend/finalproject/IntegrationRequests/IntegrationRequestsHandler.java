@@ -11,8 +11,7 @@ public class IntegrationRequestsHandler {
 
     public String handle(InitProjectRequestDTO request) {
         InitProjectRequest initProjectRequest = new InitProjectRequest(request);
-        String jsonResponse =  send(initProjectRequest, initProjectRequest.getBody(), InitProjectRequest.REQUEST_TYPE);
-        return jsonResponse;
+        return send(initProjectRequest, initProjectRequest.getBody(), InitProjectRequest.REQUEST_TYPE);
     }
 
     public String handle(UpdateLocalVariableRequestDTO request){
@@ -28,8 +27,7 @@ public class IntegrationRequestsHandler {
 
     public String handle(GetSolverActionsRequestDTO request){
         GetSolverActionsRequest getSolverReq = new GetSolverActionsRequest(request);
-        String jsonResponse = send(getSolverReq,null,GetSolverActionsRequest.REQUEST_TYPE);
-        return jsonResponse;
+        return send(getSolverReq,null,GetSolverActionsRequest.REQUEST_TYPE);
     }
 
     public String handle(GetExecutionOutcomeRequestDTO request){
@@ -39,6 +37,37 @@ public class IntegrationRequestsHandler {
 
     public String handle(HttpRequestDTO request) {
         return request.visit(this);
+    }
+
+    public String handle(GetLogsRequestDTO.DelLogsRequestDTO request) {
+        DelLogsRequest delLogsRequest = new DelLogsRequest();
+        return send(delLogsRequest, delLogsRequest.getBody(), DelLogsRequest.ENDPOINT);
+    }
+
+
+    public String handle(GetLogsRequestDTO request){
+        GetLogsRequest getLogsRequest = new GetLogsRequest();
+        return send(getLogsRequest, getLogsRequest.getBody(), GetLogsRequest.ENDPOINT);
+    }
+
+    public String handle(GetSimulatedStatesRequestDTO request){
+        GetSimulatedStatesRequest getSimStatesReq = new GetSimulatedStatesRequest();
+        return send(getSimStatesReq, getSimStatesReq.getBody(), GetSimulatedStatesRequest.ENDPOINT);
+    }
+
+    public String handle(ManualActionPutRequestDTO.ManualActionDeleteRequestDTO request) {
+        ManualActionDeleteRequest delReq = new ManualActionDeleteRequest();
+        return send(delReq, delReq.getBody(), ManualActionDeleteRequest.REQUEST_TYPE);
+    }
+
+    public String handle(ManualActionPutRequestDTO request) {
+        ManualActionRequest manualActionRequest = new ManualActionRequest(request);
+        return send(manualActionRequest, manualActionRequest.getBody(), ManualActionRequest.REQUEST_TYPE);
+    }
+
+    public String handle(ManualActionPutRequestDTO.ManualActionGetRequestDTO request){
+        ManualActionGetRequest manualActionRequest = new ManualActionGetRequest();
+        return send(manualActionRequest, manualActionRequest.getBody(), ManualActionGetRequest.REQUEST_TYPE);
     }
 
 

@@ -3,6 +3,7 @@ package frontend.finalproject.Controllers;
 import DTO.HttpRequests.InitProjectRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.ServerResponseDisplayers.JsonTableViewVisualizer;
 import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
@@ -82,7 +83,7 @@ public class InitializeProjectRequestController {
         if (resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else {
-            UtilsFXML.loadResponseStage(resp.getValue());
+            UtilsFXML.loadResponseStage(new JsonTableViewVisualizer(resp.getValue()));
         }
     }
 

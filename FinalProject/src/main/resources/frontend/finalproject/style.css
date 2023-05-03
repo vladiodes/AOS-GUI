@@ -286,3 +286,7 @@
 {
     -fx-background-color: rgb(16, 110, 190);
 }
+
+.ManActionsVBOX {
+    -fx-padding:10 10 10 10
+}

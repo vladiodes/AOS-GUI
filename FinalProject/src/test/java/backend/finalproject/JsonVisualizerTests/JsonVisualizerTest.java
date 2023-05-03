@@ -1,7 +1,7 @@
 package backend.finalproject.JsonVisualizerTests;
 
 import de.saxsys.javafx.test.JfxRunner;
-import frontend.finalproject.Utils.JsonVisualizer;
+import frontend.finalproject.ServerResponseDisplayers.JsonTableViewVisualizer;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import org.junit.jupiter.api.Assertions;
@@ -81,7 +81,7 @@ class JsonVisualizerTest {
             """;
 
 
-    private JsonVisualizer visualizer;
+    private JsonTableViewVisualizer visualizer;
 
     @BeforeAll
     static void initJfxRuntime() {
@@ -142,7 +142,7 @@ class JsonVisualizerTest {
 
 
     private void testVisualizer(String json) {
-        visualizer = new JsonVisualizer(json);
+        visualizer = new JsonTableViewVisualizer(json);
         Node node = visualizer.displayJSON();
         Assertions.assertNotNull(node);
     }

@@ -179,4 +179,6 @@ public class NotificationUtils {
     public static final String DELETE_POSSIBLE_PARAMS_VALUE_FAIL_TEXT = "Please select a possible parameter value to delete";
     public static final String INSERT_POSSIBLE_PARAMS_VALUE_FAIL_TITLE = "Failed to add possible parameter value";
     public static final String INSERT_POSSIBLE_PARAMS_VALUE_FAIL_TXT = "Please select a parameter to add a possible parameter value";
+    public static final String SENT_ACTION_SUCCESSFULLY_TEXT = "You've successfully sent an action to the robot!";
+    public static final String SENT_ACTION_SUCCESSFULLY_TITLE = "Manual action successfully sent";
 }

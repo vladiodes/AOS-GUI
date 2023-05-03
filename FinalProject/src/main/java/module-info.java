@@ -32,4 +32,6 @@ module frontend.finalproject {
     opens backend.finalproject.ProjectFiles.AM.LocalVariablesInit to com.google.gson;
     exports frontend.finalproject.Utils;
     opens frontend.finalproject.Utils to javafx.fxml;
+    exports frontend.finalproject.ServerResponseDisplayers;
+    opens frontend.finalproject.ServerResponseDisplayers to javafx.fxml;
 }
