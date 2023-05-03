@@ -7,4 +7,11 @@ public class GetLogsRequestDTO implements HttpRequestDTO{
     public String visit(IntegrationRequestsHandler handler) {
         return handler.handle(this);
     }
+    public static class DelLogsRequestDTO implements HttpRequestDTO{
+
+        @Override
+        public String visit(IntegrationRequestsHandler handler) {
+            return handler.handle(this);
+        }
+    }
 }

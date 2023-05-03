@@ -39,6 +39,12 @@ public class IntegrationRequestsHandler {
         return request.visit(this);
     }
 
+    public String handle(GetLogsRequestDTO.DelLogsRequestDTO request) {
+        DelLogsRequest delLogsRequest = new DelLogsRequest();
+        return send(delLogsRequest, delLogsRequest.getBody(), DelLogsRequest.ENDPOINT);
+    }
+
+
     public String handle(GetLogsRequestDTO request){
         GetLogsRequest getLogsRequest = new GetLogsRequest();
         return send(getLogsRequest, getLogsRequest.getBody(), GetLogsRequest.ENDPOINT);
