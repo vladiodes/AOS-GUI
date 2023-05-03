@@ -39,6 +39,11 @@ public class IntegrationRequestsHandler {
         return request.visit(this);
     }
 
+    public String handle(GetSimulatedStatesRequestDTO request){
+        GetSimulatedStatesRequest getSimStatesReq = new GetSimulatedStatesRequest();
+        return send(getSimStatesReq, getSimStatesReq.getBody(), GetSimulatedStatesRequest.ENDPOINT);
+    }
+
     public String handle(ManualActionPutRequestDTO.ManualActionDeleteRequestDTO request) {
         ManualActionDeleteRequest delReq = new ManualActionDeleteRequest();
         return send(delReq, delReq.getBody(), ManualActionDeleteRequest.REQUEST_TYPE);
