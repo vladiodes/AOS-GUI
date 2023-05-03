@@ -1,7 +1,6 @@
 package frontend.finalproject.ServerResponseDisplayers;
 
 import com.google.gson.*;
-import frontend.finalproject.ServerResponseDisplayers.IJsonVisualizer;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -12,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonVisualizer implements IJsonVisualizer {
+public class JsonTableViewVisualizer implements IJsonVisualizer {
 
     public static final String EXPAND = "<expand>";
     public static final String KEY_COL_STYLE = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;";
@@ -21,7 +20,7 @@ public class JsonVisualizer implements IJsonVisualizer {
     private final List<TableView<JsonTableEntry>> tables;
 
 
-    public JsonVisualizer(String jsonString) {
+    public JsonTableViewVisualizer(String jsonString) {
         tables = new ArrayList<>();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonElement jsonElement = gson.fromJson(jsonString, JsonElement.class);
@@ -80,7 +79,7 @@ public class JsonVisualizer implements IJsonVisualizer {
                     if (event.getClickCount() == 2) {
                         JsonTableEntry entry = table.getSelectionModel().getSelectedItem();
                         if (entry.getValue().equals(EXPAND)) {
-                            UtilsFXML.loadResponseStage(new JsonVisualizer(entry.getNestedValue()));
+                            UtilsFXML.loadResponseStage(new JsonTableViewVisualizer(entry.getNestedValue()));
                         }
                     }
                 }

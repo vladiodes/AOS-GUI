@@ -3,15 +3,14 @@ package frontend.finalproject.Controllers;
 import DTO.HttpRequests.GetExecutionOutcomeRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
-import frontend.finalproject.ServerResponseDisplayers.JsonVisualizer;
+import frontend.finalproject.ServerResponseDisplayers.JsonTableViewVisualizer;
+import frontend.finalproject.ServerResponseDisplayers.JsonTreeViewVisualizer;
 import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utils.Response;
 
@@ -34,7 +33,7 @@ public class GetExecutionOutcomeRequestController {
             if (resp.hasErrorOccurred())
                 UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
             else {
-                UtilsFXML.loadResponseStage(new JsonVisualizer(resp.getValue()));
+                UtilsFXML.loadResponseStage(new JsonTreeViewVisualizer(resp.getValue()));
             }
 
 

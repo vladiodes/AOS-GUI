@@ -8,7 +8,6 @@ import frontend.finalproject.Controllers.SubControllers.EditSubController;
 import frontend.finalproject.Model.Common.ImportCodeModel;
 import frontend.finalproject.Model.Model;
 import frontend.finalproject.ServerResponseDisplayers.IJsonVisualizer;
-import frontend.finalproject.ServerResponseDisplayers.JsonVisualizer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
