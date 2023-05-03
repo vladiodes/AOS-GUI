@@ -1,0 +1,65 @@
+{
+  "PlpMain": {
+    "Project": "iros",
+    "Name": "environment",
+    "Type": "Environment",
+    "Version": 0.0
+  },
+  "EnvironmentGeneral": {
+    "Horizon": 10,
+    "Discount": 0.99
+  },
+  "GlobalVariableTypes": [
+    {
+      "TypeName": "tSymbols",
+      "Type": "enum",
+      "EnumValues": [
+        "eEmpty",
+        "eX",
+        "eO"
+      ]
+    }
+  ],
+  "GlobalVariablesDeclaration": [
+    {
+      "Name": "grid",
+      "Type": "int",
+      "DefaultCode": "state.grid={eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty};",
+      "IsActionParameterValue": false
+    },
+    {
+      "Name": "isRobotTurn",
+      "Type": "bool",
+      "DefaultCode": "state.isRobotTurn=true;",
+      "IsActionParameterValue": false
+    }
+  ],
+  "InitialBeliefStateAssignments": [],
+  "SpecialStates": [
+    {
+      "Reward": 0.0,
+      "IsGoalState": false,
+      "IsOneTimeReward": false
+    }
+  ],
+  "ExtrinsicChangesDynamicModel": [
+    {
+      "AssignmentName": "",
+      "AssignmentCode": [
+        "if(!state.isRobotTurn){",
+        "    int emptyC = 0;",
+        "    for_each(state.grid.begin(),state.grid.end(),[&](int const& cell){emptyC += cell == eEmpty ? 1 : 0;});",
+        "    float w = 1.0/emptyC;",
+        "    vector<float> weights{};",
+        "    for(int i=0;i< state.grid.size();i++)",
+        "    {",
+        "      weights.push_back(state.grid[i] == eEmpty ? w : 0.0);",
+        "    }",
+        "    int sampledCell = AOSUtils::SampleDiscrete(weights);",
+        "    state_.grid[sampledCell] = eX;",
+        "    state_.isRobotTurn = true;",
+        "}"
+      ]
+    }
+  ]
+}

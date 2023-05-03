@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Env.EnvModel;
 import utils.Json.CustomDeserializers.AssignmentBlockDeserializer;
 import utils.Json.CustomDeserializers.LocalVariablesInitializationDeserializer;
+import utils.Json.CustomGson;
 import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
 import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
 import utils.Json.PolymorphDeserializer.PolymorphDeserializer;
@@ -34,15 +35,7 @@ public class Project {
     Environment Environment;
     List<Skill> Skills;
 
-    Gson gson = new GsonBuilder()
-            .setPrettyPrinting()
-            .disableHtmlEscaping()
-            .registerTypeAdapter(GlobalVariableTypeCompound .class, new GlobalVariableTypeCompoundJsonSerializer())
-            .registerTypeAdapter(GlobalVariableTypeEnum .class, new GlobalVariableTypeEnumJsonSerializer())
-            .registerTypeAdapter(IAssignmentBlock.class, new AssignmentBlockDeserializer())
-            .registerTypeAdapter(LocalVariablesInitialization.class, new LocalVariablesInitializationDeserializer())
-            .registerTypeAdapter(GlobalVariableType.class, new PolymorphDeserializer<GlobalVariableType>())
-            .create();
+    Gson gson = CustomGson.getCustomGson();
 
     public Project(EnvModel envModel) {
         Environment = new Environment(envModel);
@@ -160,13 +153,13 @@ public class Project {
 
     private String getAMSavePath(String skillName) {
         StringBuilder amSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
-        amSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(".").append(skillName).append(" glue.json");
+        amSavePath.append(File.separator).append(getProjectName()).append(File.separator).append(getProjectName()).append(".").append(skillName).append(" glue.json");
         return amSavePath.toString();
     }
 
     private String getSDSavePath(String skillName) {
         StringBuilder sdSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
-        sdSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(".").append(skillName).append(".json");
+        sdSavePath.append(File.separator).append(getProjectName()).append(File.separator).append(getProjectName()).append(".").append(skillName).append(".json");
         return sdSavePath.toString();
     }
 
@@ -174,7 +167,7 @@ public class Project {
     public void saveEnv() throws IOException {
         String jsonEnv = gson.toJson(Environment);
         StringBuilder envSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
-        envSavePath.append("/").append(getProjectName()).append("/").append(getProjectName()).append(Constants.ENVIRONMENT_FILE_SUFFIX);
+        envSavePath.append(File.separator).append(getProjectName()).append(File.separator).append(getProjectName()).append(Constants.ENVIRONMENT_FILE_SUFFIX);
         writeToFile(envSavePath.toString(), jsonEnv);
     }
 
