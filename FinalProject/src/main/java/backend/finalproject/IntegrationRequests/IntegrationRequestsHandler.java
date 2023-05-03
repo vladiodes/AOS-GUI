@@ -39,6 +39,11 @@ public class IntegrationRequestsHandler {
         return request.visit(this);
     }
 
+    public String handle(ManualActionPutRequestDTO.ManualActionDeleteRequestDTO request) {
+        ManualActionDeleteRequest delReq = new ManualActionDeleteRequest();
+        return send(delReq, delReq.getBody(), ManualActionDeleteRequest.REQUEST_TYPE);
+    }
+
     public String handle(ManualActionPutRequestDTO request) {
         ManualActionRequest manualActionRequest = new ManualActionRequest(request);
         return send(manualActionRequest, manualActionRequest.getBody(), ManualActionRequest.REQUEST_TYPE);

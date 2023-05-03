@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.chart.BubbleChart?>
 <VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.ManualActionRequestController">
 <children>
     <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -38,6 +39,7 @@
             <HBox styleClass="CreateProjBTNsHBox">
                 <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />
                 <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />
+                <Button styleClass="formBtn" text="Delete all sent actions" onAction="#handleDeleteActionsBTN"/>
             </HBox>
         </bottom>
     </BorderPane>

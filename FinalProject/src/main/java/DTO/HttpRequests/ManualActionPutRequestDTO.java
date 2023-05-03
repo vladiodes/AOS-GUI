@@ -32,4 +32,12 @@ public class ManualActionPutRequestDTO implements HttpRequestDTO{
             return handler.handle(this);
         }
     }
+
+    public static class ManualActionDeleteRequestDTO implements HttpRequestDTO{
+
+        @Override
+        public String visit(IntegrationRequestsHandler handler) {
+            return handler.handle(this);
+        }
+    }
 }

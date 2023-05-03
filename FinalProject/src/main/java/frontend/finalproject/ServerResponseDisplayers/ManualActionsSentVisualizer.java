@@ -83,15 +83,22 @@ public class ManualActionsSentVisualizer implements IJsonVisualizer {
                 JsonObject childObject = childElement.getAsJsonObject();
                 int actionID = childObject.get(ACTION_ID).getAsInt();
                 TreeItem<String> child;
-                if(actionIDToActionName.containsKey(actionID))
-                    child = new TreeItem<>(actionIDToActionName.get(actionID));
-                else if(actionID == -1)
-                    child = new TreeItem<>("Terminated");
-                else
-                    child = new TreeItem<>(i + ".Action ID" + " : " + actionID);
+                child = getActionDesc(actionID);
 
                 parent.getChildren().add(child);
             }
         }
     }
+
+    public TreeItem<String> getActionDesc(int actionID) {
+        TreeItem<String> child;
+        if(actionIDToActionName.containsKey(actionID))
+            child = new TreeItem<>(actionIDToActionName.get(actionID));
+        else if(actionID == -1)
+            child = new TreeItem<>("Terminated");
+        else
+            child = new TreeItem<>("Not recognized Action ID" + " : " + actionID);
+        return child;
+    }
+
 }

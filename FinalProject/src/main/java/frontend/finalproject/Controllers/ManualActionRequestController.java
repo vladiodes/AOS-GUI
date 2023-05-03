@@ -15,6 +15,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utils.Response;
@@ -24,18 +26,20 @@ public class ManualActionRequestController {
     @FXML private VBox ActionsSentVBOX;
     @FXML private TextField ActionIDTxt;
     private final IAOSFacade facade = AOSFacade.getInstance();
+    private SolverActionsVisualizer actionsVisualizer;
+    private ManualActionsSentVisualizer actionsSentVisualizer;
 
     @FXML
     public void initialize(){
         Response<String> availableActionsResponse = facade.sendRequest(new GetSolverActionsRequestDTO());
         Response<String> sentActionsResponse = facade.sendRequest(new ManualActionPutRequestDTO.ManualActionGetRequestDTO());
         if(!availableActionsResponse.hasErrorOccurred()){
-            IJsonVisualizer jsonTreeViewVisualizer = new SolverActionsVisualizer(availableActionsResponse.getValue());
-            AvailableActionsVBOX.getChildren().add(jsonTreeViewVisualizer.displayJSON());
+            this.actionsVisualizer = new SolverActionsVisualizer(availableActionsResponse.getValue());
+            AvailableActionsVBOX.getChildren().add(actionsVisualizer.displayJSON());
         }
         if(!sentActionsResponse.hasErrorOccurred()){
-            IJsonVisualizer jsonVisualizer = new ManualActionsSentVisualizer(sentActionsResponse.getValue());
-            ActionsSentVBOX.getChildren().addAll(jsonVisualizer.displayJSON());
+            this.actionsSentVisualizer = new ManualActionsSentVisualizer(sentActionsResponse.getValue());
+            ActionsSentVBOX.getChildren().addAll(actionsSentVisualizer.displayJSON());
         }
     }
 
@@ -49,6 +53,22 @@ public class ManualActionRequestController {
         if(resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else
-            UtilsFXML.loadResponseStage(new JsonTreeViewVisualizer(resp.getValue()));
+        {
+            TreeView<String> treeView = (TreeView<String>) ActionsSentVBOX.getChildren().get(ActionsSentVBOX.getChildren().size()-1);
+            treeView.getRoot().getChildren().add(actionsSentVisualizer.getActionDesc(Integer.parseInt(ActionIDTxt.getText())));
+            UtilsFXML.showNotification(NotificationUtils.SENT_ACTION_SUCCESSFULLY_TITLE,NotificationUtils.SENT_ACTION_SUCCESSFULLY_TEXT,null);
+        }
+    }
+
+    public void handleDeleteActionsBTN(ActionEvent actionEvent) {
+        ManualActionPutRequestDTO.ManualActionDeleteRequestDTO requestDTO = new ManualActionPutRequestDTO.ManualActionDeleteRequestDTO();
+        Response<String> resp = facade.sendRequest(requestDTO);
+        if(resp.hasErrorOccurred()){
+            UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
+        }
+        else{
+            TreeView<String> treeView = (TreeView<String>) ActionsSentVBOX.getChildren().get(ActionsSentVBOX.getChildren().size()-1);
+            treeView.getRoot().getChildren().clear();
+        }
     }
 }
