@@ -53,6 +53,7 @@ public class UtilsFXML {
     public static final String GET_SOLVER_ACTIONS_PATH = "get-solver-actions-request-view.fxml";
     public static final String GET_EXECUTION_OUTCOME_PATH = "get-execution-outcome-request-view.fxml";
     public static final String DEBUG_PROJECT_PATH = "debug-project-view.fxml";
+    public static final String SEND_MANUAL_ACTION_REQUEST_PATH = "manual-action-request-view.fxml";
     private static final String RESPONSE_VIEW_PATH = "response-request-view.fxml";
 
 
