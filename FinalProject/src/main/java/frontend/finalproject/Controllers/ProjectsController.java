@@ -33,10 +33,8 @@ public class ProjectsController {
 
     private IAOSFacade facade = AOSFacade.getInstance();
 
-    public void handleButtonClicks(ActionEvent event) {
-        if (event.getSource() == backButton) {
-            UtilsFXML.navToHome(event);
-        }
+    public void handleBackBTNClick(ActionEvent event) {
+        UtilsFXML.navToHome(event);
     }
 
     @FXML

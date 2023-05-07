@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="1102.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.ProjectsController">
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.ProjectsController">
     <children>
-        <Pane prefHeight="139.0" prefWidth="1102.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Label layoutX="73.0" layoutY="30.0" text="Projects" textFill="WHITE">
                     <font>
@@ -15,38 +15,28 @@
                 </Label>
             </children>
         </Pane>
-        <ListView fx:id="projectList" layoutX="20.0" layoutY="209.0" prefHeight="287.0" prefWidth="150.0" stylesheets="@../style.css" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="932.0" AnchorPane.topAnchor="209.0">
-        </ListView>
-      <Pane layoutX="190.0" layoutY="150.0" prefHeight="391.0" prefWidth="761.0">
-         <children>
-            <ListView fx:id="skillsList" layoutX="34.0" layoutY="91.0" prefHeight="179.0" prefWidth="276.0">
-            </ListView>
-            <Label layoutX="43.0" layoutY="59.0" text="Skills" textFill="#222">
-             <font>
-                 <Font name="System Bold" size="20.0" />
-             </font>
-         </Label>
-            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleEditEnvBTNClick" stylesheets="@../style.css" text="Edit Env" />
-            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleEditSkillBTNClick" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Edit Skill" />
-            <Label layoutX="22.0" layoutY="7.0" text="Project Info" textFill="#222">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
-            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="288.0" mnemonicParsing="false" onAction="#handleAddSkillAction" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Add Skill" />
-            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="35.0" layoutY="328.0" mnemonicParsing="false"  onAction="#handleOpenSD" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open SD" />
-            <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="138.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleOpenAM" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open AM" />
-             <Button styleClass="formBtn" alignment="BOTTOM_LEFT" layoutX="245.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleOpenEnv" prefHeight="24.0" prefWidth="103.0" stylesheets="@../style.css" text="Open Env" />
-         </children>
-      </Pane>
-      <Button fx:id="backButton" layoutX="20.0" layoutY="504.0" mnemonicParsing="false" onAction="#handleButtonClicks" prefHeight="46.0" prefWidth="150.0" text="Back">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-      <Label layoutX="18.0" layoutY="157.0" text="Projects List" textFill="#222">
-        <font>
-            <Font name="System Bold" size="24.0" />
-        </font>
-      </Label>
+        <HBox spacing="100" style="-fx-padding: 0 20 0 20">
+            <VBox>
+            <Label styleClass="Separator_Text" text="Project List"/>
+                <ListView fx:id="projectList" prefHeight="200.0" prefWidth="200.0" />
+            </VBox>
+            <VBox>
+                <Label styleClass="Separator_Text" text="Project Info"/>
+                <ListView fx:id="skillsList" prefHeight="200.0" prefWidth="200.0" />
+                <HBox styleClass="CRUDBtn">
+                    <Button styleClass="formBtn" text="Edit Env" onAction="#handleEditEnvBTNClick"/>
+                    <Button styleClass="formBtn" text="Edit Skill" onAction="#handleEditSkillBTNClick"/>
+                    <Button styleClass="formBtn" text="Add Skill" onAction="#handleAddSkillAction"/>
+                </HBox>
+                <HBox styleClass="CRUDBtn">
+                    <Button styleClass="formBtn" text="Open SD" onAction="#handleOpenSD"/>
+                    <Button styleClass="formBtn" text="Open AM" onAction="#handleOpenAM"/>
+                    <Button styleClass="formBtn" text="Open Env" onAction="#handleOpenEnv"/>
+                </HBox>
+            </VBox>
+        </HBox>
+        <HBox style="-fx-padding: 0 0 20 20">
+            <Button styleClass="formBtn" text="Back" onAction="#handleBackBTNClick"/>
+        </HBox>
     </children>
-</AnchorPane>
+</VBox>
