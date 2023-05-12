@@ -1,0 +1,146 @@
+[
+    {
+        "_id": ObjectId("6452c6e41332957482002b13"),
+        "ActionSequnceId": 0,
+        "SimulatedState": {
+            "grid": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "isRobotTurn": true
+        }
+    },
+    {
+        "_id": ObjectId("6452c6e41332957482002b18"),
+        "ActionSequnceId": 1,
+        "SimulatedState": {
+            "grid": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "isRobotTurn": false
+        }
+    },
+    {
+        "_id": ObjectId("6452c6e91332957482002b1e"),
+        "ActionSequnceId": 2,
+        "SimulatedState": {
+            "grid": [
+                1,
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0,
+                0
+            ],
+            "isRobotTurn": true
+        }
+    },
+    {
+        "_id": ObjectId("6452c7011332957482002b24"),
+        "ActionSequnceId": 3,
+        "SimulatedState": {
+            "grid": [
+                1,
+                0,
+                0,
+                0,
+                2,
+                0,
+                0,
+                0,
+                1
+            ],
+            "isRobotTurn": false
+        }
+    },
+    {
+        "_id": ObjectId("6452c75b1332957482002b2a"),
+        "ActionSequnceId": 4,
+        "SimulatedState": {
+            "grid": [
+                1,
+                0,
+                0,
+                0,
+                2,
+                2,
+                0,
+                0,
+                1
+            ],
+            "isRobotTurn": true
+        }
+    },
+    {
+        "_id": ObjectId("6452c7601332957482002b30"),
+        "ActionSequnceId": 5,
+        "SimulatedState": {
+            "grid": [
+                1,
+                0,
+                0,
+                0,
+                2,
+                2,
+                0,
+                0,
+                1
+            ],
+            "isRobotTurn": false
+        }
+    },
+    {
+        "_id": ObjectId("6452c7651332957482002b36"),
+        "ActionSequnceId": 6,
+        "SimulatedState": {
+            "grid": [
+                1,
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                0,
+                1
+            ],
+            "isRobotTurn": true
+        }
+    },
+    {
+        "_id": ObjectId("6452c76a1332957482002b3c"),
+        "ActionSequnceId": 7,
+        "SimulatedState": {
+            "grid": [
+                1,
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                0,
+                1
+            ],
+            "isRobotTurn": false
+        }
+    }
+]
