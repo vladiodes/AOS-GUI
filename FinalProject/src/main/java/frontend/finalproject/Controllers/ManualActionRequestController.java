@@ -38,7 +38,7 @@ public class ManualActionRequestController {
             AvailableActionsVBOX.getChildren().add(actionsVisualizer.displayJSON());
         }
         if(!sentActionsResponse.hasErrorOccurred()){
-            this.actionsSentVisualizer = new ManualActionsSentVisualizer(sentActionsResponse.getValue());
+            this.actionsSentVisualizer = new ManualActionsSentVisualizer(sentActionsResponse.getValue(),AOSFacade.getInstance());
             ActionsSentVBOX.getChildren().addAll(actionsSentVisualizer.displayJSON());
         }
     }

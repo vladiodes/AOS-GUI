@@ -4,6 +4,7 @@ import de.saxsys.javafx.test.JfxRunner;
 import frontend.finalproject.ServerResponseDisplayers.JsonTableViewVisualizer;
 import javafx.application.Platform;
 import javafx.scene.Node;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
