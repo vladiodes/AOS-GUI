@@ -2,6 +2,7 @@ package frontend.finalproject.ServerResponseDisplayers;
 
 import DTO.HttpRequests.GetSolverActionsRequestDTO;
 import backend.finalproject.AOSFacade;
+import backend.finalproject.IAOSFacade;
 import com.google.gson.*;
 import javafx.scene.Node;
 import javafx.scene.control.TreeCell;
@@ -20,14 +21,14 @@ public class ManualActionsSentVisualizer implements IJsonVisualizer {
     private String json;
     private TreeView<String> treeView;
 
-    public ManualActionsSentVisualizer(String json) {
+    public ManualActionsSentVisualizer(String json, IAOSFacade facade) {
         this.json = json;
-        buildMap();
+        buildMap(facade);
     }
 
-    private void buildMap() {
+    private void buildMap(IAOSFacade facade) {
         actionIDToActionName = new HashMap<>();
-        Response<String> availableActions = AOSFacade.getInstance().sendRequest(new GetSolverActionsRequestDTO());
+        Response<String> availableActions = facade.sendRequest(new GetSolverActionsRequestDTO());
         if(!availableActions.hasErrorOccurred()){
             /*
             response json of the following struct:
