@@ -145,11 +145,10 @@ class ManualActionsSentVisualizerTest {
             ]
             """;
 
-//    @BeforeAll
-//    static void initJfxRuntime() {
-//        Platform.startup(() -> {
-//        });
-//    }
+    @BeforeAll
+    static void initJfxRuntime() {
+        PlatformInitializer.initPlatform();
+    }
 
     @BeforeEach
     public void setUp() {

@@ -86,7 +86,7 @@ class JsonVisualizerTest {
 
     @BeforeAll
     static void initJfxRuntime() {
-        Platform.startup(() -> {});
+        PlatformInitializer.initPlatform();
     }
 
 
