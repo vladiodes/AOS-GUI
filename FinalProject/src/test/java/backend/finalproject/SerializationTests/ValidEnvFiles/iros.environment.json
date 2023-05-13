@@ -25,13 +25,15 @@
       "Name": "grid",
       "Type": "int",
       "DefaultCode": "state.grid={eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty};",
-      "IsActionParameterValue": false
+      "IsActionParameterValue": false,
+	  "IsArray": false
     },
     {
       "Name": "isRobotTurn",
       "Type": "bool",
       "DefaultCode": "state.isRobotTurn=true;",
-      "IsActionParameterValue": false
+      "IsActionParameterValue": false,
+	  "IsArray": false
     }
   ],
   "InitialBeliefStateAssignments": [],

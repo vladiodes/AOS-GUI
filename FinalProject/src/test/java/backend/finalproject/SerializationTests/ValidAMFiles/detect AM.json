@@ -6,9 +6,6 @@
         "Version": 1.0
     },
     "GlueFramework": "ROS",
-    "ModuleResponse": { 
-        "FromStringLocalVariable":"obsr"
-    },
     "ModuleActivation": {
         "RosService": {
             "ImportCode": [
@@ -29,7 +26,6 @@
             "LocalVariableName": "obsr",
             "FromROSServiceResponse": true,
             "VariableType":"string",
-			"AssignmentName": "",
             "AssignmentCode": ["obsr = __input.state"]
         }
     ]

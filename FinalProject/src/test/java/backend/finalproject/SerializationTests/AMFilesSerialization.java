@@ -26,7 +26,7 @@ public class AMFilesSerialization {
 
     // test serialization and deserialization of valid AM files
     @Test
-    void testValidAmFiles(){ // FAILS, TODO: fix
+    void testValidAmFiles(){ // PASS
         String validAmFilesPath  = testJsonsPath + "ValidAMFiles";
         File[] files = new File(validAmFilesPath).listFiles();
         assert files != null;
@@ -53,7 +53,7 @@ public class AMFilesSerialization {
 
     // test serialization and deserialization of valid Env files
     @Test
-    void testValidEnvFiles(){ // FAILS, TODO: fix
+    void testValidEnvFiles(){ // PASS
         String validEnvFilesPath  = testJsonsPath + "ValidEnvFiles";
         File[] files = new File(validEnvFilesPath).listFiles();
         assert files != null;

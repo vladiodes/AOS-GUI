@@ -10,12 +10,14 @@ public class GlobalVariablesDeclaration {
     private String Type;
     private String DefaultCode;
     private boolean IsActionParameterValue;
+    public boolean IsArray;
 
     public GlobalVariablesDeclaration(GlobalVariablesDeclarationModel v) {
         this.Name = v.getName();
         this.Type = v.getType();
         this.DefaultCode = v.getDefaultCode();
         this.IsActionParameterValue = v.isActionParameterValue();
+        this.IsArray = false; // TODO: add this to FE model class
     }
 
     public String getName() {
@@ -32,5 +34,9 @@ public class GlobalVariablesDeclaration {
 
     public boolean isActionParameterValue() {
         return IsActionParameterValue;
+    }
+
+    public boolean isArray() {
+        return IsArray;
     }
 }

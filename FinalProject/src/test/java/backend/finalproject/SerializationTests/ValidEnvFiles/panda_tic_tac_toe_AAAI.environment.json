@@ -20,17 +20,23 @@
             "Name": "grid",
             "Type": "int",
             "IsArray": true,
-            "DefaultCode": "state.grid={eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty};"
+            "DefaultCode": "state.grid={eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty,eEmpty};",
+			"IsActionParameterValue": false
         },
         {
             "Name": "isRobotTurn",
             "Type": "bool",
-            "DefaultCode": "state.isRobotTurn=true;"
+			"IsArray": false,
+            "DefaultCode": "state.isRobotTurn=true;",
+			"IsActionParameterValue": false
         } 
     ],
     "InitialBeliefStateAssignments": [],
     "SpecialStates": [
         {
+			"Reward": 0.0,
+			"IsGoalState": false,
+			"IsOneTimeReward": false,
             "StateFunctionCode":[
                 {
 					"AssignmentName": "",

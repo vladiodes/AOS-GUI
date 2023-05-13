@@ -45,7 +45,6 @@
             "LocalVariableName": "skillSuccess3",
             "VariableType":"bool",
             "FromROSServiceResponse": true,
-			"AssignmentName": "",
             "AssignmentCode": ["skillSuccess3=__input.success"],
             "ImportCode": [
                 {

@@ -8,6 +8,7 @@ public class EnvironmentGeneral {
     int Horizon;
     double Discount; // // TODO: Legal values are in the range of (1,0)
 
+
     public EnvironmentGeneral(EnvironmentGeneralModel environmentGeneral) {
         this.Horizon = environmentGeneral.getHorizon();
         this.Discount = environmentGeneral.getDiscount();

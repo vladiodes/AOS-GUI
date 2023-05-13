@@ -6,7 +6,6 @@
         "Version": 1
     },
     "EnvironmentGeneral": {
-        "Max_concurrent_actions": 1,
         "Horizon": 16,
         "Discount": 0.9999
     },
@@ -38,90 +37,113 @@
             "Name": "location0",
             "Type": "int",
             "DefaultCode": "state.location0=0;",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "location1",
             "Type": "int",
             "DefaultCode": "state.location1=1;",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "location2",
             "Type": "int",
             "DefaultCode": "state.location2=2;",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "location3",
             "Type": "int",
             "DefaultCode": "state.location3=3;",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "child",
             "Type": "int",
             "DefaultCode": "state.child=4;",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "robotArm",
             "Type": "int",
-            "DefaultCode": "state.robotArm=5;"
+            "DefaultCode": "state.robotArm=5;",
+            "IsActionParameterValue": false,
+			"IsArray": false
         },
         {
             "Name": "toy_typeGreen",
             "Type": "string",
             "DefaultCode": "state.toy_typeGreen=\"green\";",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "toy_typeBlue",
             "Type": "string",
             "DefaultCode": "state.toy_typeBlue=\"blue\";",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "toy_typeBlack",
             "Type": "string",
             "DefaultCode": "state.toy_typeBlack=\"black\";",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "toy_typeRed",
             "Type": "string",
             "DefaultCode": "state.toy_typeRed=\"red\";",
-            "IsActionParameterValue": true
+            "IsActionParameterValue": true,
+			"IsArray": false
         },
         {
             "Name": "toy1",
             "Type": "tToy",
-            "DefaultCode": "state.toy1.type=\"green\";"
+            "DefaultCode": "state.toy1.type=\"green\";",
+            "IsActionParameterValue": false,
+			"IsArray": false
         },
         {
             "Name": "toy2",
             "Type": "tToy",
-            "DefaultCode": "state.toy2.type=\"blue\";"
+            "DefaultCode": "state.toy2.type=\"blue\";",
+            "IsActionParameterValue": false,
+			"IsArray": false
         },
         {
             "Name": "toy3",
             "Type": "tToy",
-            "DefaultCode": "state.toy3.type=\"black\";"
+            "DefaultCode": "state.toy3.type=\"black\";",
+            "IsActionParameterValue": false,
+			"IsArray": false
         },
         {
             "Name": "toy4",
             "Type": "tToy",
-            "DefaultCode": "state.toy4.type=\"red\";"
+            "DefaultCode": "state.toy4.type=\"red\";",
+            "IsActionParameterValue": false,
+			"IsArray": false
         },
         {
             "Name": "pickActionsLeft",
             "Type": "int",
-            "DefaultCode": "state.pickActionsLeft=6;"
+            "DefaultCode": "state.pickActionsLeft=6;",
+            "IsActionParameterValue": false,
+			"IsArray": false
         },
         {
             "Name": "robotLocation",
             "Type": "int",
-            "DefaultCode": "state.robotLocation=state.child;"
+            "DefaultCode": "state.robotLocation=state.child;",
+            "IsActionParameterValue": false,
+			"IsArray": false
         }
     ],
     "InitialBeliefStateAssignments": [
@@ -184,17 +206,20 @@
         {
             "StateConditionCode": "state.pickActionsLeft == 0 && !std::any_of(state.tToyObjects.cbegin(), state.tToyObjects.cend(), [&](tToy* t){ return t->location == state.robotArm; })",
             "Reward": 0.0,
-            "IsGoalState": true
+            "IsGoalState": true,
+			"IsOneTimeReward": false
         }, 
         {
             "StateConditionCode": "state.pickActionsLeft < 0",
             "Reward": 0.0,
-            "IsGoalState": true
+            "IsGoalState": true,
+			"IsOneTimeReward": false
         }, 
         {
             "StateConditionCode": "!std::any_of(state.tToyObjects.cbegin(), state.tToyObjects.cend(), [&](tToy* t){ return t->location != state.child; })",
             "Reward": 0.0,
-            "IsGoalState": true
+            "IsGoalState": true,
+			"IsOneTimeReward": false
         }
     ],
     "ExtrinsicChangesDynamicModel": [

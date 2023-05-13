@@ -50,7 +50,6 @@
             "LocalVariableName": "skillSuccess",
             "VariableType":"bool",
             "FromROSServiceResponse": true,
-			"AssignmentName": "",
             "AssignmentCode": ["skillSuccess=__input.success"],
             "ImportCode": [
                 {
