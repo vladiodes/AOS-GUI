@@ -2,45 +2,15 @@
 # Installation:
 
 ## First time installation:
-- Install maven:
-```code
-sudo apt install maven
-```
-- Install JDK 19, using the following commands from your terminal:
-
-```code
-wget https://download.oracle.com/java/19/archive/jdk-19.0.2_linux-x64_bin.deb
-sudo apt-get -qqy install ./jdk-19.0.2_linux-x64_bin.deb
-sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-19/bin/java 1
-sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-19/bin/javac 1
-sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk-19/bin/jar 1
-```
-
-Configure your java version by selecting java 19 in all the following commands:
-
-```code
-sudo update-alternatives --config java
-sudo update-alternatives --config javac
-sudo update-alternatives --config jar
-```
-
-At last, run the following command:
-```code
-export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED"
-```
+- Run the following file [Link](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/install_AOS_GUI.bash)
+- Make sure you execute the commands prompted at the end of the script execution (to configure java 19 correctly).
 
 ## Running the application:
-Make sure you have Java 19 and Maven installed.
+Make sure you have Java 19 and Maven installed 
 Run the following:
 
 ```code
-cd FinalProject
-mvn clean javafx:run
-```
-
-# In order to run project's tests:
-```code
-mvn test
+export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" && cd ~/Autonomous-Operating-System/FinalProject && mvn clean javafx:run
 ```
 
 # Folder structure:
@@ -50,3 +20,7 @@ mvn test
   * Home directory
     * AOS (web API and all its corresponding structure)
     * Autonomous-Operating-System (The folder structure of THIS repo).
+* The program saves and loads all of its projects in the following path:
+```code
+~/Autonomous-Operating-System/FinalProject/Projects
+```
