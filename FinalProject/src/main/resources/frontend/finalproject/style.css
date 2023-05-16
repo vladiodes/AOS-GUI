@@ -234,6 +234,16 @@
      -fx-border-color: #007ACC;
 }
 
+.tree-cell:highlight-changes-next {
+    -fx-background: yellow ;
+    -fx-font-weight: bold ;
+}
+
+.tree-cell:highlight-changes-back {
+    -fx-background: orange ;
+    -fx-font-weight: bold ;
+}
+
 .BrowseBTNWrapper {
     -fx-padding: 2 0 0 50;
 }
@@ -290,4 +300,9 @@
 
 .ManActionsVBOX {
     -fx-padding:10 10 10 10
+}
+
+.VBoxStateWrapper{
+    -fx-alignment: center;
+    -fx-padding: 10 10 0 10;
 }
