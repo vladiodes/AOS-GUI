@@ -1,0 +1,837 @@
+{
+    "ExecutionOutcome": [
+        {
+            "InitialBeliefeState": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 6,
+                    "robotArm": 5,
+                    "robotLocation": 4,
+                    "toy1": {
+                        "location": 2,
+                        "reward": 10.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 0,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 3,
+                        "reward": 40.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 1,
+            "ActionDetails": {
+                "ActionID": 4,
+                "ActionDescription": "ID:4,navigateAction,oDestination:3",
+                "ActionName": "navigate",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "oDestination",
+                        "Value": "3"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:17",
+            "ModuleExecutionStartTime": "05/16/2023 15:17",
+            "ModuleExecutionEndTime": "05/16/2023 15:17",
+            "ModuleResponseText": "navigate_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 6,
+                    "robotArm": 5,
+                    "robotLocation": 3,
+                    "toy1": {
+                        "location": 2,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 0,
+                        "reward": 10.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 3,
+                        "reward": 20.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 2,
+            "ActionDetails": {
+                "ActionID": 8,
+                "ActionDescription": "ID:8,pickAction,toyType:red",
+                "ActionName": "pick",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "toyType",
+                        "Value": "red"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:17",
+            "ModuleExecutionStartTime": "05/16/2023 15:17",
+            "ModuleExecutionEndTime": "05/16/2023 15:17",
+            "ModuleResponseText": "pick_eFailed",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 5,
+                    "robotArm": 5,
+                    "robotLocation": 3,
+                    "toy1": {
+                        "location": 2,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 0,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 3,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 3,
+            "ActionDetails": {
+                "ActionID": 5,
+                "ActionDescription": "ID:5,pickAction,toyType:black",
+                "ActionName": "pick",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "toyType",
+                        "Value": "black"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:17",
+            "ModuleExecutionStartTime": "05/16/2023 15:17",
+            "ModuleExecutionEndTime": "05/16/2023 15:17",
+            "ModuleResponseText": "pick_eFailed",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 4,
+                    "robotArm": 5,
+                    "robotLocation": 3,
+                    "toy1": {
+                        "location": 3,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 0,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 2,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 4,
+            "ActionDetails": {
+                "ActionID": 6,
+                "ActionDescription": "ID:6,pickAction,toyType:blue",
+                "ActionName": "pick",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "toyType",
+                        "Value": "blue"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:17",
+            "ModuleExecutionStartTime": "05/16/2023 15:17",
+            "ModuleExecutionEndTime": "05/16/2023 15:17",
+            "ModuleResponseText": "pick_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 3,
+                    "robotArm": 5,
+                    "robotLocation": 3,
+                    "toy1": {
+                        "location": 0,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 5,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 2,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 5,
+            "ActionDetails": {
+                "ActionID": 0,
+                "ActionDescription": "ID:0,navigateAction,oDestination:4",
+                "ActionName": "navigate",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "oDestination",
+                        "Value": "4"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:17",
+            "ModuleExecutionStartTime": "05/16/2023 15:17",
+            "ModuleExecutionEndTime": "05/16/2023 15:17",
+            "ModuleResponseText": "navigate_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 3,
+                    "robotArm": 5,
+                    "robotLocation": 4,
+                    "toy1": {
+                        "location": 2,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 5,
+                        "reward": 10.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 0,
+                        "reward": 20.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 6,
+            "ActionDetails": {
+                "ActionID": 9,
+                "ActionDescription": "ID:9,placeAction",
+                "ActionName": "place",
+                "ActionConstantParameters": []
+            },
+            "SolverSentActionTime": "05/16/2023 15:17",
+            "ModuleExecutionStartTime": "05/16/2023 15:17",
+            "ModuleExecutionEndTime": "05/16/2023 15:17",
+            "ModuleResponseText": "place_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 3,
+                    "robotArm": 5,
+                    "robotLocation": 4,
+                    "toy1": {
+                        "location": 2,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 0,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 7,
+            "ActionDetails": {
+                "ActionID": 3,
+                "ActionDescription": "ID:3,navigateAction,oDestination:2",
+                "ActionName": "navigate",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "oDestination",
+                        "Value": "2"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "navigate_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 3,
+                    "robotArm": 5,
+                    "robotLocation": 2,
+                    "toy1": {
+                        "location": 2,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 0,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 8,
+            "ActionDetails": {
+                "ActionID": 7,
+                "ActionDescription": "ID:7,pickAction,toyType:green",
+                "ActionName": "pick",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "toyType",
+                        "Value": "green"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "pick_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 2,
+                    "robotArm": 5,
+                    "robotLocation": 2,
+                    "toy1": {
+                        "location": 5,
+                        "reward": 10.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 0,
+                        "reward": 40.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 9,
+            "ActionDetails": {
+                "ActionID": 0,
+                "ActionDescription": "ID:0,navigateAction,oDestination:4",
+                "ActionName": "navigate",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "oDestination",
+                        "Value": "4"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "navigate_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 2,
+                    "robotArm": 5,
+                    "robotLocation": 4,
+                    "toy1": {
+                        "location": 5,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 10.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 0,
+                        "reward": 20.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 10,
+            "ActionDetails": {
+                "ActionID": 9,
+                "ActionDescription": "ID:9,placeAction",
+                "ActionName": "place",
+                "ActionConstantParameters": []
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "place_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 2,
+                    "robotArm": 5,
+                    "robotLocation": 4,
+                    "toy1": {
+                        "location": 4,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 0,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 11,
+            "ActionDetails": {
+                "ActionID": 1,
+                "ActionDescription": "ID:1,navigateAction,oDestination:0",
+                "ActionName": "navigate",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "oDestination",
+                        "Value": "0"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "navigate_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 2,
+                    "robotArm": 5,
+                    "robotLocation": 0,
+                    "toy1": {
+                        "location": 4,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 10.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 20.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 0,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 12,
+            "ActionDetails": {
+                "ActionID": 8,
+                "ActionDescription": "ID:8,pickAction,toyType:red",
+                "ActionName": "pick",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "toyType",
+                        "Value": "red"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "pick_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 1,
+                    "robotArm": 5,
+                    "robotLocation": 0,
+                    "toy1": {
+                        "location": 4,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 5,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 13,
+            "ActionDetails": {
+                "ActionID": 0,
+                "ActionDescription": "ID:0,navigateAction,oDestination:4",
+                "ActionName": "navigate",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "oDestination",
+                        "Value": "4"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "navigate_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 1,
+                    "robotArm": 5,
+                    "robotLocation": 4,
+                    "toy1": {
+                        "location": 4,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 5,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 14,
+            "ActionDetails": {
+                "ActionID": 9,
+                "ActionDescription": "ID:9,placeAction",
+                "ActionName": "place",
+                "ActionConstantParameters": []
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "place_eSuccess",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 1,
+                    "robotArm": 5,
+                    "robotLocation": 4,
+                    "toy1": {
+                        "location": 4,
+                        "reward": 40.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 10.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 4,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        },
+        {
+            "ActionSequenceId": 15,
+            "ActionDetails": {
+                "ActionID": 5,
+                "ActionDescription": "ID:5,pickAction,toyType:black",
+                "ActionName": "pick",
+                "ActionConstantParameters": [
+                    {
+                        "ParameterName": "toyType",
+                        "Value": "black"
+                    }
+                ]
+            },
+            "SolverSentActionTime": "05/16/2023 15:18",
+            "ModuleExecutionStartTime": "05/16/2023 15:18",
+            "ModuleExecutionEndTime": "05/16/2023 15:18",
+            "ModuleResponseText": "pick_eFailed",
+            "BeliefStatesAfterExecution": [
+                {
+                    "child": 4,
+                    "location0": 0,
+                    "location1": 1,
+                    "location2": 2,
+                    "location3": 3,
+                    "pickActionsLeft": 0,
+                    "robotArm": 5,
+                    "robotLocation": 4,
+                    "toy1": {
+                        "location": 4,
+                        "reward": 10.0,
+                        "type": "green"
+                    },
+                    "toy2": {
+                        "location": 4,
+                        "reward": 20.0,
+                        "type": "blue"
+                    },
+                    "toy3": {
+                        "location": 1,
+                        "reward": 40.0,
+                        "type": "black"
+                    },
+                    "toy4": {
+                        "location": 4,
+                        "reward": 10.0,
+                        "type": "red"
+                    },
+                    "toy_typeBlack": "black",
+                    "toy_typeBlue": "blue",
+                    "toy_typeGreen": "green",
+                    "toy_typeRed": "red"
+                }
+            ]
+        }
+    ]
+}
