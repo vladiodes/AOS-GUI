@@ -41,18 +41,18 @@ public class IntegrationRequestsHandler {
 
     public String handle(GetLogsRequestDTO.DelLogsRequestDTO request) {
         DelLogsRequest delLogsRequest = new DelLogsRequest();
-        return send(delLogsRequest, delLogsRequest.getBody(), DelLogsRequest.ENDPOINT);
+        return send(delLogsRequest, delLogsRequest.getBody(), DelLogsRequest.REQUEST_TYPE);
     }
 
 
     public String handle(GetLogsRequestDTO request){
         GetLogsRequest getLogsRequest = new GetLogsRequest();
-        return send(getLogsRequest, getLogsRequest.getBody(), GetLogsRequest.ENDPOINT);
+        return send(getLogsRequest, getLogsRequest.getBody(), GetLogsRequest.REQUEST_TYPE);
     }
 
     public String handle(GetSimulatedStatesRequestDTO request){
         GetSimulatedStatesRequest getSimStatesReq = new GetSimulatedStatesRequest();
-        return send(getSimStatesReq, getSimStatesReq.getBody(), GetSimulatedStatesRequest.ENDPOINT);
+        return send(getSimStatesReq, getSimStatesReq.getBody(), GetSimulatedStatesRequest.REQUEST_TYPE);
     }
 
     public String handle(ManualActionPutRequestDTO.ManualActionDeleteRequestDTO request) {

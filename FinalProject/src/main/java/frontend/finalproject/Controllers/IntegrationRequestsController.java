@@ -1,8 +1,12 @@
 package frontend.finalproject.Controllers;
 
+import DTO.HttpRequests.GetSimulatedStatesRequestDTO;
 import DTO.HttpRequests.StopRobotRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.ServerResponseDisplayers.IJsonVisualizer;
+import frontend.finalproject.ServerResponseDisplayers.JsonTableViewVisualizer;
+import frontend.finalproject.ServerResponseDisplayers.SimulatedStateVisualizer;
 import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
@@ -45,5 +49,14 @@ public class IntegrationRequestsController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         UtilsFXML.loadStage(UtilsFXML.SEND_MANUAL_ACTION_REQUEST_PATH,stage);
     }
-    
+
+    public void handleGetSimulatedStatesBTNClick(ActionEvent actionEvent) {
+        Response<String> response = facade.sendRequest(new GetSimulatedStatesRequestDTO());
+        if (response.hasErrorOccurred()) {
+            UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, response);
+            return;
+        }
+        IJsonVisualizer jsonVisualizer = new SimulatedStateVisualizer(response.getValue());
+        UtilsFXML.loadResponseStage(jsonVisualizer);
+    }
 }

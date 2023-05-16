@@ -27,7 +27,6 @@ public class JsonTreeViewVisualizer implements IJsonVisualizer {
         treeView.setRoot(new TreeItem<>());
         treeView.setShowRoot(false);
         populateTreeView(rootElement, treeView.getRoot());
-        setTreeViewStyle();
         return treeView;
     }
 
@@ -65,41 +64,5 @@ public class JsonTreeViewVisualizer implements IJsonVisualizer {
             String value = jsonElement.getAsString();
             parent.getChildren().add(new TreeItem<>(value));
         }
-    }
-
-    private void setTreeViewStyle() {
-        treeView.setCellFactory(tv -> {
-            TreeCell<String> cell = new TreeCell<String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setText(null);
-                    }
-                    else{
-                        setText(item);
-                        if(item!= null && item.contains("Object")){
-                            setStyle("-fx-background-color: green;" +
-                                    "-fx-font-weight: bold;" +
-                                    "-fx-font-size: 14px;");
-                        }
-                        else if(item!=null && item.contains("List")){
-                            setStyle("-fx-background-color: yellow;" +
-                                    "-fx-font-weight: bold;" +
-                                    "-fx-font-size: 15px;");
-                        }
-                        else{
-                            setStyle("-fx-background-color: white;" +
-                                    "-fx-font-size: 12px");
-                        }
-
-                    }
-                }
-            };
-            return cell;
-        });
-
-        // Set line color
-        treeView.setStyle("-fx-color: #aaaaaa;");
     }
 }
