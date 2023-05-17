@@ -54,7 +54,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         Button next = new Button();
         next.setText("Next State");
         Button display = new Button("Display state");
-        hBox.getChildren().addAll(prev, next, display);
+        hBox.getChildren().addAll(prev, display,next);
         vBox.getChildren().addAll(curState[0], hBox);
 
         prev.setOnAction(e -> {
