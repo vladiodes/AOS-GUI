@@ -1,5 +1,7 @@
 package frontend.finalproject.ServerResponseDisplayers;
 
+import DTO.HttpRequests.GetExecutionOutcomeRequestDTO;
+import backend.finalproject.AOSFacade;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -9,12 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import utils.Response;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -28,7 +28,12 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     public static final int VBOX_SPACING = 20;
     public static final String TREE_VIEW_HEIGHT = "-fx-pref-height: 700";
     public static final String V_BOX_STATE_WRAPPER = "VBoxStateWrapper";
+    public static final String ACTION_LABEL_STYLE_CLASS = "Separator_Text";
+    public static final String EXECUTION_OUTCOME_JSON_KEY = "ExecutionOutcome";
+    public static final String ACTION_DETAILS_JSON_KEY = "ActionDetails";
+    public static final String ACTION_DESCRIPTION_JSON_KEY = "ActionDescription";
     private List<JsonElement> simulatedStates;
+    private List<String> actionDescriptions;
     private int currentSimulatedStateIndex = 0;
 
     public SimulatedStateVisualizer(String json) {
@@ -38,6 +43,27 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         if (jsonElement.isJsonArray()) {
             for (JsonElement element : jsonElement.getAsJsonArray()) {
                 simulatedStates.add(element);
+            }
+        }
+        getActionDescriptionsSequence(gson);
+    }
+
+    private void getActionDescriptionsSequence(Gson gson) {
+        actionDescriptions = new LinkedList<>();
+        Response<String> execOutcome = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(1));
+        if(!execOutcome.hasErrorOccurred()){
+            JsonElement execOutcomeJson = gson.fromJson(execOutcome.getValue(), JsonElement.class);
+            execOutcomeJson = execOutcomeJson.getAsJsonObject().get(EXECUTION_OUTCOME_JSON_KEY);
+            if(execOutcomeJson.isJsonArray()){
+                for(JsonElement element : execOutcomeJson.getAsJsonArray()){
+                    if(element.getAsJsonObject().has(ACTION_DETAILS_JSON_KEY)){
+                        JsonElement actionDetails = element.getAsJsonObject().get(ACTION_DETAILS_JSON_KEY);
+                        actionDescriptions.add(actionDetails.getAsJsonObject().get(ACTION_DESCRIPTION_JSON_KEY).getAsString());
+                    }
+                    else{
+                        actionDescriptions.add("Initial State");
+                    }
+                }
             }
         }
     }
@@ -54,15 +80,17 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         Button next = new Button();
         next.setText("Next State");
         Button display = new Button("Display state");
+        
+        Label executedAction = new Label("Executed Action: " + actionDescriptions.get(currentSimulatedStateIndex));
         hBox.getChildren().addAll(prev, display,next);
-        vBox.getChildren().addAll(curState[0], hBox);
+        vBox.getChildren().addAll(curState[0],executedAction, hBox);
 
         prev.setOnAction(e -> {
             if (currentSimulatedStateIndex > 0) {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex--;
-                handleBrowseStateBtnClick(vBox, curState, prevState,false);
+                handleBrowseStateBtnClick(vBox, curState, prevState,false,executedAction);
             }
         });
 
@@ -71,16 +99,16 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex++;
-                handleBrowseStateBtnClick(vBox, curState, prevState,true);
+                handleBrowseStateBtnClick(vBox, curState, prevState,true,executedAction);
             }
         });
 
         // Adding style
-        stylizeComponent(vBox, hBox, prev, next, display);
+        stylizeComponent(vBox, hBox, prev, next, display,executedAction);
         return vBox;
     }
 
-    private void handleBrowseStateBtnClick(VBox vBox, Node[] curState, JsonElement prevState, boolean isNextBtn) {
+    private void handleBrowseStateBtnClick(VBox vBox, Node[] curState, JsonElement prevState, boolean isNextBtn, Label executedAction) {
         JsonElement nextState = simulatedStates.get(currentSimulatedStateIndex);
         nextState = nextState.getAsJsonObject().get(SIMULATED_STATE);
 
@@ -89,6 +117,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         curState[0].setStyle(SimulatedStateVisualizer.TREE_VIEW_HEIGHT);
         expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
         highlightChangedVariablesInState(prevState, nextState, (TreeView<String>) curState[0],isNextBtn);
+        executedAction.setText("Executed Action: " + actionDescriptions.get(currentSimulatedStateIndex));
         vBox.getChildren().add(0, curState[0]);
     }
 
@@ -131,7 +160,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         }
     }
 
-    private static void stylizeComponent(VBox vBox, HBox hBox, Button prev, Button next, Button display) {
+    private static void stylizeComponent(VBox vBox, HBox hBox, Button prev, Button next, Button display, Label executedAction) {
         prev.getStyleClass().add(BTN_STYLE_CLASS);
         next.getStyleClass().add(BTN_STYLE_CLASS);
         display.getStyleClass().add(BTN_STYLE_CLASS);
@@ -139,6 +168,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         vBox.getStyleClass().add(V_BOX_STATE_WRAPPER);
         hBox.setSpacing(HBOX_SPACING);
         vBox.setSpacing(VBOX_SPACING);
+        executedAction.getStyleClass().add(ACTION_LABEL_STYLE_CLASS);
     }
 
     public static class ChangedHighlightingTreeCell extends TreeCell<String> {
