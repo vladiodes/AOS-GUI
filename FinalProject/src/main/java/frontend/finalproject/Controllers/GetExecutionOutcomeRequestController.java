@@ -3,6 +3,7 @@ package frontend.finalproject.Controllers;
 import DTO.HttpRequests.GetExecutionOutcomeRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.ServerResponseDisplayers.ExecutionOutcomeVisualizer;
 import frontend.finalproject.ServerResponseDisplayers.JsonTableViewVisualizer;
 import frontend.finalproject.ServerResponseDisplayers.JsonTreeViewVisualizer;
 import frontend.finalproject.Utils.NotificationUtils;
@@ -33,7 +34,8 @@ public class GetExecutionOutcomeRequestController {
             if (resp.hasErrorOccurred())
                 UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
             else {
-                UtilsFXML.loadResponseStage(new JsonTreeViewVisualizer(resp.getValue()));
+
+                UtilsFXML.loadResponseStage(new ExecutionOutcomeVisualizer(resp.getValue()));
             }
 
 
