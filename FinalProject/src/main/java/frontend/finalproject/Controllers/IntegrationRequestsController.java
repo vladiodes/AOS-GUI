@@ -36,11 +36,6 @@ public class IntegrationRequestsController {
         }
     }
 
-    public void handleGetSolverActionsRequestBTNClick(ActionEvent actionEvent) {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        UtilsFXML.loadStage(UtilsFXML.GET_SOLVER_ACTIONS_PATH,stage);
-    }
-
     public void handleExecutionOutcomeRequestBTNClick(ActionEvent actionEvent){
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         UtilsFXML.loadStage(UtilsFXML.GET_EXECUTION_OUTCOME_PATH,stage);
