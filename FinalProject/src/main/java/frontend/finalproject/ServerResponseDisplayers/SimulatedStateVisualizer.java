@@ -48,6 +48,10 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         getActionDescriptionsSequence(gson);
     }
 
+    public List<String> getActionDescriptions() {
+        return actionDescriptions;
+    }
+
     private void getActionDescriptionsSequence(Gson gson) {
         actionDescriptions = new LinkedList<>();
         Response<String> execOutcome = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(1));

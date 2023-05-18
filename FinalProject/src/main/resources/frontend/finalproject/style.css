@@ -306,3 +306,7 @@
     -fx-alignment: center;
     -fx-padding: 10 10 0 10;
 }
+
+.default-color0.chart-bar{
+    -fx-bar-fill: #127AD6;
+}

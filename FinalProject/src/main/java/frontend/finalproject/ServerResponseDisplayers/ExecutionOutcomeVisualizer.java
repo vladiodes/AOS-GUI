@@ -26,11 +26,12 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     public static final String BTN_STYLE_CLASS = "formBtn";
     private static final String TEXT_FIELD_STYLE_CLASS = "TextFieldForm";
     private static final String LABEL_STYLE_CLASS = "TextFieldLabel";
+    public static final String ACTION_TEXT_STYLE_CLASS = "Separator_Text";
     List<JsonElement> executionOutcome;
     List<Map<String,Histogram>> histogramsOfBeliefStates; // for each state in the execution process, we need a histogram for every variable of the state.
     List<List<BarChart<String, Number>>> charts;
     int maxLen = 1;
-    int currentIdx = 0;
+    private List<String> actionDescriptions;
 
     public ExecutionOutcomeVisualizer(String jsonString) {
         charts = new LinkedList<>();
@@ -152,9 +153,10 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
         if(!simStatesResp.hasErrorOccurred()){
             SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue());
+            this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
             tabPane.getTabs().add(new Tab("Simulated States",simulatedStateVisualizer.displayJSON()));
         }
-        tabPane.getTabs().add(new Tab("Execution Outcome",new DisplayContainer(executionOutcome,charts).getComponent()));
+        tabPane.getTabs().add(new Tab("Execution Outcome",new DisplayContainer(executionOutcome,charts,actionDescriptions).getComponent()));
         return tabPane;
     }
 
@@ -174,11 +176,15 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         Button next;
         Button showRawData;
         VBox rawDataContainer;
+        Label prevExecAction;
+        Label nextActionToExec;
+        List<String> actionDescriptions;
 
 
-        private DisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts){
+        private DisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts, List<String> actionDescriptions){
             this.executionOutcome = executionOutcome;
             this.charts = charts;
+            this.actionDescriptions = actionDescriptions;
         }
         private Node getComponent(){
             AtomicReference<List<BarChart<String, Number>>> curHistograms = new AtomicReference<>(charts.get(0));
@@ -187,7 +193,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             bindActionsToButtons(curHistograms);
             stylizeComponents();
 
-            rootContainer.getChildren().addAll(scrollPane,filteredTextFieldContainer,buttonsContainer,rawDataContainer);
+            rootContainer.getChildren().addAll(scrollPane,filteredTextFieldContainer,prevExecAction,nextActionToExec,buttonsContainer,rawDataContainer);
             return rootContainer;
         }
 
@@ -265,6 +271,12 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             rawDataContainer = new VBox();
             rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(0).toString()).displayJSON());
             rawDataContainer.setVisible(false);
+
+            prevExecAction = new Label("Previously executed action: " + actionDescriptions.get(currentIdx));
+            String nextAction = currentIdx + 1 < actionDescriptions.size() ?
+                    actionDescriptions.get(currentIdx + 1) :
+                    "No more actions";
+            nextActionToExec = new Label("Next action to execute: " + nextAction);
         }
 
         private void updateContainers(AtomicReference<List<BarChart<String, Number>>> curHistograms, HBox histogramsContainer, VBox rawDataContainer) {
@@ -272,6 +284,11 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(currentIdx).toString()).displayJSON());
             curHistograms.set(charts.get(currentIdx));
             populateHistograms(curHistograms, filterTextField.getText());
+            prevExecAction.setText("Previously executed action: " + actionDescriptions.get(currentIdx));
+            String nextAction = currentIdx + 1 < actionDescriptions.size() ?
+                    actionDescriptions.get(currentIdx + 1) :
+                    "No more actions";
+            nextActionToExec.setText("Next action to execute: " + nextAction);
         }
 
         private void stylizeComponents() {
@@ -293,6 +310,9 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
             rawDataContainer.getStyleClass().add(CENTER_STYLE);
             rawDataContainer.setPrefHeight(0);
+
+            prevExecAction.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
+            nextActionToExec.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
         }
 
     }
