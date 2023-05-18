@@ -81,16 +81,21 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         next.setText("Next State");
         Button display = new Button("Display state");
         
-        Label executedAction = new Label("Executed Action: " + actionDescriptions.get(currentSimulatedStateIndex));
+        Label prevExecAction = new Label("Previously executed action: " + actionDescriptions.get(currentSimulatedStateIndex));
+        String nextAction = currentSimulatedStateIndex + 1 < actionDescriptions.size() ?
+                actionDescriptions.get(currentSimulatedStateIndex + 1) :
+                "No more actions";
+        Label nextActionToExec = new Label("Next action to execute: " + nextAction);
+
         hBox.getChildren().addAll(prev, display,next);
-        vBox.getChildren().addAll(curState[0],executedAction, hBox);
+        vBox.getChildren().addAll(curState[0],prevExecAction,nextActionToExec, hBox);
 
         prev.setOnAction(e -> {
             if (currentSimulatedStateIndex > 0) {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex--;
-                handleBrowseStateBtnClick(vBox, curState, prevState,false,executedAction);
+                handleBrowseStateBtnClick(vBox, curState, prevState,false,prevExecAction, nextActionToExec);
             }
         });
 
@@ -99,16 +104,16 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex++;
-                handleBrowseStateBtnClick(vBox, curState, prevState,true,executedAction);
+                handleBrowseStateBtnClick(vBox, curState, prevState,true,prevExecAction,nextActionToExec);
             }
         });
 
         // Adding style
-        stylizeComponent(vBox, hBox, prev, next, display,executedAction);
+        stylizeComponent(vBox, hBox, prev, next, display,prevExecAction,nextActionToExec);
         return vBox;
     }
 
-    private void handleBrowseStateBtnClick(VBox vBox, Node[] curState, JsonElement prevState, boolean isNextBtn, Label executedAction) {
+    private void handleBrowseStateBtnClick(VBox vBox, Node[] curState, JsonElement prevState, boolean isNextBtn, Label prevExecAction, Label nextActionToExec) {
         JsonElement nextState = simulatedStates.get(currentSimulatedStateIndex);
         nextState = nextState.getAsJsonObject().get(SIMULATED_STATE);
 
@@ -117,7 +122,11 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         curState[0].setStyle(SimulatedStateVisualizer.TREE_VIEW_HEIGHT);
         expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
         highlightChangedVariablesInState(prevState, nextState, (TreeView<String>) curState[0],isNextBtn);
-        executedAction.setText("Executed Action: " + actionDescriptions.get(currentSimulatedStateIndex));
+        prevExecAction.setText("Previously executed action: " + actionDescriptions.get(currentSimulatedStateIndex));
+        String nextAction = currentSimulatedStateIndex + 1 < actionDescriptions.size() ?
+                actionDescriptions.get(currentSimulatedStateIndex + 1) :
+                "No more actions";
+        nextActionToExec.setText("Next action to execute: " + nextAction);
         vBox.getChildren().add(0, curState[0]);
     }
 
@@ -160,7 +169,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         }
     }
 
-    private static void stylizeComponent(VBox vBox, HBox hBox, Button prev, Button next, Button display, Label executedAction) {
+    private static void stylizeComponent(VBox vBox, HBox hBox, Button prev, Button next, Button display, Label executedAction, Label nextActionToExec) {
         prev.getStyleClass().add(BTN_STYLE_CLASS);
         next.getStyleClass().add(BTN_STYLE_CLASS);
         display.getStyleClass().add(BTN_STYLE_CLASS);
@@ -169,6 +178,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         hBox.setSpacing(HBOX_SPACING);
         vBox.setSpacing(VBOX_SPACING);
         executedAction.getStyleClass().add(ACTION_LABEL_STYLE_CLASS);
+        nextActionToExec.getStyleClass().add(ACTION_LABEL_STYLE_CLASS);
     }
 
     public static class ChangedHighlightingTreeCell extends TreeCell<String> {
