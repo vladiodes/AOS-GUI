@@ -213,21 +213,25 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             });
 
             filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-                if(newValue.isEmpty()){
-                    histogramsContainer.getChildren().clear();
-                    histogramsContainer.getChildren().addAll(curHistograms.get());
-                }
-                else{
-                    List<BarChart<String, Number>> filteredCharts = new ArrayList<>();
-                    for(BarChart<String, Number> chart : curHistograms.get()){
-                        if(chart.getTitle().contains(newValue)){
-                            filteredCharts.add(chart);
-                        }
-                    }
-                    histogramsContainer.getChildren().clear();
-                    histogramsContainer.getChildren().addAll(filteredCharts);
-                }
+                populateHistograms(curHistograms, newValue);
             });
+        }
+
+        private void populateHistograms(AtomicReference<List<BarChart<String, Number>>> curHistograms, String newValue) {
+            if(newValue.isEmpty()){
+                histogramsContainer.getChildren().clear();
+                histogramsContainer.getChildren().addAll(curHistograms.get());
+            }
+            else{
+                List<BarChart<String, Number>> filteredCharts = new ArrayList<>();
+                for(BarChart<String, Number> chart : curHistograms.get()){
+                    if(chart.getTitle().contains(newValue)){
+                        filteredCharts.add(chart);
+                    }
+                }
+                histogramsContainer.getChildren().clear();
+                histogramsContainer.getChildren().addAll(filteredCharts);
+            }
         }
 
         private void buildComponents(AtomicReference<List<BarChart<String, Number>>> curHistograms) {
@@ -260,8 +264,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             rawDataContainer.getChildren().clear();
             rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(currentIdx).toString()).displayJSON());
             curHistograms.set(charts.get(currentIdx));
-            histogramsContainer.getChildren().clear();
-            histogramsContainer.getChildren().addAll(curHistograms.get());
+            populateHistograms(curHistograms, filterTextField.getText());
         }
 
         private void stylizeComponents() {
