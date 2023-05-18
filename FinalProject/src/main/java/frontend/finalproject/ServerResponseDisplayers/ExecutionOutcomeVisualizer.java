@@ -3,7 +3,11 @@ package frontend.finalproject.ServerResponseDisplayers;
 import DTO.HttpRequests.GetSimulatedStatesRequestDTO;
 import backend.finalproject.AOSFacade;
 import com.google.gson.*;
+import frontend.finalproject.Controllers.HomeController;
+import frontend.finalproject.Utils.UtilsFXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -14,6 +18,7 @@ import javafx.scene.layout.VBox;
 import utils.Response;
 
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -178,6 +183,14 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             tabPane.getTabs().add(new Tab("Simulated States",simulatedStateVisualizer.displayJSON()));
         }
         tabPane.getTabs().add(new Tab("Execution Outcome",new DisplayContainer(executionOutcome,charts,actionDescriptions).getComponent()));
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            Node manControl = loader.load(Objects.requireNonNull(HomeController.class.getResource(UtilsFXML.SEND_MANUAL_ACTION_REQUEST_PATH)));
+            tabPane.getTabs().add(new Tab("Manual Control", manControl));
+        }
+        catch (IOException e){
+            return tabPane;
+        }
         return tabPane;
     }
 

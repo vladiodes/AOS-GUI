@@ -4,8 +4,7 @@ import DTO.HttpRequests.GetSolverActionsRequestDTO;
 import DTO.HttpRequests.ManualActionPutRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
-import frontend.finalproject.ServerResponseDisplayers.IJsonVisualizer;
-import frontend.finalproject.ServerResponseDisplayers.JsonTreeViewVisualizer;
+
 import frontend.finalproject.ServerResponseDisplayers.ManualActionsSentVisualizer;
 import frontend.finalproject.ServerResponseDisplayers.SolverActionsVisualizer;
 import frontend.finalproject.Utils.NotificationUtils;
@@ -13,9 +12,8 @@ import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
+
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -41,10 +39,6 @@ public class ManualActionRequestController {
             this.actionsSentVisualizer = new ManualActionsSentVisualizer(sentActionsResponse.getValue(),AOSFacade.getInstance());
             ActionsSentVBOX.getChildren().addAll(actionsSentVisualizer.displayJSON());
         }
-    }
-
-    public void handleBackBTNClick(ActionEvent actionEvent) {
-        UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH, (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
     }
 
     public void handleSendRequestBTN(ActionEvent actionEvent) {

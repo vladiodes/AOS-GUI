@@ -26,7 +26,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     public static final String ALIGN_CENTER_STYLE_CLASS = "TreeBoxWrapper";
     public static final int HBOX_SPACING = 10;
     public static final int VBOX_SPACING = 20;
-    public static final String TREE_VIEW_HEIGHT = "-fx-pref-height: 700";
+    public static final String TREE_VIEW_HEIGHT = "-fx-pref-height: 400";
     public static final String V_BOX_STATE_WRAPPER = "VBoxStateWrapper";
     public static final String ACTION_LABEL_STYLE_CLASS = "Separator_Text";
     public static final String EXECUTION_OUTCOME_JSON_KEY = "ExecutionOutcome";
@@ -169,7 +169,6 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     }
 
     private void findAndAddTreeItem(String changedKey, TreeItem<String> root, ObservableSet<TreeItem<String>> changes) {
-        System.out.println(changedKey);
         if (root.getValue()!= null && root.getValue().startsWith(changedKey)) {
             changes.add(root);
             if(root.getValue().contains("{}")){

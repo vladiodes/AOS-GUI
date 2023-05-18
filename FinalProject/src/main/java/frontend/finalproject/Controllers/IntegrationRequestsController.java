@@ -40,8 +40,4 @@ public class IntegrationRequestsController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         UtilsFXML.loadStage(UtilsFXML.GET_EXECUTION_OUTCOME_PATH,stage);
     }
-    public void handleManualActionRequestBTNClick(ActionEvent actionEvent){
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        UtilsFXML.loadStage(UtilsFXML.SEND_MANUAL_ACTION_REQUEST_PATH,stage);
-    }
 }
