@@ -75,7 +75,8 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     @Override
     public Node displayJSON() {
         VBox vBox = new VBox();
-        final Node[] curState = {new JsonTreeViewVisualizer(simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON()};
+        final Node[] curState = {new JsonTreeViewVisualizer(simulatedStates.size() == 0 ? "{}" :
+                simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON()};
         expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
         curState[0].setStyle(TREE_VIEW_HEIGHT);
         HBox hBox = new HBox();
@@ -152,6 +153,13 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                     JsonElement oldVal = oldState.getAsJsonObject().get(key);
                     JsonElement newVal = newState.getAsJsonObject().get(key);
                     if (!oldVal.equals(newVal)) {
+                        if(oldVal.isJsonArray()){
+                            for(int i=0;i<oldVal.getAsJsonArray().size();i++){
+                                if(!oldVal.getAsJsonArray().get(i).equals(newVal.getAsJsonArray().get(i))){
+                                    findAndAddTreeItem(key + "[" + i + "]", treeView.getRoot(), changes);
+                                }
+                            }
+                        }
                         findAndAddTreeItem(key, treeView.getRoot(), changes);
                     }
                 }
@@ -161,6 +169,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     }
 
     private void findAndAddTreeItem(String changedKey, TreeItem<String> root, ObservableSet<TreeItem<String>> changes) {
+        System.out.println(changedKey);
         if (root.getValue()!= null && root.getValue().startsWith(changedKey)) {
             changes.add(root);
             if(root.getValue().contains("{}")){

@@ -103,12 +103,12 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private void buildHistogramsOfState(Map<String, Histogram> histograms, JsonElement state) {
         for(Map.Entry<String, JsonElement> entry: state.getAsJsonObject().asMap().entrySet()){
             if(entry.getValue().isJsonObject()){
-                insertJsonObjectToHistograms(entry.getKey() + ".",entry.getValue().getAsJsonObject(), histograms);
+                insertJsonObjectToHistograms(entry.getKey() + ".",entry.getValue(), histograms);
             }
             else if(entry.getValue().isJsonArray()){
                 int i = 0;
                 for(JsonElement arrayElement : entry.getValue().getAsJsonArray()){
-                    insertJsonObjectToHistograms(entry.getKey() + "[" + i + "]",arrayElement.getAsJsonObject(), histograms);
+                    insertJsonObjectToHistograms(entry.getKey() + "[" + i + "]",arrayElement, histograms);
                     i++;
                 }
             }
@@ -124,24 +124,45 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         }
     }
 
-    private void insertJsonObjectToHistograms(String prefixOfKey, JsonObject jsonObj, Map<String, Histogram> histograms) {
-        for (Map.Entry<String, JsonElement> entry : jsonObj.asMap().entrySet()) {
-            if (entry.getValue().isJsonObject()) {
-                insertJsonObjectToHistograms(prefixOfKey + entry.getKey() + ".", entry.getValue().getAsJsonObject(), histograms);
-            } else if (entry.getValue().isJsonArray()) {
-                int i = 0;
-                for (JsonElement arrayElement : entry.getValue().getAsJsonArray()) {
-                    insertJsonObjectToHistograms(entry.getKey() + "[" + i + "].", arrayElement.getAsJsonObject(), histograms);
-                    i++;
-                }
-            } else {
-                String key = prefixOfKey + entry.getKey();
-                if (histograms.containsKey(key))
-                    histograms.get(key).add(entry.getValue().getAsString());
-                else {
-                    Histogram histogram = new Histogram();
-                    histogram.add(entry.getValue().getAsString());
-                    histograms.put(key, histogram);
+    private void insertJsonObjectToHistograms(String prefixOfKey, JsonElement jsonElement, Map<String, Histogram> histograms) {
+        if(jsonElement.isJsonPrimitive()){
+            String key = prefixOfKey;
+            if (histograms.containsKey(key))
+                histograms.get(key).add(jsonElement.getAsString());
+            else {
+                Histogram histogram = new Histogram();
+                histogram.add(jsonElement.getAsString());
+                histograms.put(key, histogram);
+            }
+        }
+
+        else if(jsonElement.isJsonArray()){
+            int i = 0;
+            for (JsonElement arrayElement : jsonElement.getAsJsonArray()) {
+                insertJsonObjectToHistograms(jsonElement.getAsString() + "[" + i + "].", arrayElement, histograms);
+                i++;
+            }
+        }
+
+        else {
+            for (Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().asMap().entrySet()) {
+                if (entry.getValue().isJsonObject()) {
+                    insertJsonObjectToHistograms(prefixOfKey + entry.getKey() + ".", entry.getValue(), histograms);
+                } else if (entry.getValue().isJsonArray()) {
+                    int i = 0;
+                    for (JsonElement arrayElement : entry.getValue().getAsJsonArray()) {
+                        insertJsonObjectToHistograms(entry.getKey() + "[" + i + "].", arrayElement, histograms);
+                        i++;
+                    }
+                } else {
+                    String key = prefixOfKey + entry.getKey();
+                    if (histograms.containsKey(key))
+                        histograms.get(key).add(entry.getValue().getAsString());
+                    else {
+                        Histogram histogram = new Histogram();
+                        histogram.add(entry.getValue().getAsString());
+                        histograms.put(key, histogram);
+                    }
                 }
             }
         }
