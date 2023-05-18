@@ -148,114 +148,143 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
     @Override
     public Node displayJSON() {
-        VBox rootContainer = new VBox();
+        return new DisplayContainer(executionOutcome,charts).getComponent();
+    }
 
-        AtomicReference<List<BarChart<String, Number>>> curHistograms = new AtomicReference<>(charts.get(0));
+    private static class DisplayContainer{
+        private int currentIdx = 0;
+        List<JsonElement> executionOutcome;
+        List<List<BarChart<String, Number>>> charts;
 
-        HBox histogramsContainer = new HBox();
+        VBox rootContainer;
+        HBox histogramsContainer;
+        ScrollPane scrollPane;
+        HBox filteredTextFieldContainer;
+        Label filterLabel;
+        TextField filterTextField;
+        HBox buttonsContainer;
+        Button prev;
+        Button next;
+        Button showRawData;
+        VBox rawDataContainer;
 
-        histogramsContainer.getChildren().addAll(curHistograms.get());
-        ScrollPane scrollPane = new ScrollPane(histogramsContainer);
 
+        private DisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts){
+            this.executionOutcome = executionOutcome;
+            this.charts = charts;
+        }
+        private Node getComponent(){
+            AtomicReference<List<BarChart<String, Number>>> curHistograms = new AtomicReference<>(charts.get(0));
 
+            buildComponents(curHistograms);
+            bindActionsToButtons(curHistograms);
+            stylizeComponents();
 
-        HBox filteredTextFieldContainer = new HBox();
-        Label filterLabel = new Label("Filter by variable:");
-        TextField filterTextField = new TextField();
-        filteredTextFieldContainer.getStyleClass().add(CENTER_STYLE);
-        filteredTextFieldContainer.getChildren().addAll(filterLabel,filterTextField);
+            rootContainer.getChildren().addAll(scrollPane,filteredTextFieldContainer,buttonsContainer,rawDataContainer);
+            return rootContainer;
+        }
 
-
-        HBox buttonsContainer = new HBox();
-        Button prev = new Button("Previous State");
-        Button next = new Button("Next State");
-        Button showRawData = new Button("Show Raw Data");
-        buttonsContainer.getChildren().addAll(prev,showRawData,next);
-
-        VBox rawDataContainer = new VBox();
-        rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(0).toString()).displayJSON());
-        rawDataContainer.getStyleClass().add(CENTER_STYLE);
-        rawDataContainer.setPrefHeight(0);
-        rawDataContainer.setVisible(false);
-
-        prev.setOnAction(e -> {
-            if(currentIdx > 0){
-                currentIdx--;
-                updateContainers(curHistograms, histogramsContainer, rawDataContainer);
-            }
-        });
-
-        next.setOnAction(e -> {
-            if(currentIdx < charts.size() - 1){
-                currentIdx++;
-                updateContainers(curHistograms, histogramsContainer, rawDataContainer);
-            }
-        });
-
-        showRawData.setOnAction(e -> {
-            if(rawDataContainer.isVisible()){
-                rawDataContainer.setVisible(false);
-                rawDataContainer.setPrefHeight(0);
-                showRawData.setText("Show Raw Data");
-            }
-            else{
-                rawDataContainer.setVisible(true);
-                rawDataContainer.setPrefHeight(400);
-                showRawData.setText("Hide Raw Data");
-            }
-        });
-
-        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.isEmpty()){
-                histogramsContainer.getChildren().clear();
-                histogramsContainer.getChildren().addAll(curHistograms.get());
-            }
-            else{
-                List<BarChart<String, Number>> filteredCharts = new ArrayList<>();
-                for(BarChart<String, Number> chart : curHistograms.get()){
-                    if(chart.getTitle().contains(newValue)){
-                        filteredCharts.add(chart);
-                    }
+        private void bindActionsToButtons(AtomicReference<List<BarChart<String, Number>>> curHistograms) {
+            prev.setOnAction(e -> {
+                if(currentIdx > 0){
+                    currentIdx--;
+                    updateContainers(curHistograms, histogramsContainer, rawDataContainer);
                 }
-                histogramsContainer.getChildren().clear();
-                histogramsContainer.getChildren().addAll(filteredCharts);
-            }
-        });
+            });
+
+            next.setOnAction(e -> {
+                if(currentIdx < charts.size() - 1){
+                    currentIdx++;
+                    updateContainers(curHistograms, histogramsContainer, rawDataContainer);
+                }
+            });
+
+            showRawData.setOnAction(e -> {
+                if(rawDataContainer.isVisible()){
+                    rawDataContainer.setVisible(false);
+                    rawDataContainer.setPrefHeight(0);
+                    showRawData.setText("Show Raw Data");
+                }
+                else{
+                    rawDataContainer.setVisible(true);
+                    rawDataContainer.setPrefHeight(400);
+                    showRawData.setText("Hide Raw Data");
+                }
+            });
+
+            filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if(newValue.isEmpty()){
+                    histogramsContainer.getChildren().clear();
+                    histogramsContainer.getChildren().addAll(curHistograms.get());
+                }
+                else{
+                    List<BarChart<String, Number>> filteredCharts = new ArrayList<>();
+                    for(BarChart<String, Number> chart : curHistograms.get()){
+                        if(chart.getTitle().contains(newValue)){
+                            filteredCharts.add(chart);
+                        }
+                    }
+                    histogramsContainer.getChildren().clear();
+                    histogramsContainer.getChildren().addAll(filteredCharts);
+                }
+            });
+        }
+
+        private void buildComponents(AtomicReference<List<BarChart<String, Number>>> curHistograms) {
+            rootContainer = new VBox();
+            histogramsContainer = new HBox();
+
+            histogramsContainer.getChildren().addAll(curHistograms.get());
+            scrollPane = new ScrollPane(histogramsContainer);
 
 
+            filteredTextFieldContainer = new HBox();
+            filterLabel = new Label("Filter by variable:");
+            filterTextField = new TextField();
+            filteredTextFieldContainer.getStyleClass().add(CENTER_STYLE);
+            filteredTextFieldContainer.getChildren().addAll(filterLabel,filterTextField);
 
 
-        stylizeComponents(rootContainer, buttonsContainer, prev, next, showRawData, scrollPane,histogramsContainer,filterTextField,filterLabel);
-        rootContainer.getChildren().addAll(scrollPane,filteredTextFieldContainer,buttonsContainer,rawDataContainer);
-        return rootContainer;
+            buttonsContainer = new HBox();
+            prev = new Button("Previous State");
+            next = new Button("Next State");
+            showRawData = new Button("Show Raw Data");
+            buttonsContainer.getChildren().addAll(prev,showRawData,next);
 
-    }
+            rawDataContainer = new VBox();
+            rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(0).toString()).displayJSON());
+            rawDataContainer.setVisible(false);
+        }
 
-    private void updateContainers(AtomicReference<List<BarChart<String, Number>>> curHistograms, HBox histogramsContainer, VBox rawDataContainer) {
-        rawDataContainer.getChildren().clear();
-        rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(currentIdx).toString()).displayJSON());
-        curHistograms.set(charts.get(currentIdx));
-        histogramsContainer.getChildren().clear();
-        histogramsContainer.getChildren().addAll(curHistograms.get());
-    }
+        private void updateContainers(AtomicReference<List<BarChart<String, Number>>> curHistograms, HBox histogramsContainer, VBox rawDataContainer) {
+            rawDataContainer.getChildren().clear();
+            rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(currentIdx).toString()).displayJSON());
+            curHistograms.set(charts.get(currentIdx));
+            histogramsContainer.getChildren().clear();
+            histogramsContainer.getChildren().addAll(curHistograms.get());
+        }
 
-    private void stylizeComponents(VBox rootContainer, HBox buttonsContainer, Button prev, Button next, Button showRawData, ScrollPane scrollPane,HBox histogramsContainer,TextField filterTextField
-    ,Label filterLabel) {
-        rootContainer.getStyleClass().add(ROOT_STYLE_CLASS);
-        buttonsContainer.getStyleClass().add(CENTER_STYLE);
-        next.getStyleClass().add(BTN_STYLE_CLASS);
-        prev.getStyleClass().add(BTN_STYLE_CLASS);
-        showRawData.getStyleClass().add(BTN_STYLE_CLASS);
-        rootContainer.setSpacing(20);
-        buttonsContainer.setSpacing(10);
+        private void stylizeComponents() {
+            rootContainer.getStyleClass().add(ROOT_STYLE_CLASS);
+            buttonsContainer.getStyleClass().add(CENTER_STYLE);
+            next.getStyleClass().add(BTN_STYLE_CLASS);
+            prev.getStyleClass().add(BTN_STYLE_CLASS);
+            showRawData.getStyleClass().add(BTN_STYLE_CLASS);
+            rootContainer.setSpacing(20);
+            buttonsContainer.setSpacing(10);
 
-        histogramsContainer.setSpacing(10);
+            histogramsContainer.setSpacing(10);
 
-        scrollPane.setPrefWidth(600);
-        scrollPane.setPrefHeight(250);
+            scrollPane.setPrefWidth(600);
+            scrollPane.setPrefHeight(250);
 
-        filterTextField.getStyleClass().add(TEXT_FIELD_STYLE_CLASS);
-        filterLabel.getStyleClass().add(LABEL_STYLE_CLASS);
+            filterTextField.getStyleClass().add(TEXT_FIELD_STYLE_CLASS);
+            filterLabel.getStyleClass().add(LABEL_STYLE_CLASS);
+
+            rawDataContainer.getStyleClass().add(CENTER_STYLE);
+            rawDataContainer.setPrefHeight(0);
+        }
+
     }
 
     private static class Histogram {
