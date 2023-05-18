@@ -74,123 +74,8 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
 
     @Override
     public Node displayJSON() {
-        VBox vBox = new VBox();
-        final Node[] curState = {new JsonTreeViewVisualizer(simulatedStates.size() == 0 ? "{}" :
-                simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON()};
-        expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
-        curState[0].setStyle(TREE_VIEW_HEIGHT);
-        HBox hBox = new HBox();
-        Button prev = new Button();
-        prev.setText("Previous State");
-        Button next = new Button();
-        next.setText("Next State");
-        Button display = new Button("Display state");
-        
-        Label prevExecAction = new Label("Previously executed action: " + actionDescriptions.get(currentSimulatedStateIndex));
-        String nextAction = currentSimulatedStateIndex + 1 < actionDescriptions.size() ?
-                actionDescriptions.get(currentSimulatedStateIndex + 1) :
-                "No more actions";
-        Label nextActionToExec = new Label("Next action to execute: " + nextAction);
-
-        hBox.getChildren().addAll(prev, display,next);
-        vBox.getChildren().addAll(curState[0],prevExecAction,nextActionToExec, hBox);
-
-        prev.setOnAction(e -> {
-            if (currentSimulatedStateIndex > 0) {
-                JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
-                prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
-                currentSimulatedStateIndex--;
-                handleBrowseStateBtnClick(vBox, curState, prevState,false,prevExecAction, nextActionToExec);
-            }
-        });
-
-        next.setOnAction(e -> {
-            if (currentSimulatedStateIndex < simulatedStates.size() - 1) {
-                JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
-                prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
-                currentSimulatedStateIndex++;
-                handleBrowseStateBtnClick(vBox, curState, prevState,true,prevExecAction,nextActionToExec);
-            }
-        });
-
-        // Adding style
-        stylizeComponent(vBox, hBox, prev, next, display,prevExecAction,nextActionToExec);
-        return vBox;
-    }
-
-    private void handleBrowseStateBtnClick(VBox vBox, Node[] curState, JsonElement prevState, boolean isNextBtn, Label prevExecAction, Label nextActionToExec) {
-        JsonElement nextState = simulatedStates.get(currentSimulatedStateIndex);
-        nextState = nextState.getAsJsonObject().get(SIMULATED_STATE);
-
-        vBox.getChildren().remove(curState[0]);
-        curState[0] = new JsonTreeViewVisualizer(simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON();
-        curState[0].setStyle(SimulatedStateVisualizer.TREE_VIEW_HEIGHT);
-        expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
-        highlightChangedVariablesInState(prevState, nextState, (TreeView<String>) curState[0],isNextBtn);
-        prevExecAction.setText("Previously executed action: " + actionDescriptions.get(currentSimulatedStateIndex));
-        String nextAction = currentSimulatedStateIndex + 1 < actionDescriptions.size() ?
-                actionDescriptions.get(currentSimulatedStateIndex + 1) :
-                "No more actions";
-        nextActionToExec.setText("Next action to execute: " + nextAction);
-        vBox.getChildren().add(0, curState[0]);
-    }
-
-    private void expandAllTreeItems(TreeItem<?> treeItem) {
-        treeItem.setExpanded(true);
-        for (TreeItem<?> child : treeItem.getChildren()) {
-            child.setExpanded(true);
-        }
-    }
-
-    private void highlightChangedVariablesInState(JsonElement oldState, JsonElement newState, TreeView<String> treeView, boolean isNextBtn) {
-        ObservableSet<TreeItem<String>> changes = FXCollections.observableSet(new HashSet<>());
-
-        treeView.setCellFactory(tv -> new ChangedHighlightingTreeCell(changes,isNextBtn));
-
-        if (oldState.isJsonObject() && newState.isJsonObject()) {
-            for (String key : oldState.getAsJsonObject().keySet()) {
-                if (newState.getAsJsonObject().has(key)) {
-                    JsonElement oldVal = oldState.getAsJsonObject().get(key);
-                    JsonElement newVal = newState.getAsJsonObject().get(key);
-                    if (!oldVal.equals(newVal)) {
-                        if(oldVal.isJsonArray()){
-                            for(int i=0;i<oldVal.getAsJsonArray().size();i++){
-                                if(!oldVal.getAsJsonArray().get(i).equals(newVal.getAsJsonArray().get(i))){
-                                    findAndAddTreeItem(key + "[" + i + "]", treeView.getRoot(), changes);
-                                }
-                            }
-                        }
-                        findAndAddTreeItem(key, treeView.getRoot(), changes);
-                    }
-                }
-            }
-        }
-
-    }
-
-    private void findAndAddTreeItem(String changedKey, TreeItem<String> root, ObservableSet<TreeItem<String>> changes) {
-        if (root.getValue()!= null && root.getValue().startsWith(changedKey)) {
-            changes.add(root);
-            if(root.getValue().contains("{}")){
-                changes.addAll(root.getChildren());
-            }
-        } else {
-            for (TreeItem<String> child : root.getChildren()) {
-                findAndAddTreeItem(changedKey, child, changes);
-            }
-        }
-    }
-
-    private static void stylizeComponent(VBox vBox, HBox hBox, Button prev, Button next, Button display, Label executedAction, Label nextActionToExec) {
-        prev.getStyleClass().add(BTN_STYLE_CLASS);
-        next.getStyleClass().add(BTN_STYLE_CLASS);
-        display.getStyleClass().add(BTN_STYLE_CLASS);
-        hBox.getStyleClass().add(ALIGN_CENTER_STYLE_CLASS);
-        vBox.getStyleClass().add(V_BOX_STATE_WRAPPER);
-        hBox.setSpacing(HBOX_SPACING);
-        vBox.setSpacing(VBOX_SPACING);
-        executedAction.getStyleClass().add(ACTION_LABEL_STYLE_CLASS);
-        nextActionToExec.getStyleClass().add(ACTION_LABEL_STYLE_CLASS);
+        SimulatedStateNode simulatedStateNode = new SimulatedStateNode(simulatedStates,actionDescriptions);
+        return simulatedStateNode;
     }
 
     public static class ChangedHighlightingTreeCell extends TreeCell<String> {
@@ -212,6 +97,127 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
             setText(empty ? null : item);
+        }
+    }
+
+    public static class SimulatedStateNode extends Node{
+        private VBox root;
+        Node[] curState;
+        HBox buttonContainer;
+        Button display;
+
+        private List<JsonElement> simulatedStates;
+        private List<String> actionDescriptions;
+        private int currentSimulatedStateIndex = 0;
+        public SimulatedStateNode(List<JsonElement> simulatedStates, List<String> actionDescriptions) {
+            super();
+            this.simulatedStates = simulatedStates;
+            this.actionDescriptions = actionDescriptions;
+
+            root = new VBox();
+            curState = new Node[]{new JsonTreeViewVisualizer(simulatedStates.size() == 0 ? "{}" :
+                    simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON()};
+            expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
+            curState[0].setStyle(TREE_VIEW_HEIGHT);
+            buttonContainer = new HBox();
+
+            display = new Button("Display state");
+
+
+            buttonContainer.getChildren().addAll(display);
+            root.getChildren().addAll(curState[0], buttonContainer);
+
+
+            // Adding style
+            stylizeComponent();
+        }
+
+        public void handleNextBtn(){
+            if (currentSimulatedStateIndex < simulatedStates.size() - 1) {
+                JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
+                prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
+                currentSimulatedStateIndex++;
+                handleBrowseStateBtnClick(root, curState, prevState,true);
+            }
+        }
+
+        public void handlePrevBtn(){
+            if (currentSimulatedStateIndex > 0) {
+                JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
+                prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
+                currentSimulatedStateIndex--;
+                handleBrowseStateBtnClick(root, curState, prevState,false);
+            }
+        }
+
+        private void stylizeComponent() {
+            display.getStyleClass().add(BTN_STYLE_CLASS);
+            buttonContainer.getStyleClass().add(ALIGN_CENTER_STYLE_CLASS);
+            root.getStyleClass().add(V_BOX_STATE_WRAPPER);
+            buttonContainer.setSpacing(HBOX_SPACING);
+            root.setSpacing(VBOX_SPACING);
+        }
+
+        private void expandAllTreeItems(TreeItem<?> treeItem) {
+            treeItem.setExpanded(true);
+            for (TreeItem<?> child : treeItem.getChildren()) {
+                child.setExpanded(true);
+            }
+        }
+
+        private void handleBrowseStateBtnClick(VBox vBox, Node[] curState, JsonElement prevState, boolean isNextBtn) {
+            JsonElement nextState = simulatedStates.get(currentSimulatedStateIndex);
+            nextState = nextState.getAsJsonObject().get(SIMULATED_STATE);
+
+            vBox.getChildren().remove(curState[0]);
+            curState[0] = new JsonTreeViewVisualizer(simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON();
+            curState[0].setStyle(SimulatedStateVisualizer.TREE_VIEW_HEIGHT);
+            expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
+            highlightChangedVariablesInState(prevState, nextState, (TreeView<String>) curState[0],isNextBtn);
+            vBox.getChildren().add(0, curState[0]);
+        }
+
+        private void highlightChangedVariablesInState(JsonElement oldState, JsonElement newState, TreeView<String> treeView, boolean isNextBtn) {
+            ObservableSet<TreeItem<String>> changes = FXCollections.observableSet(new HashSet<>());
+
+            treeView.setCellFactory(tv -> new ChangedHighlightingTreeCell(changes,isNextBtn));
+
+            if (oldState.isJsonObject() && newState.isJsonObject()) {
+                for (String key : oldState.getAsJsonObject().keySet()) {
+                    if (newState.getAsJsonObject().has(key)) {
+                        JsonElement oldVal = oldState.getAsJsonObject().get(key);
+                        JsonElement newVal = newState.getAsJsonObject().get(key);
+                        if (!oldVal.equals(newVal)) {
+                            if(oldVal.isJsonArray()){
+                                for(int i=0;i<oldVal.getAsJsonArray().size();i++){
+                                    if(!oldVal.getAsJsonArray().get(i).equals(newVal.getAsJsonArray().get(i))){
+                                        findAndAddTreeItem(key + "[" + i + "]", treeView.getRoot(), changes);
+                                    }
+                                }
+                            }
+                            findAndAddTreeItem(key, treeView.getRoot(), changes);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void findAndAddTreeItem(String changedKey, TreeItem<String> root, ObservableSet<TreeItem<String>> changes) {
+            if (root.getValue()!= null && root.getValue().startsWith(changedKey)) {
+                changes.add(root);
+                if(root.getValue().contains("{}")){
+                    changes.addAll(root.getChildren());
+                }
+            } else {
+                for (TreeItem<String> child : root.getChildren()) {
+                    findAndAddTreeItem(changedKey, child, changes);
+                }
+            }
+        }
+
+        public VBox getRoot() {
+            return root;
         }
     }
 }

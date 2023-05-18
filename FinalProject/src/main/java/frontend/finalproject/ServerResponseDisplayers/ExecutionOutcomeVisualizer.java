@@ -7,7 +7,6 @@ import frontend.finalproject.Controllers.HomeController;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -37,6 +36,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     List<List<BarChart<String, Number>>> charts;
     int maxLen = 1;
     private List<String> actionDescriptions;
+    private SimulatedStateVisualizer.SimulatedStateNode simulatedStateNode = null;
+    private int currentSimulatedStateIndex = 0;
 
     public ExecutionOutcomeVisualizer(String jsonString) {
         charts = new LinkedList<>();
@@ -175,23 +176,76 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
     @Override
     public Node displayJSON() {
+        VBox root = new VBox();
         TabPane tabPane = new TabPane();
+        root.getChildren().add(tabPane);
         Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
         if(!simStatesResp.hasErrorOccurred()){
             SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue());
+            this.simulatedStateNode = (SimulatedStateVisualizer.SimulatedStateNode) simulatedStateVisualizer.displayJSON();
             this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
-            tabPane.getTabs().add(new Tab("Simulated States",simulatedStateVisualizer.displayJSON()));
+            tabPane.getTabs().add(new Tab("Simulated States",simulatedStateNode.getRoot()));
         }
-        tabPane.getTabs().add(new Tab("Execution Outcome",new DisplayContainer(executionOutcome,charts,actionDescriptions).getComponent()));
+        DisplayContainer execOutcomeDisplay = new DisplayContainer(executionOutcome, charts, actionDescriptions);
+        tabPane.getTabs().add(new Tab("Execution Outcome", execOutcomeDisplay.getComponent()));
         FXMLLoader loader = new FXMLLoader();
         try {
             Node manControl = loader.load(Objects.requireNonNull(HomeController.class.getResource(UtilsFXML.SEND_MANUAL_ACTION_REQUEST_PATH)));
             tabPane.getTabs().add(new Tab("Manual Control", manControl));
         }
-        catch (IOException e){
-            return tabPane;
+        catch (IOException ignored){
+
         }
-        return tabPane;
+        createCommonComponents(root,execOutcomeDisplay);
+        return root;
+    }
+
+    private void createCommonComponents(VBox root, DisplayContainer execOutcomeDisplay) {
+        Label prevExecAction = new Label();
+        Label nextActionToExec = new Label();
+        updateNextPrevExecActions(prevExecAction, nextActionToExec);
+
+        HBox nextPrevButtonsContainer = new HBox();
+        Button nextButton = new Button("Next State");
+        Button prevButton = new Button("Previous State");
+        nextPrevButtonsContainer.getChildren().addAll(prevButton,nextButton);
+
+        nextButton.setOnAction(event -> {
+            if(currentSimulatedStateIndex < actionDescriptions.size() - 1) {
+                currentSimulatedStateIndex++;
+                execOutcomeDisplay.handleNextBtn();
+                simulatedStateNode.handleNextBtn();
+                updateNextPrevExecActions(prevExecAction, nextActionToExec);
+            }
+        });
+
+        prevButton.setOnAction(event -> {
+            if(currentSimulatedStateIndex > 0) {
+                currentSimulatedStateIndex--;
+                execOutcomeDisplay.handlePrevBtn();
+                simulatedStateNode.handlePrevBtn();
+                updateNextPrevExecActions(prevExecAction, nextActionToExec);
+            }
+        });
+
+        nextPrevButtonsContainer.getStyleClass().add(CENTER_STYLE);
+        root.getStyleClass().add(CENTER_STYLE);
+        root.setSpacing(20);
+        nextPrevButtonsContainer.setSpacing(10);
+        nextButton.getStyleClass().add(BTN_STYLE_CLASS);
+        prevButton.getStyleClass().add(BTN_STYLE_CLASS);
+        prevExecAction.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
+        nextActionToExec.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
+
+        root.getChildren().addAll(prevExecAction,nextActionToExec,nextPrevButtonsContainer);
+    }
+
+    private void updateNextPrevExecActions(Label prevExecAction, Label nextActionToExec) {
+        prevExecAction.setText("Previously executed action: " + actionDescriptions.get(currentSimulatedStateIndex));
+        String nAction = currentSimulatedStateIndex + 1 < actionDescriptions.size() ?
+                actionDescriptions.get(currentSimulatedStateIndex + 1) :
+                "No more actions";
+        nextActionToExec.setText("Next action to execute: " + nAction);
     }
 
     private static class DisplayContainer{
@@ -206,13 +260,10 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         Label filterLabel;
         TextField filterTextField;
         HBox buttonsContainer;
-        Button prev;
-        Button next;
         Button showRawData;
         VBox rawDataContainer;
-        Label prevExecAction;
-        Label nextActionToExec;
         List<String> actionDescriptions;
+        AtomicReference<List<BarChart<String, Number>>> curHistograms;
 
 
         private DisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts, List<String> actionDescriptions){
@@ -220,32 +271,32 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             this.charts = charts;
             this.actionDescriptions = actionDescriptions;
         }
+
+        public void handleNextBtn(){
+            if(currentIdx < charts.size() - 1){
+                currentIdx++;
+                updateContainers(curHistograms, histogramsContainer, rawDataContainer);
+            }
+        }
+
+        public void handlePrevBtn(){
+            if(currentIdx > 0){
+                currentIdx--;
+                updateContainers(curHistograms, histogramsContainer, rawDataContainer);
+            }
+        }
         private Node getComponent(){
-            AtomicReference<List<BarChart<String, Number>>> curHistograms = new AtomicReference<>(charts.get(0));
+            curHistograms = new AtomicReference<>(charts.get(0));
 
             buildComponents(curHistograms);
             bindActionsToButtons(curHistograms);
             stylizeComponents();
 
-            rootContainer.getChildren().addAll(scrollPane,filteredTextFieldContainer,prevExecAction,nextActionToExec,buttonsContainer,rawDataContainer);
+            rootContainer.getChildren().addAll(scrollPane,filteredTextFieldContainer,buttonsContainer,rawDataContainer);
             return rootContainer;
         }
 
         private void bindActionsToButtons(AtomicReference<List<BarChart<String, Number>>> curHistograms) {
-            prev.setOnAction(e -> {
-                if(currentIdx > 0){
-                    currentIdx--;
-                    updateContainers(curHistograms, histogramsContainer, rawDataContainer);
-                }
-            });
-
-            next.setOnAction(e -> {
-                if(currentIdx < charts.size() - 1){
-                    currentIdx++;
-                    updateContainers(curHistograms, histogramsContainer, rawDataContainer);
-                }
-            });
-
             showRawData.setOnAction(e -> {
                 if(rawDataContainer.isVisible()){
                     rawDataContainer.setVisible(false);
@@ -297,20 +348,13 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
 
             buttonsContainer = new HBox();
-            prev = new Button("Previous State");
-            next = new Button("Next State");
             showRawData = new Button("Show Raw Data");
-            buttonsContainer.getChildren().addAll(prev,showRawData,next);
+            buttonsContainer.getChildren().addAll(showRawData);
 
             rawDataContainer = new VBox();
             rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(0).toString()).displayJSON());
             rawDataContainer.setVisible(false);
 
-            prevExecAction = new Label("Previously executed action: " + actionDescriptions.get(currentIdx));
-            String nextAction = currentIdx + 1 < actionDescriptions.size() ?
-                    actionDescriptions.get(currentIdx + 1) :
-                    "No more actions";
-            nextActionToExec = new Label("Next action to execute: " + nextAction);
         }
 
         private void updateContainers(AtomicReference<List<BarChart<String, Number>>> curHistograms, HBox histogramsContainer, VBox rawDataContainer) {
@@ -318,18 +362,11 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(currentIdx).toString()).displayJSON());
             curHistograms.set(charts.get(currentIdx));
             populateHistograms(curHistograms, filterTextField.getText());
-            prevExecAction.setText("Previously executed action: " + actionDescriptions.get(currentIdx));
-            String nextAction = currentIdx + 1 < actionDescriptions.size() ?
-                    actionDescriptions.get(currentIdx + 1) :
-                    "No more actions";
-            nextActionToExec.setText("Next action to execute: " + nextAction);
         }
 
         private void stylizeComponents() {
             rootContainer.getStyleClass().add(ROOT_STYLE_CLASS);
             buttonsContainer.getStyleClass().add(CENTER_STYLE);
-            next.getStyleClass().add(BTN_STYLE_CLASS);
-            prev.getStyleClass().add(BTN_STYLE_CLASS);
             showRawData.getStyleClass().add(BTN_STYLE_CLASS);
             rootContainer.setSpacing(20);
             buttonsContainer.setSpacing(10);
@@ -345,8 +382,6 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             rawDataContainer.getStyleClass().add(CENTER_STYLE);
             rawDataContainer.setPrefHeight(0);
 
-            prevExecAction.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
-            nextActionToExec.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
         }
 
     }
