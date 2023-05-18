@@ -44,14 +44,4 @@ public class IntegrationRequestsController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         UtilsFXML.loadStage(UtilsFXML.SEND_MANUAL_ACTION_REQUEST_PATH,stage);
     }
-
-    public void handleGetSimulatedStatesBTNClick(ActionEvent actionEvent) {
-        Response<String> response = facade.sendRequest(new GetSimulatedStatesRequestDTO());
-        if (response.hasErrorOccurred()) {
-            UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, response);
-            return;
-        }
-        IJsonVisualizer jsonVisualizer = new SimulatedStateVisualizer(response.getValue());
-        UtilsFXML.loadResponseStage(jsonVisualizer);
-    }
 }

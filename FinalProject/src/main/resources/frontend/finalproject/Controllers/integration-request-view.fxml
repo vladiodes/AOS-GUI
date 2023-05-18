@@ -17,7 +17,6 @@
         <Button styleClass="integrationBtn" text="Initialize Project Request" onAction="#handleInitializeProjectRequestBTNClick"/>
         <Button styleClass="integrationBtn" text="Get Execution Outcome Request" onAction="#handleExecutionOutcomeRequestBTNClick"/>
         <Button styleClass="integrationBtn" text="Manual Action Request" onAction="#handleManualActionRequestBTNClick"/>
-        <Button styleClass="integrationBtn" text="Get Simulated States" onAction="#handleGetSimulatedStatesBTNClick"/>
         <Button styleClass="integrationBtn" text="Stop Robot" onAction="#handleStopRobotRequestBTNClick"/>
     </VBox>
     <HBox styleClass="CreateProjBTNsHBox">

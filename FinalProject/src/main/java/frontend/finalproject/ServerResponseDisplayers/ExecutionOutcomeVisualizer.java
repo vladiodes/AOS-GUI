@@ -1,17 +1,17 @@
 package frontend.finalproject.ServerResponseDisplayers;
 
+import DTO.HttpRequests.GetSimulatedStatesRequestDTO;
+import backend.finalproject.AOSFacade;
 import com.google.gson.*;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import utils.Response;
 
 
 import java.util.*;
@@ -148,7 +148,14 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
     @Override
     public Node displayJSON() {
-        return new DisplayContainer(executionOutcome,charts).getComponent();
+        TabPane tabPane = new TabPane();
+        Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
+        if(!simStatesResp.hasErrorOccurred()){
+            SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue());
+            tabPane.getTabs().add(new Tab("Simulated States",simulatedStateVisualizer.displayJSON()));
+        }
+        tabPane.getTabs().add(new Tab("Execution Outcome",new DisplayContainer(executionOutcome,charts).getComponent()));
+        return tabPane;
     }
 
     private static class DisplayContainer{
