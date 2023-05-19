@@ -12,10 +12,10 @@ import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -282,5 +282,38 @@ public class AOSFacade implements IAOSFacade {
         if (currentProject == null){
             throw new Exception("Please first set current project");
         }
+    }
+
+    public Response<String> visualizeBeliefState(String beliefState){
+        try(FileInputStream file = new FileInputStream(new File(scriptPath)))
+        {
+            // opening a new process with the belief state initialized
+            ProcessBuilder pb = new ProcessBuilder();
+            String userCode = "belief_state = " + beliefState + "\n\n" +
+                    new String(file.readAllBytes())
+                    + "\n\ndisplay(belief_state)";
+            pb.command("python3", "-c" , userCode);
+            pb.redirectErrorStream(true);
+            Process p = pb.start();
+
+            // reading the output of the process
+            StringBuilder sb = new StringBuilder();
+            InputStreamReader reader = new InputStreamReader(p.getInputStream());
+            BufferedReader buffer = new BufferedReader(reader);
+            String line;
+            while((line = buffer.readLine())!= null ){
+                sb.append(line);
+                sb.append("\n");
+            }
+            return Response.OK(sb.toString());
+        }
+        catch (IOException e){
+            return Response.FAIL(e);
+        }
+    }
+
+    String scriptPath;
+    public void setScriptPath(String path){
+        scriptPath = path;
     }
 }

@@ -22,6 +22,13 @@
                         <Label styleClass="TextFieldLabel" text="Belief size" />
                         <TextField styleClass="TextFieldForm" fx:id="beliefSizeVal"/>
                     </HBox>
+                    <HBox>
+                        <Label styleClass="TextFieldLabel" text="Script Path" />
+                        <TextField styleClass="TextFieldForm" fx:id="scriptFile"/>
+                        <VBox styleClass="BrowseBTNWrapper">
+                            <Button styleClass="formBtn" text="Browse" onAction="#handleBrowseFileBTNClick"/>
+                        </VBox>
+                    </HBox>
                 </VBox>
     <HBox styleClass="CreateProjBTNsHBox">
         <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back" />

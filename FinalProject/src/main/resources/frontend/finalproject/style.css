@@ -67,6 +67,14 @@
     -fx-border-width: 2;
 }
 
+.TextAreaWithMargin{
+    -fx.padding: 5px;
+    -fx-border-insets: 10px;
+    -fx-background-insets: 5px;
+    -fx-border-radius: 1.4;
+    -fx-border-width: 2;
+}
+
 .TextFieldForm:hover {}
 
 .TextFieldForm:focused {

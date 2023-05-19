@@ -2,23 +2,33 @@ package frontend.finalproject.ServerResponseDisplayers;
 
 import DTO.HttpRequests.GetExecutionOutcomeRequestDTO;
 import backend.finalproject.AOSFacade;
+import backend.finalproject.IAOSFacade;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import frontend.finalproject.Controllers.HomeController;
+import frontend.finalproject.Utils.UtilsFXML;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import utils.Response;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class SimulatedStateVisualizer implements IJsonVisualizer {
     public static final String SIMULATED_STATE = "SimulatedState";
@@ -78,6 +88,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         return simulatedStateNode;
     }
 
+
     public static class ChangedHighlightingTreeCell extends TreeCell<String> {
 
         public static final String HIGHLIGHT_CHANGES_NEXT = "highlight-changes-next";
@@ -122,6 +133,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             buttonContainer = new HBox();
 
             display = new Button("Display state");
+            display.setOnAction(this::handleDisplayBtn);
 
 
             buttonContainer.getChildren().addAll(display);
@@ -130,6 +142,27 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
 
             // Adding style
             stylizeComponent();
+        }
+
+        public void handleDisplayBtn(ActionEvent event) {
+            JsonElement currentState = simulatedStates.get(currentSimulatedStateIndex);
+            Response<String> response = AOSFacade.getInstance().visualizeBeliefState(currentState.toString());
+            String response_string = response.getValue();
+            if(!response.hasErrorOccurred() && !response_string.isEmpty()){
+                try {
+                    Parent root = UtilsFXML.openNewWindow("display-belief-state.fxml");
+                    Scene scene = new Scene(root, 640, 640);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.setTitle("Display Result");
+                    stage.show();
+                    TextArea label = (TextArea) scene.lookup("#displayArea");
+                    label.setText(response_string);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
 
         public void handleNextBtn(){

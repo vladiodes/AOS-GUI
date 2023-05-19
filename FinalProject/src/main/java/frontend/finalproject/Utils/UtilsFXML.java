@@ -183,6 +183,13 @@ public class UtilsFXML {
 
     }
 
+    public static Parent openNewWindow(String fxmlPath) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        return loader.load(Objects.requireNonNull(HomeController.class.getResource(fxmlPath)));
+
+
+    }
+
     public enum Source {
         EDIT_ENV, EDIT_SKILL,EDIT_VAR_TYPE,ADD,EDIT
     }

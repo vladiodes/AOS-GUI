@@ -167,6 +167,10 @@ public interface IAOSFacade {
 
     Response<String> sendRequest(HttpRequestDTO request);
 
+    Response<String> visualizeBeliefState(String beliefState);
+
+    void setScriptPath(String text);
+
     /**
      * An enum that represents the type of the documentation files.
      */
