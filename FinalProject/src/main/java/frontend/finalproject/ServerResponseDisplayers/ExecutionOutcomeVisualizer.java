@@ -207,14 +207,17 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
         HBox nextPrevButtonsContainer = new HBox();
         Button nextButton = new Button("Next State");
+        nextButton.setId("nextStateButton");
         Button prevButton = new Button("Previous State");
+        prevButton.setDisable(true);
+        prevButton.setId("prevStateButton");
         nextPrevButtonsContainer.getChildren().addAll(prevButton,nextButton);
 
         nextButton.setOnAction(event -> {
             if(currentSimulatedStateIndex < actionDescriptions.size() - 1) {
                 currentSimulatedStateIndex++;
                 execOutcomeDisplay.handleNextBtn();
-                simulatedStateNode.handleNextBtn();
+                simulatedStateNode.handleNextBtn(event);
                 updateNextPrevExecActions(prevExecAction, nextActionToExec);
             }
         });
@@ -223,7 +226,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             if(currentSimulatedStateIndex > 0) {
                 currentSimulatedStateIndex--;
                 execOutcomeDisplay.handlePrevBtn();
-                simulatedStateNode.handlePrevBtn();
+                simulatedStateNode.handlePrevBtn(event);
                 updateNextPrevExecActions(prevExecAction, nextActionToExec);
             }
         });

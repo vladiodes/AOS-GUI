@@ -165,20 +165,26 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             }
         }
 
-        public void handleNextBtn(){
+        public void handleNextBtn(ActionEvent event){
             if (currentSimulatedStateIndex < simulatedStates.size() - 1) {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex++;
+                ((Button)event.getSource()).setDisable(currentSimulatedStateIndex == simulatedStates.size() - 1);
+                Scene currentScene = ((Button) event.getSource()).getScene();
+                currentScene.lookup("#prevStateButton").setDisable(false);
                 handleBrowseStateBtnClick(root, curState, prevState,true);
             }
         }
 
-        public void handlePrevBtn(){
+        public void handlePrevBtn(ActionEvent event){
             if (currentSimulatedStateIndex > 0) {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex--;
+                ((Button)event.getSource()).setDisable(currentSimulatedStateIndex == 0);
+                Scene currentScene = ((Button) event.getSource()).getScene();
+                currentScene.lookup("#nextStateButton").setDisable(false);
                 handleBrowseStateBtnClick(root, curState, prevState,false);
             }
         }
