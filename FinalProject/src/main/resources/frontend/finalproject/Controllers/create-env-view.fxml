@@ -39,7 +39,7 @@
         <HBox>
             <children>
                 <Label text="Horizon" styleClass="TextFieldLabel"/>
-                <TextField fx:id="HorizonTXT" styleClass="TextFieldForm"/>
+                <TextField text="10" fx:id="HorizonTXT" styleClass="TextFieldForm"/>
             </children>
         </HBox>
         <HBox>

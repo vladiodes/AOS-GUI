@@ -76,7 +76,7 @@
         <HBox>
             <children>
                 <Label text="ViolationPreconditionPenalty" styleClass="TextFieldLabel"/>
-                <TextField fx:id="ViolatingPreconditionPenaltyTXT" styleClass="TextFieldForm"/>
+                <TextField fx:id="ViolatingPreconditionPenaltyTXT" text="0"  styleClass="TextFieldForm"/>
             </children>
         </HBox>
 
