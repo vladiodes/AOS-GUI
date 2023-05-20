@@ -42,8 +42,16 @@ public class AOSFacade implements IAOSFacade {
         if (pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT)){
             return Response.OK(true);
         }
-        ProcessBuilder pb = new ProcessBuilder("bash", "-c", AOS_API_ACTIVATION_COMMAND);
+        ProcessBuilder pb = new ProcessBuilder();
+        String homeDir = System.getProperty("user.home");
+        File dir = new File(homeDir + AOS_API_ACTIVATION_DIR);
+
+        if(!dir.exists()){
+            return Response.FAIL(new Exception("AOS directory does not exist in the Home directory, or not in the right hierarchy"));
+        }
+        pb.directory(dir);
         pb.redirectErrorStream(true);
+        pb.command(AOS_API_ACTIVATION_COMMAND);
 
         try {
             AOS_API_Process = pb.start();

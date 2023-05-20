@@ -6,14 +6,18 @@ import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import utils.Response;
 
 
 public class HomeController {
 
-    @FXML private Button btnIntegrationRequests;
-    @FXML private Button btnActivateAOS;
+    @FXML
+    private Button btnIntegrationRequests;
+    @FXML
+    private Button btnActivateAOS;
     @FXML
     private Button btnCreateProject;
     @FXML
@@ -23,28 +27,25 @@ public class HomeController {
     @FXML
     private Button btnRobotExecution;
     private final IAOSFacade facade = AOSFacade.getInstance();
+
     public void handleButtonClicks(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         if (event.getSource() == btnProjects) {
             UtilsFXML.loadStage(UtilsFXML.PROJECTS_FXML_PATH, stage);
-        }
-        else if(event.getSource() == btnCreateProject){
-            UtilsFXML.loadStage(UtilsFXML.CREATE_PROJECT_PATH,stage);
-        }
-        else if(event.getSource() == btnCodeCheck){
-            UtilsFXML.loadStage(UtilsFXML.DEBUG_PROJECT_PATH,stage);
-        }
-        else if(event.getSource() == btnIntegrationRequests){
-            UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH,stage);
+        } else if (event.getSource() == btnCreateProject) {
+            UtilsFXML.loadStage(UtilsFXML.CREATE_PROJECT_PATH, stage);
+        } else if (event.getSource() == btnCodeCheck) {
+            UtilsFXML.loadStage(UtilsFXML.DEBUG_PROJECT_PATH, stage);
+        } else if (event.getSource() == btnIntegrationRequests) {
+            UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH, stage);
         }
     }
 
     @FXML
-    public void initialize(){
-        if(facade.showAOServerStatus().getValue()){
+    public void initialize() {
+        if (facade.showAOServerStatus().getValue()) {
             setRunningAOS();
-        }
-        else {
+        } else {
             setDownAOS();
         }
     }
@@ -59,16 +60,25 @@ public class HomeController {
         btnActivateAOS.getStyleClass().setAll("RunningAOS");
     }
 
-    public void handleActivationOfAOSRequest(ActionEvent event) {
+    public void handleBtnActivationOfAOSRequest(ActionEvent event) {
         boolean isAOSRunning = facade.showAOServerStatus().getValue();
-        if(isAOSRunning && facade.deactivateAOServer().getValue()){
-            setDownAOS();
-        }
-        else if(!isAOSRunning && facade.activateAOServer().getValue()){
-            setRunningAOS();
-        }
-        else{
-            System.out.println("WTF");
+
+        if (isAOSRunning) {
+            Response<Boolean> response = facade.deactivateAOServer();
+            if (response.hasErrorOccurred()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to de-activate AOS server.");
+                alert.show();
+            } else {
+                setDownAOS();
+            }
+        } else {
+            Response<Boolean> response = facade.activateAOServer();
+            if (response.hasErrorOccurred()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to activate the AOS server. Make sure the directory is cloned and in the right hierarchy");
+                alert.show();
+            } else {
+                setRunningAOS();
+            }
         }
     }
 
