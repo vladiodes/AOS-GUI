@@ -7,6 +7,7 @@ import backend.finalproject.ProjectFiles.Env.Environment;
 import backend.finalproject.ProjectFiles.Project;
 import backend.finalproject.ProjectFiles.SD.SD;
 import backend.finalproject.ProjectFiles.Skill;
+import com.google.gson.JsonObject;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
@@ -15,7 +16,6 @@ import utils.Response;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -246,7 +246,7 @@ public class AOSFacade implements IAOSFacade {
     public Response<Boolean> openGeneratedFile(String fileName, DocumentationFile documentationFile, int line) {
         try{
             ProcessBuilder pb = new ProcessBuilder("code", fileName, ":"+line);
-            Process vs_code = pb.start();
+            pb.start();
             return Response.OK(true);
         } catch (IOException e) {
             return Response.FAIL(e);
@@ -284,14 +284,15 @@ public class AOSFacade implements IAOSFacade {
         }
     }
 
-    public Response<String> visualizeBeliefState(String beliefState){
+    public Response<String> visualizeBeliefState(JsonObject beliefState){
         try(FileInputStream file = new FileInputStream(new File(scriptPath)))
         {
+            beliefState.remove("_id");
             // opening a new process with the belief state initialized
             ProcessBuilder pb = new ProcessBuilder();
-            String userCode = "belief_state = " + beliefState + "\n\n" +
-                    new String(file.readAllBytes())
-                    + "\n\ndisplay(belief_state)";
+            String userCode =  "import json\n" + new String(file.readAllBytes()) + "\n\n" +
+                    "belief_state = json.loads('" + beliefState + "')" +
+                    "\n\ndisplay(belief_state)";
             pb.command("python3", "-c" , userCode);
             pb.redirectErrorStream(true);
             Process p = pb.start();

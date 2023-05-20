@@ -1,6 +1,7 @@
 package backend.finalproject;
 
 import DTO.HttpRequests.HttpRequestDTO;
+import com.google.gson.JsonObject;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
@@ -8,10 +9,10 @@ import utils.Response;
 
 import java.util.List;
 
+//TODO: Maybe think about creating more specific DTO object instead of returning/receiving JSON strings as params/outputs.
 /**
  * This is the interface of the facade (AKA API) that
  * the frontend developers will be using to call the backend services.
- * @TODO: Maybe think about creating more specific DTO object instead of returning/receiving JSON strings as params/outputs.
  */
 public interface IAOSFacade {
 
@@ -51,11 +52,10 @@ public interface IAOSFacade {
      * REQ 1.3
      */
     Response<List<String>> getAllProjects();
-
+    //TODO: Maybe this should return a DTO object representing the project itself
     /**
      * Loading a project from the disc into the system
      * @return a JSON string that represents the project and all of its properties.
-     * @TODO: Maybe this should return a DTO object representing the project itself
      * REQ 1.4
      */
     Response<EnvModel> getProjectEnv();
@@ -68,7 +68,7 @@ public interface IAOSFacade {
 
     /**
      * Creating a new project
-     * @param envModel the model as recieved from the FE
+     * @param envModel the model as received from the FE
      * @return returns a response object wrapped with the env model
      * REQ 2.1
      */
@@ -127,15 +127,15 @@ public interface IAOSFacade {
 
     /**
      * Same as previewEnv
-     * @param AM
-     * @return
+     * @param AM - am file
+     * @return am json to preview
      */
     Response<String> previewAMJSON(AMModel AM);
 
     /**
      * Same as previewEnv
-     * @param SD
-     * @return
+     * @param SD - sd file
+     * @return json to preview
      */
     Response<String> previewSDJSON(SDModel SD);
 
@@ -167,7 +167,7 @@ public interface IAOSFacade {
 
     Response<String> sendRequest(HttpRequestDTO request);
 
-    Response<String> visualizeBeliefState(String beliefState);
+    Response<String> visualizeBeliefState(JsonObject beliefState);
 
     void setScriptPath(String text);
 

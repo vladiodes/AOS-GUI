@@ -68,7 +68,7 @@
 }
 
 .TextAreaWithMargin{
-    -fx.padding: 5px;
+    -fx-padding: 5px;
     -fx-border-insets: 10px;
     -fx-background-insets: 5px;
     -fx-border-radius: 1.4;
