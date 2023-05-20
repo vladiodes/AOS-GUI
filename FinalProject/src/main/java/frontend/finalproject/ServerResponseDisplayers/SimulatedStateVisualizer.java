@@ -146,6 +146,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
 
         public void handleDisplayBtn(ActionEvent event) {
             JsonElement currentState = simulatedStates.get(currentSimulatedStateIndex);
+            currentState = currentState.getAsJsonObject().get(SIMULATED_STATE);
             Response<String> response = AOSFacade.getInstance().visualizeBeliefState(currentState.getAsJsonObject());
             String response_string = response.getValue();
             if(!response.hasErrorOccurred() && !response_string.isEmpty()){
