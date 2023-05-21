@@ -17,17 +17,15 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
+
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import utils.Response;
 
@@ -292,7 +290,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 simulatedStateNode.handleNextBtn(null);
                 execOutcomeDisplay.handleNextBtn();
             }
-
+            nextButton.setDisable(currentSimulatedStateIndex == actionDescriptions.size() - 1);
+            prevButton.setDisable(currentSimulatedStateIndex == 0);
             bindNextPrevStateButtonActions();
         });
     }
@@ -308,8 +307,9 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             if(UtilsFXML.IS_MANUAL_CONTROL && currentSimulatedStateIndex == actionDescriptions.size() - 1){
                 UtilsFXML.showNotification(NotificationUtils.MAN_CONTROL_NOTIFICATION,NotificationUtils.MAN_CONTROL_NOTIFICATION_MSG,null);
                 flashTab(tabPane.getTabs().get(MAN_CONTROL_TAB_IDX));
-
             }
+            nextButton.setDisable(currentSimulatedStateIndex == actionDescriptions.size() - 1);
+            prevButton.setDisable(currentSimulatedStateIndex == 0);
         });
 
         prevButton.setOnAction(event -> {
@@ -319,6 +319,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 simulatedStateNode.handlePrevBtn(event);
                 updateNextPrevExecActions(prevExecAction, nextActionToExec);
             }
+            nextButton.setDisable(currentSimulatedStateIndex == actionDescriptions.size() - 1);
+            prevButton.setDisable(currentSimulatedStateIndex == 0);
         });
     }
 
@@ -343,10 +345,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
         HBox nextPrevButtonsContainer = new HBox();
         nextButton = new Button("Next State");
-        nextButton.setId("nextStateButton");
         prevButton = new Button("Previous State");
-//        prevButton.setDisable(true);
-//        prevButton.setId("prevStateButton");
+        prevButton.setDisable(true);
         nextPrevButtonsContainer.getChildren().addAll(prevButton, nextButton);
 
         bindNextPrevStateButtonActions();
