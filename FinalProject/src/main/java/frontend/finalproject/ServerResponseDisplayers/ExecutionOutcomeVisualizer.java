@@ -305,7 +305,6 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 updateNextPrevExecActions(prevExecAction, nextActionToExec);
             }
             if(UtilsFXML.IS_MANUAL_CONTROL && currentSimulatedStateIndex == actionDescriptions.size() - 1){
-                UtilsFXML.showNotification(NotificationUtils.MAN_CONTROL_NOTIFICATION,NotificationUtils.MAN_CONTROL_NOTIFICATION_MSG,null);
                 flashTab(tabPane.getTabs().get(MAN_CONTROL_TAB_IDX));
             }
             nextButton.setDisable(currentSimulatedStateIndex == actionDescriptions.size() - 1);
@@ -325,6 +324,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     }
 
     private void flashTab(Tab tab) {
+        UtilsFXML.showNotification(NotificationUtils.MAN_CONTROL_NOTIFICATION,NotificationUtils.MAN_CONTROL_NOTIFICATION_MSG,null);
+
         String originalStyle = tab.getStyle();
         String flashStyle = "-fx-background-color: yellow;";
 
@@ -347,6 +348,10 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         nextButton = new Button("Next State");
         prevButton = new Button("Previous State");
         prevButton.setDisable(true);
+        nextButton.setDisable(actionDescriptions.size() - 1 == currentSimulatedStateIndex);
+        if(UtilsFXML.IS_MANUAL_CONTROL && nextButton.isDisabled()){
+            flashTab(tabPane.getTabs().get(MAN_CONTROL_TAB_IDX));
+        }
         nextPrevButtonsContainer.getChildren().addAll(prevButton, nextButton);
 
         bindNextPrevStateButtonActions();
