@@ -368,4 +368,8 @@
 }
 
 
-
+.Info_Label {
+    -fx-alignment: center;
+    -fx-text-fill: #c5c5c5;
+    -fx-font-size: 10px;
+}

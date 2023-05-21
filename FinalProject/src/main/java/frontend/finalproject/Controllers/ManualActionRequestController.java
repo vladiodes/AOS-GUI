@@ -20,9 +20,9 @@ import javafx.stage.Stage;
 import utils.Response;
 
 public class ManualActionRequestController {
+    @FXML private TextField SearchActionTxt;
     @FXML private VBox AvailableActionsVBOX;
     @FXML private VBox ActionsSentVBOX;
-    @FXML private TextField ActionIDTxt;
     private final IAOSFacade facade = AOSFacade.getInstance();
     private SolverActionsVisualizer actionsVisualizer;
     private ManualActionsSentVisualizer actionsSentVisualizer;
@@ -32,7 +32,7 @@ public class ManualActionRequestController {
         Response<String> availableActionsResponse = facade.sendRequest(new GetSolverActionsRequestDTO());
         Response<String> sentActionsResponse = facade.sendRequest(new ManualActionPutRequestDTO.ManualActionGetRequestDTO());
         if(!availableActionsResponse.hasErrorOccurred()){
-            this.actionsVisualizer = new SolverActionsVisualizer(availableActionsResponse.getValue());
+            this.actionsVisualizer = new SolverActionsVisualizer(availableActionsResponse.getValue(), this::handleSendActionRequest);
             AvailableActionsVBOX.getChildren().add(actionsVisualizer.displayJSON());
         }
         if(!sentActionsResponse.hasErrorOccurred()){
@@ -41,15 +41,15 @@ public class ManualActionRequestController {
         }
     }
 
-    public void handleSendRequestBTN(ActionEvent actionEvent) {
-        ManualActionPutRequestDTO requestDTO = new ManualActionPutRequestDTO(Integer.parseInt(ActionIDTxt.getText()));
+    public void handleSendActionRequest(int actionID){
+        ManualActionPutRequestDTO requestDTO = new ManualActionPutRequestDTO(actionID);
         Response<String> resp = facade.sendRequest(requestDTO);
         if(resp.hasErrorOccurred())
             UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
         else
         {
             TreeView<String> treeView = (TreeView<String>) ActionsSentVBOX.getChildren().get(ActionsSentVBOX.getChildren().size()-1);
-            treeView.getRoot().getChildren().add(actionsSentVisualizer.getActionDesc(Integer.parseInt(ActionIDTxt.getText())));
+            treeView.getRoot().getChildren().add(actionsSentVisualizer.getActionDesc(actionID));
             UtilsFXML.showNotification(NotificationUtils.SENT_ACTION_SUCCESSFULLY_TITLE,NotificationUtils.SENT_ACTION_SUCCESSFULLY_TEXT,null);
         }
     }
