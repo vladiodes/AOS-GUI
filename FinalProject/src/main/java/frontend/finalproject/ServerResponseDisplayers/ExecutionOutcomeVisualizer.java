@@ -11,6 +11,9 @@ import frontend.finalproject.Controllers.ResponseRequestController;
 import frontend.finalproject.Controllers.SubControllers.EditSubController;
 import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,7 +24,11 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import utils.Response;
 
 
@@ -49,7 +56,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private int currentSimulatedStateIndex = 0;
     private TabPane tabPane;
     private boolean shouldTerminate = false;
-    private int beliefSize;
+    private final int beliefSize;
     private DisplayContainer execOutcomeDisplay;
     private Label prevExecAction;
     private Label nextActionToExec;
@@ -300,6 +307,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             }
             if(UtilsFXML.IS_MANUAL_CONTROL && currentSimulatedStateIndex == actionDescriptions.size() - 1){
                 UtilsFXML.showNotification(NotificationUtils.MAN_CONTROL_NOTIFICATION,NotificationUtils.MAN_CONTROL_NOTIFICATION_MSG,null);
+                flashTab(tabPane.getTabs().get(MAN_CONTROL_TAB_IDX));
 
             }
         });
@@ -312,6 +320,20 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 updateNextPrevExecActions(prevExecAction, nextActionToExec);
             }
         });
+    }
+
+    private void flashTab(Tab tab) {
+        String originalStyle = tab.getStyle();
+        String flashStyle = "-fx-background-color: yellow;";
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0.5), new KeyValue(tab.styleProperty(), flashStyle)),
+                new KeyFrame(Duration.seconds(1), new KeyValue(tab.styleProperty(), originalStyle))
+        );
+        timeline.setAutoReverse(true);
+        timeline.setCycleCount(2);
+
+        timeline.play();
     }
 
     private void createCommonComponents(VBox root, DisplayContainer execOutcomeDisplay) {
