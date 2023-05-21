@@ -171,9 +171,9 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex++;
-                ((Button)event.getSource()).setDisable(currentSimulatedStateIndex == simulatedStates.size() - 1);
-                Scene currentScene = ((Button) event.getSource()).getScene();
-                currentScene.lookup("#prevStateButton").setDisable(false);
+//                ((Button)event.getSource()).setDisable(currentSimulatedStateIndex == simulatedStates.size() - 1);
+//                Scene currentScene = ((Button) event.getSource()).getScene();
+//                currentScene.lookup("#prevStateButton").setDisable(false);
                 handleBrowseStateBtnClick(root, curState, prevState,true);
             }
         }
@@ -183,9 +183,9 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex--;
-                ((Button)event.getSource()).setDisable(currentSimulatedStateIndex == 0);
-                Scene currentScene = ((Button) event.getSource()).getScene();
-                currentScene.lookup("#nextStateButton").setDisable(false);
+//                ((Button)event.getSource()).setDisable(currentSimulatedStateIndex == 0);
+//                Scene currentScene = ((Button) event.getSource()).getScene();
+//                currentScene.lookup("#nextStateButton").setDisable(false);
                 handleBrowseStateBtnClick(root, curState, prevState,false);
             }
         }

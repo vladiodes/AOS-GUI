@@ -1,12 +1,20 @@
 package frontend.finalproject.ServerResponseDisplayers;
 
+import DTO.HttpRequests.GetExecutionOutcomeRequestDTO;
 import DTO.HttpRequests.GetSimulatedStatesRequestDTO;
 import backend.finalproject.AOSFacade;
 import com.google.gson.*;
+import frontend.finalproject.Controllers.CreateEnvController;
 import frontend.finalproject.Controllers.HomeController;
+import frontend.finalproject.Controllers.ManualActionRequestController;
+import frontend.finalproject.Controllers.ResponseRequestController;
+import frontend.finalproject.Controllers.SubControllers.EditSubController;
+import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -31,6 +39,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private static final String TEXT_FIELD_STYLE_CLASS = "TextFieldForm";
     private static final String LABEL_STYLE_CLASS = "TextFieldLabel";
     public static final String ACTION_TEXT_STYLE_CLASS = "Separator_Text";
+    public static final int MAN_CONTROL_TAB_IDX = 2;
     List<JsonElement> executionOutcome;
     List<Map<String,Histogram>> histogramsOfBeliefStates; // for each state in the execution process, we need a histogram for every variable of the state.
     List<List<BarChart<String, Number>>> charts;
@@ -38,8 +47,18 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private List<String> actionDescriptions;
     private SimulatedStateVisualizer.SimulatedStateNode simulatedStateNode = null;
     private int currentSimulatedStateIndex = 0;
+    private TabPane tabPane;
+    private boolean shouldTerminate = false;
+    private int beliefSize;
+    private DisplayContainer execOutcomeDisplay;
+    private Label prevExecAction;
+    private Label nextActionToExec;
+    private Button nextButton;
+    private Button prevButton;
 
-    public ExecutionOutcomeVisualizer(String jsonString) {
+
+    public ExecutionOutcomeVisualizer(String jsonString, int beliefSize) {
+        this.beliefSize = beliefSize;
         charts = new LinkedList<>();
         histogramsOfBeliefStates = new LinkedList<>();
         executionOutcome = new LinkedList<>();
@@ -177,7 +196,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     @Override
     public Node displayJSON() {
         VBox root = new VBox();
-        TabPane tabPane = new TabPane();
+        tabPane = new TabPane();
         root.getChildren().add(tabPane);
         Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
         if(!simStatesResp.hasErrorOccurred()){
@@ -186,39 +205,102 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
             tabPane.getTabs().add(new Tab("Simulated States",simulatedStateNode.getRoot()));
         }
-        DisplayContainer execOutcomeDisplay = new DisplayContainer(executionOutcome, charts, actionDescriptions);
+        execOutcomeDisplay = new DisplayContainer(executionOutcome, charts, actionDescriptions);
         tabPane.getTabs().add(new Tab("Execution Outcome", execOutcomeDisplay.getComponent()));
-        FXMLLoader loader = new FXMLLoader();
-        try {
-            Node manControl = loader.load(Objects.requireNonNull(HomeController.class.getResource(UtilsFXML.SEND_MANUAL_ACTION_REQUEST_PATH)));
-            tabPane.getTabs().add(new Tab("Manual Control", manControl));
-        }
-        catch (IOException ignored){
 
+        if(UtilsFXML.IS_MANUAL_CONTROL) {
+            FXMLLoader loader = new FXMLLoader(CreateEnvController.class.getResource(UtilsFXML.SEND_MANUAL_ACTION_REQUEST_PATH));
+            try {
+                Node manControl = loader.load();
+                ManualActionRequestController controller = loader.getController();
+                controller.setOnActionSentCallback(null);
+                tabPane.getTabs().add(new Tab("Manual Control", manControl));
+                runRefreshingThread();
+            } catch (IOException ignored) {
+            }
         }
-        createCommonComponents(root,execOutcomeDisplay);
+        createCommonComponents(root, execOutcomeDisplay);
+
         return root;
     }
 
-    private void createCommonComponents(VBox root, DisplayContainer execOutcomeDisplay) {
-        Label prevExecAction = new Label();
-        Label nextActionToExec = new Label();
-        updateNextPrevExecActions(prevExecAction, nextActionToExec);
+    private void runRefreshingThread() {
+        Thread thread = new Thread(() -> {
+            while(!shouldTerminate){
+                try {
+                    Thread.sleep(1000);
+                    onActionSentCallback();
+                } catch (InterruptedException ignored) {
+                }
+            }
+        });
+        thread.start();
+    }
 
-        HBox nextPrevButtonsContainer = new HBox();
-        Button nextButton = new Button("Next State");
-        nextButton.setId("nextStateButton");
-        Button prevButton = new Button("Previous State");
-        prevButton.setDisable(true);
-        prevButton.setId("prevStateButton");
-        nextPrevButtonsContainer.getChildren().addAll(prevButton,nextButton);
+    private void onActionSentCallback() {
 
+
+        Response<String> execOutcomeJson = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(beliefSize));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        JsonElement jsonElement = gson.fromJson(execOutcomeJson.getValue(), JsonElement.class);
+        if(jsonElement == null)
+            return;
+
+        jsonElement = jsonElement.getAsJsonObject().get(EXECUTION_OUTCOME_JSON_KEY);
+        if (jsonElement.isJsonArray() && jsonElement.getAsJsonArray().size() == executionOutcome.size()) {
+            return;
+        }
+
+        // if we run the following lines, this means that there has been a refresh in the states = man control was sent
+        JsonElement finalJsonElement = jsonElement;
+        Platform.runLater(() -> {
+            Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
+            if (!simStatesResp.hasErrorOccurred()) {
+                SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue());
+                this.simulatedStateNode = (SimulatedStateVisualizer.SimulatedStateNode) simulatedStateVisualizer.displayJSON();
+                this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
+                tabPane.getTabs().get(0).setContent(simulatedStateNode.getRoot());
+            }
+
+            // taking care of the initial state - for some reason it's empty at first.
+            if(executionOutcome.size() == 1){
+                executionOutcome.clear();
+                charts.clear();
+            }
+
+            for (int i = executionOutcome.size(); i < finalJsonElement.getAsJsonArray().size(); i++) {
+                JsonElement element = finalJsonElement.getAsJsonArray().get(i);
+                executionOutcome.add(element);
+                Map<String, Histogram> histograms = buildHistograms(element);
+                histogramsOfBeliefStates.add(histograms);
+                charts.add(createCharts(histograms));
+            }
+
+            this.execOutcomeDisplay = new DisplayContainer(executionOutcome, charts, actionDescriptions);
+            tabPane.getTabs().get(1).setContent(execOutcomeDisplay.getComponent());
+            updateNextPrevExecActions(prevExecAction, nextActionToExec);
+
+            for (int i = 1; i <= currentSimulatedStateIndex; i++) {
+                simulatedStateNode.handleNextBtn(null);
+                execOutcomeDisplay.handleNextBtn();
+            }
+
+            bindNextPrevStateButtonActions();
+        });
+    }
+
+    private void bindNextPrevStateButtonActions() {
         nextButton.setOnAction(event -> {
             if(currentSimulatedStateIndex < actionDescriptions.size() - 1) {
                 currentSimulatedStateIndex++;
                 execOutcomeDisplay.handleNextBtn();
                 simulatedStateNode.handleNextBtn(event);
                 updateNextPrevExecActions(prevExecAction, nextActionToExec);
+            }
+            if(UtilsFXML.IS_MANUAL_CONTROL && currentSimulatedStateIndex == actionDescriptions.size() - 1){
+                UtilsFXML.showNotification(NotificationUtils.MAN_CONTROL_NOTIFICATION,NotificationUtils.MAN_CONTROL_NOTIFICATION_MSG,null);
+
             }
         });
 
@@ -230,6 +312,22 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 updateNextPrevExecActions(prevExecAction, nextActionToExec);
             }
         });
+    }
+
+    private void createCommonComponents(VBox root, DisplayContainer execOutcomeDisplay) {
+        prevExecAction = new Label();
+        nextActionToExec = new Label();
+        updateNextPrevExecActions(prevExecAction, nextActionToExec);
+
+        HBox nextPrevButtonsContainer = new HBox();
+        nextButton = new Button("Next State");
+        nextButton.setId("nextStateButton");
+        prevButton = new Button("Previous State");
+//        prevButton.setDisable(true);
+//        prevButton.setId("prevStateButton");
+        nextPrevButtonsContainer.getChildren().addAll(prevButton, nextButton);
+
+        bindNextPrevStateButtonActions();
 
         nextPrevButtonsContainer.getStyleClass().add(CENTER_STYLE);
         root.getStyleClass().add(CENTER_STYLE);
@@ -240,7 +338,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         prevExecAction.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
         nextActionToExec.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
 
-        root.getChildren().addAll(prevExecAction,nextActionToExec,nextPrevButtonsContainer);
+        root.getChildren().addAll(prevExecAction, nextActionToExec,nextPrevButtonsContainer);
     }
 
     private void updateNextPrevExecActions(Label prevExecAction, Label nextActionToExec) {
@@ -249,6 +347,10 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 actionDescriptions.get(currentSimulatedStateIndex + 1) :
                 "No more actions";
         nextActionToExec.setText("Next action to execute: " + nAction);
+    }
+
+    public void terminateRefresh() {
+        shouldTerminate = true;
     }
 
     private static class DisplayContainer{

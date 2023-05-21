@@ -11,16 +11,12 @@ import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-
-import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 import utils.Response;
 
 public class ManualActionRequestController {
-    @FXML private TextField SearchActionTxt;
     @FXML private VBox AvailableActionsVBOX;
     @FXML private VBox ActionsSentVBOX;
     private final IAOSFacade facade = AOSFacade.getInstance();
@@ -64,5 +60,9 @@ public class ManualActionRequestController {
             TreeView<String> treeView = (TreeView<String>) ActionsSentVBOX.getChildren().get(ActionsSentVBOX.getChildren().size()-1);
             treeView.getRoot().getChildren().clear();
         }
+    }
+
+    public void setOnActionSentCallback(Runnable onActionSentCallback) {
+        this.actionsVisualizer.setOnActionSentCallback(onActionSentCallback);
     }
 }

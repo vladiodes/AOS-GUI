@@ -11,8 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 
 public class SolverActionsVisualizer implements IJsonVisualizer{
@@ -23,7 +21,7 @@ public class SolverActionsVisualizer implements IJsonVisualizer{
     public static final String TEXT_FIELD_FORM = "TextFieldForm";
     public static final String TEXT_FIELD_LABEL = "TextFieldLabel";
     public static final String CENTER_ALIGN_CLASS = "TreeBoxWrapper";
-    private String json;
+    private final String json;
     private TreeView<String> treeView;
     private final HashMap<TreeItem<String>,Integer> allActions = new HashMap<>();
     private final OnDoubleClickCallback callback;
@@ -43,15 +41,6 @@ public class SolverActionsVisualizer implements IJsonVisualizer{
         treeView.setRoot(new TreeItem<>());
         treeView.setShowRoot(false);
         treeView.getRoot().getChildren().addAll(allActions.keySet());
-        treeView.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-                TreeItem<String> selectedItem = treeView.getSelectionModel().getSelectedItem();
-                if (selectedItem != null) {
-                    int actionID = allActions.get(selectedItem);
-                    callback.onDoubleClick(actionID);
-                }
-            }
-        });
 
         VBox root = new VBox();
         root.getStyleClass().add(CENTER_ALIGN_CLASS);
@@ -104,6 +93,21 @@ public class SolverActionsVisualizer implements IJsonVisualizer{
             }
             allActions.put(new TreeItem<>("Terminate action"),-1);
         }
+    }
+
+    public void setOnActionSentCallback(Runnable onActionSentCallback) {
+        treeView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                TreeItem<String> selectedItem = treeView.getSelectionModel().getSelectedItem();
+                if (selectedItem != null) {
+                    int actionID = allActions.get(selectedItem);
+                    callback.onDoubleClick(actionID);
+                    if(onActionSentCallback != null)
+                        onActionSentCallback.run();
+                }
+            }
+        });
+
     }
 
     public interface OnDoubleClickCallback{

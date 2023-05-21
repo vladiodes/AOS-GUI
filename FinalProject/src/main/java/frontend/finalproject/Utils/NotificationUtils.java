@@ -181,4 +181,6 @@ public class NotificationUtils {
     public static final String INSERT_POSSIBLE_PARAMS_VALUE_FAIL_TXT = "Please select a parameter to add a possible parameter value";
     public static final String SENT_ACTION_SUCCESSFULLY_TEXT = "You've successfully sent an action to the robot!";
     public static final String SENT_ACTION_SUCCESSFULLY_TITLE = "Manual action successfully sent";
+    public static final String MAN_CONTROL_NOTIFICATION = "Manual control available";
+    public static final String MAN_CONTROL_NOTIFICATION_MSG = "You can manually control the robot!";
 }

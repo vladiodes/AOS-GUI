@@ -56,6 +56,8 @@ public class UtilsFXML {
     public static final String SEND_MANUAL_ACTION_REQUEST_PATH = "manual-action-request-view.fxml";
     private static final String RESPONSE_VIEW_PATH = "response-request-view.fxml";
 
+    public static boolean IS_MANUAL_CONTROL = false;
+
 
     public static void loadStage(String fxml, Stage stage) {
         try {
@@ -167,6 +169,10 @@ public class UtilsFXML {
     }
 
     public static void loadResponseStage(IJsonVisualizer visualizer){
+        loadResponseStage(visualizer,null);
+    }
+
+    public static void loadResponseStage(IJsonVisualizer visualizer,Runnable callback){
         Node node = visualizer.displayJSON();
         Stage stage = new Stage();
         try{
@@ -174,8 +180,14 @@ public class UtilsFXML {
             Parent root = loader.load();
             ResponseRequestController controller = loader.getController();
             controller.setRoot(node);
+            if(callback!=null)
+                controller.setCallback(callback);
             stage.setScene(new Scene(root));
             stage.show();
+            stage.setOnCloseRequest(event -> {
+                if(callback!=null)
+                    callback.run();
+            });
         }
         catch (IOException e){
             e.printStackTrace();

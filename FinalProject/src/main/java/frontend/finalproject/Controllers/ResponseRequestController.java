@@ -12,8 +12,14 @@ public class ResponseRequestController {
     @FXML
     private VBox rootVBOX;
 
+    private Runnable callback;
+
     public void setRoot(Node root) {
         this.rootVBOX.getChildren().add(root);
+    }
+
+    public void setCallback(Runnable callback) {
+        this.callback = callback;
     }
 
     public void handleCloseBTN(ActionEvent actionEvent) {
@@ -22,6 +28,8 @@ public class ResponseRequestController {
             Window window = scene.getWindow();
             if (window instanceof Stage stage) {
                 stage.close();
+                if (callback != null)
+                    callback.run();
             }
         }
     }
