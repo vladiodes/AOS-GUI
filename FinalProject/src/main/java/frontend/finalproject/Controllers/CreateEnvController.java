@@ -483,4 +483,17 @@ public class CreateEnvController {
             UtilsFXML.showErrorNotification(NotificationUtils.EDIT_EXCHANGE_FAIL_TITLE,NotificationUtils.EDIT_EXCHANGE_FAIL_TEXT);
         }
     }
+
+    public void example(ActionEvent actionEvent) {
+        Label infoLabel = new Label("Info label");
+        infoLabel.setStyle("""
+    -fx-padding: 0 0 0 20;
+    -fx-text-fill: green;
+""");
+        Stage stage = new Stage();
+        stage.setWidth(100);
+        stage.setHeight(100);
+        stage.setScene(new Scene(infoLabel));
+        stage.show();
+    }
 }

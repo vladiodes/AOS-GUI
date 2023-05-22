@@ -373,3 +373,8 @@
     -fx-text-fill: #c5c5c5;
     -fx-font-size: 10px;
 }
+
+.DanExample {
+    -fx-padding: 0 0 0 20;
+    -fx-text-fill: green;
+}
