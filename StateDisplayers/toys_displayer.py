@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw
+import matplotlib.pyplot as plt
 
-def display(game_state):
+def display(game_state, filename = None,is_merging_images = False):
     # Define the dimensions and positions
     width = 700
     height = 400
@@ -54,4 +55,10 @@ def display(game_state):
     draw.text((padding, height - padding - toy_size - 70), f"Pick Actions Left: {game_state['pickActionsLeft']}", fill='black')
 
     # Show the image
-    image.show()
+    
+
+        # Show the plot
+    if not is_merging_images:
+        image.show()
+    else:
+        image.save(filename, format='PNG')

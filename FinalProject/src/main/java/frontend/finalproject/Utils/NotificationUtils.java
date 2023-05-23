@@ -186,4 +186,7 @@ public class NotificationUtils {
     public static final String NEW_LOG_TITLE = "New log";
     public static final String LOGS_CLEARED_TITLE = "Logs cleared";
     public static final String LOGS_CLEARED_TXT = "Logs have been successfully cleared!";
+    public static final String VISUALIZE_BELIEF_STATES_NOTIFICATION = "Visualize belief states failed";
+    public static final String VISUALIZE_BELIEF_STATES_UNSUPPORTED = "Visualize belief states is not supported for the file you've provided.\n" +
+            "Please provide the following function def display(state, filename = None,is_merging_images = False)";
 }
