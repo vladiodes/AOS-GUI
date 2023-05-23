@@ -511,6 +511,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             buttonsContainer.getStyleClass().add(CENTER_STYLE);
             showRawData.getStyleClass().add(BTN_STYLE_CLASS);
             displayMergedStates.getStyleClass().add(BTN_STYLE_CLASS);
+            displayMergedStates.setMinWidth(200);
             rootContainer.setSpacing(20);
             buttonsContainer.setSpacing(10);
 
