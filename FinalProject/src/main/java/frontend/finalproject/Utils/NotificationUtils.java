@@ -184,4 +184,6 @@ public class NotificationUtils {
     public static final String MAN_CONTROL_NOTIFICATION = "Manual control available";
     public static final String MAN_CONTROL_NOTIFICATION_MSG = "You can manually control the robot!";
     public static final String NEW_LOG_TITLE = "New log";
+    public static final String LOGS_CLEARED_TITLE = "Logs cleared";
+    public static final String LOGS_CLEARED_TXT = "Logs have been successfully cleared!";
 }

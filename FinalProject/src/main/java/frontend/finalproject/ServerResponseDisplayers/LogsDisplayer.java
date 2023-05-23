@@ -1,13 +1,25 @@
 package frontend.finalproject.ServerResponseDisplayers;
 
+import DTO.HttpRequests.GetLogsRequestDTO;
+import backend.finalproject.AOSFacade;
 import com.google.gson.*;
+import frontend.finalproject.Utils.LogsNotificationsFetcher;
+import frontend.finalproject.Utils.NotificationUtils;
+import frontend.finalproject.Utils.UtilsFXML;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import utils.Response;
 
 
 public class LogsDisplayer implements IJsonVisualizer {
@@ -26,6 +38,9 @@ public class LogsDisplayer implements IJsonVisualizer {
     public static final String ADVANCED_COL_TITLE = "Advanced";
     public static final String COMPONENT_COL_TITLE = "Component";
     public static final String TIME_COL_TITLE = "Time";
+    public static final String CENTER_ALIGN_STYLE = "TreeBoxWrapper";
+    public static final String BUTTON_STYLE_CLASS = "formBtn";
+    public static final String LABEL_STYLE = "TextFieldLabel";
     private TableView<LogEntry> tableView;
 
     public LogsDisplayer(String logsJson) {
@@ -85,7 +100,45 @@ public class LogsDisplayer implements IJsonVisualizer {
 
     @Override
     public Node displayJSON() {
-        return this.tableView;
+        VBox root = new VBox();
+
+        Button clearLogs = new Button("Clear Logs");
+        clearLogs.setOnAction((e) -> {
+            Response<String> response = AOSFacade.getInstance().sendRequest(new GetLogsRequestDTO.DelLogsRequestDTO());
+            if(!response.hasErrorOccurred()){
+                UtilsFXML.showNotification(NotificationUtils.LOGS_CLEARED_TITLE,NotificationUtils.LOGS_CLEARED_TXT,null);
+                tableView.getColumns().clear();
+            }
+            else{
+                UtilsFXML.showErrorNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE,NotificationUtils.ERROR_SENDING_REQUEST_TITLE);
+            }
+        });
+
+
+        HBox buttonsContainer = new HBox();
+        Label logsNotifsLbl = new Label("Logs notifications");
+
+        SwitchButton btn = new SwitchButton(new SimpleBooleanProperty(!LogsNotificationsFetcher.getInstance().isPaused()));
+
+        buttonsContainer.getChildren().addAll(logsNotifsLbl,btn,clearLogs);
+
+        root.getChildren().addAll(tableView, buttonsContainer);
+
+        stylizeComponent(root, clearLogs,buttonsContainer,logsNotifsLbl);
+
+        return root;
+    }
+
+    private static void stylizeComponent(VBox root, Button clearLogs, HBox buttonsContainer, Label logsNotifsLbl) {
+        root.getStyleClass().add(CENTER_ALIGN_STYLE);
+        root.setSpacing(10);
+        clearLogs.getStyleClass().add(BUTTON_STYLE_CLASS);
+
+
+        buttonsContainer.getStyleClass().add(CENTER_ALIGN_STYLE);
+        buttonsContainer.setSpacing(20);
+
+        logsNotifsLbl.getStyleClass().add(LABEL_STYLE);
     }
 
     public static class LogEntry {
@@ -163,5 +216,48 @@ public class LogsDisplayer implements IJsonVisualizer {
         public String getTime() {
             return time.get();
         }
+    }
+
+    private static class SwitchButton extends Label
+    {
+        private SimpleBooleanProperty switchedOn;
+
+        public SwitchButton(SimpleBooleanProperty switchedOn) {
+            this.switchedOn = switchedOn;
+            Button switchBtn = new Button();
+            switchBtn.setPrefWidth(40);
+            switchBtn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent t) {
+                    switchedOn.set(!switchedOn.get());
+                }
+            });
+
+            setGraphic(switchBtn);
+
+            switchedOn.addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> ov,
+                                    Boolean t, Boolean t1) {
+                    if (t1) {
+                        setText("ON");
+                        setStyle("-fx-background-color: green;-fx-text-fill:white;");
+                        setContentDisplay(ContentDisplay.RIGHT);
+                        LogsNotificationsFetcher.getInstance().resumeFetcher();
+                    } else {
+                        setText("OFF");
+                        setStyle("-fx-background-color: grey;-fx-text-fill:black;");
+                        setContentDisplay(ContentDisplay.LEFT);
+                        LogsNotificationsFetcher.getInstance().pauseFetcher();
+                    }
+                }
+            });
+            setText(!switchOnProperty().get() ? "OFF" : "ON");
+            setStyle(!switchOnProperty().get() ? "-fx-background-color: grey;-fx-text-fill:black;" : "-fx-background-color: green;-fx-text-fill:white;");
+            setContentDisplay(!switchOnProperty().get() ? ContentDisplay.LEFT : ContentDisplay.RIGHT);
+
+        }
+
+        public SimpleBooleanProperty switchOnProperty() { return switchedOn; }
     }
 }
