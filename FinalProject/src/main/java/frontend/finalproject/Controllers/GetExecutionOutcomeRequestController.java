@@ -12,13 +12,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utils.Response;
+
+import java.io.File;
 
 public class GetExecutionOutcomeRequestController {
 
     private static final String ERROR_BELIEF_SIZE_INPUT = "Belief size input can only receive numeral positive values";
     @FXML private TextField beliefSizeVal;
+    @FXML private TextField scriptFile;
 
     private final IAOSFacade facade = AOSFacade.getInstance();
     public void handleBackBTNClick(ActionEvent actionEvent) {
@@ -34,13 +38,27 @@ public class GetExecutionOutcomeRequestController {
             if (resp.hasErrorOccurred())
                 UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
             else {
-
-                UtilsFXML.loadResponseStage(new ExecutionOutcomeVisualizer(resp.getValue()));
+                ExecutionOutcomeVisualizer executionOutcomeVisualizer = new ExecutionOutcomeVisualizer(resp.getValue(), beliefSize);
+                UtilsFXML.loadResponseStage(executionOutcomeVisualizer,
+                        executionOutcomeVisualizer::terminateRefresh);
+                if (!scriptFile.getText().isEmpty())
+                    facade.setScriptPath(scriptFile.getText());
             }
 
 
         }catch(NumberFormatException e){
             UtilsFXML.showErrorNotification("Input Error",ERROR_BELIEF_SIZE_INPUT);
         }
+    }
+
+    private void extractFilePathToTextField(TextField textField) {
+        final FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(new Stage());
+        if(file!=null){
+            textField.setText(file.getAbsolutePath());
+        }
+    }
+    public void handleBrowseFileBTNClick(ActionEvent event) {
+        extractFilePathToTextField(scriptFile);
     }
 }

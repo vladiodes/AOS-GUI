@@ -7,13 +7,14 @@ import backend.finalproject.ProjectFiles.Env.Environment;
 import backend.finalproject.ProjectFiles.Project;
 import backend.finalproject.ProjectFiles.SD.SD;
 import backend.finalproject.ProjectFiles.Skill;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -42,8 +43,16 @@ public class AOSFacade implements IAOSFacade {
         if (pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT)){
             return Response.OK(true);
         }
-        ProcessBuilder pb = new ProcessBuilder("bash", "-c", AOS_API_ACTIVATION_COMMAND);
+        ProcessBuilder pb = new ProcessBuilder();
+        String homeDir = System.getProperty("user.home");
+        File dir = new File(homeDir + AOS_API_ACTIVATION_DIR);
+
+        if(!dir.exists()){
+            return Response.FAIL(new Exception("AOS directory does not exist in the Home directory, or not in the right hierarchy"));
+        }
+        pb.directory(dir);
         pb.redirectErrorStream(true);
+        pb.command(AOS_API_ACTIVATION_COMMAND);
 
         try {
             AOS_API_Process = pb.start();
@@ -246,7 +255,7 @@ public class AOSFacade implements IAOSFacade {
     public Response<Boolean> openGeneratedFile(String fileName, DocumentationFile documentationFile, int line) {
         try{
             ProcessBuilder pb = new ProcessBuilder("code", fileName, ":"+line);
-            Process vs_code = pb.start();
+            pb.start();
             return Response.OK(true);
         } catch (IOException e) {
             return Response.FAIL(e);
@@ -282,5 +291,65 @@ public class AOSFacade implements IAOSFacade {
         if (currentProject == null){
             throw new Exception("Please first set current project");
         }
+    }
+
+    public Response<String> visualizeBeliefState(JsonObject beliefState){
+        try(FileInputStream file = new FileInputStream(new File(scriptPath)))
+        {
+            beliefState.remove("_id");
+            // opening a new process with the belief state initialized
+            ProcessBuilder pb = new ProcessBuilder();
+            String userCode =  "import json\n" + new String(file.readAllBytes()) + "\n\n" +
+                    "belief_state = json.loads('" + beliefState + "')" +
+                    "\n\ndisplay(belief_state)";
+            pb.command("python3", "-c" , userCode);
+            pb.redirectErrorStream(true);
+            Process p = pb.start();
+
+            // reading the output of the process
+            StringBuilder sb = new StringBuilder();
+            InputStreamReader reader = new InputStreamReader(p.getInputStream());
+            BufferedReader buffer = new BufferedReader(reader);
+            String line;
+            while((line = buffer.readLine())!= null ){
+                sb.append(line);
+                sb.append("\n");
+            }
+            return Response.OK(sb.toString());
+        }
+        catch (IOException e){
+            return Response.FAIL(e);
+        }
+    }
+
+    @Override
+    public Response<Boolean> visualizeBeliefStates(JsonArray beliefStates) {
+        try (FileInputStream userCode = new FileInputStream(new File(scriptPath));
+             FileInputStream epilogue = new FileInputStream(new File(Constants.IMAGE_MERGER_PYTHON_SCRIPT_PATH))) {
+            // opening a new process with the belief state initialized
+            ProcessBuilder pb = new ProcessBuilder();
+
+            String pythonCode = String.format("""
+                            import json
+                            %s
+                            belief_states = json.loads('%s')
+                            %s
+                            merge_images(belief_states)
+                            """,
+                    new String(userCode.readAllBytes()),
+                    beliefStates.toString(),
+                    new String(epilogue.readAllBytes()));
+
+            pb.command("python3", "-c", pythonCode);
+            Process p = pb.start();
+            return Response.OK(true);
+        } catch (IOException e) {
+            return Response.FAIL(e);
+        }
+    }
+
+    String scriptPath;
+    public void setScriptPath(String path){
+        scriptPath = path;
     }
 }

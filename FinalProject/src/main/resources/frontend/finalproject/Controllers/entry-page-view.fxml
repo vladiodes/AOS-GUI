@@ -69,7 +69,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button styleClass="homeBtn" fx:id="btnActivateAOS" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#handleActivationOfAOSRequest">
+                <Button styleClass="homeBtn" fx:id="btnActivateAOS" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#handleBtnActivationOfAOSRequest">
                     <graphic>
                         <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
                             <Image url="@../icons/power.png" />

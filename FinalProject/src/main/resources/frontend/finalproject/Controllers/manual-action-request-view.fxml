@@ -16,17 +16,8 @@
                 <Label styleClass="Separator_Text"  text="Actions sent to robot" />
             </VBox>
         </right>
-        <center>
-                    <HBox spacing="10"
-                          style="-fx-padding: 50 0 0 0;
-                        -fx-alignment: center">
-                        <Label styleClass="TextFieldLabel" text="Action ID" />
-                        <TextField styleClass="TextFieldForm" fx:id="ActionIDTxt"/>
-                    </HBox>
-        </center>
     </BorderPane>
             <HBox styleClass="CreateProjBTNsHBox">
-                <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN" />
                 <Button styleClass="formBtn" text="Delete all sent actions" onAction="#handleDeleteActionsBTN"/>
             </HBox>
 </children>

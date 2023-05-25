@@ -1,12 +1,11 @@
 package frontend.finalproject.Controllers;
 
+import DTO.HttpRequests.GetLogsRequestDTO;
 import DTO.HttpRequests.GetSimulatedStatesRequestDTO;
 import DTO.HttpRequests.StopRobotRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
-import frontend.finalproject.ServerResponseDisplayers.IJsonVisualizer;
-import frontend.finalproject.ServerResponseDisplayers.JsonTableViewVisualizer;
-import frontend.finalproject.ServerResponseDisplayers.SimulatedStateVisualizer;
+import frontend.finalproject.ServerResponseDisplayers.*;
 import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
@@ -39,5 +38,15 @@ public class IntegrationRequestsController {
     public void handleExecutionOutcomeRequestBTNClick(ActionEvent actionEvent){
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         UtilsFXML.loadStage(UtilsFXML.GET_EXECUTION_OUTCOME_PATH,stage);
+    }
+
+    public void handleLogsBTNClick(ActionEvent actionEvent) {
+        Response<String> response = facade.sendRequest(new GetLogsRequestDTO());
+        if(response.hasErrorOccurred()){
+            UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, response);
+        }
+        else {
+            UtilsFXML.loadResponseStage(new LogsDisplayer(response.getValue()));
+        }
     }
 }
