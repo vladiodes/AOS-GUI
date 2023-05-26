@@ -59,7 +59,7 @@ public class CreateEnvController {
     private TextField TypeGlobalVarDecTXT;
 
     @FXML
-    private TextField IsActionParameterValueTXT;
+    private ChoiceBox<String>  IsActionParameterChoiceBox;
 
     @FXML
     private TextArea DefaultCodeGlobVarDecTXT;
@@ -145,15 +145,16 @@ public class CreateEnvController {
     }
 
     public void handleInsertAnotherVarDecClick(ActionEvent event) {
+        String selected = IsActionParameterChoiceBox.selectionModelProperty().getValue().getSelectedItem();
+
         GlobalVariablesDeclarationModel globalVarDec = new GlobalVariablesDeclarationModel(NameGlobalVarDecTXT.getText(),
                 TypeGlobalVarDecTXT.getText(),
                 DefaultCodeGlobVarDecTXT.getText(),
-                Boolean.parseBoolean(IsActionParameterValueTXT.getText()));
+                Boolean.parseBoolean(selected));
 
         envModel.addGlobalVarDec(globalVarDec);
         addGlobalVarDecToTree(globalVarDec);
 
-        IsActionParameterValueTXT.setText("");
         NameGlobalVarDecTXT.setText("");
         TypeGlobalVarDecTXT.setText("");
         DefaultCodeGlobVarDecTXT.setText("");

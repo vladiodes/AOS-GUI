@@ -79,7 +79,14 @@
         </HBox>
         <HBox>
             <Button onAction="#isActionParamInfo" styleClass="info-button" text="IsActionParameterValue" />
-            <TextField fx:id="IsActionParameterValueTXT" styleClass="TextFieldForm" />
+            <ChoiceBox fx:id="IsActionParameterChoiceBox" styleClass="formCBx">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="true" />
+                    <String fx:value="false" />
+                </FXCollections>
+            </items>
+            </ChoiceBox>
         </HBox>
         <HBox>
             <Button onAction="#defaultCodeInfo" styleClass="info-button" text="Default Code" />
