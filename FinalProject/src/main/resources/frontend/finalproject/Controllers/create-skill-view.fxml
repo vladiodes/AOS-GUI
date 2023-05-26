@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.text.Font?>
-<?import javafx.collections.FXCollections?>
+
 <VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.CreateSkillController">
     <children>
         <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -28,7 +24,7 @@
         <content>
         <VBox spacing="10">
 
-        <Label text="PlpMain" styleClass="Separator_Text" />
+        <Button onAction="#plpMainInfo" text="PlpMain" styleClass="Separator_Text" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>
             <children>
@@ -37,17 +33,17 @@
             </children>
         </HBox>
 
-        <Label text="GlobalVariableModuleParameters" styleClass="Separator_Text" />
+        <Button onAction="#globalVarModuleParamInfo" text="GlobalVariableModuleParameters" styleClass="Separator_Text" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>
             <children>
-                <Label text="Name" styleClass="TextFieldLabel"/>
+                <Button onAction="#glovalVarModuleParamNameInfo" text="Name" styleClass="info-button"/>
                 <TextField fx:id="GlobalVarModuleParamNameTXT" styleClass="TextFieldForm"/>
             </children>
         </HBox>
         <HBox>
             <children>
-                <Label text="Type" styleClass="TextFieldLabel"/>
+                <Button onAction="#glovalVarModuleParamTypeInfo" text="Type" styleClass="info-button"/>
                 <TextField fx:id="GlobalVarModuleParamTypeTXT" styleClass="TextFieldForm"/>
             </children>
         </HBox>
@@ -80,16 +76,16 @@
             </children>
         </HBox>
 
-        <Label text="GlobalVariablePreconditionAssignments" styleClass="Separator_Text" />
+        <Button onAction="#globalVarPreconditionAssignInfo" text="GlobalVariablePreconditionAssignments" styleClass="Separator_Text" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>
             <children>
-                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <Button onAction="#assignmentCodeInfo" text="Assignment Name" styleClass="info-button"/>
                 <TextField fx:id="AssignmentNameGlobVarPreCondTXT" styleClass="TextFieldForm"/>
             </children>
         </HBox>
         <HBox>
-            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <Button onAction="#assignmentCodeInfo" text="Assignment Code" styleClass="info-button"/>
             <TextArea fx:id="AssignmentCodeGlobVarPreCondTXT" styleClass="TextAreaForm"/>
         </HBox>
         <HBox styleClass="CRUDBtn">
@@ -99,16 +95,16 @@
         </HBox>
         <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="GlobalVarPreconditionAssTreeView" styleClass="TreeViewForm" /></HBox>
 
-        <Label text="PlannerAssistancePreconditionsAssignments" styleClass="Separator_Text" />
+        <Button onAction="#plannerAssistPrecondAssignInfo" text="PlannerAssistancePreconditionsAssignments" styleClass="Separator_Text" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>
             <children>
-                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <Button onAction="#assignmentCodeInfo"  text="Assignment Name" styleClass="info-button"/>
                 <TextField fx:id="AssignmentNamePlannerAssistancePreCondTXT" styleClass="TextFieldForm"/>
             </children>
         </HBox>
         <HBox>
-            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <Button onAction="#assignmentCodeInfo"  text="Assignment Code" styleClass="info-button"/>
             <TextArea fx:id="AssignmentCodePlannerAssistancePreCondTXT" styleClass="TextAreaForm"/>
         </HBox>
         <HBox styleClass="CRUDBtn">
@@ -118,16 +114,16 @@
         </HBox>
         <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="PlannerAssistancePreconditionAssTreeView" styleClass="TreeViewForm" /></HBox>
 
-        <Label text="DynamicModel" styleClass="Separator_Text" />
+        <Button onAction="#dynamicModelInfo"  text="DynamicModel" styleClass="Separator_Text" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>
             <children>
-                <Label text="Assignment Name" styleClass="TextFieldLabel"/>
+                <Button onAction="#assignmentCodeInfo"  text="Assignment Name" styleClass="info-button"/>
                 <TextField fx:id="AssignmentNameDynamicModelTXT" styleClass="TextFieldForm"/>
             </children>
         </HBox>
         <HBox>
-            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <Button onAction="#assignmentCodeInfo"  text="Assignment Code" styleClass="info-button"/>
             <TextArea fx:id="AssignmentCodeDynamicModelTXT" styleClass="TextAreaForm"/>
         </HBox>
         <HBox styleClass="CRUDBtn">
@@ -147,7 +143,7 @@
                 <ScrollPane prefHeight="650.0" minWidth="1000">
                 <content>
                 <VBox spacing="10">
-                    <Label text="GlueFramework" styleClass="Separator_Text" />
+                    <Button onAction="#glueFrameworkInfo"  text="GlueFramework" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
                     <HBox>
                             <Label text="GlueFramework" styleClass="TextFieldLabel"/>
@@ -155,14 +151,14 @@
                     </HBox>
 
 
-                    <Label text="ResponseRules" styleClass="Separator_Text" />
+                    <Button onAction="#responseReulesInfo" text="ResponseRules" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
                     <HBox>
-                        <Label text="Response" styleClass="TextFieldLabel"/>
+                        <Button onAction="#responseInfo" text="Response" styleClass="info-button"/>
                         <TextField fx:id="ResponseTXT" styleClass="TextFieldForm"/>
                     </HBox>
                     <HBox>
-                        <Label text="ConditionCode" styleClass="TextFieldLabel"/>
+                        <Button onAction="#conditionCodeInfo" text="ConditionCode" styleClass="info-button"/>
                         <TextArea fx:id="ConditionCodeTXT" styleClass="TextAreaForm"/>
                     </HBox>
                     <HBox styleClass="CRUDBtn">
@@ -173,7 +169,7 @@
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ResponseRulesTreeView" styleClass="TreeViewForm" /></HBox>
 
 
-                    <Label text="ImportCode" styleClass="Separator_Text" />
+                    <Button onAction="#importCodeInfo" text="ImportCode" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
                     <HBox>
                         <Label text="From" styleClass="TextFieldLabel"/>
@@ -191,7 +187,7 @@
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ImportCodeMainTreeView" styleClass="TreeViewForm" /></HBox>
 
 
-                    <Label text="ServicePath" styleClass="Separator_Text" />
+                    <Button onAction="#servicePathInfo" text="ServicePath" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
                     <HBox>
                         <Label text="Service Path" styleClass="TextFieldLabel"/>
@@ -199,7 +195,7 @@
                     </HBox>
 
 
-                    <Label text="ServiceName" styleClass="Separator_Text" />
+                    <Button onAction="#serviceNameInfo" text="ServiceName" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
                     <HBox>
                         <Label text="Service Name" styleClass="TextFieldLabel"/>
@@ -207,14 +203,14 @@
                     </HBox>
 
 
-                    <Label text="ServiceParameters" styleClass="Separator_Text" />
+                    <Button onAction="#serviceParametersInfo" text="ServiceParameters" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
                     <HBox>
-                        <Label text="Service Field Name" styleClass="TextFieldLabel"/>
+                        <Button onAction="#serviceFieldNameInfo" text="Service Field Name" styleClass="info-button"/>
                         <TextField fx:id="ServiceFieldNameTXT" styleClass="TextFieldForm"/>
                     </HBox>
                     <HBox>
-                        <Label text="AssignServiceFieldCode" styleClass="TextFieldLabel"/>
+                        <Button onAction="#assignServiceFieldCodeInfo" text="AssignServiceFieldCode" styleClass="info-button"/>
                         <TextArea fx:id="AssignServiceFieldCodeTXT" styleClass="TextAreaForm"/>
                     </HBox>
                     <HBox styleClass="CRUDBtn">
@@ -224,7 +220,7 @@
                     </HBox>
                     <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ServicesParamsTreeView" styleClass="TreeViewForm" /></HBox>
 
-                    <Label text="LocalVariablesInitialization" styleClass="Separator_Text" />
+                    <Button onAction="#localVarInitInfo" text="LocalVariablesInitialization" styleClass="Separator_Text" />
                     <Separator prefHeight="14.0" styleClass="Separator_Line" />
                     <HBox styleClass="CRUDBtn">
                         <Button onAction="#handleInsertLocalVarInitSDbtnClick"  styleClass="formBtn" text="Insert SD file skill parameters" />

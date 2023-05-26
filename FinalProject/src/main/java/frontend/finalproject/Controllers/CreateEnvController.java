@@ -22,6 +22,7 @@ import utils.Response;
 import java.io.IOException;
 
 import static frontend.finalproject.Utils.UtilsFXML.loadEditStage;
+import static frontend.finalproject.Utils.UtilsFXML.popUpWindow;
 
 public class CreateEnvController {
 
@@ -556,23 +557,4 @@ public class CreateEnvController {
     public void extrinsicChangesDynamicModelInfo(ActionEvent actionEvent) {
         popUpWindow("ExtrinsicChangesDynamicModel", "This section uses to define extrinsic changes. These are changes that the robot did not invoke by its skills. For example, let's say there is a probability that it will start to rain, making the floor wet and making it harder to navigate. The agent did not invoke the rain, but it affected the robot's decisions.");
     }
-
-    private void popUpWindow(String title, String text){
-        Stage stage = new Stage();
-        Label infoLabel = new Label(text);
-        // set the style of infoLabel to present all the text in multiple lines if needed
-        infoLabel.setStyle("-fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 10px; -fx-text-alignment: center; -fx-background-color: #2a2a2a; -fx-background-radius: 10px;");
-        // set the text to be wrapped if it is too long
-        infoLabel.setWrapText(true);
-        // set the width of the label to be 400
-        infoLabel.setPrefWidth(400);
-
-        // set the scene of the stage to be the infoLabel
-        stage.setScene(new Scene(infoLabel));
-        // set the title of the stage
-        stage.setTitle(title);
-        // show the stage
-        stage.show();
-    }
-
 }
