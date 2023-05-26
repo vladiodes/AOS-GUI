@@ -37,16 +37,6 @@
 }
 
 
-.Separator_Text{
-    -fx-padding: 0 0 0 20;
-    -fx-border-radius: 2 !important;
-    -fx-background-radius: 2 !important;
-    -fx-text-fill: black;
-    -fx-font-size: 20px;
-    -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
-    -fx-font-weight: 400;
-}
-
 .Separator_Line{
     -fx-padding: 0 0 0 20;
 }
@@ -367,14 +357,42 @@
     -fx-border-color: transparent;
 }
 
-
-.Info_Label {
-    -fx-alignment: center;
-    -fx-text-fill: #c5c5c5;
-    -fx-font-size: 10px;
+.form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    z-index: 9;
 }
 
-.DanExample {
+.Separator_Text{
     -fx-padding: 0 0 0 20;
-    -fx-text-fill: green;
+    -fx-border-radius: 2 !important;
+    -fx-background-radius: 2 !important;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+    -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+    -fx-font-weight: 400;
+}
+
+.info-button{
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-pref-width: 200;
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 20;
+    -fx-alignment: center-left;
+    -fx-font-family: Segoe UI,Frutiger,Frutiger Linotype,Dejavu Sans,Helvetica Neue,Arial,sans-serif;
+    -fx-text-fill: black;
+}
+
+.info-button:focused {
+    -fx-border-color: transparent, black;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
 }
