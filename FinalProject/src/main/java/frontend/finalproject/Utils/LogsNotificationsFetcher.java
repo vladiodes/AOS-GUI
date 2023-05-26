@@ -9,6 +9,8 @@ import com.google.gson.JsonElement;
 import javafx.application.Platform;
 import utils.Response;
 
+import java.util.concurrent.Semaphore;
+
 public class LogsNotificationsFetcher {
     public static final String ID_JSON_KEY = "id";
     public static final String EVENT_JSON_KEY = "event";
@@ -21,8 +23,11 @@ public class LogsNotificationsFetcher {
 
     private boolean shouldTerminate = false;
     private String recentLogId = null;
+    private Semaphore semaphore;
+    private boolean isPaused = false;
 
     private LogsNotificationsFetcher(){
+        semaphore = new Semaphore(1);
 
     }
 
@@ -30,21 +35,27 @@ public class LogsNotificationsFetcher {
         while (!shouldTerminate) {
             try {
                 Thread.sleep(1000);
+                semaphore.acquire();
             } catch (InterruptedException ignored) {
             }
 
             Response<String> response = AOSFacade.getInstance().sendRequest(new GetLogsRequestDTO());
-            if (response.hasErrorOccurred())
+            if (response.hasErrorOccurred()) {
+                semaphore.release();
                 continue;
+            }
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonElement jsonElement = gson.fromJson(response.getValue(), JsonElement.class);
             JsonArray logs = jsonElement.getAsJsonArray();
 
-            if (logs.size() == 0 || logs.get(logs.size() - 1).getAsJsonObject().get(ID_JSON_KEY).getAsString().equals(recentLogId))
+            if (logs.size() == 0 || logs.get(logs.size() - 1).getAsJsonObject().get(ID_JSON_KEY).getAsString().equals(recentLogId)) {
+                semaphore.release();
                 continue; // No new logs
+            }
 
             if(recentLogId == null){ // first run of the thread. set recentLogId to the last log id
                 recentLogId = logs.get(logs.size() - 1).getAsJsonObject().get(ID_JSON_KEY).getAsString();
+                semaphore.release();
                 continue;
             }
 
@@ -60,11 +71,30 @@ public class LogsNotificationsFetcher {
                 });
             }
             recentLogId = logs.get(logs.size() - 1).getAsJsonObject().get(ID_JSON_KEY).getAsString();
-
+            semaphore.release();
         }
     }
 
+    public void pauseFetcher() {
+        try {
+            semaphore.acquire();
+            isPaused = true;
+        } catch (InterruptedException ignored) {
+        }
+    }
+
+    public void resumeFetcher(){
+        semaphore.release();
+        isPaused = false;
+    }
+
+
     public void terminate(){
+        semaphore.release();
         shouldTerminate = true;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
     }
 }

@@ -1,6 +1,7 @@
 package backend.finalproject;
 
 import DTO.HttpRequests.HttpRequestDTO;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
@@ -168,6 +169,8 @@ public interface IAOSFacade {
     Response<String> sendRequest(HttpRequestDTO request);
 
     Response<String> visualizeBeliefState(JsonObject beliefState);
+
+    Response<Boolean> visualizeBeliefStates(JsonArray beliefStates);
 
     void setScriptPath(String text);
 

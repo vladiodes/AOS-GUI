@@ -1,0 +1,58 @@
+{
+  "PlpMain": {
+    "Name": "navigate",
+    "Type": "PLP",
+    "Version": 1.0
+  },
+  "GlobalVariableModuleParameters": [
+    {
+      "Name": "oDestination",
+      "Type": "tLocation"
+    },
+    {
+      "Name": "oNavigationMode",
+      "Type": "int"
+    }
+  ],
+  "PossibleParametersValue": [],
+  "Preconditions": {
+    "GlobalVariablePreconditionAssignments": [
+      {
+        "AssignmentName": "",
+        "AssignmentCode": [
+          "__meetPrecondition = oDestination != state.robotLocation;"
+        ]
+      }
+    ],
+    "PlannerAssistancePreconditionsAssignments": [
+      {
+        "AssignmentName": "__heuristicValue for second agent joint push with first agent",
+        "AssignmentCode": [
+          "if(oIsJointPush == JointPush && !state.isAgentOneTurn && oDirection == state.JointPushDirection)__heuristicValue=100;"
+        ]
+      },
+      {
+        "AssignmentName": "__heuristicValue push box when possible (don't ovverride first rule)",
+        "AssignmentCode": [
+          "if(__heuristicValue == 0) ",
+          "__heuristicValue=1;"
+        ]
+      }
+    ],
+    "ViolatingPreconditionPenalty": 0.0
+  },
+  "DynamicModel": {
+    "NextStateAssignments": [
+      {
+        "AssignmentName": "",
+        "AssignmentCode": [
+          "state__.robotLocation.discrete = !__meetPrecondition || AOS.Bernoulli(0.1) ? -1: oDesiredLocation.discrete;",
+          "if(state__.robotLocation.discrete == oDesiredLocation.discrete){ state__.robotLocation.x = oDesiredLocation.x; state__.robotLocation.y = oDesiredLocation.y; state__.robotLocation.z = oDesiredLocation.z;",
+          "__moduleResponse = (state__.robotLocation.discrete == -1 && AOS.Bernoulli(0.8)) ? eFailed : eSuccess;",
+          "__reward = state_.robotLocation.discrete == -1 ? -5 : -(sqrt(pow(state.robotLocation.x-oDesiredLocation.x,2.0)+pow(state.robotLocation.y-oDesiredLocation.y,2.0)))*10;",
+          "if (state__.robotLocation.discrete == -1) __reward =  -10;"
+        ]
+      }
+    ]
+  }
+}

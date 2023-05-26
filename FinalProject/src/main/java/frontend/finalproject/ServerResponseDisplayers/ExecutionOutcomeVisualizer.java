@@ -393,6 +393,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         TextField filterTextField;
         HBox buttonsContainer;
         Button showRawData;
+        Button displayMergedStates;
         VBox rawDataContainer;
         List<String> actionDescriptions;
         AtomicReference<List<BarChart<String, Number>>> curHistograms;
@@ -441,6 +442,14 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                     showRawData.setText("Hide Raw Data");
                 }
             });
+            this.displayMergedStates.setOnAction(e -> {
+                Response<Boolean> response = AOSFacade.getInstance().visualizeBeliefStates(
+                        executionOutcome.get(currentIdx).getAsJsonObject().
+                                get(currentIdx == 0 ? INITIAL_BELIEFE_STATE_JSON_KEY : BELIEF_STATES_AFTER_EXECUTION_JSON_KEY).getAsJsonArray());
+                if(response.hasErrorOccurred()){
+                    UtilsFXML.showErrorNotification(NotificationUtils.VISUALIZE_BELIEF_STATES_NOTIFICATION, NotificationUtils.VISUALIZE_BELIEF_STATES_UNSUPPORTED);
+                }
+            });
 
             filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
                 populateHistograms(curHistograms, newValue);
@@ -481,7 +490,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
             buttonsContainer = new HBox();
             showRawData = new Button("Show Raw Data");
-            buttonsContainer.getChildren().addAll(showRawData);
+            displayMergedStates = new Button("Display Merged States");
+            buttonsContainer.getChildren().addAll(displayMergedStates, showRawData);
 
             rawDataContainer = new VBox();
             rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(0).toString()).displayJSON());
@@ -500,6 +510,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             rootContainer.getStyleClass().add(ROOT_STYLE_CLASS);
             buttonsContainer.getStyleClass().add(CENTER_STYLE);
             showRawData.getStyleClass().add(BTN_STYLE_CLASS);
+            displayMergedStates.getStyleClass().add(BTN_STYLE_CLASS);
+            displayMergedStates.setMinWidth(200);
             rootContainer.setSpacing(20);
             buttonsContainer.setSpacing(10);
 
