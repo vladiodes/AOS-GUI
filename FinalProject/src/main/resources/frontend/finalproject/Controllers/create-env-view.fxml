@@ -39,7 +39,7 @@
             <children>
                 <!--create a button right next to Horizon text -->
                 <Button onAction="#horizonInfo" styleClass="info-button" text="Horizon" />
-                <TextField fx:id="HorizonTXT" styleClass="TextFieldForm" />
+                <TextField text="10" fx:id="HorizonTXT" styleClass="TextFieldForm" />
             </children>
         </HBox>
         <HBox>
