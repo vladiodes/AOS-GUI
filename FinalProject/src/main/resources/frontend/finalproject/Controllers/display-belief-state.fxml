@@ -6,6 +6,7 @@
 
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 <VBox spacing="10" stylesheets="@../style.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.finalproject.Controllers.DisplayBeliefStateController">
     <children>
         <Pane prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -17,8 +18,7 @@
                 </Label>
             </children>
         </Pane>
-        <VBox spacing="10" alignment="CENTER">
-            <TextArea minHeight="400"  styleClass="TextAreaWithMargin" editable="false" fx:id="displayArea"/>
+        <VBox spacing="10" alignment="CENTER" fx:id="displayArea">
             <Button styleClass="formBtn" fx:id="close" onAction="#handleCloseBtn" text="Close"/>
         </VBox>
     </children>
