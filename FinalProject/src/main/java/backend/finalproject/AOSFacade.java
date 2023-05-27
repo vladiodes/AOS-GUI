@@ -295,7 +295,6 @@ public class AOSFacade implements IAOSFacade {
     public Response<String> visualizeBeliefState(JsonObject beliefState){
         try(FileInputStream file = new FileInputStream(new File(scriptPath)))
         {
-            beliefState.remove("_id");
             // opening a new process with the belief state initialized
             ProcessBuilder pb = new ProcessBuilder();
             String userCode =  "import json\n" + new String(file.readAllBytes()) + "\n\n" +
