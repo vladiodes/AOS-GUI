@@ -11,15 +11,18 @@ import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import utils.Response;
 
 import java.io.IOException;
 
 import static frontend.finalproject.Utils.UtilsFXML.loadEditStage;
+import static frontend.finalproject.Utils.UtilsFXML.popUpWindow;
 
 public class CreateEnvController {
 
@@ -56,7 +59,7 @@ public class CreateEnvController {
     private TextField TypeGlobalVarDecTXT;
 
     @FXML
-    private TextField IsActionParameterValueTXT;
+    private ChoiceBox<String>  IsActionParameterChoiceBox;
 
     @FXML
     private TextArea DefaultCodeGlobVarDecTXT;
@@ -142,15 +145,16 @@ public class CreateEnvController {
     }
 
     public void handleInsertAnotherVarDecClick(ActionEvent event) {
+        String selected = IsActionParameterChoiceBox.selectionModelProperty().getValue().getSelectedItem();
+
         GlobalVariablesDeclarationModel globalVarDec = new GlobalVariablesDeclarationModel(NameGlobalVarDecTXT.getText(),
                 TypeGlobalVarDecTXT.getText(),
                 DefaultCodeGlobVarDecTXT.getText(),
-                Boolean.parseBoolean(IsActionParameterValueTXT.getText()));
+                Boolean.parseBoolean(selected));
 
         envModel.addGlobalVarDec(globalVarDec);
         addGlobalVarDecToTree(globalVarDec);
 
-        IsActionParameterValueTXT.setText("");
         NameGlobalVarDecTXT.setText("");
         TypeGlobalVarDecTXT.setText("");
         DefaultCodeGlobVarDecTXT.setText("");
@@ -482,5 +486,76 @@ public class CreateEnvController {
         else{
             UtilsFXML.showErrorNotification(NotificationUtils.EDIT_EXCHANGE_FAIL_TITLE,NotificationUtils.EDIT_EXCHANGE_FAIL_TEXT);
         }
+    }
+
+    public void plpMainInfo(ActionEvent actionEvent) {
+        popUpWindow("PlpMain", "header section that each documentation file contains.");
+    }
+    public void projectInfo(ActionEvent actionEvent) {
+        popUpWindow("Project", "field of type string. It describes the project name, all documentation files in the project must have the same name (e.g., \"cleaning_robot1\").");
+    }
+    public void envGeneralInfo(ActionEvent actionEvent) {
+        popUpWindow("EnvironmentGeneral", "describes the general parameters of the planning problem.");
+    }
+    public void horizonInfo(ActionEvent actionEvent) {
+        popUpWindow("Horizon", "Field of type integer.\n It describes how many forward steps the AOS considers when it decides on an action. On sampling algorithms, a longer horizon means fewer trajectories sampled on the same planning period, so it is better to specify an exact number; remember that if the horizon is too small, the robot cannot simulate reaching the goal.");
+    }
+    public void discountInfo(ActionEvent actionEvent) {
+        popUpWindow("Discount", "field of type decimal. Legal values are in the range of (1,0). It defines the discount factor on the value of future rewards. For values close to 1, we don't care so much about when we receive a reward; on the other hand, for values close to 0, we only care about rewards received in the next step, ignoring the future. In robotic domains, where each action has a cost, a value close to 1 is recommended (e.g., 0.9999).");
+    }
+    public void globalVariableTypeInfo(ActionEvent actionEvent) {
+        popUpWindow("GlobalVariableTypes", "The supported state variable types are the primitive C++ types (e.g., string, int, float). The \"GlobalVariableTypes\" section enables users to define custom state variable types. More specifically, enums and compound data structures that aggregate multiple data items.\n" +
+                "After a type is defined, the user may use it to define a state variable.");
+    }
+    public void globalVarTypeTypeInfo(ActionEvent actionEvent) {
+        popUpWindow("Type", "compund/enum. After a type is defined, the user may use it to define a state variable.");
+    }
+    public void globalVarDeclInfo(ActionEvent actionEvent) {
+        popUpWindow("GlobalVariablesDeclaration", "defines the state variables and possible action parameters.\n" +
+                "The field is an array of defined types and action parameters");
+    }
+    public void globalVarDecNameInfo(ActionEvent actionEvent) {
+        popUpWindow("Name", "type string that defines the variables name");
+    }
+    public void globalVarDecTypeInfo(ActionEvent actionEvent) {
+        popUpWindow("Type", "type string that defines the state variable types. Supported types are the C++ primitive types (e.g., int, float, double, string, char, bool) and custom types (defined in the GlobalVariableTypes section).");
+    }
+    public void isActionParamInfo(ActionEvent actionEvent) {
+        popUpWindow("IsActionParameter", "type boolean (can take 'true' or 'false' values). It determines if this item is an action parameter. Action parameters are values the AOS can send as skill parameters. A Skill that takes a parameter of type int and a parameter of type string can receive any combination of action parameter values defined from type int and string. Suppose a user has two skills that take a parameter of the same type but have different possible values. In that case, the user should define a custom type that will wrap the skill parameters, and the skill will receive a parameter of that type.");
+    }
+    public void defaultCodeInfo(ActionEvent actionEvent) {
+        popUpWindow("DefaultCode", "type string can be used to initialize the variable. This field value contains C++ code. the variable is referred to as 'state.' where is replaced by the variable \"Name\".");
+    }
+    public void initBeliefStateAssignInfo(ActionEvent actionEvent) {
+        popUpWindow("InitialBeliefStateAssignments", "In many robotic domains, the initial state is unknown, and the robot should reason about this uncertainty. This section allows the user to define the uncertainty about the initial state using code. He can use the AOS extensions to sample from known distributions (Bernoulli, Discrete or Normal, see).\n" +
+                "The state variables can be referred to and changed using 'state.variable_name'.\n" +
+                "More technically, the AOS generates a particle set to represent the distribution of the initial belief state; each particle is a fully initialized state, and its values are taken from the default state variable value and sampled from this code section.");
+    }
+    public void assignmentNameInfo(ActionEvent actionEvent) {
+        popUpWindow("Assignments blocks", "There are a few sections of Assignments blocks like \"InitialBeliefStateAssignments\" they all have the same syntax.\n" +
+                "An Assignments block is an array of assignments. Each assignment item may have an \"AssignmentName\" for readability, and it must have an \"AssignmentCode\" field which is a string (a single code line) or an array of strings such that each string is a code line.");
+    }
+    public void assignmentCodeInfo(ActionEvent actionEvent) {
+        popUpWindow("Assignments blocks", "There are a few sections of Assignments blocks like \"InitialBeliefStateAssignments\" they all have the same syntax.\n" +
+                "An Assignments block is an array of assignments. Each assignment item may have an \"AssignmentName\" for readability, and it must have an \"AssignmentCode\" field which is a string (a single code line) or an array of strings such that each string is a code line.");
+    }
+    public void specialStatesInfo(ActionEvent actionEvent) {
+        popUpWindow("SpecialStates", "The \"SpecialStates\" section uses to define desired or undesired states. The robot's goal is to maximize the expected discounted reward. This section allows the engineer to define desired or undesired states (e.g., \"the drone should be balanced,\" \"hitting a wall is terrible\"). It can also define landmarks in the form of states the given a one-time reward the first time a state is reached (unlike \"hitting a wall is terrible\"). Moreover, the user can define goal rewards; these are termination conditions for the robot that ends its current operation (the robot will stop if its current belief distribution indicates a terminal state with a mean of more than 0.9 and a standard deviation of less than 0.1).");
+    }
+    public void stateConditionCodeInfo(ActionEvent actionEvent) {
+        popUpWindow("StateConditionCode", "string code line that defines the condition indicating that we reached the state. The condition is defined over some or all state variable assignments, and it can only be defined in a single line (use lambda expressions for conditions that require iterating over multiple variables).");
+    }
+
+    public void rewardInfo(ActionEvent actionEvent) {
+        popUpWindow("Reward", " decimal field indicating the reward given when the condition is met.");
+    }
+    public void isGoalStateInfo(ActionEvent actionEvent) {
+        popUpWindow("IsGoalState", "boolean field to define if it is a terminal state (default value is false).");
+    }
+    public void isOneTimeRewardInfo(ActionEvent actionEvent) {
+        popUpWindow("IsOneTimeReward", "boolean field to define if the reward will be given only one time or multiple times (default value is false). ");
+    }
+    public void extrinsicChangesDynamicModelInfo(ActionEvent actionEvent) {
+        popUpWindow("ExtrinsicChangesDynamicModel", "This section uses to define extrinsic changes. These are changes that the robot did not invoke by its skills. For example, let's say there is a probability that it will start to rain, making the floor wet and making it harder to navigate. The agent did not invoke the rain, but it affected the robot's decisions.");
     }
 }

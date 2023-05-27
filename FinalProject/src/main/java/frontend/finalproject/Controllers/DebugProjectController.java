@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import utils.Response;
 
@@ -36,12 +36,14 @@ public class DebugProjectController {
     }
 
     private void extractFilePathToTextField(TextField textField) {
-        final FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(new Stage());
+        final DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choose Project's Directory");
+        File file = directoryChooser.showDialog(new Stage());
         if(file!=null){
             textField.setText(file.getAbsolutePath());
         }
     }
+
     public void handleBrowseFileBTNClick(ActionEvent event) {
         extractFilePathToTextField(ProjectNameTXT);
     }

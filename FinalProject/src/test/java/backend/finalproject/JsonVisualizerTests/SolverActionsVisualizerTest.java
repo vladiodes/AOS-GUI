@@ -133,7 +133,7 @@ class SolverActionsVisualizerTest {
 
     @Test
     void testDisplaySolverActions() {
-        solverActionsVisualizer = new SolverActionsVisualizer(GET_SOLVER_ACTIONS_RESPONSE);
+        solverActionsVisualizer = new SolverActionsVisualizer(GET_SOLVER_ACTIONS_RESPONSE,null);
         TreeView<String> treeView = (TreeView<String>) solverActionsVisualizer.displayJSON();
         assertEquals(treeView.getRoot().getChildren().size(), 10);
     }

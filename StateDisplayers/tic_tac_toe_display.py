@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-def display(x):
-    grid = x['grid']
+def display(state, filename = None,is_merging_images = False):
+    grid = state['grid']
     # Create a 3x3 grid for the tic tac toe board
     board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
@@ -34,4 +34,7 @@ def display(x):
                 ax.text(j + 0.5, i + 0.5, 'O', fontsize=50, va='center', ha='center')
 
     # Show the plot
-    plt.show()
+    if not is_merging_images:
+        plt.show()
+    else:
+        plt.savefig(fname=filename,format='PNG')

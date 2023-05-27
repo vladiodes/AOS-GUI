@@ -38,9 +38,10 @@ public class GetExecutionOutcomeRequestController {
             if (resp.hasErrorOccurred())
                 UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
             else {
-
-                UtilsFXML.loadResponseStage(new ExecutionOutcomeVisualizer(resp.getValue()));
-                if(!scriptFile.getText().isEmpty())
+                ExecutionOutcomeVisualizer executionOutcomeVisualizer = new ExecutionOutcomeVisualizer(resp.getValue(), beliefSize);
+                UtilsFXML.loadResponseStage(executionOutcomeVisualizer,
+                        executionOutcomeVisualizer::terminateRefresh);
+                if (!scriptFile.getText().isEmpty())
                     facade.setScriptPath(scriptFile.getText());
             }
 

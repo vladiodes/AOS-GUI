@@ -79,6 +79,8 @@ public class InitializeProjectRequestController {
                 .setDebugOnMiddleware(Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
                 .build();
 
+        UtilsFXML.IS_MANUAL_CONTROL = Objects.equals(ManualControlCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
+
         Response<String> resp = facade.sendRequest(requestDTO);
 
         if (resp.hasErrorOccurred())

@@ -7,6 +7,7 @@ import backend.finalproject.ProjectFiles.Env.Environment;
 import backend.finalproject.ProjectFiles.Project;
 import backend.finalproject.ProjectFiles.SD.SD;
 import backend.finalproject.ProjectFiles.Skill;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
@@ -316,6 +317,32 @@ public class AOSFacade implements IAOSFacade {
             return Response.OK(sb.toString());
         }
         catch (IOException e){
+            return Response.FAIL(e);
+        }
+    }
+
+    @Override
+    public Response<Boolean> visualizeBeliefStates(JsonArray beliefStates) {
+        try (FileInputStream userCode = new FileInputStream(new File(scriptPath));
+             FileInputStream epilogue = new FileInputStream(new File(Constants.IMAGE_MERGER_PYTHON_SCRIPT_PATH))) {
+            // opening a new process with the belief state initialized
+            ProcessBuilder pb = new ProcessBuilder();
+
+            String pythonCode = String.format("""
+                            import json
+                            %s
+                            belief_states = json.loads('%s')
+                            %s
+                            merge_images(belief_states)
+                            """,
+                    new String(userCode.readAllBytes()),
+                    beliefStates.toString(),
+                    new String(epilogue.readAllBytes()));
+
+            pb.command("python3", "-c", pythonCode);
+            Process p = pb.start();
+            return Response.OK(true);
+        } catch (IOException e) {
             return Response.FAIL(e);
         }
     }

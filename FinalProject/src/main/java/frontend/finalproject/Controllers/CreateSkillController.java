@@ -24,8 +24,7 @@ import utils.Response;
 import java.io.IOException;
 import java.util.List;
 
-import static frontend.finalproject.Utils.UtilsFXML.createImportCodeTree;
-import static frontend.finalproject.Utils.UtilsFXML.loadEditStage;
+import static frontend.finalproject.Utils.UtilsFXML.*;
 
 
 public class CreateSkillController {
@@ -819,5 +818,88 @@ public class CreateSkillController {
         addAssBlockToTree(PossibleParamsValueAssTreeView,POSSIBLE_VALUES,block);
         AssignmentCodePossibleParamsValueTXT.setText("");
         UtilsFXML.showNotification(NotificationUtils.INSERT_POSSIBLE_PARAMS_VALUE_SUCCESS_TITLE,NotificationUtils.INSERT_POSSIBLE_PARAMS_VALUE_SUCCESS_TEXT,null);
+    }
+
+    public void plpMainInfo(ActionEvent actionEvent) {
+        popUpWindow("PlpMain", "header section that each documentation file contains.");
+    }
+    public void globalVarModuleParamInfo(ActionEvent actionEvent) {
+        popUpWindow("GlobalVariableModuleParameters", "This section uses to define the parameters sent to a skill. The skill parameters are the context under which the skill operates. Possible parameters are, for example, 1) an enum value for navigation modes like 'fast' navigation vs. 'safe' navigation or 2) the navigation destination. Formally the \"GlobalVariableModuleParameters\" is an array of parameter items");
+    }
+    public void glovalVarModuleParamNameInfo(ActionEvent actionEvent) {
+        popUpWindow("Name", "the string name to refer to the parameter");
+    }
+    public void glovalVarModuleParamTypeInfo(ActionEvent actionEvent) {
+        popUpWindow("Type", "a string indicating the parameter type");
+    }
+    public void globalVarPreconditionAssignInfo(ActionEvent actionEvent) {
+        popUpWindow("GlobalVariablePreconditionAssignments", "This section is used to define when a skill with given parameters met the preconditions (default is true). This field is an Assinment block, the should assign a value to the reserved variable __meetPrecondition and it can use (not change) any state variable from state (see The three sets of state variables).");
+    }
+    public void assignmentCodeInfo(ActionEvent actionEvent) {
+        popUpWindow("Assignments blocks", "There are a few sections of Assignments blocks like \"InitialBeliefStateAssignments\" they all have the same syntax.\n" +
+                "An Assignments block is an array of assignments. Each assignment item may have an \"AssignmentName\" for readability, and it must have an \"AssignmentCode\" field which is a string (a single code line) or an array of strings such that each string is a code line.");
+    }
+    public void plannerAssistPrecondAssignInfo(ActionEvent actionEvent) {
+        popUpWindow("PlannerAssistancePreconditionsAssignments", "In this section, the user can define a default (rollout) policy. This field is an Assinment block that should set the value of the reserved variable __heuristicValue. The code assignment can be conditioned on variable from state (but cannot change their value. See The three sets of state variables).\n" +
+                "The default policy will draw between all available skills and parameter assignments. The weight of each skill will be its computed __heuristicValue");
+    }
+    public void dynamicModelInfo(ActionEvent actionEvent) {
+        popUpWindow("dynamicModelInfo", "The DynamicModel defines the high-level behavior of a skill. More specifically, the transition reward and observation models, how a skill changes the state, what costs (or rewards) are applied and which observations are returned. The \"NextStateAssignments\" is an assignments block that sets the next state (state__), reward (__reward reserved variable), and observation (__moduleResponse reserved variable) conditioned on the previose state (state), the state after extrinsic changes (state_) and if the preconditions were met (__meetPrecondition).");
+    }
+    public void glueFrameworkInfo(ActionEvent actionEvent) {
+        popUpWindow("GlueFramework", "GlueFramework is a string field to specify the type of robot framework (e.g., \"ROS\" for ROS1).");
+    }
+    public void responseReulesInfo(ActionEvent actionEvent) {
+        popUpWindow("ResponseRules", "ModuleResponse section defines the translation between an actual execution outcome of a skill, to observations the AOS planning engine can reason about. The planning engine uses the SD documentation to simulate what might happen. The AM ModuleResponse section is used to translate what really happened to the language used in the SD documentation (see DynamicModel). The planning engine uses this information to update the robot's belief.\n" +
+                "\n" +
+                "The ResponseRules is the array of possible observations a skill can return.");
+    }
+    public void responseInfo(ActionEvent actionEvent) {
+        popUpWindow("Response", "a string field that defines the observation name. The SD __moduleResponse variable can only receive values defined as \"Response.\"");
+    }
+    public void conditionCodeInfo(ActionEvent actionEvent) {
+        popUpWindow("ConditionCodeWithLocalVariables", " a string field that uses the user to define when the skill returns the current response (code is in Python for ROS). The condition may depend on \"Local Variable\" values (see Local Variables).");
+    }
+    public void importCodeInfo(ActionEvent actionEvent) {
+        popUpWindow("ImportCode", "defines imported modules used when calling the service.");
+    }
+    public void servicePathInfo(ActionEvent actionEvent) {
+        popUpWindow("ServicePath", "the service path (called in the service ROS Wiki) ");
+    }
+    public void serviceNameInfo(ActionEvent actionEvent) {
+        popUpWindow("ServiceName", "he name of the service \"srv\" file (<ServiceName>.srv).");
+    }
+    public void serviceParametersInfo(ActionEvent actionEvent) {
+        popUpWindow("ServiceParameters", " the array of parameters sent in the service request");
+    }
+    public void serviceFieldNameInfo(ActionEvent actionEvent) {
+        popUpWindow("ServiceFieldName", "the name of the parameter as defined in the <ServiceName>.srv file.");
+    }
+    public void assignServiceFieldCodeInfo(ActionEvent actionEvent) {
+        popUpWindow("AssignServiceFieldCode", "the value of the parameter. The user can define a Python code with local variables (see Local Variables).");
+    }
+    public void localVarInitInfo(ActionEvent actionEvent) {
+        popUpWindow("LocalVariablesInitialization", "The \"LocalVariablesInitialization\" section is used to define local variables.\n" +
+                "Local variables can take their value from three possible sources:\n" +
+                "\n" +
+                "SD file skill parameters (see GlobalVariableModuleParameters section). Only this type of local variable can be used to activate the skill since the other local variables' value is calculated when the skill execution ends.\n" +
+                "\"InputLocalVariable\" is the name of the local variable.\n" +
+                "\"FromGlobalVariable\" is the name of the skill parameter defined in the SD \"GlobalVariableModuleParameters\" section." +
+                "Skill-code returned value. Using the value returned from the skill code. The user can define a Python function to manipulate the returned value to something more meaningful or convenient.\n" +
+                "This local variable definition has the following fields:\n" +
+                "\"LocalVariableName\" is the local variable name.\n" +
+                "\"VariableType\" this optional field is the type of the variable when converted to C++ (used for the \"state given observation\" feature).\n" +
+                "\"FromROSServiceResponse\" should be true when the value is taken from the service response.\n" +
+                "\"AssignmentCode\" is the Python code for assigning the local variable value from the ROS service response (returned value). The reserved word __input is used to reference the service returned value. This field value is the string code. Nevertheless, users can define it as an array of strings representing complex Python code (the indentations are preserved).\n" +
+                "\"ImportCode\" is an array of imports needed when receiving the service response." +
+                "Public data published in the robot framework (e.g., ROS topics). This type of local variable is constantly updated when certain public information is published in the robot framework(e.g., when a ROS topic message is published). It can capture events that occur during the skill execution. It's last value will be used when the skill observation is calculated.\n" +
+                "This type of local variable is defined using the following fields:\n" +
+                "\"LocalVariableName\" is the local variable name.\n" +
+                "\"RosTopicPath\" is the topic path.\\\n" +
+                "\"InitialValue\" defines the value used to initialize the variable.\n" +
+                "\"TopicMessageType\" is the type of the topic message (see).\n" +
+                "\"VariableType\" this optional field is the type of the variable when converted to C++ (used for the \"state given observation\" feature).\n" +
+                "\"AssignmentCode\" is the Python code for assigning the local variable value from the ROS service response (returned value). The reserved word __input is used to reference the service returned value. This field value is the string code. Nevertheless, users can define it as an array of strings representing complex Python code (the indentations are preserved).\n" +
+                "\"ImportCode\" is an array of imports needed when receiving the service response.");
     }
 }
