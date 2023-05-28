@@ -2,16 +2,22 @@
 The following document is a guide for developers who wish to maintain the system.
 We go through the main components of the system and dive into the code.
 
+Our system was developed with Java 19 using the JavaFX framework for the GUI.
+
 In addition to that, we also provide a detailed walk through of how to add some new functionality to the system in some specific use-cases.
 ## Table of contents:
 - [Facade](#facade)
 - [Integration requests](#integration_requests)
+  - [Adding a new integration request](#adding_new_integration_request)
 - [Application screens](#application_screens)
   - [Execution screen](#execution_screen)
   - [Create/Edit project screen](#create_project_screen)
   - [Create/Edit skill screen](#create_skill_screen)
   - [Logs screen](#logs_screen)
   - [Init project screen](#init_project_screen)
+- [Notifications](#notifications)
+- [Display state script](#display_state_script)
+- [Filenames, paths, constants and other conventions](#filenames_paths_constants_and_other_conventions)
 
 <a name="facade"></a>
 # Facade:
@@ -87,6 +93,7 @@ String response = request.visit(handler);
   - [StopRobot](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/StopRobotRequestDTO.java)
   - [UpdateLocalVariable](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/UpdateLocalVariableRequestDTO.java)
 
+<a name="adding_new_integration_request"></a>
 ## Adding a new integration request:
 The following section is a detailed walk through of how to add a new integration request to the system.
 We'd demonstrate that on an already existing http request.
@@ -227,3 +234,117 @@ This tab contains the following:
 - A list of all the possible actions that the robot can perform (double-clicking on an actions triggers a send-action request)
   - When sending an action for the robot to execute
 - A list of all the actions the robot has performed.
+
+<a name="create_project_screen"></a>
+## Create/Edit project screen
+This screen is implemented by the [create-env-view.fxml](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/resources/frontend/finalproject/Controllers/create-env-view.fxml) view and the [CreateEnvController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/CreateEnvController.java) controller.
+The model manipulated by the screen is the [EnvModel](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Model/Env/EnvModel.java) class.
+
+The screen contains the following:
+- A tree view for each of the variables:
+  - Once the user inserts a new variable, it is added to the tree view display.
+  - The user can navigate between all the variables and add/edit/delete them.
+    - When the user clicks on a variable to edit, a sub-window pops up with the relevant fields to edit.
+    - This is done by the [loadEditStage](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#L138) function. The function receives the name of the fxml file to load (the sub-window), the model of which the sub-window is manipulating, the selected item in the tree view (this will be updated as well once the edit is done) and a callback to be executed once the user completes the edit process (mainly updating the model).
+    - Each sub-window that is used as an edit window, its controller implements the [EditSubController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/SubControllers/EditSubController.java) interface
+  - Similarly, there's also a [AddSubController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/SubControllers/AddSubController.java) interface for the sub-windows that are used to add new variables.
+- A button to create the project and a button to display the current json of the env model.
+
+<a name="create_skill_screen"></a>
+## Create/Edit skill screen
+This screen is implemented by the [create-skill-view.fxml](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/resources/frontend/finalproject/Controllers/create-skill-view.fxml) view, by the [CreateSkillController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/CreateSkillController.java) contoller and by the [AMModel](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Model/AM/AMModel.java), [SDModel](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Model/SD/SDModel.java) models representing the AM and SD models respectively.
+
+The screen contains a tab for each of the models.
+
+- Similarly to the add/edit project screen, the user can add/edit/delete variables in the am/sd models.
+- There's also a create/save button for each of the models.
+- Finally, there's a button to display the current json of the am/sd models.
+
+<a name="logs_screen"></a>
+## Logs screen
+This screen is implemented by the [LogsDisplayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/LogsDisplayer.java) class that implemetns the ```IJsonVisualizer``` interface.
+The displayer receives the json of the logs and displays it in a table.
+
+This screen contains the following:
+- A table containing all the logs that were sent by the server.
+- A button to clear the logs table.
+- A toggle button to enable/disable notifications for new incoming logs.
+  - When enabled, a notification will pop up whenever a new log is received. When disabled, no notifications will pop up.
+  - We utilize a polling thread in the background [LogsNotificationsFetcher](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/LogsNotificationsFetcher.java) (running its run() method).
+    - In intervals of 1 second, the thread polls the server for new logs.
+    - Once the user disabled the logs fetcher, we decrement the semaphore that the thread is waiting on, and the thread is blocked.
+    - Alternatively, once the user enables the logs fetcher, we increment the semaphore and the thread is unblocked and continues its polling process.
+    - We initialize the thread at the very beginning of the program - [here](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/Main.java#L20)
+
+<a name="init_project_screen"></a>
+## Init project screen
+This screen contains the form that the user needs to fill in order to initialize a project.
+
+<a name="notifications"></a>
+# Notifications
+In the [UtilsFXML](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#LL93C1-L121C6) class, we have 2 types of notifications:
+- Regular (info) notifications - these are notifications that are displayed for a short period of time and then disappear. Those are used mainly to provide information to the user. Implemented by the following function:
+```java
+    private static void showNotification(String title, String text) {
+        Notifications notificationBuilder = Notifications.create()
+        .title(title)
+        .text(text)
+        .graphic(null)
+        .hideAfter(Duration.seconds(5))
+        .position(Pos.TOP_RIGHT);
+
+        notificationBuilder.showConfirm();
+        }
+```
+- Error notifications - These notifications are used mainly to notify the user of an error. Implemented by the following function:
+```java
+    private static void showErrorNotification(String title, String text) {
+        Notifications notificationBuilder = Notifications.create()
+        .title(title)
+        .text(text)
+        .graphic(null)
+        .hideAfter(Duration.INDEFINITE)
+        .position(Pos.TOP_RIGHT);
+
+        notificationBuilder.showError();
+        }
+```
+
+* In order to display a notification to the user simply call the relevant function with the title and text of the notification.
+  * There are some predefined texts for the notifications in the [NotificationUtils](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/NotificationUtils.java) class
+
+<a name="display_state_script"></a>
+# Display state script
+One main requirement of the system is to be able to display the current state of the robot in a graphical manner.
+We've implemented this requirement with a little help from the user.
+
+The main points of the solution we have provided are as follows:
+- The user will specify a path to a python script.
+- The purpose of the script is to present the current state of the robot in a graphical manner.
+- The script would be executed and its outcome would be displayed to the user.
+
+## Script conventions
+The script should be written in python and should follow the following conventions:
+- The script should contain a function called ```display(state)``` that receives a state (python dictionary) and displays it. The script shouldn't return anything. It simply should print or display a picture of the state.
+  - If the user chooses to print the representation to stdout, we'd collect that and display it to the user in a new window.
+  - Another, more advanced option, is to use a graphical python library such as [matplotlib](https://matplotlib.org/) to display the state in a graphical manner.
+    - Another recommended library is [PIL](https://pillow.readthedocs.io/en/stable/) (Python Imaging Library) that can be used to display images.
+- References:
+  - [Tic Tac Toe Displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/tic_tac_toe_display.py)
+  - [Toys Displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/toys_displayer.py)
+  - [General Displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/general_displayer.py) - This is a general displayer that can be used for any state. It simply prints the state to stdout.
+  
+<a name="filenames_paths_constants_and_other_conventions"></a>
+# Filenames, paths and other conventions
+In this section we'll describe the conventions we've used in the project.
+- Repository folder path: ```~/Autonomous-Operating-System```
+- Project folder path: ```~/Autonomous-Operating-System/FinalProject/Projects```
+  - All the projects in the system are stored in this folder. The system WILL NOT load any other projects not located inisde of this folder.
+  - Conventions:
+    - Each folder represents a project. The name of the folder is the name of the project.
+    - Inside the folder file naming conventions:
+      - ```environment.json``` - The environment file of the project.
+      - ```<skill_name>.json``` - The SD file of the skill.
+      - ```<skill_name> glue.json``` - The AM file of the skill.
+- image_merger.py script path: ```~/Autonomous-Operating-System/FinalProject/image_merger.py```
+- More constants that we've used can be seen in the [Constants](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/backend/finalproject/Constants.java) class.
