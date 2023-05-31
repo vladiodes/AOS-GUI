@@ -205,7 +205,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         root.getChildren().add(tabPane);
         Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
         if(!simStatesResp.hasErrorOccurred()){
-            SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue());
+            SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue(),AOSFacade.getInstance());
             this.simulatedStateNode = (SimulatedStateVisualizer.SimulatedStateNode) simulatedStateVisualizer.displayJSON();
             this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
             tabPane.getTabs().add(new Tab("Simulated States",simulatedStateNode.getRoot()));
@@ -262,7 +262,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         Platform.runLater(() -> {
             Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
             if (!simStatesResp.hasErrorOccurred()) {
-                SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue());
+                SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue(),AOSFacade.getInstance());
                 this.simulatedStateNode = (SimulatedStateVisualizer.SimulatedStateNode) simulatedStateVisualizer.displayJSON();
                 this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
                 tabPane.getTabs().get(0).setContent(simulatedStateNode.getRoot());

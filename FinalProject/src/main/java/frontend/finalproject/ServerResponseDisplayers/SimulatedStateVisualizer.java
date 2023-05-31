@@ -45,8 +45,10 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     private List<JsonElement> simulatedStates;
     private List<String> actionDescriptions;
     private int currentSimulatedStateIndex = 0;
+    private IAOSFacade facade;
 
-    public SimulatedStateVisualizer(String json) {
+    public SimulatedStateVisualizer(String json, IAOSFacade facade) {
+        this.facade = facade;
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonElement jsonElement = gson.fromJson(json, JsonElement.class);
         simulatedStates = new LinkedList<>();
@@ -64,7 +66,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
 
     private void getActionDescriptionsSequence(Gson gson) {
         actionDescriptions = new LinkedList<>();
-        Response<String> execOutcome = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(1));
+        Response<String> execOutcome = this.facade.sendRequest(new GetExecutionOutcomeRequestDTO(1));
         if(!execOutcome.hasErrorOccurred()){
             JsonElement execOutcomeJson = gson.fromJson(execOutcome.getValue(), JsonElement.class);
             execOutcomeJson = execOutcomeJson.getAsJsonObject().get(EXECUTION_OUTCOME_JSON_KEY);

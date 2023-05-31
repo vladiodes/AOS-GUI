@@ -4,6 +4,7 @@ import de.saxsys.javafx.test.JfxRunner;
 import frontend.finalproject.ServerResponseDisplayers.SolverActionsVisualizer;
 import javafx.application.Platform;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -134,7 +135,7 @@ class SolverActionsVisualizerTest {
     @Test
     void testDisplaySolverActions() {
         solverActionsVisualizer = new SolverActionsVisualizer(GET_SOLVER_ACTIONS_RESPONSE,null);
-        TreeView<String> treeView = (TreeView<String>) solverActionsVisualizer.displayJSON();
-        assertEquals(treeView.getRoot().getChildren().size(), 10);
+        TreeView<String> treeView = (TreeView<String>) ((VBox)solverActionsVisualizer.displayJSON()).getChildren().get(0);
+        assertEquals(treeView.getRoot().getChildren().size(), 11);
     }
 }
