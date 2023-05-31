@@ -35,7 +35,10 @@ public class AddVarTypeCompoundController implements AddSubController,EditSubCon
         String type = CompoundTypeTXT.getText();
         String def = CompoundDefaultTXT.getText();
 
-        if(!name.equals("") && !type.equals("") && !def.equals("")){
+        if(!name.equals("") && !type.equals("")){
+            if (def.equals("")){
+                def = null;
+            }
             CompoundVariable cv = new CompoundVariable(name,type,def);
             compoundModel.insertVariable(cv);
             compoundVarsTreeView.getRoot().getChildren().add(new TreeItem<>(cv.toString()));

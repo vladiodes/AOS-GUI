@@ -14,6 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.stage.DirectoryChooser;
@@ -204,5 +205,23 @@ public class UtilsFXML {
 
     public enum Source {
         EDIT_ENV, EDIT_SKILL,EDIT_VAR_TYPE,ADD,EDIT
+    }
+
+    public static void popUpWindow(String title, String text){
+        Stage stage = new Stage();
+        Label infoLabel = new Label(text);
+        // set the style of infoLabel to present all the text in multiple lines if needed
+        infoLabel.setStyle("-fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-padding: 10px; -fx-text-alignment: center; -fx-background-color: #2a2a2a; -fx-background-radius: 10px;");
+        // set the text to be wrapped if it is too long
+        infoLabel.setWrapText(true);
+        // set the width of the label to be 400
+        infoLabel.setPrefWidth(400);
+
+        // set the scene of the stage to be the infoLabel
+        stage.setScene(new Scene(infoLabel));
+        // set the title of the stage
+        stage.setTitle(title);
+        // show the stage
+        stage.show();
     }
 }

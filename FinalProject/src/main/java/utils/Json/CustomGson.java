@@ -15,7 +15,9 @@ import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
 import utils.Json.PolymorphDeserializer.PolymorphDeserializer;
 
 public class CustomGson {
-    public static Gson getCustomGson(){
+    private static final Gson gson = getCustomGsonPrivate();
+
+    private static Gson getCustomGsonPrivate() {
         return new GsonBuilder()
                 .setPrettyPrinting()
                 .disableHtmlEscaping()
@@ -25,6 +27,11 @@ public class CustomGson {
                 .registerTypeAdapter(LocalVariablesInitialization.class, new LocalVariablesInitializationDeserializer())
                 .registerTypeAdapter(GlobalVariableType.class, new PolymorphDeserializer<GlobalVariableType>())
                 .registerTypeAdapter(GlobalVariableTypeModel.class, new PolymorphDeserializer<GlobalVariableTypeModel>())
+                .setLenient()
                 .create();
+    }
+
+    public static Gson getCustomGson(){
+        return gson;
     }
 }
