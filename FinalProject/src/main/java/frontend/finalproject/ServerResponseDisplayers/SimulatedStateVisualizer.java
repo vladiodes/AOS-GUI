@@ -95,21 +95,32 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
 
         public static final String HIGHLIGHT_CHANGES_NEXT = "highlight-changes-next";
         private static final String HIGHLIGHT_CHANGES_BACK = "highlight-changes-back";
+        private boolean isNextBtn;
+        private ObservableSet<TreeItem<String>> changes;
+        private PseudoClass highlightChangeCSS;
 
         public ChangedHighlightingTreeCell(ObservableSet<TreeItem<String>> changes, boolean isNextBtn) {
-            PseudoClass highlightChangeCSS = PseudoClass.getPseudoClass(isNextBtn ? HIGHLIGHT_CHANGES_NEXT : HIGHLIGHT_CHANGES_BACK);
-
-            BooleanBinding shouldHighlight = Bindings.createBooleanBinding(() ->
-                            changes.contains(getTreeItem()),
-                    treeItemProperty(), changes);
-            shouldHighlight.addListener((obs, didMatchSearch, nowMatchesSearch) ->
-                    pseudoClassStateChanged(highlightChangeCSS, nowMatchesSearch));
+            this.isNextBtn = isNextBtn;
+            this.changes = changes;
+            this.highlightChangeCSS = PseudoClass.getPseudoClass(isNextBtn ? HIGHLIGHT_CHANGES_NEXT : HIGHLIGHT_CHANGES_BACK);
         }
 
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
-            setText(empty ? null : item);
+            if (empty || item == null) {
+                setText(null);
+                setGraphic(null);
+                pseudoClassStateChanged(this.highlightChangeCSS, false); // Reset the highlighting
+            } else {
+                setText(item);
+                setGraphic(getTreeItem().getGraphic());
+                pseudoClassStateChanged(this.highlightChangeCSS, isHighlighted()); // Apply highlighting
+            }
+        }
+
+        private boolean isHighlighted(){
+            return changes.contains(getTreeItem());
         }
     }
 
@@ -213,41 +224,63 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             vBox.getChildren().add(0, curState[0]);
         }
 
-        private void highlightChangedVariablesInState(JsonElement oldState, JsonElement newState, TreeView<String> treeView, boolean isNextBtn) {
+        public static ObservableSet<TreeItem<String>> highlightChangedVariablesInState(JsonElement oldState, JsonElement newState, TreeView<String> treeView, boolean isNextBtn) {
             ObservableSet<TreeItem<String>> changes = FXCollections.observableSet(new HashSet<>());
 
             treeView.setCellFactory(tv -> new ChangedHighlightingTreeCell(changes,isNextBtn));
+            TreeItem<String> simStateRoot = findSimStateRootInTreeView(treeView);
 
             if (oldState.isJsonObject() && newState.isJsonObject()) {
-                for (String key : oldState.getAsJsonObject().keySet()) {
-                    if (newState.getAsJsonObject().has(key)) {
-                        JsonElement oldVal = oldState.getAsJsonObject().get(key);
-                        JsonElement newVal = newState.getAsJsonObject().get(key);
-                        if (!oldVal.equals(newVal)) {
-                            if(oldVal.isJsonArray()){
-                                for(int i=0;i<oldVal.getAsJsonArray().size();i++){
-                                    if(!oldVal.getAsJsonArray().get(i).equals(newVal.getAsJsonArray().get(i))){
-                                        findAndAddTreeItem(key + "[" + i + "]", treeView.getRoot(), changes);
-                                    }
-                                }
+                handleChanges(oldState, newState, changes, simStateRoot);
+            }
+            return changes;
+        }
+
+        private static void handleChanges(JsonElement oldState, JsonElement newState, ObservableSet<TreeItem<String>> changes, TreeItem<String> simStateRoot) {
+            for (String key : oldState.getAsJsonObject().keySet()) {
+                if (newState.getAsJsonObject().has(key)) {
+                    JsonElement oldVal = oldState.getAsJsonObject().get(key);
+                    JsonElement newVal = newState.getAsJsonObject().get(key);
+                    if (!oldVal.equals(newVal)) {
+                        for(TreeItem<String> item:simStateRoot.getChildren()){
+                            if(item.getValue().startsWith(key)){
+                                dfs(item,changes,oldVal,newVal);
                             }
-                            findAndAddTreeItem(key, treeView.getRoot(), changes);
                         }
                     }
                 }
             }
-
         }
 
-        private void findAndAddTreeItem(String changedKey, TreeItem<String> root, ObservableSet<TreeItem<String>> changes) {
-            if (root.getValue()!= null && root.getValue().startsWith(changedKey)) {
-                changes.add(root);
-                if(root.getValue().contains("{}")){
-                    changes.addAll(root.getChildren());
+        private static TreeItem<String> findSimStateRootInTreeView(TreeView<String> treeView) {
+            for(TreeItem<String> item: treeView.getRoot().getChildren()){
+                if(item.getValue().startsWith(SIMULATED_STATE)){
+                    return item;
                 }
-            } else {
-                for (TreeItem<String> child : root.getChildren()) {
-                    findAndAddTreeItem(changedKey, child, changes);
+            }
+            return null;
+        }
+
+        private static void dfs(TreeItem<String> item, ObservableSet<TreeItem<String>> changes, JsonElement oldState, JsonElement newState) {
+            changes.add(item);
+
+            if (item.getChildren().size() == 0)
+                return;
+
+            if (oldState.isJsonObject() && newState.isJsonObject()) {
+                handleChanges(oldState, newState, changes, item);
+            }
+            else if (oldState.isJsonArray() && newState.isJsonArray()) {
+                for(int i=0;i<oldState.getAsJsonArray().size();i++){
+                    JsonElement oldVal = oldState.getAsJsonArray().get(i);
+                    JsonElement newVal = newState.getAsJsonArray().get(i);
+                    if(!oldVal.equals(newVal)){
+                        for(TreeItem<String> child:item.getChildren()){
+                            if(child.getValue().contains("["+i+"]")){
+                                dfs(child,changes,oldVal,newVal);
+                            }
+                        }
+                    }
                 }
             }
         }

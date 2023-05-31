@@ -1,8 +1,15 @@
 package backend.finalproject.JsonVisualizerTests;
 
 import backend.finalproject.IAOSFacade;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import de.saxsys.javafx.test.JfxRunner;
+import frontend.finalproject.ServerResponseDisplayers.JsonTreeViewVisualizer;
 import frontend.finalproject.ServerResponseDisplayers.SimulatedStateVisualizer;
+import javafx.collections.ObservableSet;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -426,39 +433,6 @@ class SimulatedStatesTests {
                         }
                     ]
             """;
-    private final static String PREV_STATE = """
-             {
-                         "grid": [
-                             1,
-                             0,
-                             0,
-                             0,
-                             2,
-                             2,
-                             2,
-                             0,
-                             1
-                         ],
-                         "isRobotTurn": true
-                     }
-            """;
-    private final static String NEXT_STATE = """
-            {
-                        "grid": [
-                            1,
-                            0,
-                            0,
-                            0,
-                            2,
-                            2,
-                            2,
-                            0,
-                            1
-                        ],
-                        "isRobotTurn": false
-                    }
-            """;
-
     private final static String[] ACTION_DESC = new String[]{
             "Initial State",
             "ID:0,draw_in_cellAction,oCellP:0",
@@ -494,9 +468,251 @@ class SimulatedStatesTests {
     void testActionsDescriptionAllNamesExist() {
         setUp(GET_SIMULATED_STATES_RESPONSE);
         List<String> actions = visualizer.getActionDescriptions();
-        for(int i=0;i<ACTION_DESC.length;i++){
-            Assertions.assertEquals(actions.get(i),ACTION_DESC[i]);
+        for (int i = 0; i < ACTION_DESC.length; i++) {
+            Assertions.assertEquals(actions.get(i), ACTION_DESC[i]);
         }
     }
 
+    void testChangesAdded(String prevStateJson, String nextStateJson, int expectedSize) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonElement prevState = gson.fromJson(prevStateJson, JsonElement.class);
+        JsonElement nextState = gson.fromJson(nextStateJson, JsonElement.class);
+        JsonTreeViewVisualizer treeViewVisualizer = new JsonTreeViewVisualizer(String.format("{\"SimulatedState\":%s}", nextStateJson));
+        ObservableSet<TreeItem<String>> set = SimulatedStateVisualizer.SimulatedStateNode.highlightChangedVariablesInState(prevState, nextState, (TreeView<String>) treeViewVisualizer.displayJSON(), false);
+        Assertions.assertEquals(set.size(), expectedSize);
+    }
+
+    @Test
+    void testRobotTurnOnlyChanged() {
+        String prev = """
+                 {
+                             "grid": [
+                                 1,
+                                 0,
+                                 0,
+                                 0,
+                                 2,
+                                 2,
+                                 2,
+                                 0,
+                                 1
+                             ],
+                             "isRobotTurn": true
+                         }
+                """;
+        String next = """
+                {
+                            "grid": [
+                                1,
+                                0,
+                                0,
+                                0,
+                                2,
+                                2,
+                                2,
+                                0,
+                                1
+                            ],
+                            "isRobotTurn": false
+                        }
+                """;
+        testChangesAdded(prev, next, 1);
+    }
+
+    @Test
+    void testRobotTurnChangedAndTwoCellsChanged() {
+        String prev = """
+                 {
+                             "grid": [
+                                 2,
+                                 1,
+                                 0,
+                                 0,
+                                 2,
+                                 2,
+                                 2,
+                                 0,
+                                 1
+                             ],
+                             "isRobotTurn": true
+                         }
+                """;
+        String next = """
+                {
+                            "grid": [
+                                1,
+                                0,
+                                0,
+                                0,
+                                2,
+                                2,
+                                2,
+                                0,
+                                1
+                            ],
+                            "isRobotTurn": false
+                        }
+                """;
+        testChangesAdded(prev, next, 4);
+    }
+
+    @Test
+    void testNoChanges() {
+        String prev = """
+                 {
+                             "grid": [
+                                 1,
+                                 0,
+                                 0,
+                                 0,
+                                 2,
+                                 2,
+                                 2,
+                                 0,
+                                 1
+                             ],
+                             "isRobotTurn": true
+                         }
+                """;
+        testChangesAdded(prev, prev, 0);
+    }
+
+    @Test
+    void testNestedChanges() {
+        String prev = """
+                 {
+                 "field1": {
+                    "field1.field1": 2,
+                    "field1.field2": 2
+                 }
+                         }
+                """;
+        String next = """
+                 {
+                 "field1": {
+                    "field1.field1": 1,
+                    "field1.field2": 2
+                 }
+                         }
+                """;
+        testChangesAdded(prev, next, 2);
+    }
+
+    @Test
+    void testNestedChangesDeep() {
+        String prev = """
+                 {
+                 "field1": {
+                    "field1.field1": {
+                        "field1.field1.field1": 2,
+                        "field1.field1.field2": 2
+                    },
+                    "field1.field2": 2
+                 }
+                         }
+                """;
+        String next = """
+                 {
+                 "field1": {
+                    "field1.field1": {
+                        "field1.field1.field1": 1,
+                        "field1.field1.field2": 2
+                    },
+                    "field1.field2": 2
+                 }
+                         }
+                """;
+        testChangesAdded(prev, next, 3);
+    }
+
+    @Test
+    void testNestedChangesDeepSameDepth() {
+        String prev = """
+                {
+                             "field1": {
+                                "field1.field1": {
+                                    "field1.field1.field1": 2,
+                                    "field1.field1.field2": 2
+                                },
+                                "field1.field2": 2
+                             }
+                                     }
+                            """;
+        String next = """
+                {
+                "field1": {
+                    "field1.field1": {
+                        "field1.field1.field1": 1,
+                        "field1.field1.field2": 1
+                    },
+                    "field1.field2": 2
+                }
+                        }
+                """;
+        testChangesAdded(prev, next, 4);
+    }
+
+    @Test
+    void testAllChanged(){
+        String prev = """
+                {
+                             "field1": {
+                                "field1.field1": {
+                                    "field1.field1.field1": 2,
+                                    "field1.field1.field2": 2
+                                },
+                                "field1.field2": 2
+                             }
+                                     }
+                            """;
+        String next = """
+                {
+                "field1": {
+                    "field1.field1": {
+                        "field1.field1.field1": 1,
+                        "field1.field1.field2": 1
+                    },
+                    "field1.field2": 3
+                }
+                        }
+                """;
+        testChangesAdded(prev, next, 5);
+    }
+
+    @Test
+    void testNestedInsideArray(){
+        String prev = """
+                {
+                             "field1": {
+                                "field1.field1": {
+                                    "field1.field1.field1": 2,
+                                    "field1.field1.field2": 2
+                                },
+                                "field1.field2": 2
+                             },
+                             "field2": [
+                                1,
+                                2,
+                                3
+                             ]
+                                     }
+                            """;
+        String next = """
+                {
+                             "field1": {
+                                "field1.field1": {
+                                    "field1.field1.field1": 2,
+                                    "field1.field1.field2": 2
+                                },
+                                "field1.field2": 2
+                             },
+                             "field2": [
+                                4,
+                                5,
+                                6
+                             ]
+                                     }
+                            """;
+        testChangesAdded(prev, next, 4);
+    }
 }
