@@ -100,7 +100,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
         barChart.setTitle(title);
         xAxis.setLabel("Value");
-        yAxis.setLabel("Frequency");
+        yAxis.setLabel("Distribution");
 
         // Convert histogram data to series and add data to the chart
         XYChart.Series<String, Number> series = new XYChart.Series<>();
