@@ -46,14 +46,13 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     List<JsonElement> executionOutcome;
     List<Map<String,Histogram>> histogramsOfBeliefStates; // for each state in the execution process, we need a histogram for every variable of the state.
     List<List<BarChart<String, Number>>> charts;
-    int maxLen = 1;
     private List<String> actionDescriptions;
     private SimulatedStateVisualizer.SimulatedStateNode simulatedStateNode = null;
     private int currentSimulatedStateIndex = 0;
     private TabPane tabPane;
     private boolean shouldTerminate = false;
     private final int beliefSize;
-    private DisplayContainer execOutcomeDisplay;
+    private ExecutionOutcomeDisplayContainer execOutcomeDisplay;
     private Label prevExecAction;
     private Label nextActionToExec;
     private Button nextButton;
@@ -107,7 +106,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         histogramData.forEach((category, value) -> {
             Double doubleValue = Double.valueOf(value);
-            Double maxLenDouble = (double) maxLen;
+            Double maxLenDouble = (double) beliefSize;
             double probability = doubleValue/maxLenDouble;
             series.getData().add(new XYChart.Data<>(category, probability));
         });
@@ -119,19 +118,18 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         return barChart;
     }
 
-    private Map<String, Histogram> buildHistograms(JsonElement execOutcome) {
+    public Map<String, Histogram> buildHistograms(JsonElement execOutcome) {
         Map<String, Histogram> histograms = new HashMap<>();
         boolean isInitial = execOutcome.getAsJsonObject().has(INITIAL_BELIEFE_STATE_JSON_KEY);
         JsonArray stateArray = execOutcome.getAsJsonObject().
                 get(isInitial ? INITIAL_BELIEFE_STATE_JSON_KEY : BELIEF_STATES_AFTER_EXECUTION_JSON_KEY).getAsJsonArray();
-        maxLen = Math.max(maxLen,stateArray.size());
         for (JsonElement state : stateArray) {
             buildHistogramsOfState(histograms, state);
         }
         return histograms;
     }
 
-    private void buildHistogramsOfState(Map<String, Histogram> histograms, JsonElement state) {
+    public void buildHistogramsOfState(Map<String, Histogram> histograms, JsonElement state) {
         for(Map.Entry<String, JsonElement> entry: state.getAsJsonObject().asMap().entrySet()){
             if(entry.getValue().isJsonObject()){
                 insertJsonObjectToHistograms(entry.getKey() + ".",entry.getValue(), histograms);
@@ -211,7 +209,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
             tabPane.getTabs().add(new Tab("Simulated States",simulatedStateNode.getRoot()));
         }
-        execOutcomeDisplay = new DisplayContainer(executionOutcome, charts, actionDescriptions);
+        execOutcomeDisplay = new ExecutionOutcomeDisplayContainer(executionOutcome, charts, actionDescriptions);
         tabPane.getTabs().add(new Tab("Execution Outcome", execOutcomeDisplay.getComponent()));
 
         if(UtilsFXML.IS_MANUAL_CONTROL) {
@@ -287,7 +285,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 charts.add(createCharts(histograms));
             }
 
-            this.execOutcomeDisplay = new DisplayContainer(executionOutcome, charts, actionDescriptions);
+            this.execOutcomeDisplay = new ExecutionOutcomeDisplayContainer(executionOutcome, charts, actionDescriptions);
             tabPane.getTabs().get(1).setContent(execOutcomeDisplay.getComponent());
             updateNextPrevExecActions(prevExecAction, nextActionToExec);
 
@@ -344,7 +342,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         timeline.play();
     }
 
-    private void createCommonComponents(VBox root, DisplayContainer execOutcomeDisplay) {
+    private void createCommonComponents(VBox root, ExecutionOutcomeDisplayContainer execOutcomeDisplay) {
         prevExecAction = new Label();
         nextActionToExec = new Label();
         updateNextPrevExecActions(prevExecAction, nextActionToExec);
@@ -394,7 +392,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         shouldTerminate = true;
     }
 
-    private static class DisplayContainer{
+    public static class ExecutionOutcomeDisplayContainer {
         private int currentIdx = 0;
         List<JsonElement> executionOutcome;
         List<List<BarChart<String, Number>>> charts;
@@ -413,7 +411,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         AtomicReference<List<BarChart<String, Number>>> curHistograms;
 
 
-        private DisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts, List<String> actionDescriptions){
+        public ExecutionOutcomeDisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts, List<String> actionDescriptions){
             this.executionOutcome = executionOutcome;
             this.charts = charts;
             this.actionDescriptions = actionDescriptions;
@@ -543,7 +541,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
     }
 
-    private static class Histogram {
+    public static class Histogram {
         private final Map<String,Integer> histogram;
 
         private Histogram() {
@@ -558,7 +556,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             }
         }
 
-        private Map<String, Integer> getHistogram() {
+        public Map<String, Integer> getHistogram() {
             return histogram;
         }
     }
