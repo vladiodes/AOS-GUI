@@ -5,8 +5,10 @@ import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 public class GetExecutionOutcomeRequestDTO implements HttpRequestDTO{
 
     private final int belief_size;
-    public GetExecutionOutcomeRequestDTO(int belief_size){
+    private final String filter;
+    public GetExecutionOutcomeRequestDTO(int belief_size, String filter){
         this.belief_size = belief_size;
+        this.filter = filter;
     }
     @Override
     public String visit(IntegrationRequestsHandler handler) {
@@ -15,6 +17,10 @@ public class GetExecutionOutcomeRequestDTO implements HttpRequestDTO{
 
     public int getBeliefSize() {
         return belief_size;
+    }
+
+    public String getFilter() {
+        return filter;
     }
 
 }

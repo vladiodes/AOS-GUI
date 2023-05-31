@@ -32,7 +32,7 @@ public class GetExecutionOutcomeRequestController {
     public void handleSendRequestBTN(ActionEvent actionEvent){
         try {
             int beliefSize = Integer.parseInt(beliefSizeVal.getText());
-            GetExecutionOutcomeRequestDTO requestDTO = new GetExecutionOutcomeRequestDTO(beliefSize);
+            GetExecutionOutcomeRequestDTO requestDTO = new GetExecutionOutcomeRequestDTO(beliefSize,"");
             Response<String> resp = facade.sendRequest(requestDTO);
 
             if (resp.hasErrorOccurred())

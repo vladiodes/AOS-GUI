@@ -66,7 +66,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
 
     private void getActionDescriptionsSequence(Gson gson) {
         actionDescriptions = new LinkedList<>();
-        Response<String> execOutcome = this.facade.sendRequest(new GetExecutionOutcomeRequestDTO(1));
+        Response<String> execOutcome = this.facade.sendRequest(new GetExecutionOutcomeRequestDTO(1,""));
         if(!execOutcome.hasErrorOccurred()){
             JsonElement execOutcomeJson = gson.fromJson(execOutcome.getValue(), JsonElement.class);
             execOutcomeJson = execOutcomeJson.getAsJsonObject().get(EXECUTION_OUTCOME_JSON_KEY);

@@ -31,8 +31,8 @@ public class IntegrationRequestsHandler {
     }
 
     public String handle(GetExecutionOutcomeRequestDTO request){
-        GetExecutionOutcomeRequest getSolverReq = new GetExecutionOutcomeRequest(request.getBeliefSize());
-        return send(getSolverReq,getSolverReq.getBody(),GetSolverActionsRequest.REQUEST_TYPE);
+        GetExecutionOutcomeRequest getExecutionOutcomeRequest = new GetExecutionOutcomeRequest(request.getBeliefSize(),request.getFilter());
+        return send(getExecutionOutcomeRequest,getExecutionOutcomeRequest.getBody(),GetSolverActionsRequest.REQUEST_TYPE);
     }
 
     public String handle(HttpRequestDTO request) {

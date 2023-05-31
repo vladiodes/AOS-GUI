@@ -246,7 +246,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private void onActionSentCallback() {
 
 
-        Response<String> execOutcomeJson = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(beliefSize));
+        Response<String> execOutcomeJson = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(beliefSize,""));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonElement jsonElement = gson.fromJson(execOutcomeJson.getValue(), JsonElement.class);
