@@ -45,6 +45,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private static final String LABEL_STYLE_CLASS = "TextFieldLabel";
     public static final String ACTION_TEXT_STYLE_CLASS = "Separator_Text";
     public static final int MAN_CONTROL_TAB_IDX = 2;
+    public static final int SIMULATED_STATES_TAB_IDX = 0;
     List<JsonElement> executionOutcome;
     List<Map<String,Histogram>> histogramsOfBeliefStates; // for each state in the execution process, we need a histogram for every variable of the state.
     List<List<BarChart<String, Number>>> charts;
@@ -220,10 +221,10 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 ManualActionRequestController controller = loader.getController();
                 controller.setOnActionSentCallback(null);
                 tabPane.getTabs().add(new Tab("Manual Control", manControl));
-                runRefreshingThread();
             } catch (IOException ignored) {
             }
         }
+        runRefreshingThread();
         createCommonComponents(root, execOutcomeDisplay);
 
         return root;
@@ -257,7 +258,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             return;
         }
 
-        // if we run the following lines, this means that there has been a refresh in the states = man control was sent
+        // if we run the following lines, this means that there has been a refresh in the states
         JsonElement finalJsonElement = jsonElement;
         Platform.runLater(() -> {
             Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
@@ -265,7 +266,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue(),AOSFacade.getInstance());
                 this.simulatedStateNode = (SimulatedStateVisualizer.SimulatedStateNode) simulatedStateVisualizer.displayJSON();
                 this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
-                tabPane.getTabs().get(0).setContent(simulatedStateNode.getRoot());
+                tabPane.getTabs().get(SIMULATED_STATES_TAB_IDX).setContent(simulatedStateNode.getRoot());
             }
 
             // taking care of the initial state - for some reason it's empty at first.
