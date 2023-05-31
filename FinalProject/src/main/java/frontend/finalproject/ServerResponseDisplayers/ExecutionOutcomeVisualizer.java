@@ -5,10 +5,7 @@ import DTO.HttpRequests.GetSimulatedStatesRequestDTO;
 import backend.finalproject.AOSFacade;
 import com.google.gson.*;
 import frontend.finalproject.Controllers.CreateEnvController;
-import frontend.finalproject.Controllers.HomeController;
 import frontend.finalproject.Controllers.ManualActionRequestController;
-import frontend.finalproject.Controllers.ResponseRequestController;
-import frontend.finalproject.Controllers.SubControllers.EditSubController;
 import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.animation.KeyFrame;
@@ -61,6 +58,9 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private Label nextActionToExec;
     private Button nextButton;
     private Button prevButton;
+    private HBox queryFilterContainer;
+    private Label queryFilterLabel;
+    private TextArea queryFilterTextArea;
 
 
     public ExecutionOutcomeVisualizer(String jsonString, int beliefSize) {
@@ -246,12 +246,16 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private void onActionSentCallback() {
 
 
-        Response<String> execOutcomeJson = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(beliefSize,""));
+        Response<String> execOutcomeJson = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(beliefSize, this.queryFilterTextArea.getText()));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonElement jsonElement = gson.fromJson(execOutcomeJson.getValue(), JsonElement.class);
-        if(jsonElement == null)
+        if (jsonElement == null || !jsonElement.isJsonObject())
             return;
+
+        if (!jsonElement.getAsJsonObject().has(EXECUTION_OUTCOME_JSON_KEY)) {
+            return;
+        }
 
         jsonElement = jsonElement.getAsJsonObject().get(EXECUTION_OUTCOME_JSON_KEY);
         if (jsonElement.isJsonArray() && jsonElement.getAsJsonArray().size() == executionOutcome.size()) {
@@ -263,14 +267,14 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         Platform.runLater(() -> {
             Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
             if (!simStatesResp.hasErrorOccurred()) {
-                SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue(),AOSFacade.getInstance());
+                SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue(), AOSFacade.getInstance());
                 this.simulatedStateNode = (SimulatedStateVisualizer.SimulatedStateNode) simulatedStateVisualizer.displayJSON();
                 this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
                 tabPane.getTabs().get(SIMULATED_STATES_TAB_IDX).setContent(simulatedStateNode.getRoot());
             }
 
             // taking care of the initial state - for some reason it's empty at first.
-            if(executionOutcome.size() == 1){
+            if (executionOutcome.size() == 1) {
                 executionOutcome.clear();
                 charts.clear();
             }
@@ -345,6 +349,15 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         nextActionToExec = new Label();
         updateNextPrevExecActions(prevExecAction, nextActionToExec);
 
+        queryFilterContainer = new HBox();
+        queryFilterLabel = new Label("Filter by query:");
+        queryFilterTextArea = new TextArea();
+        queryFilterContainer.getChildren().addAll(queryFilterLabel, queryFilterTextArea);
+
+        queryFilterContainer.getStyleClass().add(CENTER_STYLE);
+        queryFilterLabel.getStyleClass().add(LABEL_STYLE_CLASS);
+
+
         HBox nextPrevButtonsContainer = new HBox();
         nextButton = new Button("Next State");
         prevButton = new Button("Previous State");
@@ -366,7 +379,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         prevExecAction.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
         nextActionToExec.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
 
-        root.getChildren().addAll(prevExecAction, nextActionToExec,nextPrevButtonsContainer);
+        root.getChildren().addAll(queryFilterContainer,prevExecAction, nextActionToExec,nextPrevButtonsContainer);
     }
 
     private void updateNextPrevExecActions(Label prevExecAction, Label nextActionToExec) {
@@ -526,7 +539,6 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
             rawDataContainer.getStyleClass().add(CENTER_STYLE);
             rawDataContainer.setPrefHeight(0);
-
         }
 
     }
