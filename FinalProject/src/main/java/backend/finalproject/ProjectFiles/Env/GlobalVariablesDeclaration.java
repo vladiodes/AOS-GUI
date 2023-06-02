@@ -17,7 +17,7 @@ public class GlobalVariablesDeclaration {
         this.Type = v.getType();
         this.DefaultCode = v.getDefaultCode();
         this.IsActionParameterValue = v.isActionParameterValue();
-        this.IsArray = false; // TODO: add this to FE model class
+        this.IsArray = v.isArray();
     }
 
     public String getName() {

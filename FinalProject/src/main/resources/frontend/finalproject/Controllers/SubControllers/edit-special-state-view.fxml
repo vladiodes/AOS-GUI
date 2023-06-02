@@ -25,6 +25,17 @@
 
     <VBox styleClass="SubMenuVBox" spacing="10">
         <HBox>
+            <Label styleClass="TextFieldLabel" text="SepcialStateType" />
+            <ChoiceBox fx:id="patternCustomChoiceBox" styleClass="formCBx">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="pattern" />
+                        <String fx:value="custom" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
             <Label text="State Condition Code" styleClass="TextFieldLabel"/>
             <TextArea fx:id="StateConditionCodeTXT" styleClass="TextAreaForm"/>
         </HBox>
@@ -53,6 +64,14 @@
                     </FXCollections>
                 </items>
             </ChoiceBox>
+        </HBox>
+        <HBox>
+            <Label styleClass="TextFieldLabel" text="Assignment Name" />
+            <TextField fx:id="SpecialStateAssNameTXT" styleClass="TextFieldForm" />
+        </HBox>
+        <HBox>
+            <Label styleClass="TextFieldLabel" text="Assignment Code" />
+            <TextArea fx:id="SpecialStateAssCodeTXT" styleClass="TextAreaForm" />
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button fx:id="editBTN" text="Edit" onAction="#handleEditBTNClick" />

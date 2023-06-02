@@ -78,6 +78,17 @@
             <TextField fx:id="TypeGlobalVarDecTXT" styleClass="TextFieldForm" />
         </HBox>
         <HBox>
+            <Label styleClass="TextFieldLabel" text="IsArray" />
+            <ChoiceBox fx:id="IsGlobalVarArrayChoiceBox" styleClass="formCBx">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="true" />
+                        <String fx:value="false" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
             <Button onAction="#isActionParamInfo" styleClass="info-button" text="IsActionParameterValue" />
             <ChoiceBox fx:id="IsActionParameterChoiceBox" styleClass="formCBx">
             <items>
@@ -97,8 +108,8 @@
             <Button onAction="#handledEditGlobalVarDecEditBTNClick" styleClass="formBtn" text="Edit Declaration" />
             <Button onAction="#handleGlobalVarDecDeleteBTNClick" styleClass="formBtn" text="Delete Declaration" />
         </HBox>
-                    <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="GlobalVarDecTreeView" styleClass="TreeViewForm" /></HBox>
-                    <Button onAction="#initBeliefStateAssignInfo" styleClass="Separator_Text" text="InitialBeliefStateAssignments" />
+        <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="GlobalVarDecTreeView" styleClass="TreeViewForm" /></HBox>
+        <Button onAction="#initBeliefStateAssignInfo" styleClass="Separator_Text" text="InitialBeliefStateAssignments" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>
             <Button onAction="#assignmentNameInfo" styleClass="info-button" text="Assignment Name" />
@@ -117,12 +128,23 @@
                     <Button onAction="#specialStatesInfo" styleClass="Separator_Text" text="SpecialStates" />
         <Separator prefHeight="14.0" styleClass="Separator_Line" />
         <HBox>
+            <Label styleClass="TextFieldLabel" text="SepcialStateType" />
+            <ChoiceBox fx:id="patternCustomChoiceBox" styleClass="formCBx">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="pattern" />
+                        <String fx:value="custom" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
             <Button onAction="#stateConditionCodeInfo" styleClass="info-button" text="State Condition Code" />
             <TextArea fx:id="StateConditionCodeTXT" styleClass="TextAreaForm" />
         </HBox>
         <HBox>
             <Button onAction="#rewardInfo" styleClass="info-button" text="Reward" />
-            <TextField fx:id="RewardTXT" styleClass="TextFieldForm" />
+            <TextField text="0" fx:id="RewardTXT" styleClass="TextFieldForm" />
         </HBox>
         <HBox>
             <Button onAction="#isGoalStateInfo" styleClass="info-button" text="Is Goal State" />
@@ -145,6 +167,14 @@
                     </FXCollections>
                 </items>
             </ChoiceBox>
+        </HBox>
+        <HBox>
+            <Button onAction="#assignmentNameInfo" styleClass="info-button" text="Assignment Name" />
+            <TextField fx:id="SpecialStateAssNameTXT" styleClass="TextFieldForm" />
+        </HBox>
+        <HBox>
+            <Button onAction="#assignmentCodeInfo" styleClass="info-button" text="Assignment Code" />
+            <TextArea fx:id="SpecialStateAssCodeTXT" styleClass="TextAreaForm" />
         </HBox>
         <HBox styleClass="CRUDBtn">
             <Button onAction="#handleInsertAnotherStateClick" styleClass="formBtn" text="Insert State" />

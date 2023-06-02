@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 import utils.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static frontend.finalproject.Utils.UtilsFXML.loadEditStage;
 import static frontend.finalproject.Utils.UtilsFXML.popUpWindow;
@@ -40,7 +43,12 @@ public class CreateEnvController {
     @FXML private ChoiceBox<String> IsOneTimeRewardBOX;
     @FXML
     private TextArea InitBeliefAssCodeTXT;
-    @FXML private TextField InitBeliefAssNameTXT;
+    @FXML
+    private TextField InitBeliefAssNameTXT;
+    @FXML
+    private TextArea SpecialStateAssCodeTXT;
+    @FXML
+    private TextField SpecialStateAssNameTXT;
     private EnvModel envModel = new EnvModel();
 
     @FXML
@@ -59,6 +67,9 @@ public class CreateEnvController {
     private TextField TypeGlobalVarDecTXT;
 
     @FXML
+    private ChoiceBox<String>  IsGlobalVarArrayChoiceBox;
+
+    @FXML
     private ChoiceBox<String>  IsActionParameterChoiceBox;
 
     @FXML
@@ -67,6 +78,8 @@ public class CreateEnvController {
     @FXML
     private ChoiceBox<String> CompoundEnumChoiceBox;
 
+    @FXML
+    private ChoiceBox<String> patternCustomChoiceBox;
     private UtilsFXML.Source source;
     private GlobalVariableTypeModel currentGlobVarType = null;
 
@@ -103,6 +116,7 @@ public class CreateEnvController {
             loadSubStage(UtilsFXML.ADD_VAR_TYPE_COMPOUND_PATH);
         }
     }
+
 
     private void loadSubStage(String fxml) {
         Stage stage = new Stage();
@@ -145,12 +159,14 @@ public class CreateEnvController {
     }
 
     public void handleInsertAnotherVarDecClick(ActionEvent event) {
-        String selected = IsActionParameterChoiceBox.selectionModelProperty().getValue().getSelectedItem();
+        String selectedIsActionParameter = IsActionParameterChoiceBox.selectionModelProperty().getValue().getSelectedItem();
+        String selectedIsArray = IsGlobalVarArrayChoiceBox.selectionModelProperty().getValue().getSelectedItem();
 
         GlobalVariablesDeclarationModel globalVarDec = new GlobalVariablesDeclarationModel(NameGlobalVarDecTXT.getText(),
                 TypeGlobalVarDecTXT.getText(),
                 DefaultCodeGlobVarDecTXT.getText(),
-                Boolean.parseBoolean(selected));
+                Boolean.parseBoolean(selectedIsActionParameter),
+                Boolean.parseBoolean(selectedIsArray));
 
         envModel.addGlobalVarDec(globalVarDec);
         addGlobalVarDecToTree(globalVarDec);
@@ -184,16 +200,28 @@ public class CreateEnvController {
     }
 
     public void handleInsertAnotherStateClick(ActionEvent event) {
-        SpecialStateModel model = new SpecialStateModel(StateConditionCodeTXT.getText(),
-                Double.parseDouble(RewardTXT.getText()),
-                Boolean.parseBoolean(IsGoalStateBOX.getValue()),
-                Boolean.parseBoolean(IsOneTimeRewardBOX.getValue()));
-        envModel.addSpecialState(model);
+        String selected = patternCustomChoiceBox.selectionModelProperty().getValue().getSelectedItem();
+        SpecialStateModel model = null;
 
+        if (selected.equals("pattern")){
+            model = new SpecialStateModel(StateConditionCodeTXT.getText(),
+                    Double.parseDouble(RewardTXT.getText()),
+                    Boolean.parseBoolean(IsGoalStateBOX.getValue()),
+                    Boolean.parseBoolean(IsOneTimeRewardBOX.getValue()));
+        }
+        else {
+            String AssName = SpecialStateAssNameTXT.getText().isEmpty() ? null: SpecialStateAssNameTXT.getText();
+            AssignmentBlock block = new AssignmentBlock(AssName,SpecialStateAssCodeTXT.getText());
+            model = new SpecialStateModel(List.of(block));
+        }
         StateConditionCodeTXT.setText("");
-        RewardTXT.setText("");
+        RewardTXT.setText("0");
         IsGoalStateBOX.setValue("");
         IsOneTimeRewardBOX.setValue("");
+        SpecialStateAssNameTXT.setText("");
+        SpecialStateAssCodeTXT.setText("");
+
+        envModel.addSpecialState(model);
         addSpecialStateToTree(model);
         UtilsFXML.showNotification(NotificationUtils.ADDED_STATE_TITLE,NotificationUtils.ADDED_STATE_TEXT,null);
     }

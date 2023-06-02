@@ -54,9 +54,11 @@ public class GlobalVariablesDeclarationModel implements Model {
         return IsArray;
     }
     public String toString(){
+
         return String.format("Type: %s\n" +
                 "Default code: %s\n" +
-                "isActionParameterValue: %b",getType(),getDefaultCode(),isActionParameterValue());
+                "isArray: %b\n" +
+                "isActionParameterValue: %b",getType(),getDefaultCode(),isArray(), isActionParameterValue());
     }
 
     public void setDefaultCode(String defaultCode) {
