@@ -24,17 +24,6 @@ public class IntegrationRequestsController {
         UtilsFXML.navToHome(actionEvent);
     }
 
-    public void handleStopRobotRequestBTNClick(ActionEvent actionEvent) {
-        StopRobotRequestDTO requestDTO = new StopRobotRequestDTO();
-        Response<String> resp = facade.sendRequest(requestDTO);
-
-        if (resp.hasErrorOccurred())
-            UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
-        else {
-            UtilsFXML.showNotification(NotificationUtils.STOP_ROBOT_REQUEST_SENT_TITLE, NotificationUtils.STOP_ROBOT_REQUEST_SENT_TXT, resp);
-        }
-    }
-
     public void handleExecutionOutcomeRequestBTNClick(ActionEvent actionEvent){
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         UtilsFXML.loadStage(UtilsFXML.GET_EXECUTION_OUTCOME_PATH,stage);

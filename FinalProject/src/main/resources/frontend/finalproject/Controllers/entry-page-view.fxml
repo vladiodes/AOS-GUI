@@ -55,10 +55,10 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button styleClass="homeBtn" fx:id="btnRobotExecution" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Robot Execution" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Button styleClass="homeBtn" fx:id="btnRobotExecution" contentDisplay="TOP" mnemonicParsing="false" prefHeight="181.0" prefWidth="242.0" stylesheets="@../style.css" text="Stop Robot Execution" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#handleButtonClicks">
                     <graphic>
                         <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
-                            <Image url="@../icons/video-player.png" />
+                            <Image url="@../icons/stop-button.png" />
                         </ImageView>
                     </graphic>
                 </Button>
