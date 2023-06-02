@@ -22,6 +22,7 @@ public class InitializeProjectRequestController {
     public static final String PACKAGES_DEFAULT = "Insert all packages separated by a newline";
     public static final String ACTIONS_DEFAULT = "Insert all actions numbers separated by a newline";
     public static final String TRUE = "true";
+    public static final String FALSE = "false";
     @FXML private TextField VerbosityTXT;
     @FXML private ChoiceBox<String> ManualControlCBX;
     @FXML private TextField PLPDirPathTXT;
@@ -41,9 +42,52 @@ public class InitializeProjectRequestController {
     @FXML private ChoiceBox<String> IsInternalSimulationCBX;
     @FXML private TextField PlanningTimePerMoveInSecondsTXT;
     @FXML private ChoiceBox<String> DebugOnMiddlewareConfigCBX;
+
+    public static String lastPLPDirPath = "";
+    public static boolean lastOnlyGenerateCode = false;
+    public static boolean lastRunWithoutRebuild = false;
+    public static String lastRosDistribution = "";
+    public static String lastWorkspaceDirPath = "";
+    public static String lastTargetLaunchFile = "";
+    public static String lastRosTargetProjectPackages = "";
+    public static String lastTargetProjectInitializationTimeInSeconds = "";
+    public static String lastPolicyGraphDepth = "";
+    public static boolean lastLoadBeliefFromDB = false;
+    public static boolean lastDebugOnSolverConfig = false;
+    public static String lastNumOfParticles = "";
+    public static String lastNumOfBeliefStateParticlesToSaveInDB = "";
+    public static String lastActionsToSimulate = "";
+    public static boolean lastIsInternalSimulation = false;
+    public static String lastPlanningTimePerMoveInSeconds = "";
+    public static boolean lastDebugOnMiddlewareConfig = false;
+    public static String lastVerbosity = "";
+    public static boolean lastManualControl = false;
+
     private final InitProjectRequestDTO.InitProjectRequestDTOBuilder initProjectRequestDTOBuilder = new InitProjectRequestDTO.InitProjectRequestDTOBuilder();
     private final IAOSFacade facade = AOSFacade.getInstance();
 
+    @FXML
+    public void initialize(){
+        PLPDirPathTXT.setText(lastPLPDirPath);
+        OnlyGenerateCodeCBX.getSelectionModel().select(lastOnlyGenerateCode ? TRUE : FALSE);
+        RunWithoutRebuildCBX.getSelectionModel().select(lastRunWithoutRebuild ? TRUE : FALSE);
+        RosDistributionTXT.setText(lastRosDistribution);
+        WorkspaceDirPathTXT.setText(lastWorkspaceDirPath);
+        TargetLaunchFileTXT.setText(lastTargetLaunchFile);
+        RosTargetProjectPackagesTXT.setText(lastRosTargetProjectPackages);
+        TargetProjectInitializationTimeInSecondsTXT.setText(lastTargetProjectInitializationTimeInSeconds);
+        PolicyGraphDepthTXT.setText(lastPolicyGraphDepth);
+        LoadBeliefFromDBCBX.getSelectionModel().select(lastLoadBeliefFromDB ? TRUE : FALSE);
+        DebugOnSolverConfigCBX.getSelectionModel().select(lastDebugOnSolverConfig ? TRUE : FALSE);
+        NumOfParticlesTXT.setText(lastNumOfParticles);
+        NumOfBeliefStateParticlesToSaveInDBTXT.setText(lastNumOfBeliefStateParticlesToSaveInDB);
+        ActionsToSimulateTXT.setText(lastActionsToSimulate);
+        IsInternalSimulationCBX.getSelectionModel().select(lastIsInternalSimulation ? TRUE : FALSE);
+        PlanningTimePerMoveInSecondsTXT.setText(lastPlanningTimePerMoveInSeconds);
+        DebugOnMiddlewareConfigCBX.getSelectionModel().select(lastDebugOnMiddlewareConfig ? TRUE : FALSE);
+        VerbosityTXT.setText(lastVerbosity);
+        ManualControlCBX.getSelectionModel().select(lastManualControl ? TRUE : FALSE);
+    }
     public void handleBrowseTargetProjectLaunchFileClick(ActionEvent event) {
         UtilsFXML.extractFilePathToTextField(TargetLaunchFileTXT);
     }
@@ -79,6 +123,8 @@ public class InitializeProjectRequestController {
                 .setDebugOnMiddleware(Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE))
                 .build();
 
+        saveLastValues();
+
         UtilsFXML.IS_MANUAL_CONTROL = Objects.equals(ManualControlCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
 
         Response<String> resp = facade.sendRequest(requestDTO);
@@ -88,6 +134,28 @@ public class InitializeProjectRequestController {
         else {
             UtilsFXML.loadResponseStage(new JsonTreeViewVisualizer(resp.getValue()));
         }
+    }
+
+    private void saveLastValues() {
+        lastPLPDirPath = PLPDirPathTXT.getText();
+        lastOnlyGenerateCode = Objects.equals(OnlyGenerateCodeCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
+        lastRunWithoutRebuild = Objects.equals(RunWithoutRebuildCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
+        lastRosDistribution = RosDistributionTXT.getText();
+        lastWorkspaceDirPath = WorkspaceDirPathTXT.getText();
+        lastTargetLaunchFile = TargetLaunchFileTXT.getText();
+        lastRosTargetProjectPackages = RosTargetProjectPackagesTXT.getText();
+        lastTargetProjectInitializationTimeInSeconds = TargetProjectInitializationTimeInSecondsTXT.getText();
+        lastPolicyGraphDepth = PolicyGraphDepthTXT.getText();
+        lastLoadBeliefFromDB = Objects.equals(LoadBeliefFromDBCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
+        lastDebugOnSolverConfig = Objects.equals(DebugOnSolverConfigCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
+        lastNumOfParticles = NumOfParticlesTXT.getText();
+        lastNumOfBeliefStateParticlesToSaveInDB = NumOfBeliefStateParticlesToSaveInDBTXT.getText();
+        lastActionsToSimulate = ActionsToSimulateTXT.getText();
+        lastIsInternalSimulation = Objects.equals(IsInternalSimulationCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
+        lastPlanningTimePerMoveInSeconds = PlanningTimePerMoveInSecondsTXT.getText();
+        lastDebugOnMiddlewareConfig = Objects.equals(DebugOnMiddlewareConfigCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
+        lastVerbosity = VerbosityTXT.getText();
+        lastManualControl = Objects.equals(ManualControlCBX.getSelectionModel().selectedItemProperty().getValue(), TRUE);
     }
 
     public void handleBrowsePLPDirectoryBTNClick(ActionEvent event) {
