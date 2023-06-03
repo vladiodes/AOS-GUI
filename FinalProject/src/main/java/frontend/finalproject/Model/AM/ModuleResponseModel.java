@@ -7,18 +7,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ModuleResponseModel {
-    private List<ResponseRule> ResponseRules;
+    private List<ResponseRule> ResponseRules = null;
+
+    private String FromStringLocalVariable = null;
 
     public ModuleResponseModel() {
         ResponseRules = new ArrayList<>();
     }
 
     public ModuleResponseModel(ModuleResponse moduleResponse) {
-        ResponseRules = moduleResponse.getResponseRules().stream().map(ResponseRule::new).collect(Collectors.toList());
+        FromStringLocalVariable = moduleResponse.getFromStringLocalVariable();
+        if (moduleResponse.getResponseRules() != null)
+        {
+            ResponseRules = moduleResponse.getResponseRules().stream().map(ResponseRule::new).collect(Collectors.toList());
+        }
     }
 
     public void addResponseRule(String Response, String ConditionCodeWithLocalVariables) {
+        ResponseRules = ResponseRules == null ? new ArrayList<>() : ResponseRules;
         ResponseRules.add(new ResponseRule(Response, ConditionCodeWithLocalVariables));
+    }
+
+    public ModuleResponseModel(String fromStringLocalVariable) {
+        ResponseRules = new ArrayList<>();
+        FromStringLocalVariable = fromStringLocalVariable;
     }
 
     public List<ResponseRule> getResponseRules() {
@@ -28,4 +40,14 @@ public class ModuleResponseModel {
     public void setResponseRules(List<ResponseRule> lst){
         this.ResponseRules = lst;
     }
+
+    public String getFromStringLocalVariable() {
+        return FromStringLocalVariable;
+    }
+
+    public void setFromStringLocalVariable(String fromStringLocalVariable) {
+        FromStringLocalVariable = fromStringLocalVariable;
+    }
+
+
 }

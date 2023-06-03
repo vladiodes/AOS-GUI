@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.Common.AssignmentBlock;
 import frontend.finalproject.Model.Env.*;
+import utils.Json.CustomGson;
 import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
 import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
 
@@ -95,13 +96,7 @@ public class Environment {
     }
 
     public String toJson() {
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .disableHtmlEscaping()
-                .registerTypeAdapter(GlobalVariableTypeCompound.class, new GlobalVariableTypeCompoundJsonSerializer())
-                .registerTypeAdapter(GlobalVariableTypeEnum.class, new GlobalVariableTypeEnumJsonSerializer())
-                .create();
-
-        return gson.toJson(this);
+        Gson gson = CustomGson.getCustomGson();
+        return gson.toJson(this).replace("\\t", "\t");
     }
 }

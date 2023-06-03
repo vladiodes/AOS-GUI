@@ -8,6 +8,7 @@ import backend.finalproject.ProjectFiles.Env.GlobalVariableTypeEnum;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import frontend.finalproject.Model.SD.SDModel;
+import utils.Json.CustomGson;
 import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
 import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
 
@@ -35,12 +36,9 @@ public class SD {
     }
 
     public String toJson() {
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .disableHtmlEscaping()
-                .create();
+        Gson gson = CustomGson.getCustomGson();
 
-        return gson.toJson(this);
+        return gson.toJson(this).replace("\\t", "\t");
     }
 
     public String getProjectName() {

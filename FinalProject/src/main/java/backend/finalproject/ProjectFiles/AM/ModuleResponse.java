@@ -9,10 +9,17 @@ import java.util.stream.Collectors;
 
 // doc: https://github.com/orhaimwerthaim/AOS-WebAPI/blob/master/docs/version2/AOS_documentation_manual.md#moduleresponse
 public class ModuleResponse {
-    List<ResponseRule> ResponseRules;
+    List<ResponseRule> ResponseRules = null;
+
+    private String FromStringLocalVariable;
 
     public ModuleResponse(List<ResponseRule> responseRules) {
         ResponseRules = responseRules;
+    }
+
+    public ModuleResponse(String fromStringLocalVariable) {
+        ResponseRules = new ArrayList<>();
+        FromStringLocalVariable = fromStringLocalVariable;
     }
 
     public ModuleResponse() {
@@ -20,7 +27,19 @@ public class ModuleResponse {
     }
 
     public ModuleResponse(ModuleResponseModel moduleResponse) {
-        ResponseRules = moduleResponse.getResponseRules().stream().map(ResponseRule::new).collect(Collectors.toList());
+        FromStringLocalVariable = moduleResponse.getFromStringLocalVariable();
+        if (moduleResponse.getResponseRules() != null)
+        {
+            ResponseRules = moduleResponse.getResponseRules().stream().map(ResponseRule::new).collect(Collectors.toList());
+        }
+    }
+
+    public String getFromStringLocalVariable() {
+        return FromStringLocalVariable;
+    }
+
+    public void setFromStringLocalVariable(String fromStringLocalVariable) {
+        FromStringLocalVariable = fromStringLocalVariable;
     }
 
     public List<ResponseRule> getResponseRules() {
@@ -47,6 +66,14 @@ public class ModuleResponse {
 
         public String getConditionCodeWithLocalVariables() {
             return ConditionCodeWithLocalVariables;
+        }
+
+        public void setResponse(String response) {
+            Response = response;
+        }
+
+        public void setConditionCodeWithLocalVariables(String conditionCodeWithLocalVariables) {
+            ConditionCodeWithLocalVariables = conditionCodeWithLocalVariables;
         }
     }
 }
