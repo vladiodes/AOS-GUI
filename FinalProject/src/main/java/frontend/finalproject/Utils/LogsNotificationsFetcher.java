@@ -2,6 +2,7 @@ package frontend.finalproject.Utils;
 
 import DTO.HttpRequests.GetLogsRequestDTO;
 import backend.finalproject.AOSFacade;
+import backend.finalproject.IAOSFacade;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -14,7 +15,10 @@ import java.util.concurrent.Semaphore;
 public class LogsNotificationsFetcher {
     public static final String ID_JSON_KEY = "id";
     public static final String EVENT_JSON_KEY = "event";
+    public static final int INTERVAL_TIME = 1000;
     private static LogsNotificationsFetcher instance = null;
+    private IAOSFacade facade = AOSFacade.getInstance();
+
     public static LogsNotificationsFetcher getInstance(){
         if(instance == null)
             instance = new LogsNotificationsFetcher();
@@ -23,7 +27,7 @@ public class LogsNotificationsFetcher {
 
     private boolean shouldTerminate = false;
     private String recentLogId = null;
-    private Semaphore semaphore;
+    private final Semaphore semaphore;
     private boolean isPaused = false;
 
     private LogsNotificationsFetcher(){
@@ -31,15 +35,20 @@ public class LogsNotificationsFetcher {
 
     }
 
+    public LogsNotificationsFetcher(IAOSFacade facade){
+        semaphore = new Semaphore(1);
+        this.facade = facade;
+    }
+
     public void run() {
         while (!shouldTerminate) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(INTERVAL_TIME);
                 semaphore.acquire();
             } catch (InterruptedException ignored) {
             }
 
-            Response<String> response = AOSFacade.getInstance().sendRequest(new GetLogsRequestDTO());
+            Response<String> response = this.facade.sendRequest(new GetLogsRequestDTO());
             if (response.hasErrorOccurred()) {
                 semaphore.release();
                 continue;
