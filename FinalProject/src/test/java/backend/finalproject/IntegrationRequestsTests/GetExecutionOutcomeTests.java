@@ -24,7 +24,7 @@ public class GetExecutionOutcomeTests {
     @Mock private IntegrationRequestsHandler mockHandler;
     @BeforeEach
     void setUp(){
-        requestDTO = new GetExecutionOutcomeRequestDTO(belief_size);
+        requestDTO = new GetExecutionOutcomeRequestDTO(belief_size,"");
         mockHandler = mock(IntegrationRequestsHandler.class);
         when(mockHandler.handle(requestDTO)).thenReturn(jsonResponse);
     }

@@ -16,7 +16,6 @@
     <VBox styleClass="TreeBoxWrapper" spacing="10" prefWidth="800">
         <Button styleClass="integrationBtn" text="Initialize Project Request" onAction="#handleInitializeProjectRequestBTNClick"/>
         <Button styleClass="integrationBtn" text="Get Execution Outcome Request" onAction="#handleExecutionOutcomeRequestBTNClick"/>
-        <Button styleClass="integrationBtn" text="Stop Robot" onAction="#handleStopRobotRequestBTNClick"/>
         <Button styleClass="integrationBtn" text="Logs" onAction="#handleLogsBTNClick"/>
     </VBox>
     <HBox styleClass="CreateProjBTNsHBox">

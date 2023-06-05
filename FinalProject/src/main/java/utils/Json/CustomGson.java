@@ -27,7 +27,7 @@ public class CustomGson {
                 .registerTypeAdapter(LocalVariablesInitialization.class, new LocalVariablesInitializationDeserializer())
                 .registerTypeAdapter(GlobalVariableType.class, new PolymorphDeserializer<GlobalVariableType>())
                 .registerTypeAdapter(GlobalVariableTypeModel.class, new PolymorphDeserializer<GlobalVariableTypeModel>())
-                .setLenient()
+                // print 4 spaces instead of tab
                 .create();
     }
 

@@ -161,6 +161,10 @@
                         <Button onAction="#conditionCodeInfo" text="ConditionCode" styleClass="info-button"/>
                         <TextArea fx:id="ConditionCodeTXT" styleClass="TextAreaForm"/>
                     </HBox>
+                    <HBox>
+                        <Label styleClass="TextFieldLabel" text="FromStringLocalVariable" />
+                        <TextArea fx:id="FromStringLocalVariableTXT" styleClass="TextFieldForm" />
+                    </HBox>
                     <HBox styleClass="CRUDBtn">
                         <Button onAction="#handleInsertResponseRuleBTNClick"  styleClass="formBtn" text="Insert Rule" />
                         <Button onAction="#handleEditResponseRuleBTNClick" styleClass="formBtn" text="Edit Rule" />

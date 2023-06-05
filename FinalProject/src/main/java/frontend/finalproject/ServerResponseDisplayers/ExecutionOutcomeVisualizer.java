@@ -5,10 +5,7 @@ import DTO.HttpRequests.GetSimulatedStatesRequestDTO;
 import backend.finalproject.AOSFacade;
 import com.google.gson.*;
 import frontend.finalproject.Controllers.CreateEnvController;
-import frontend.finalproject.Controllers.HomeController;
 import frontend.finalproject.Controllers.ManualActionRequestController;
-import frontend.finalproject.Controllers.ResponseRequestController;
-import frontend.finalproject.Controllers.SubControllers.EditSubController;
 import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.animation.KeyFrame;
@@ -45,21 +42,24 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private static final String LABEL_STYLE_CLASS = "TextFieldLabel";
     public static final String ACTION_TEXT_STYLE_CLASS = "Separator_Text";
     public static final int MAN_CONTROL_TAB_IDX = 2;
+    public static final int SIMULATED_STATES_TAB_IDX = 0;
     List<JsonElement> executionOutcome;
     List<Map<String,Histogram>> histogramsOfBeliefStates; // for each state in the execution process, we need a histogram for every variable of the state.
     List<List<BarChart<String, Number>>> charts;
-    int maxLen = 1;
     private List<String> actionDescriptions;
     private SimulatedStateVisualizer.SimulatedStateNode simulatedStateNode = null;
     private int currentSimulatedStateIndex = 0;
     private TabPane tabPane;
     private boolean shouldTerminate = false;
     private final int beliefSize;
-    private DisplayContainer execOutcomeDisplay;
+    private ExecutionOutcomeDisplayContainer execOutcomeDisplay;
     private Label prevExecAction;
     private Label nextActionToExec;
     private Button nextButton;
     private Button prevButton;
+    private HBox queryFilterContainer;
+    private Label queryFilterLabel;
+    private TextArea queryFilterTextArea;
 
 
     public ExecutionOutcomeVisualizer(String jsonString, int beliefSize) {
@@ -100,13 +100,13 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
         barChart.setTitle(title);
         xAxis.setLabel("Value");
-        yAxis.setLabel("Frequency");
+        yAxis.setLabel("Distribution");
 
         // Convert histogram data to series and add data to the chart
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         histogramData.forEach((category, value) -> {
             Double doubleValue = Double.valueOf(value);
-            Double maxLenDouble = (double) maxLen;
+            Double maxLenDouble = (double) beliefSize;
             double probability = doubleValue/maxLenDouble;
             series.getData().add(new XYChart.Data<>(category, probability));
         });
@@ -118,19 +118,18 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         return barChart;
     }
 
-    private Map<String, Histogram> buildHistograms(JsonElement execOutcome) {
+    public Map<String, Histogram> buildHistograms(JsonElement execOutcome) {
         Map<String, Histogram> histograms = new HashMap<>();
         boolean isInitial = execOutcome.getAsJsonObject().has(INITIAL_BELIEFE_STATE_JSON_KEY);
         JsonArray stateArray = execOutcome.getAsJsonObject().
                 get(isInitial ? INITIAL_BELIEFE_STATE_JSON_KEY : BELIEF_STATES_AFTER_EXECUTION_JSON_KEY).getAsJsonArray();
-        maxLen = Math.max(maxLen,stateArray.size());
         for (JsonElement state : stateArray) {
             buildHistogramsOfState(histograms, state);
         }
         return histograms;
     }
 
-    private void buildHistogramsOfState(Map<String, Histogram> histograms, JsonElement state) {
+    public void buildHistogramsOfState(Map<String, Histogram> histograms, JsonElement state) {
         for(Map.Entry<String, JsonElement> entry: state.getAsJsonObject().asMap().entrySet()){
             if(entry.getValue().isJsonObject()){
                 insertJsonObjectToHistograms(entry.getKey() + ".",entry.getValue(), histograms);
@@ -205,12 +204,12 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         root.getChildren().add(tabPane);
         Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
         if(!simStatesResp.hasErrorOccurred()){
-            SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue());
+            SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue(),AOSFacade.getInstance());
             this.simulatedStateNode = (SimulatedStateVisualizer.SimulatedStateNode) simulatedStateVisualizer.displayJSON();
             this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
             tabPane.getTabs().add(new Tab("Simulated States",simulatedStateNode.getRoot()));
         }
-        execOutcomeDisplay = new DisplayContainer(executionOutcome, charts, actionDescriptions);
+        execOutcomeDisplay = new ExecutionOutcomeDisplayContainer(executionOutcome, charts, actionDescriptions);
         tabPane.getTabs().add(new Tab("Execution Outcome", execOutcomeDisplay.getComponent()));
 
         if(UtilsFXML.IS_MANUAL_CONTROL) {
@@ -220,10 +219,10 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 ManualActionRequestController controller = loader.getController();
                 controller.setOnActionSentCallback(null);
                 tabPane.getTabs().add(new Tab("Manual Control", manControl));
-                runRefreshingThread();
             } catch (IOException ignored) {
             }
         }
+        runRefreshingThread();
         createCommonComponents(root, execOutcomeDisplay);
 
         return root;
@@ -245,31 +244,35 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private void onActionSentCallback() {
 
 
-        Response<String> execOutcomeJson = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(beliefSize));
+        Response<String> execOutcomeJson = AOSFacade.getInstance().sendRequest(new GetExecutionOutcomeRequestDTO(beliefSize, this.queryFilterTextArea.getText()));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         JsonElement jsonElement = gson.fromJson(execOutcomeJson.getValue(), JsonElement.class);
-        if(jsonElement == null)
+        if (jsonElement == null || !jsonElement.isJsonObject())
             return;
+
+        if (!jsonElement.getAsJsonObject().has(EXECUTION_OUTCOME_JSON_KEY)) {
+            return;
+        }
 
         jsonElement = jsonElement.getAsJsonObject().get(EXECUTION_OUTCOME_JSON_KEY);
         if (jsonElement.isJsonArray() && jsonElement.getAsJsonArray().size() == executionOutcome.size()) {
             return;
         }
 
-        // if we run the following lines, this means that there has been a refresh in the states = man control was sent
+        // if we run the following lines, this means that there has been a refresh in the states
         JsonElement finalJsonElement = jsonElement;
         Platform.runLater(() -> {
             Response<String> simStatesResp = AOSFacade.getInstance().sendRequest(new GetSimulatedStatesRequestDTO());
             if (!simStatesResp.hasErrorOccurred()) {
-                SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue());
+                SimulatedStateVisualizer simulatedStateVisualizer = new SimulatedStateVisualizer(simStatesResp.getValue(), AOSFacade.getInstance());
                 this.simulatedStateNode = (SimulatedStateVisualizer.SimulatedStateNode) simulatedStateVisualizer.displayJSON();
                 this.actionDescriptions = simulatedStateVisualizer.getActionDescriptions();
-                tabPane.getTabs().get(0).setContent(simulatedStateNode.getRoot());
+                tabPane.getTabs().get(SIMULATED_STATES_TAB_IDX).setContent(simulatedStateNode.getRoot());
             }
 
             // taking care of the initial state - for some reason it's empty at first.
-            if(executionOutcome.size() == 1){
+            if (executionOutcome.size() == 1) {
                 executionOutcome.clear();
                 charts.clear();
             }
@@ -282,7 +285,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 charts.add(createCharts(histograms));
             }
 
-            this.execOutcomeDisplay = new DisplayContainer(executionOutcome, charts, actionDescriptions);
+            this.execOutcomeDisplay = new ExecutionOutcomeDisplayContainer(executionOutcome, charts, actionDescriptions);
             tabPane.getTabs().get(1).setContent(execOutcomeDisplay.getComponent());
             updateNextPrevExecActions(prevExecAction, nextActionToExec);
 
@@ -339,10 +342,19 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         timeline.play();
     }
 
-    private void createCommonComponents(VBox root, DisplayContainer execOutcomeDisplay) {
+    private void createCommonComponents(VBox root, ExecutionOutcomeDisplayContainer execOutcomeDisplay) {
         prevExecAction = new Label();
         nextActionToExec = new Label();
         updateNextPrevExecActions(prevExecAction, nextActionToExec);
+
+        queryFilterContainer = new HBox();
+        queryFilterLabel = new Label("Filter by query:");
+        queryFilterTextArea = new TextArea();
+        queryFilterContainer.getChildren().addAll(queryFilterLabel, queryFilterTextArea);
+
+        queryFilterContainer.getStyleClass().add(CENTER_STYLE);
+        queryFilterLabel.getStyleClass().add(LABEL_STYLE_CLASS);
+
 
         HBox nextPrevButtonsContainer = new HBox();
         nextButton = new Button("Next State");
@@ -365,7 +377,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         prevExecAction.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
         nextActionToExec.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
 
-        root.getChildren().addAll(prevExecAction, nextActionToExec,nextPrevButtonsContainer);
+        root.getChildren().addAll(queryFilterContainer,prevExecAction, nextActionToExec,nextPrevButtonsContainer);
     }
 
     private void updateNextPrevExecActions(Label prevExecAction, Label nextActionToExec) {
@@ -380,7 +392,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         shouldTerminate = true;
     }
 
-    private static class DisplayContainer{
+    public static class ExecutionOutcomeDisplayContainer {
         private int currentIdx = 0;
         List<JsonElement> executionOutcome;
         List<List<BarChart<String, Number>>> charts;
@@ -399,7 +411,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         AtomicReference<List<BarChart<String, Number>>> curHistograms;
 
 
-        private DisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts, List<String> actionDescriptions){
+        public ExecutionOutcomeDisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts, List<String> actionDescriptions){
             this.executionOutcome = executionOutcome;
             this.charts = charts;
             this.actionDescriptions = actionDescriptions;
@@ -525,12 +537,11 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
             rawDataContainer.getStyleClass().add(CENTER_STYLE);
             rawDataContainer.setPrefHeight(0);
-
         }
 
     }
 
-    private static class Histogram {
+    public static class Histogram {
         private final Map<String,Integer> histogram;
 
         private Histogram() {
@@ -545,7 +556,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             }
         }
 
-        private Map<String, Integer> getHistogram() {
+        public Map<String, Integer> getHistogram() {
             return histogram;
         }
     }

@@ -32,6 +32,7 @@ public class CreateSkillController {
     public static final String PLANNER_ASSISTANCE_PRECONDITION = "Planner assistance precondition";
     public static final String DYNAMIC_MODEL = "Dynamic model";
     public static final String POSSIBLE_VALUES = "Possible value";
+    @FXML private TextArea FromStringLocalVariableTXT;
     @FXML private TreeView<String> PossibleParamsValueAssTreeView;
     @FXML private TextArea AssignmentCodePossibleParamsValueTXT;
     @FXML
@@ -232,12 +233,19 @@ public class CreateSkillController {
     }
 
     public void handleInsertResponseRuleBTNClick(ActionEvent event) {
-        AMmodel.addResponseRule(
-                ResponseTXT.getText(),
-                ConditionCodeTXT.getText());
-        addResponseRuleToTree(new ResponseRule(ResponseTXT.getText(), ConditionCodeTXT.getText()));
+        if (!FromStringLocalVariableTXT.getText().isEmpty()){
+            AMmodel.getModuleResponse().setFromStringLocalVariable(FromStringLocalVariableTXT.getText());
+        }
+        else{
+            AMmodel.addResponseRule(
+                    ResponseTXT.getText(),
+                    ConditionCodeTXT.getText());
+            addResponseRuleToTree(new ResponseRule(ResponseTXT.getText(), ConditionCodeTXT.getText()));
+        }
+
         ResponseTXT.setText("");
         ConditionCodeTXT.setText("");
+        FromStringLocalVariableTXT.setText("");
         UtilsFXML.showNotification(NotificationUtils.ADDED_RESPONSE_RULE_TITLE, NotificationUtils.ADDED_RESPONSE_RULE_TEXT, null);
     }
 

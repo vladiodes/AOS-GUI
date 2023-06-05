@@ -13,6 +13,7 @@ import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.AM.LocalVariablesInitializationModel;
 import frontend.finalproject.Model.AM.SDParametersModel;
 import frontend.finalproject.Model.AM.SkillCodeReturnValueModel;
+import utils.Json.CustomGson;
 import utils.Json.CustomSerializers.GlobalVariableTypeCompoundJsonSerializer;
 import utils.Json.CustomSerializers.GlobalVariableTypeEnumJsonSerializer;
 
@@ -82,12 +83,9 @@ public class AM {
     }
 
     public String toJson() {
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .disableHtmlEscaping()
-                .create();
+        Gson gson = CustomGson.getCustomGson();
 
-        return gson.toJson(this);
+        return gson.toJson(this).replace("\\t", "\t");
     }
 
     public String getProjectName() {

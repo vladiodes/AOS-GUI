@@ -5,13 +5,12 @@ import DTO.HttpRequests.InitProjectRequestDTO;
 
 public class GetExecutionOutcomeRequest extends HttpRequest{
 
-    public final static String ENDPOINT = "/ExecutionOutcome?belief_size=";
+    public final static String ENDPOINT = "/ExecutionOutcome";
     public final static String REQUEST_TYPE = "GET";
     public final static String body = null;
 
-    public GetExecutionOutcomeRequest(int beliefSize) {
-        super(ENDPOINT.concat(String.valueOf(beliefSize)));
-
+    public GetExecutionOutcomeRequest(int beliefSize,String filter) {
+        super(String.format("%s?belief_size=%d&filter=%s",ENDPOINT,beliefSize,filter));
     }
 
     public String getBody() {

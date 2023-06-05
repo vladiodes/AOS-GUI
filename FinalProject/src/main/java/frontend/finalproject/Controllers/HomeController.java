@@ -1,7 +1,9 @@
 package frontend.finalproject.Controllers;
 
+import DTO.HttpRequests.StopRobotRequestDTO;
 import backend.finalproject.AOSFacade;
 import backend.finalproject.IAOSFacade;
+import frontend.finalproject.Utils.NotificationUtils;
 import frontend.finalproject.Utils.UtilsFXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,6 +40,19 @@ public class HomeController {
             UtilsFXML.loadStage(UtilsFXML.DEBUG_PROJECT_PATH, stage);
         } else if (event.getSource() == btnIntegrationRequests) {
             UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH, stage);
+        }
+        else if(event.getSource() == btnRobotExecution){
+            handleStopRobotRequestBTNClick(event);
+        }
+    }
+
+    public void handleStopRobotRequestBTNClick(ActionEvent actionEvent) {
+        StopRobotRequestDTO requestDTO = new StopRobotRequestDTO();
+        Response<String> resp = facade.sendRequest(requestDTO);
+        if (resp.hasErrorOccurred())
+            UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
+        else {
+            UtilsFXML.showNotification(NotificationUtils.STOP_ROBOT_REQUEST_SENT_TITLE, NotificationUtils.STOP_ROBOT_REQUEST_SENT_TXT, resp);
         }
     }
 

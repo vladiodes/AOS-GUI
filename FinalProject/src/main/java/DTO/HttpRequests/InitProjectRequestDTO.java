@@ -3,6 +3,7 @@ package DTO.HttpRequests;
 import backend.finalproject.IntegrationRequests.IntegrationRequestsHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import frontend.finalproject.Controllers.InitializeProjectRequestController;
 
 public class InitProjectRequestDTO implements HttpRequestDTO {
     private String PLPsDirectoryPath;

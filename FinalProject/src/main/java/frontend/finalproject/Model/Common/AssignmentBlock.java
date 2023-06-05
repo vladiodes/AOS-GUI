@@ -66,5 +66,10 @@ public class AssignmentBlock implements Model {
     public void setAssignmentCode(List<String> assignmentCode) {
         AssignmentCode = assignmentCode;
     }
+
+    public String toString(){
+        return String.format("Assignment name: %s\n" +
+                "Assignment code: %s\n", AssignmentName, AssignmentCode);
+    }
 }
 

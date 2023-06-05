@@ -140,10 +140,10 @@ public class Project {
     }
 
     public void saveSkill(Skill skill) throws IOException {
-        String jsonSD = gson.toJson(skill.getSd());
+        String jsonSD = gson.toJson(skill.getSd()).replace("\\t", "\t");;
         String sdSavePath = getSDSavePath(skill.getSkillName());
 
-        String jsonAM = gson.toJson(skill.getAm());
+        String jsonAM = gson.toJson(skill.getAm()).replace("\\t", "\t");;
         String amSavePath = getAMSavePath(skill.getSkillName());
 
         writeToFile(sdSavePath, jsonSD);
@@ -165,7 +165,7 @@ public class Project {
 
 
     public void saveEnv() throws IOException {
-        String jsonEnv = gson.toJson(Environment);
+        String jsonEnv = gson.toJson(Environment).replace("\\t", "\t");
         StringBuilder envSavePath = new StringBuilder(Constants.PROJECTS_FOLDER_PATH);
         envSavePath.append(File.separator).append(getProjectName()).append(File.separator).append(getProjectName()).append(Constants.ENVIRONMENT_FILE_SUFFIX);
         writeToFile(envSavePath.toString(), jsonEnv);
