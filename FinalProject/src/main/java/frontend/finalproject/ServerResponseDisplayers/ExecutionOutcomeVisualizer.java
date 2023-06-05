@@ -22,6 +22,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import utils.Response;
@@ -350,6 +352,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         queryFilterContainer = new HBox();
         queryFilterLabel = new Label("Filter by query:");
         queryFilterTextArea = new TextArea();
+        queryFilterTextArea.setMaxHeight(80);
         queryFilterContainer.getChildren().addAll(queryFilterLabel, queryFilterTextArea);
 
         queryFilterContainer.getStyleClass().add(CENTER_STYLE);
