@@ -353,4 +353,18 @@ public class AOSFacade implements IAOSFacade {
     public void setScriptPath(String path) {
         scriptPath = path;
     }
+
+    @Override
+    public Response<Boolean> cleanDirectoryFromImages(){
+        File currentDirectory = new File(System.getProperty("user.dir"));
+        File[] images = currentDirectory.listFiles(file->file.getName().matches("image_[0-9]+"));
+        if(images == null)
+            return Response.OK(true);
+        for(File image : images){
+            image.delete();
+        }
+        return Response.OK(true);
+
+    }
+
 }
