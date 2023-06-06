@@ -15,6 +15,7 @@ import javafx.collections.ObservableSet;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -23,6 +24,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utils.Response;
@@ -139,10 +141,11 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         private List<JsonElement> simulatedStates;
         private List<String> actionDescriptions;
         private int currentSimulatedStateIndex = 0;
-        private ScrollPane displayArea;
         private boolean displayMode;
 
-        HBox container;
+        private ScrollPane displayArea;
+        private HBox imageContainer;
+        private VBox jsonContainer;
 
         public SimulatedStateNode(List<JsonElement> simulatedStates, List<String> actionDescriptions) {
             super();
@@ -151,10 +154,15 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
 
             root = new VBox();
             root.setSpacing(30);
+            root.setPadding(new Insets(10));
             curState = new Node[]{new JsonTreeViewVisualizer(simulatedStates.size() == 0 ? "{}" :
                     simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON()};
             expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
             curState[0].setStyle(TREE_VIEW_HEIGHT);
+
+            jsonContainer = new VBox();
+            jsonContainer.getChildren().add(curState[0]);
+
             buttonContainer = new HBox();
 
             display = new Button("Show Display");
@@ -177,22 +185,31 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
 
             buttonContainer.getChildren().addAll(display);
 
-            container = new HBox();
-            container.setSpacing(10);
+            imageContainer = new HBox();
+            imageContainer.setSpacing(10);
 
+            int width = 450, height = 450;
             ImageView placeholder = new ImageView();
+            placeholder.setFitWidth(width);
+            placeholder.setFitHeight(height);
             placeholder.setPreserveRatio(true);
             placeholder.setId("imageview");
             placeholder.setVisible(false);
 
-            container.setAlignment(Pos.CENTER);
+            imageContainer.getChildren().add(placeholder);
+            imageContainer.getStyleClass().add("CENTER_STYLE");
 
-            container.getChildren().add(placeholder);
-            container.getStyleClass().add("CENTER_STYLE");
-            displayArea = new ScrollPane(container);
-            displayArea.fitToHeightProperty();
+            displayArea = new ScrollPane(imageContainer);
+            displayArea.setFitToHeight(true);
 
-            root.getChildren().addAll(curState[0],buttonContainer, displayArea);
+            HBox hbox = new HBox();
+            hbox.setPadding(new Insets(10));
+            hbox.setSpacing(10);
+            HBox.setHgrow(jsonContainer, Priority.ALWAYS);
+            HBox.setHgrow(displayArea, Priority.ALWAYS);
+            hbox.getChildren().addAll(jsonContainer, displayArea);
+
+            root.getChildren().addAll(hbox, buttonContainer);
 
             // Adding style
             stylizeComponent();
@@ -221,7 +238,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                     if (isSaveFig) {
                         try {
                             File image = new File(filename);
-                            ImageView imageView = (ImageView)container.lookup("#imageview");
+                            ImageView imageView = (ImageView)imageContainer.lookup("#imageview");
                             imageView.setImage(new Image(image.toURI().toString()));
                             imageView.setVisible(true);
                         } catch (Exception e) {
@@ -235,7 +252,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                         text.setMinHeight(40);
                         text.getStyleClass().add("TextAreaWithMargin");
                         text.setEditable(false);
-                        container.getChildren().add(0,text);
+                        imageContainer.getChildren().add(0,text);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -248,7 +265,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex++;
-                handleBrowseStateBtnClick(root, curState, prevState,true);
+                handleBrowseStateBtnClick(jsonContainer, curState, prevState,true);
                 if(displayMode){
                     handleDisplayBtn(event);
                 }
@@ -260,7 +277,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex--;
-                handleBrowseStateBtnClick(root, curState, prevState,false);
+                handleBrowseStateBtnClick(jsonContainer, curState, prevState,false);
                 if(displayMode){
                     handleDisplayBtn(event);
                 }
