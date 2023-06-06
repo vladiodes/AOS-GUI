@@ -34,7 +34,4 @@ def display(state, filename = None,is_merging_images = False):
                 ax.text(j + 0.5, i + 0.5, 'O', fontsize=50, va='center', ha='center')
 
     # Show the plot
-    if not is_merging_images:
-        plt.show()
-    else:
-        plt.savefig(fname=filename,format='PNG')
+    plt.savefig(fname=filename,format='PNG')
