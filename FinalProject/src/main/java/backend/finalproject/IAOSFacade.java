@@ -7,6 +7,7 @@ import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
+import utils.ScriptResponse;
 
 import java.util.List;
 
@@ -168,11 +169,13 @@ public interface IAOSFacade {
 
     Response<String> sendRequest(HttpRequestDTO request);
 
-    Response<String> visualizeBeliefState(JsonObject beliefState);
+    Response<ScriptResponse> visualizeBeliefState(JsonObject beliefState, String filename);
 
     Response<Boolean> visualizeBeliefStates(JsonArray beliefStates);
 
     void setScriptPath(String text);
+
+    Response<Boolean> cleanDirectoryFromImages();
 
     /**
      * An enum that represents the type of the documentation files.

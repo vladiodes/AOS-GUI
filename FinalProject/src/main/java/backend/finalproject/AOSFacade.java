@@ -13,6 +13,7 @@ import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
+import utils.ScriptResponse;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -27,7 +28,8 @@ import static backend.finalproject.Constants.*;
 public class AOSFacade implements IAOSFacade {
 
     private static IAOSFacade instance = null;
-    public static IAOSFacade getInstance(){
+
+    public static IAOSFacade getInstance() {
         if (instance == null)
             instance = new AOSFacade();
         return instance;
@@ -36,18 +38,18 @@ public class AOSFacade implements IAOSFacade {
     private Process AOS_API_Process;
     private Project currentProject;
 
-    private AOSFacade(){
+    private AOSFacade() {
     }
 
-    public Response<Boolean> activateAOServer(){
-        if (pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT)){
+    public Response<Boolean> activateAOServer() {
+        if (pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT)) {
             return Response.OK(true);
         }
         ProcessBuilder pb = new ProcessBuilder();
         String homeDir = System.getProperty("user.home");
         File dir = new File(homeDir + AOS_API_ACTIVATION_DIR);
 
-        if(!dir.exists()){
+        if (!dir.exists()) {
             return Response.FAIL(new Exception("AOS directory does not exist in the Home directory, or not in the right hierarchy"));
         }
         pb.directory(dir);
@@ -64,7 +66,7 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<Boolean> deactivateAOServer() {
-        if ((!pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT)) || AOS_API_Process == null){
+        if ((!pingTcp(AOS_SERVER_HOST, AOS_SERVER_PORT, DEFAULT_TIMEOUT)) || AOS_API_Process == null) {
             return Response.OK(true);
         }
 
@@ -81,72 +83,66 @@ public class AOSFacade implements IAOSFacade {
     public Response<List<String>> getAllProjects() {
         try {
             File[] directories = new File(PROJECTS_FOLDER_PATH).listFiles(File::isDirectory);
-            if(directories == null)
+            if (directories == null)
                 return Response.OK(new ArrayList<>());
             return Response.OK(Arrays.stream(directories).map(File::getName).collect(Collectors.toList()));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
 
     public Response<EnvModel> getProjectEnv() {
-        try{
+        try {
             validateCurrentProjectExists();
             Environment environment = currentProject.getEnvironment();
             EnvModel envModel = new EnvModel(environment);
             return Response.OK(envModel);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
 
     @Override
     public Response<SDModel> getProjectSkillSD(String skillName) {
-        try{
+        try {
             validateCurrentProjectExists();
             Skill skill = currentProject.getSkill(skillName);
             SDModel sdModel = new SDModel(skill.getSd());
             return Response.OK(sdModel);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
 
     @Override
     public Response<AMModel> getProjectSkillAM(String skillName) {
-        try{
+        try {
             validateCurrentProjectExists();
             Skill skill = currentProject.getSkill(skillName);
             AMModel amModel = new AMModel(skill.getAm());
             return Response.OK(amModel);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
 
     public Response<EnvModel> createNewProject(EnvModel envModel) {
-        try{
+        try {
             Project project = new Project(envModel);
             EnvModel createdEnvModel = new EnvModel(project.getEnvironment());
             project.saveEnv();
             return Response.OK(createdEnvModel);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
 
     @Override
     public Response<Boolean> setCurrentWorkingProject(String projectName) {
-        try{
+        try {
             currentProject = new Project(projectName);
             return Response.OK(true);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
 
@@ -158,8 +154,7 @@ public class AOSFacade implements IAOSFacade {
             validateCurrentProjectExists();
             currentProject.addSkill(new SD(sdModel), new AM(amModel));
             return Response.OK(true);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
 
@@ -175,37 +170,34 @@ public class AOSFacade implements IAOSFacade {
         try {
             validateCurrentProjectExists();
             return Response.OK(currentProject.getSkillsNames());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
 
     public Response<List<String>> getSkillNames(String projectName) {
-        return Response.OK(new ArrayList<>(Arrays.stream(new String[]{"Skill1","Skill2","Navigate"}).toList()));
+        return Response.OK(new ArrayList<>(Arrays.stream(new String[]{"Skill1", "Skill2", "Navigate"}).toList()));
     }
 
     @Override
     public Response<Boolean> saveChangesToEnv(EnvModel newEnvModel) {
-        try{
+        try {
             validateCurrentProjectExists();
             Environment environment = new Environment(newEnvModel);
             currentProject.setEnvironment(environment);
             return Response.OK(true);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
 
     @Override
     public Response<Boolean> saveChangesToSkill(String prevSkillName, SDModel newSDModel, AMModel newAMModel) {
-        try{
+        try {
             validateCurrentProjectExists();
             currentProject.editSkill(prevSkillName, new Skill(new SD(newSDModel), new AM(newAMModel)));
             return Response.OK(true);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
@@ -219,8 +211,7 @@ public class AOSFacade implements IAOSFacade {
         try {
             Environment environment = new Environment(envModel);
             return Response.OK(environment.toJson());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
@@ -230,8 +221,7 @@ public class AOSFacade implements IAOSFacade {
         try {
             AM am = new AM(amModel);
             return Response.OK(am.toJson());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
@@ -241,8 +231,7 @@ public class AOSFacade implements IAOSFacade {
         try {
             SD sd = new SD(sdModel);
             return Response.OK(sd.toJson());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
@@ -253,8 +242,8 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<Boolean> openGeneratedFile(String fileName, DocumentationFile documentationFile, int line) {
-        try{
-            ProcessBuilder pb = new ProcessBuilder("code", fileName, ":"+line);
+        try {
+            ProcessBuilder pb = new ProcessBuilder("code", fileName, ":" + line);
             pb.start();
             return Response.OK(true);
         } catch (IOException e) {
@@ -272,8 +261,7 @@ public class AOSFacade implements IAOSFacade {
             IntegrationRequestsHandler handler = new IntegrationRequestsHandler();
             String response = handler.handle(request);
             return Response.OK(response);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return Response.FAIL(e);
         }
     }
@@ -288,21 +276,32 @@ public class AOSFacade implements IAOSFacade {
     }
 
     private void validateCurrentProjectExists() throws Exception {
-        if (currentProject == null){
+        if (currentProject == null) {
             throw new Exception("Please first set current project");
         }
     }
 
-    public Response<String> visualizeBeliefState(JsonObject beliefState){
-        try(FileInputStream file = new FileInputStream(new File(scriptPath)))
-        {
-            beliefState.remove("_id");
+    public Response<ScriptResponse> visualizeBeliefState(JsonObject beliefState, String filename) {
+        try (FileInputStream file = new FileInputStream(new File(scriptPath))) {
+            ScriptResponse response = new ScriptResponse();
             // opening a new process with the belief state initialized
             ProcessBuilder pb = new ProcessBuilder();
-            String userCode =  "import json\n" + new String(file.readAllBytes()) + "\n\n" +
-                    "belief_state = json.loads('" + beliefState + "')" +
-                    "\n\ndisplay(belief_state)";
-            pb.command("python3", "-c" , userCode);
+
+            String userFunction = new String(file.readAllBytes());
+            String userCode = "import json\n" + userFunction + "\n\n" +
+                    "belief_state = json.loads('" + beliefState + "')";
+
+
+            if (userFunction.contains("matplotlib.pyplot")) {
+                userCode += String.format("\n\ndisplay(belief_state,'%s')", filename);
+                response.setSaveFig(true);
+            }
+            else
+                userCode+= "\n\ndisplay(belief_state)";
+                //userCode += (String.format("\nmatplotlib.pyplot.savefig(fname='%s',format='PNG')", filename));
+                //userCode += "\nmatplotlib.pyplot.close('all')";
+
+            pb.command("python3", "-c", userCode);
             pb.redirectErrorStream(true);
             Process p = pb.start();
 
@@ -311,13 +310,14 @@ public class AOSFacade implements IAOSFacade {
             InputStreamReader reader = new InputStreamReader(p.getInputStream());
             BufferedReader buffer = new BufferedReader(reader);
             String line;
-            while((line = buffer.readLine())!= null ){
+            while ((line = buffer.readLine()) != null) {
                 sb.append(line);
                 sb.append("\n");
             }
-            return Response.OK(sb.toString());
-        }
-        catch (IOException e){
+            response.setOutput(sb.toString());
+
+            return Response.OK(response);
+        } catch (IOException e) {
             return Response.FAIL(e);
         }
     }
@@ -349,7 +349,22 @@ public class AOSFacade implements IAOSFacade {
     }
 
     String scriptPath;
-    public void setScriptPath(String path){
+
+    public void setScriptPath(String path) {
         scriptPath = path;
     }
+
+    @Override
+    public Response<Boolean> cleanDirectoryFromImages(){
+        File currentDirectory = new File(System.getProperty("user.dir"));
+        File[] images = currentDirectory.listFiles(file->file.getName().matches("image_[0-9]+"));
+        if(images == null)
+            return Response.OK(true);
+        for(File image : images){
+            image.delete();
+        }
+        return Response.OK(true);
+
+    }
+
 }

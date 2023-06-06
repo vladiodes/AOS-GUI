@@ -25,6 +25,7 @@ public class Main extends Application {
                 System.out.println("Shutting down AOS...");
                 facade.deactivateAOServer();
             }
+            facade.cleanDirectoryFromImages();
             LogsNotificationsFetcher.getInstance().terminate();
             System.out.println("Terminating logs fetcher...");
         });

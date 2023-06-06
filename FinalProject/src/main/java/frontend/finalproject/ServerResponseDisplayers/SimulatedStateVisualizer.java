@@ -15,16 +15,24 @@ import javafx.collections.ObservableSet;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utils.Response;
+import utils.ScriptResponse;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -133,25 +141,75 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         private List<JsonElement> simulatedStates;
         private List<String> actionDescriptions;
         private int currentSimulatedStateIndex = 0;
+        private boolean displayMode;
+
+        private ScrollPane displayArea;
+        private HBox imageContainer;
+        private VBox jsonContainer;
+
         public SimulatedStateNode(List<JsonElement> simulatedStates, List<String> actionDescriptions) {
             super();
             this.simulatedStates = simulatedStates;
             this.actionDescriptions = actionDescriptions;
 
             root = new VBox();
+            root.setSpacing(30);
+            root.setPadding(new Insets(10));
             curState = new Node[]{new JsonTreeViewVisualizer(simulatedStates.size() == 0 ? "{}" :
                     simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON()};
             expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
             curState[0].setStyle(TREE_VIEW_HEIGHT);
+
+            jsonContainer = new VBox();
+            jsonContainer.getChildren().add(curState[0]);
+
             buttonContainer = new HBox();
 
-            display = new Button("Display state");
-            display.setOnAction(this::handleDisplayBtn);
-
+            display = new Button("Show Display");
+            display.setOnAction(event -> {
+                displayMode = !displayMode;
+                if(displayMode) {
+                    handleDisplayBtn(event);
+                    displayArea.setVisible(true);
+                    displayArea.setFitToHeight(true);
+                    displayArea.setMaxHeight(Double.POSITIVE_INFINITY);
+                    display.setText("Hide Display");
+                }
+                else{
+                    displayArea.setVisible(false);
+                    displayArea.setFitToHeight(true);
+                    displayArea.setMaxHeight(0);
+                    display.setText("Show Display");
+                }
+            } );
 
             buttonContainer.getChildren().addAll(display);
-            root.getChildren().addAll(curState[0], buttonContainer);
 
+            imageContainer = new HBox();
+            imageContainer.setSpacing(10);
+
+            int width = 450, height = 450;
+            ImageView placeholder = new ImageView();
+            placeholder.setFitWidth(width);
+            placeholder.setFitHeight(height);
+            placeholder.setPreserveRatio(true);
+            placeholder.setId("imageview");
+            placeholder.setVisible(false);
+
+            imageContainer.getChildren().add(placeholder);
+            imageContainer.getStyleClass().add("CENTER_STYLE");
+
+            displayArea = new ScrollPane(imageContainer);
+            displayArea.setFitToHeight(true);
+
+            HBox hbox = new HBox();
+            hbox.setPadding(new Insets(10));
+            hbox.setSpacing(10);
+            HBox.setHgrow(jsonContainer, Priority.ALWAYS);
+            HBox.setHgrow(displayArea, Priority.ALWAYS);
+            hbox.getChildren().addAll(jsonContainer, displayArea);
+
+            root.getChildren().addAll(hbox, buttonContainer);
 
             // Adding style
             stylizeComponent();
@@ -160,20 +218,43 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         public void handleDisplayBtn(ActionEvent event) {
             JsonElement currentState = simulatedStates.get(currentSimulatedStateIndex);
             currentState = currentState.getAsJsonObject().get(SIMULATED_STATE);
-            Response<String> response = AOSFacade.getInstance().visualizeBeliefState(currentState.getAsJsonObject());
-            String response_string = response.getValue();
-            if(!response.hasErrorOccurred() && !response_string.isEmpty()){
+            String filename = "image_" + currentSimulatedStateIndex;
+            Response<ScriptResponse> response = AOSFacade.getInstance().visualizeBeliefState(currentState.getAsJsonObject(), filename);
+            String response_string = response.getValue().getOutput();
+            boolean isSaveFig = response.getValue().getSaveFig();
+            if (!response.hasErrorOccurred()) {
                 try {
-                    Parent root = UtilsFXML.openNewWindow("display-belief-state.fxml");
-                    Scene scene = new Scene(root, 640, 640);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.setTitle("Display Result");
-                    stage.show();
-                    TextArea label = (TextArea) scene.lookup("#displayArea");
-                    label.setText(response_string);
-                }
-                catch (Exception e){
+
+//                    Parent root = UtilsFXML.openNewWindow("display-belief-state.fxml");
+//                    Scene scene = new Scene(root, 640, 640);
+//                    Stage stage = new Stage();
+//                    stage.setScene(scene);
+//                    stage.setTitle("Display Result");
+//
+//                    stage.show();
+//                    VBox vbox = (VBox) scene.lookup("#displayArea");
+
+
+                    if (isSaveFig) {
+                        try {
+                            File image = new File(filename);
+                            ImageView imageView = (ImageView)imageContainer.lookup("#imageview");
+                            imageView.setImage(new Image(image.toURI().toString()));
+                            imageView.setVisible(true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (!response_string.isEmpty()) {
+                        TextArea text = new TextArea();
+                        text.setText(response_string);
+                        text.setMinHeight(40);
+                        text.getStyleClass().add("TextAreaWithMargin");
+                        text.setEditable(false);
+                        imageContainer.getChildren().add(0,text);
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -184,7 +265,10 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex++;
-                handleBrowseStateBtnClick(root, curState, prevState,true);
+                handleBrowseStateBtnClick(jsonContainer, curState, prevState,true);
+                if(displayMode){
+                    handleDisplayBtn(event);
+                }
             }
         }
 
@@ -193,7 +277,10 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex--;
-                handleBrowseStateBtnClick(root, curState, prevState,false);
+                handleBrowseStateBtnClick(jsonContainer, curState, prevState,false);
+                if(displayMode){
+                    handleDisplayBtn(event);
+                }
             }
         }
 
