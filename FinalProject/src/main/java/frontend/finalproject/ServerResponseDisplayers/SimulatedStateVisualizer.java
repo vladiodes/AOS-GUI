@@ -2,41 +2,27 @@ package frontend.finalproject.ServerResponseDisplayers;
 
 import DTO.HttpRequests.GetExecutionOutcomeRequestDTO;
 import backend.finalproject.AOSFacade;
+import backend.finalproject.Constants;
 import backend.finalproject.IAOSFacade;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import frontend.finalproject.Controllers.HomeController;
 import frontend.finalproject.Utils.UtilsFXML;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import utils.Response;
 import utils.ScriptResponse;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class SimulatedStateVisualizer implements IJsonVisualizer {
     public static final String SIMULATED_STATE = "SimulatedState";
@@ -133,6 +119,8 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     }
 
     public static class SimulatedStateNode extends Node{
+        public static final int STATE_VIEW_INDEX = 1;
+        private final HBox tableViewStateViewContainer;
         private VBox root;
         Node[] curState;
         HBox buttonContainer;
@@ -141,122 +129,82 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         private List<JsonElement> simulatedStates;
         private List<String> actionDescriptions;
         private int currentSimulatedStateIndex = 0;
-        private boolean displayMode;
-
-        private ScrollPane displayArea;
-        private HBox imageContainer;
-        private VBox jsonContainer;
-
+        private boolean isDisplayMode = false;
         public SimulatedStateNode(List<JsonElement> simulatedStates, List<String> actionDescriptions) {
             super();
             this.simulatedStates = simulatedStates;
             this.actionDescriptions = actionDescriptions;
 
             root = new VBox();
-            root.setSpacing(30);
-            root.setPadding(new Insets(10));
             curState = new Node[]{new JsonTreeViewVisualizer(simulatedStates.size() == 0 ? "{}" :
                     simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON()};
             expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
             curState[0].setStyle(TREE_VIEW_HEIGHT);
-
-            jsonContainer = new VBox();
-            jsonContainer.getChildren().add(curState[0]);
-
             buttonContainer = new HBox();
 
-            display = new Button("Show Display");
-            display.setOnAction(event -> {
-                displayMode = !displayMode;
-                if(displayMode) {
-                    handleDisplayBtn(event);
-                    displayArea.setVisible(true);
-                    displayArea.setFitToHeight(true);
-                    displayArea.setMaxHeight(Double.POSITIVE_INFINITY);
-                    display.setText("Hide Display");
-                }
-                else{
-                    displayArea.setVisible(false);
-                    displayArea.setFitToHeight(true);
-                    displayArea.setMaxHeight(0);
-                    display.setText("Show Display");
-                }
-            } );
+            display = new Button("Display state");
+            display.setOnAction(event -> handleDisplayBtn(event, false));
+
+            tableViewStateViewContainer = new HBox();
+
+            tableViewStateViewContainer.getChildren().addAll(curState[0]);
 
             buttonContainer.getChildren().addAll(display);
+            root.getChildren().addAll(tableViewStateViewContainer, buttonContainer);
 
-            imageContainer = new HBox();
-            imageContainer.setSpacing(10);
-
-            int width = 450, height = 450;
-            ImageView placeholder = new ImageView();
-            placeholder.setFitWidth(width);
-            placeholder.setFitHeight(height);
-            placeholder.setPreserveRatio(true);
-            placeholder.setId("imageview");
-            placeholder.setVisible(false);
-
-            imageContainer.getChildren().add(placeholder);
-            imageContainer.getStyleClass().add("CENTER_STYLE");
-
-            displayArea = new ScrollPane(imageContainer);
-            displayArea.setFitToHeight(true);
-
-            HBox hbox = new HBox();
-            hbox.setPadding(new Insets(10));
-            hbox.setSpacing(10);
-            HBox.setHgrow(jsonContainer, Priority.ALWAYS);
-            HBox.setHgrow(displayArea, Priority.ALWAYS);
-            hbox.getChildren().addAll(jsonContainer, displayArea);
-
-            root.getChildren().addAll(hbox, buttonContainer);
 
             // Adding style
             stylizeComponent();
         }
 
-        public void handleDisplayBtn(ActionEvent event) {
+        public void handleDisplayBtn(ActionEvent event, boolean isSourceFromBrowseBtn) {
+            clearCurrentStateView();
+
+            if (!isSourceFromBrowseBtn)
+                handleDisplayModeChange();
+
+            if (!isDisplayMode)
+                return;
+
             JsonElement currentState = simulatedStates.get(currentSimulatedStateIndex);
             currentState = currentState.getAsJsonObject().get(SIMULATED_STATE);
-            String filename = "image_" + currentSimulatedStateIndex;
-            Response<ScriptResponse> response = AOSFacade.getInstance().visualizeBeliefState(currentState.getAsJsonObject(), filename);
-            String response_string = response.getValue().getOutput();
-            boolean isSaveFig = response.getValue().getSaveFig();
+            Response<ScriptResponse> response = AOSFacade.getInstance().visualizeBeliefState(currentState.getAsJsonObject());
             if (!response.hasErrorOccurred()) {
-                try {
-
-//                    Parent root = UtilsFXML.openNewWindow("display-belief-state.fxml");
-//                    Scene scene = new Scene(root, 640, 640);
-//                    Stage stage = new Stage();
-//                    stage.setScene(scene);
-//                    stage.setTitle("Display Result");
-//
-//                    stage.show();
-//                    VBox vbox = (VBox) scene.lookup("#displayArea");
-
-
-                    if (isSaveFig) {
-                        try {
-                            File image = new File(filename);
-                            ImageView imageView = (ImageView)imageContainer.lookup("#imageview");
-                            imageView.setImage(new Image(image.toURI().toString()));
-                            imageView.setVisible(true);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                String response_string = response.getValue().getOutput();
+                boolean isSaveFig = response.getValue().getSaveFig();
+                if (isSaveFig) {
+                    try {
+                        File image = new File(Constants.SINGLE_STATE_IMAGE_FNAME);
+                        UtilsFXML.displayImage(image, tableViewStateViewContainer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
+                } else {
                     if (!response_string.isEmpty()) {
                         TextArea text = new TextArea();
                         text.setText(response_string);
                         text.setMinHeight(40);
                         text.getStyleClass().add("TextAreaWithMargin");
                         text.setEditable(false);
-                        imageContainer.getChildren().add(0,text);
+                        tableViewStateViewContainer.getChildren().add(text);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+
+            }
+        }
+
+        private void clearCurrentStateView() {
+            if(isDisplayMode)
+                tableViewStateViewContainer.getChildren().remove(STATE_VIEW_INDEX);
+        }
+
+        private void handleDisplayModeChange() {
+            isDisplayMode = !isDisplayMode;
+            if(isDisplayMode){
+                display.setText("Hide display state");
+            }
+            else{
+                display.setText("Display state");
             }
         }
 
@@ -265,10 +213,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex++;
-                handleBrowseStateBtnClick(jsonContainer, curState, prevState,true);
-                if(displayMode){
-                    handleDisplayBtn(event);
-                }
+                handleBrowseStateBtnClick(curState, prevState,true);
             }
         }
 
@@ -277,10 +222,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex--;
-                handleBrowseStateBtnClick(jsonContainer, curState, prevState,false);
-                if(displayMode){
-                    handleDisplayBtn(event);
-                }
+                handleBrowseStateBtnClick(curState, prevState,false);
             }
         }
 
@@ -290,6 +232,8 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             root.getStyleClass().add(V_BOX_STATE_WRAPPER);
             buttonContainer.setSpacing(HBOX_SPACING);
             root.setSpacing(VBOX_SPACING);
+            tableViewStateViewContainer.getStyleClass().add(ALIGN_CENTER_STYLE_CLASS);
+            tableViewStateViewContainer.setSpacing(VBOX_SPACING);
         }
 
         private void expandAllTreeItems(TreeItem<?> treeItem) {
@@ -299,16 +243,18 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             }
         }
 
-        private void handleBrowseStateBtnClick(VBox vBox, Node[] curState, JsonElement prevState, boolean isNextBtn) {
+        private void handleBrowseStateBtnClick(Node[] curState, JsonElement prevState, boolean isNextBtn) {
             JsonElement nextState = simulatedStates.get(currentSimulatedStateIndex);
             nextState = nextState.getAsJsonObject().get(SIMULATED_STATE);
 
-            vBox.getChildren().remove(curState[0]);
+            tableViewStateViewContainer.getChildren().remove(curState[0]);
             curState[0] = new JsonTreeViewVisualizer(simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON();
             curState[0].setStyle(SimulatedStateVisualizer.TREE_VIEW_HEIGHT);
             expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
             highlightChangedVariablesInState(prevState, nextState, (TreeView<String>) curState[0],isNextBtn);
-            vBox.getChildren().add(0, curState[0]);
+            tableViewStateViewContainer.getChildren().add(0, curState[0]);
+
+            handleDisplayBtn(null,true);
         }
 
         public static ObservableSet<TreeItem<String>> highlightChangedVariablesInState(JsonElement oldState, JsonElement newState, TreeView<String> treeView, boolean isNextBtn) {

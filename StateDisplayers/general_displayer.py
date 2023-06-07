@@ -1,4 +1,2 @@
-import matplotlib.pyplot as plt
-
-def display(x):
+def display(x, filename = None,is_merging_images = False):
     print(x)

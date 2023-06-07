@@ -33,5 +33,5 @@ def display(state, filename = None,is_merging_images = False):
             elif board[i][j] == 'O':
                 ax.text(j + 0.5, i + 0.5, 'O', fontsize=50, va='center', ha='center')
 
-    # Show the plot
+
     plt.savefig(fname=filename,format='PNG')

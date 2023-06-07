@@ -15,8 +15,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -201,6 +205,16 @@ public class UtilsFXML {
         return loader.load(Objects.requireNonNull(HomeController.class.getResource(fxmlPath)));
 
 
+    }
+
+    public static void displayImage(File image, HBox container) {
+        ImageView imageView = new ImageView();
+        imageView.setImage(new Image(image.toURI().toString()));
+        imageView.setFitHeight(400);
+        imageView.setFitWidth(400);
+        ScrollPane scrollContainer = new ScrollPane(imageView);
+        scrollContainer.setPrefHeight(450);
+        container.getChildren().add(scrollContainer);
     }
 
     public enum Source {

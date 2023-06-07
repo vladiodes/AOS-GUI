@@ -1,4 +1,4 @@
-def display(data):
+def display(data, filename = None,is_merging_images = False):
     def flatten_dict(dictionary, parent_key='', sep='.'):
         items = []
         for k, v in dictionary.items():

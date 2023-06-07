@@ -169,13 +169,11 @@ public interface IAOSFacade {
 
     Response<String> sendRequest(HttpRequestDTO request);
 
-    Response<ScriptResponse> visualizeBeliefState(JsonObject beliefState, String filename);
+    Response<ScriptResponse> visualizeBeliefState(JsonObject beliefState);
 
-    Response<Boolean> visualizeBeliefStates(JsonArray beliefStates);
+    Response<ScriptResponse> visualizeBeliefStates(JsonArray beliefStates);
 
     void setScriptPath(String text);
-
-    Response<Boolean> cleanDirectoryFromImages();
 
     /**
      * An enum that represents the type of the documentation files.
