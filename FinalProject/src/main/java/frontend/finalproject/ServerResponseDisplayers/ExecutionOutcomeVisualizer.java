@@ -3,6 +3,7 @@ package frontend.finalproject.ServerResponseDisplayers;
 import DTO.HttpRequests.GetExecutionOutcomeRequestDTO;
 import DTO.HttpRequests.GetSimulatedStatesRequestDTO;
 import backend.finalproject.AOSFacade;
+import backend.finalproject.Constants;
 import com.google.gson.*;
 import frontend.finalproject.Controllers.CreateEnvController;
 import frontend.finalproject.Controllers.ManualActionRequestController;
@@ -23,10 +24,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.util.Duration;
 import utils.Response;
+import utils.ScriptResponse;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -410,6 +414,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         VBox rawDataContainer;
         List<String> actionDescriptions;
         AtomicReference<List<BarChart<String, Number>>> curHistograms;
+        private boolean isMergedStatesDisplayMode = false;
+        private HBox histogramsMergedStatesContainer;
 
 
         public ExecutionOutcomeDisplayContainer(List<JsonElement> executionOutcome, List<List<BarChart<String, Number>>> charts, List<String> actionDescriptions){
@@ -437,8 +443,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             buildComponents(curHistograms);
             bindActionsToButtons(curHistograms);
             stylizeComponents();
-
-            rootContainer.getChildren().addAll(scrollPane,filteredTextFieldContainer,buttonsContainer,rawDataContainer);
+            rootContainer.getChildren().addAll(histogramsMergedStatesContainer,filteredTextFieldContainer,buttonsContainer,rawDataContainer);
             return rootContainer;
         }
 
@@ -456,17 +461,41 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 }
             });
             this.displayMergedStates.setOnAction(e -> {
-                Response<Boolean> response = AOSFacade.getInstance().visualizeBeliefStates(
-                        executionOutcome.get(currentIdx).getAsJsonObject().
-                                get(currentIdx == 0 ? INITIAL_BELIEFE_STATE_JSON_KEY : BELIEF_STATES_AFTER_EXECUTION_JSON_KEY).getAsJsonArray());
-                if(response.hasErrorOccurred()){
-                    UtilsFXML.showErrorNotification(NotificationUtils.VISUALIZE_BELIEF_STATES_NOTIFICATION, NotificationUtils.VISUALIZE_BELIEF_STATES_UNSUPPORTED);
-                }
+                handleDisplayMergedStates(false);
             });
 
             filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
                 populateHistograms(curHistograms, newValue);
             });
+        }
+
+        private void handleDisplayMergedStates(boolean isBrowseBtnSource) {
+            if(histogramsMergedStatesContainer.getChildren().size() == 2)
+                histogramsMergedStatesContainer.getChildren().remove(1);
+
+            if(!isBrowseBtnSource)
+                handleChangeDisplayMode();
+            if(!isMergedStatesDisplayMode)
+                return;
+
+            Response<ScriptResponse> response = AOSFacade.getInstance().visualizeBeliefStates(
+                    executionOutcome.get(currentIdx).getAsJsonObject().
+                            get(currentIdx == 0 ? INITIAL_BELIEFE_STATE_JSON_KEY : BELIEF_STATES_AFTER_EXECUTION_JSON_KEY).getAsJsonArray());
+            if(response.hasErrorOccurred() || !response.getValue().getSaveFig()){
+                UtilsFXML.showErrorNotification(NotificationUtils.VISUALIZE_BELIEF_STATES_NOTIFICATION, NotificationUtils.VISUALIZE_BELIEF_STATES_UNSUPPORTED);
+            }
+            else{
+                try {
+                    File image = new File(Constants.MERGED_STATE_IMAGE);
+                    UtilsFXML.displayImage(image, histogramsMergedStatesContainer);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        private void handleChangeDisplayMode() {
+            isMergedStatesDisplayMode = !isMergedStatesDisplayMode;
+            displayMergedStates.setText(isMergedStatesDisplayMode ? "Hide merged states" : "Display merged states");
         }
 
         private void populateHistograms(AtomicReference<List<BarChart<String, Number>>> curHistograms, String newValue) {
@@ -493,6 +522,9 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             histogramsContainer.getChildren().addAll(curHistograms.get());
             scrollPane = new ScrollPane(histogramsContainer);
 
+            histogramsMergedStatesContainer = new HBox();
+            histogramsMergedStatesContainer.getChildren().addAll(scrollPane);
+
 
             filteredTextFieldContainer = new HBox();
             filterLabel = new Label("Filter by variable:");
@@ -517,6 +549,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             rawDataContainer.getChildren().add(new JsonTreeViewVisualizer(executionOutcome.get(currentIdx).toString()).displayJSON());
             curHistograms.set(charts.get(currentIdx));
             populateHistograms(curHistograms, filterTextField.getText());
+            handleDisplayMergedStates(true);
         }
 
         private void stylizeComponents() {
@@ -530,8 +563,11 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
             histogramsContainer.setSpacing(10);
 
-            scrollPane.setPrefWidth(600);
+            scrollPane.setPrefWidth(800);
             scrollPane.setPrefHeight(250);
+
+            histogramsMergedStatesContainer.getStyleClass().add(CENTER_STYLE);
+            histogramsMergedStatesContainer.setSpacing(20);
 
             filterTextField.getStyleClass().add(TEXT_FIELD_STYLE_CLASS);
             filterLabel.getStyleClass().add(LABEL_STYLE_CLASS);

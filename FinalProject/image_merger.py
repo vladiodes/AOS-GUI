@@ -12,7 +12,7 @@ def save_images(states, filename_prefix = 'image'):
 
 from PIL import Image
 
-def merge_images(states):
+def merge_images(states, filename='merged_states_image'):
     belief_size = len(states)
     save_images(states)
     images = [Image.open('image' + str(i)) for i in range(belief_size)]
@@ -35,7 +35,7 @@ def merge_images(states):
             merged_image.putpixel((x, y), (r, g, b))
 
     delete_images(['image' + str(i) for i in range(belief_size)])
-    merged_image.show()
+    merged_image.save(filename, format='PNG')
 
 import os
 

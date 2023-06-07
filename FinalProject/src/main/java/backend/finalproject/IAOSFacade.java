@@ -171,7 +171,7 @@ public interface IAOSFacade {
 
     Response<ScriptResponse> visualizeBeliefState(JsonObject beliefState);
 
-    Response<Boolean> visualizeBeliefStates(JsonArray beliefStates);
+    Response<ScriptResponse> visualizeBeliefStates(JsonArray beliefStates);
 
     void setScriptPath(String text);
 

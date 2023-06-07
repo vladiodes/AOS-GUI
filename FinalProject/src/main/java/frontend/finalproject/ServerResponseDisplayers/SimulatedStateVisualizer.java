@@ -13,14 +13,9 @@ import javafx.collections.ObservableSet;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import utils.Response;
 import utils.ScriptResponse;
 
@@ -180,13 +175,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 if (isSaveFig) {
                     try {
                         File image = new File(Constants.SINGLE_STATE_IMAGE_FNAME);
-                        ImageView imageView = new ImageView();
-                        imageView.setImage(new Image(image.toURI().toString()));
-                        imageView.setFitHeight(400);
-                        imageView.setFitWidth(400);
-                        ScrollPane scrollContainer = new ScrollPane(imageView);
-                        scrollContainer.setPrefHeight(450);
-                        tableViewStateViewContainer.getChildren().add(scrollContainer);
+                        UtilsFXML.displayImage(image, tableViewStateViewContainer);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

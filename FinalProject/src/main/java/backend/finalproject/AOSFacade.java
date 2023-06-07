@@ -182,10 +182,6 @@ public class AOSFacade implements IAOSFacade {
         }
     }
 
-    public Response<List<String>> getSkillNames(String projectName) {
-        return Response.OK(new ArrayList<>(Arrays.stream(new String[]{"Skill1","Skill2","Navigate"}).toList()));
-    }
-
     @Override
     public Response<Boolean> saveChangesToEnv(EnvModel newEnvModel) {
         try{
@@ -295,12 +291,7 @@ public class AOSFacade implements IAOSFacade {
     }
 
     public Response<ScriptResponse> visualizeBeliefState(JsonObject beliefState) {
-        deletePrevImageFiles();
         try (FileInputStream file = new FileInputStream(new File(scriptPath))) {
-            ScriptResponse response = new ScriptResponse();
-            // opening a new process with the belief state initialized
-            ProcessBuilder pb = new ProcessBuilder();
-
             String userFunction = new String(file.readAllBytes());
             String userCode = String.format("""
                     import json
@@ -312,8 +303,60 @@ public class AOSFacade implements IAOSFacade {
                     beliefState.toString(),
                     Constants.SINGLE_STATE_IMAGE_FNAME);
 
+            return runUserPythonCode(userCode, SINGLE_STATE_IMAGE_FNAME);
+        } catch (IOException e) {
+            return Response.FAIL(e);
+        }
+    }
 
-            pb.command("python3", "-c", userCode);
+    private boolean hasSavedImage(String fname) {
+        File currentDirectory = new File(CWD);
+        File[] images = currentDirectory.listFiles(file->file.getName().matches(fname));
+        return images != null && images.length > 0;
+    }
+
+    private void deletePrevImageFiles(String filename) {
+        File currentDirectory = new File(CWD);
+        File[] images = currentDirectory.listFiles(file->file.getName().matches(filename));
+
+        if(images == null)
+            return;
+
+        for(File image : images){
+            image.delete();
+        }
+    }
+
+    @Override
+    public Response<ScriptResponse> visualizeBeliefStates(JsonArray beliefStates) {
+        try (FileInputStream userCode = new FileInputStream(new File(scriptPath));
+             FileInputStream epilogue = new FileInputStream(new File(Constants.IMAGE_MERGER_PYTHON_SCRIPT_PATH))) {
+
+            String pythonCode = String.format("""
+                            import json
+                            %s
+                            belief_states = json.loads('%s')
+                            %s
+                            merge_images(belief_states)
+                            """,
+                    new String(userCode.readAllBytes()),
+                    beliefStates.toString(),
+                    new String(epilogue.readAllBytes()));
+
+            return runUserPythonCode(pythonCode, Constants.MERGED_STATE_IMAGE);
+        } catch (IOException e) {
+            return Response.FAIL(e);
+        }
+    }
+
+    private Response<ScriptResponse> runUserPythonCode(String pythonCode, String filenameToSave){
+        deletePrevImageFiles(filenameToSave);
+        try (FileInputStream file = new FileInputStream(new File(scriptPath))) {
+            ScriptResponse response = new ScriptResponse();
+            // opening a new process with the belief state initialized
+            ProcessBuilder pb = new ProcessBuilder();
+
+            pb.command("python3", "-c", pythonCode);
             pb.redirectErrorStream(true);
             Process p = pb.start();
 
@@ -328,53 +371,9 @@ public class AOSFacade implements IAOSFacade {
             }
 
             response.setOutput(sb.toString());
-            response.setSaveFig(hasSavedImage(SINGLE_STATE_IMAGE_FNAME));
+            response.setSaveFig(hasSavedImage(filenameToSave));
 
             return Response.OK(response);
-        } catch (IOException e) {
-            return Response.FAIL(e);
-        }
-    }
-
-    private boolean hasSavedImage(String fname) {
-        File currentDirectory = new File(CWD);
-        File[] images = currentDirectory.listFiles(file->file.getName().matches(fname));
-        return images != null && images.length > 0;
-    }
-
-    private void deletePrevImageFiles() {
-        File currentDirectory = new File(CWD);
-        File[] images = currentDirectory.listFiles(file->file.getName().matches(SINGLE_STATE_IMAGE_FNAME));
-
-        if(images == null)
-            return;
-
-        for(File image : images){
-            image.delete();
-        }
-    }
-
-    @Override
-    public Response<Boolean> visualizeBeliefStates(JsonArray beliefStates) {
-        try (FileInputStream userCode = new FileInputStream(new File(scriptPath));
-             FileInputStream epilogue = new FileInputStream(new File(Constants.IMAGE_MERGER_PYTHON_SCRIPT_PATH))) {
-            // opening a new process with the belief state initialized
-            ProcessBuilder pb = new ProcessBuilder();
-
-            String pythonCode = String.format("""
-                            import json
-                            %s
-                            belief_states = json.loads('%s')
-                            %s
-                            merge_images(belief_states)
-                            """,
-                    new String(userCode.readAllBytes()),
-                    beliefStates.toString(),
-                    new String(epilogue.readAllBytes()));
-
-            pb.command("python3", "-c", pythonCode);
-            Process p = pb.start();
-            return Response.OK(true);
         } catch (IOException e) {
             return Response.FAIL(e);
         }
