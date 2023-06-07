@@ -13,6 +13,7 @@ import frontend.finalproject.Model.AM.AMModel;
 import frontend.finalproject.Model.Env.EnvModel;
 import frontend.finalproject.Model.SD.SDModel;
 import utils.Response;
+import utils.ScriptResponse;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -293,16 +294,26 @@ public class AOSFacade implements IAOSFacade {
         }
     }
 
-    public Response<String> visualizeBeliefState(JsonObject beliefState){
-        try(FileInputStream file = new FileInputStream(new File(scriptPath)))
-        {
-            beliefState.remove("_id");
+    public Response<ScriptResponse> visualizeBeliefState(JsonObject beliefState) {
+        deletePrevImageFiles();
+        try (FileInputStream file = new FileInputStream(new File(scriptPath))) {
+            ScriptResponse response = new ScriptResponse();
             // opening a new process with the belief state initialized
             ProcessBuilder pb = new ProcessBuilder();
-            String userCode =  "import json\n" + new String(file.readAllBytes()) + "\n\n" +
-                    "belief_state = json.loads('" + beliefState + "')" +
-                    "\n\ndisplay(belief_state)";
-            pb.command("python3", "-c" , userCode);
+
+            String userFunction = new String(file.readAllBytes());
+            String userCode = String.format("""
+                    import json
+                    %s
+                    belief_state = json.loads('%s')
+                    display(belief_state, filename = '%s')
+                    """,
+                    userFunction,
+                    beliefState.toString(),
+                    Constants.SINGLE_STATE_IMAGE_FNAME);
+
+
+            pb.command("python3", "-c", userCode);
             pb.redirectErrorStream(true);
             Process p = pb.start();
 
@@ -311,14 +322,35 @@ public class AOSFacade implements IAOSFacade {
             InputStreamReader reader = new InputStreamReader(p.getInputStream());
             BufferedReader buffer = new BufferedReader(reader);
             String line;
-            while((line = buffer.readLine())!= null ){
+            while ((line = buffer.readLine()) != null) {
                 sb.append(line);
                 sb.append("\n");
             }
-            return Response.OK(sb.toString());
-        }
-        catch (IOException e){
+
+            response.setOutput(sb.toString());
+            response.setSaveFig(hasSavedImage(SINGLE_STATE_IMAGE_FNAME));
+
+            return Response.OK(response);
+        } catch (IOException e) {
             return Response.FAIL(e);
+        }
+    }
+
+    private boolean hasSavedImage(String fname) {
+        File currentDirectory = new File(CWD);
+        File[] images = currentDirectory.listFiles(file->file.getName().matches(fname));
+        return images != null && images.length > 0;
+    }
+
+    private void deletePrevImageFiles() {
+        File currentDirectory = new File(CWD);
+        File[] images = currentDirectory.listFiles(file->file.getName().matches(SINGLE_STATE_IMAGE_FNAME));
+
+        if(images == null)
+            return;
+
+        for(File image : images){
+            image.delete();
         }
     }
 

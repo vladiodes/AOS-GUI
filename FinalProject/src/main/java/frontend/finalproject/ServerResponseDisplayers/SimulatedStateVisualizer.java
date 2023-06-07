@@ -2,33 +2,32 @@ package frontend.finalproject.ServerResponseDisplayers;
 
 import DTO.HttpRequests.GetExecutionOutcomeRequestDTO;
 import backend.finalproject.AOSFacade;
+import backend.finalproject.Constants;
 import backend.finalproject.IAOSFacade;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import frontend.finalproject.Controllers.HomeController;
 import frontend.finalproject.Utils.UtilsFXML;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utils.Response;
+import utils.ScriptResponse;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class SimulatedStateVisualizer implements IJsonVisualizer {
     public static final String SIMULATED_STATE = "SimulatedState";
@@ -125,6 +124,8 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     }
 
     public static class SimulatedStateNode extends Node{
+        public static final int STATE_VIEW_INDEX = 1;
+        private final HBox tableViewStateViewContainer;
         private VBox root;
         Node[] curState;
         HBox buttonContainer;
@@ -133,6 +134,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         private List<JsonElement> simulatedStates;
         private List<String> actionDescriptions;
         private int currentSimulatedStateIndex = 0;
+        private boolean isDisplayMode = false;
         public SimulatedStateNode(List<JsonElement> simulatedStates, List<String> actionDescriptions) {
             super();
             this.simulatedStates = simulatedStates;
@@ -146,36 +148,74 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             buttonContainer = new HBox();
 
             display = new Button("Display state");
-            display.setOnAction(this::handleDisplayBtn);
+            display.setOnAction(event -> handleDisplayBtn(event, false));
 
+            tableViewStateViewContainer = new HBox();
+
+            tableViewStateViewContainer.getChildren().addAll(curState[0]);
 
             buttonContainer.getChildren().addAll(display);
-            root.getChildren().addAll(curState[0], buttonContainer);
+            root.getChildren().addAll(tableViewStateViewContainer, buttonContainer);
 
 
             // Adding style
             stylizeComponent();
         }
 
-        public void handleDisplayBtn(ActionEvent event) {
+        public void handleDisplayBtn(ActionEvent event, boolean isSourceFromBrowseBtn) {
+            clearCurrentStateView();
+
+            if (!isSourceFromBrowseBtn)
+                handleDisplayModeChange();
+
+            if (!isDisplayMode)
+                return;
+
             JsonElement currentState = simulatedStates.get(currentSimulatedStateIndex);
             currentState = currentState.getAsJsonObject().get(SIMULATED_STATE);
-            Response<String> response = AOSFacade.getInstance().visualizeBeliefState(currentState.getAsJsonObject());
-            String response_string = response.getValue();
-            if(!response.hasErrorOccurred() && !response_string.isEmpty()){
-                try {
-                    Parent root = UtilsFXML.openNewWindow("display-belief-state.fxml");
-                    Scene scene = new Scene(root, 640, 640);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.setTitle("Display Result");
-                    stage.show();
-                    TextArea label = (TextArea) scene.lookup("#displayArea");
-                    label.setText(response_string);
+            Response<ScriptResponse> response = AOSFacade.getInstance().visualizeBeliefState(currentState.getAsJsonObject());
+            if (!response.hasErrorOccurred()) {
+                String response_string = response.getValue().getOutput();
+                boolean isSaveFig = response.getValue().getSaveFig();
+                if (isSaveFig) {
+                    try {
+                        File image = new File(Constants.SINGLE_STATE_IMAGE_FNAME);
+                        ImageView imageView = new ImageView();
+                        imageView.setImage(new Image(image.toURI().toString()));
+                        imageView.setFitHeight(400);
+                        imageView.setFitWidth(400);
+                        ScrollPane scrollContainer = new ScrollPane(imageView);
+                        scrollContainer.setPrefHeight(450);
+                        tableViewStateViewContainer.getChildren().add(scrollContainer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    if (!response_string.isEmpty()) {
+                        TextArea text = new TextArea();
+                        text.setText(response_string);
+                        text.setMinHeight(40);
+                        text.getStyleClass().add("TextAreaWithMargin");
+                        text.setEditable(false);
+                        tableViewStateViewContainer.getChildren().add(text);
+                    }
                 }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
+
+            }
+        }
+
+        private void clearCurrentStateView() {
+            if(isDisplayMode)
+                tableViewStateViewContainer.getChildren().remove(STATE_VIEW_INDEX);
+        }
+
+        private void handleDisplayModeChange() {
+            isDisplayMode = !isDisplayMode;
+            if(isDisplayMode){
+                display.setText("Hide display state");
+            }
+            else{
+                display.setText("Display state");
             }
         }
 
@@ -184,7 +224,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex++;
-                handleBrowseStateBtnClick(root, curState, prevState,true);
+                handleBrowseStateBtnClick(curState, prevState,true);
             }
         }
 
@@ -193,7 +233,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
                 JsonElement prevState = simulatedStates.get(currentSimulatedStateIndex);
                 prevState = prevState.getAsJsonObject().get(SIMULATED_STATE);
                 currentSimulatedStateIndex--;
-                handleBrowseStateBtnClick(root, curState, prevState,false);
+                handleBrowseStateBtnClick(curState, prevState,false);
             }
         }
 
@@ -203,6 +243,8 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             root.getStyleClass().add(V_BOX_STATE_WRAPPER);
             buttonContainer.setSpacing(HBOX_SPACING);
             root.setSpacing(VBOX_SPACING);
+            tableViewStateViewContainer.getStyleClass().add(ALIGN_CENTER_STYLE_CLASS);
+            tableViewStateViewContainer.setSpacing(VBOX_SPACING);
         }
 
         private void expandAllTreeItems(TreeItem<?> treeItem) {
@@ -212,16 +254,18 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             }
         }
 
-        private void handleBrowseStateBtnClick(VBox vBox, Node[] curState, JsonElement prevState, boolean isNextBtn) {
+        private void handleBrowseStateBtnClick(Node[] curState, JsonElement prevState, boolean isNextBtn) {
             JsonElement nextState = simulatedStates.get(currentSimulatedStateIndex);
             nextState = nextState.getAsJsonObject().get(SIMULATED_STATE);
 
-            vBox.getChildren().remove(curState[0]);
+            tableViewStateViewContainer.getChildren().remove(curState[0]);
             curState[0] = new JsonTreeViewVisualizer(simulatedStates.get(currentSimulatedStateIndex).toString()).displayJSON();
             curState[0].setStyle(SimulatedStateVisualizer.TREE_VIEW_HEIGHT);
             expandAllTreeItems(((TreeView<String>) curState[0]).getRoot());
             highlightChangedVariablesInState(prevState, nextState, (TreeView<String>) curState[0],isNextBtn);
-            vBox.getChildren().add(0, curState[0]);
+            tableViewStateViewContainer.getChildren().add(0, curState[0]);
+
+            handleDisplayBtn(null,true);
         }
 
         public static ObservableSet<TreeItem<String>> highlightChangedVariablesInState(JsonElement oldState, JsonElement newState, TreeView<String> treeView, boolean isNextBtn) {

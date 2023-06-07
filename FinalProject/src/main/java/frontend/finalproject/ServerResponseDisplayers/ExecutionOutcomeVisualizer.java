@@ -350,6 +350,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         queryFilterContainer = new HBox();
         queryFilterLabel = new Label("Filter by query:");
         queryFilterTextArea = new TextArea();
+        queryFilterTextArea.setMaxHeight(80);
         queryFilterContainer.getChildren().addAll(queryFilterLabel, queryFilterTextArea);
 
         queryFilterContainer.getStyleClass().add(CENTER_STYLE);

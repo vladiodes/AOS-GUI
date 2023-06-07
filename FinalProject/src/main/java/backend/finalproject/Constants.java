@@ -4,6 +4,8 @@ import java.io.File;
 
 public class Constants {
     public static final String IMAGE_MERGER_PYTHON_SCRIPT_PATH = System.getProperty("user.dir") + "/image_merger.py";
+    public static final String CWD = System.getProperty("user.dir");
+    public static final String SINGLE_STATE_IMAGE_FNAME = "single_state_image";
     public static String AOS_SERVER_HOST = "localhost";
     public static final int AOS_SERVER_PORT = 5000;
     public static final int DEFAULT_TIMEOUT = 10000;

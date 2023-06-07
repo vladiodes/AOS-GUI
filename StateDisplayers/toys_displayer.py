@@ -60,8 +60,4 @@ def display(state, filename = None,is_merging_images = False):
     y2 = num_rows * cell_size - cell_size // 4
     draw.ellipse([x1, y1, x2, y2], fill=(0, 0, 0))
 
-                # Show the plot
-    if not is_merging_images:
-        image.show()
-    else:
-        image.save(filename, format='PNG')
+    image.save(filename, format='PNG')
