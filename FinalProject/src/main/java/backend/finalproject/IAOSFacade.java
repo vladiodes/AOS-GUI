@@ -175,6 +175,8 @@ public interface IAOSFacade {
 
     void setScriptPath(String text);
 
+    Response<Boolean> cleanDirectoryFromImages();
+
     /**
      * An enum that represents the type of the documentation files.
      */

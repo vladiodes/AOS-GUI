@@ -383,4 +383,11 @@ public class AOSFacade implements IAOSFacade {
     public void setScriptPath(String path){
         scriptPath = path;
     }
+
+    @Override
+    public Response<Boolean> cleanDirectoryFromImages() {
+        deletePrevImageFiles(Constants.MERGED_STATE_IMAGE);
+        deletePrevImageFiles(Constants.SINGLE_STATE_IMAGE_FNAME);
+        return Response.OK(true);
+    }
 }
