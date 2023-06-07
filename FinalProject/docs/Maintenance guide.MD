@@ -325,11 +325,12 @@ The main points of the solution we have provided are as follows:
 
 ## Script conventions
 The script should be written in python and should follow the following conventions:
-- The script should contain a function called ```display(state,filename = None,is_merging_images = False)``` that receives a state (python dictionary), and two optional parameters for internal use. The script displays the state. The script shouldn't return anything. 
-  - If the user chooses to print the representation to stdout, we'd collect that and display it to the user in a new window.
-  - Another, more advanced option, is to use a graphical python library such as [matplotlib](https://matplotlib.org/) to display the state in a graphical manner. 
+- The script should contain a function called ```display(state,filename = None,is_merging_images = False)``` that receives a state (python dictionary), and two optional parameters for internal use.
+- There are 2 options for the script:  
+  - If the user chooses to print the representation to stdout, we'd collect that and display it to the user.
+  - Another, more advanced option, is to use a graphical python library such as [matplotlib](https://matplotlib.org/) to display the state in a graphical manner. The user has to explicitly save the image, as implemented for example in the following [displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/toys_displayer.py)
     - Another recommended library is [PIL](https://pillow.readthedocs.io/en/stable/) (Python Imaging Library) that can be used to display images.
-    - **Note: if the user chooses graphical python library, he should save the displayed state to PNG image using the library methods. for example, in matplotlib, we can use savefig method.** 
+    - **Important Note: if the user chooses graphical python library, he should save the displayed state to PNG image using the library methods. for example, in matplotlib, we can use savefig method.** 
 - References:
   - [Tic Tac Toe Displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/tic_tac_toe_display.py)
   - [Toys Displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/toys_displayer.py)
