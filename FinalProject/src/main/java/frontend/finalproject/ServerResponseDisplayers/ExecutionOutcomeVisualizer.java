@@ -49,6 +49,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     public static final String ACTION_TEXT_STYLE_CLASS = "Separator_Text";
     public static final int MAN_CONTROL_TAB_IDX = 2;
     public static final int SIMULATED_STATES_TAB_IDX = 0;
+    public static final String MODULE_RESPONSE_JSON_KEY = "ModuleResponseText";
     List<JsonElement> executionOutcome;
     List<Map<String,Histogram>> histogramsOfBeliefStates; // for each state in the execution process, we need a histogram for every variable of the state.
     List<List<BarChart<String, Number>>> charts;
@@ -66,6 +67,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private HBox queryFilterContainer;
     private Label queryFilterLabel;
     private TextArea queryFilterTextArea;
+    private Label moduleResponseLabel;
 
 
     public ExecutionOutcomeVisualizer(String jsonString, int beliefSize) {
@@ -293,7 +295,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
             this.execOutcomeDisplay = new ExecutionOutcomeDisplayContainer(executionOutcome, charts, actionDescriptions);
             tabPane.getTabs().get(1).setContent(execOutcomeDisplay.getComponent());
-            updateNextPrevExecActions(prevExecAction, nextActionToExec);
+            updateNextPrevExecActions(prevExecAction, nextActionToExec,moduleResponseLabel);
 
             for (int i = 1; i <= currentSimulatedStateIndex; i++) {
                 simulatedStateNode.handleNextBtn(null);
@@ -311,7 +313,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 currentSimulatedStateIndex++;
                 execOutcomeDisplay.handleNextBtn();
                 simulatedStateNode.handleNextBtn(event);
-                updateNextPrevExecActions(prevExecAction, nextActionToExec);
+                updateNextPrevExecActions(prevExecAction, nextActionToExec,moduleResponseLabel);
             }
             if(UtilsFXML.IS_MANUAL_CONTROL && currentSimulatedStateIndex == actionDescriptions.size() - 1){
                 flashTab(tabPane.getTabs().get(MAN_CONTROL_TAB_IDX));
@@ -325,7 +327,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
                 currentSimulatedStateIndex--;
                 execOutcomeDisplay.handlePrevBtn();
                 simulatedStateNode.handlePrevBtn(event);
-                updateNextPrevExecActions(prevExecAction, nextActionToExec);
+                updateNextPrevExecActions(prevExecAction, nextActionToExec,moduleResponseLabel);
             }
             nextButton.setDisable(currentSimulatedStateIndex == actionDescriptions.size() - 1);
             prevButton.setDisable(currentSimulatedStateIndex == 0);
@@ -351,7 +353,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
     private void createCommonComponents(VBox root, ExecutionOutcomeDisplayContainer execOutcomeDisplay) {
         prevExecAction = new Label();
         nextActionToExec = new Label();
-        updateNextPrevExecActions(prevExecAction, nextActionToExec);
+        moduleResponseLabel = new Label();
+        updateNextPrevExecActions(prevExecAction, nextActionToExec, moduleResponseLabel);
 
         queryFilterContainer = new HBox();
         queryFilterLabel = new Label("Filter by query:");
@@ -383,16 +386,20 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         prevButton.getStyleClass().add(BTN_STYLE_CLASS);
         prevExecAction.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
         nextActionToExec.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
+        moduleResponseLabel.getStyleClass().add(ACTION_TEXT_STYLE_CLASS);
 
-        root.getChildren().addAll(queryFilterContainer,prevExecAction, nextActionToExec,nextPrevButtonsContainer);
+        root.getChildren().addAll(queryFilterContainer,prevExecAction,moduleResponseLabel, nextActionToExec,nextPrevButtonsContainer);
     }
 
-    private void updateNextPrevExecActions(Label prevExecAction, Label nextActionToExec) {
+    private void updateNextPrevExecActions(Label prevExecAction, Label nextActionToExec, Label moduleResponseLabel) {
         prevExecAction.setText("Previously executed action: " + actionDescriptions.get(currentSimulatedStateIndex));
         String nAction = currentSimulatedStateIndex + 1 < actionDescriptions.size() ?
                 actionDescriptions.get(currentSimulatedStateIndex + 1) :
                 "No more actions";
         nextActionToExec.setText("Next action to execute: " + nAction);
+        String moduleResponse = "Module response: " +
+                (currentSimulatedStateIndex == 0 ? "No response" : executionOutcome.get(currentSimulatedStateIndex).getAsJsonObject().get(MODULE_RESPONSE_JSON_KEY).getAsString());
+        moduleResponseLabel.setText(moduleResponse);
     }
 
     public void terminateRefresh() {
