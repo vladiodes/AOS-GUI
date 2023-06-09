@@ -62,6 +62,8 @@ public class UtilsFXML {
     private static final String RESPONSE_VIEW_PATH = "response-request-view.fxml";
 
     public static boolean IS_MANUAL_CONTROL = false;
+    public static boolean IS_DISPLAY_MERGED_STATE_MODE = false;
+    public static boolean IS_DISPLAY_SIMULATED_STATE_MODE = false;
 
 
     public static void loadStage(String fxml, Stage stage) {

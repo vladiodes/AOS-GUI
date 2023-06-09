@@ -81,6 +81,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
     @Override
     public Node displayJSON() {
         SimulatedStateNode simulatedStateNode = new SimulatedStateNode(simulatedStates,actionDescriptions);
+        simulatedStateNode.handleDisplayBtn(null,true);
         return simulatedStateNode;
     }
 
@@ -129,7 +130,6 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         private List<JsonElement> simulatedStates;
         private List<String> actionDescriptions;
         private int currentSimulatedStateIndex = 0;
-        private boolean isDisplayMode = false;
         public SimulatedStateNode(List<JsonElement> simulatedStates, List<String> actionDescriptions) {
             super();
             this.simulatedStates = simulatedStates;
@@ -142,7 +142,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             curState[0].setStyle(TREE_VIEW_HEIGHT);
             buttonContainer = new HBox();
 
-            display = new Button("Display state");
+            display = new Button(UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE ? "Hide display state" : "Display state");
             display.setOnAction(event -> handleDisplayBtn(event, false));
 
             tableViewStateViewContainer = new HBox();
@@ -163,7 +163,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             if (!isSourceFromBrowseBtn)
                 handleDisplayModeChange();
 
-            if (!isDisplayMode)
+            if (!UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE)
                 return;
 
             JsonElement currentState = simulatedStates.get(currentSimulatedStateIndex);
@@ -194,13 +194,13 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
         }
 
         private void clearCurrentStateView() {
-            if(isDisplayMode)
+            if(UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE && tableViewStateViewContainer.getChildren().size() > STATE_VIEW_INDEX)
                 tableViewStateViewContainer.getChildren().remove(STATE_VIEW_INDEX);
         }
 
         private void handleDisplayModeChange() {
-            isDisplayMode = !isDisplayMode;
-            if(isDisplayMode){
+            UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE = !UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE;
+            if(UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE){
                 display.setText("Hide display state");
             }
             else{

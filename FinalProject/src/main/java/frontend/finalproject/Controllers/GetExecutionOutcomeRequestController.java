@@ -29,25 +29,25 @@ public class GetExecutionOutcomeRequestController {
         UtilsFXML.loadStage(UtilsFXML.INTEGRATION_REQUESTS_PATH, (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
     }
 
-    public void handleSendRequestBTN(ActionEvent actionEvent){
+    public void handleSendRequestBTN(ActionEvent actionEvent) {
         try {
             int beliefSize = Integer.parseInt(beliefSizeVal.getText());
-            GetExecutionOutcomeRequestDTO requestDTO = new GetExecutionOutcomeRequestDTO(beliefSize,"");
+            GetExecutionOutcomeRequestDTO requestDTO = new GetExecutionOutcomeRequestDTO(beliefSize, "");
             Response<String> resp = facade.sendRequest(requestDTO);
 
             if (resp.hasErrorOccurred())
                 UtilsFXML.showNotification(NotificationUtils.ERROR_SENDING_REQUEST_TITLE, null, resp);
             else {
+                if (!scriptFile.getText().isEmpty())
+                    facade.setScriptPath(scriptFile.getText());
                 ExecutionOutcomeVisualizer executionOutcomeVisualizer = new ExecutionOutcomeVisualizer(resp.getValue(), beliefSize);
                 UtilsFXML.loadResponseStage(executionOutcomeVisualizer,
                         executionOutcomeVisualizer::terminateRefresh);
-                if (!scriptFile.getText().isEmpty())
-                    facade.setScriptPath(scriptFile.getText());
             }
 
 
-        }catch(NumberFormatException e){
-            UtilsFXML.showErrorNotification("Input Error",ERROR_BELIEF_SIZE_INPUT);
+        } catch (NumberFormatException e) {
+            UtilsFXML.showErrorNotification("Input Error", ERROR_BELIEF_SIZE_INPUT);
         }
     }
 

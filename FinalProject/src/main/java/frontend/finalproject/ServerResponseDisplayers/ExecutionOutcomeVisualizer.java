@@ -297,10 +297,21 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             tabPane.getTabs().get(1).setContent(execOutcomeDisplay.getComponent());
             updateNextPrevExecActions(prevExecAction, nextActionToExec,moduleResponseLabel);
 
-            for (int i = 1; i <= currentSimulatedStateIndex; i++) {
+            boolean prev_display_merged_mode = UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE;
+            boolean prev_display_sim_mode = UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE;
+            //setting display mode on both modes to be off, to avoid unnecessary state calculations
+            UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE = false;
+            UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE = false;
+            for (int i = 1; i < currentSimulatedStateIndex; i++) {
                 simulatedStateNode.handleNextBtn(null);
                 execOutcomeDisplay.handleNextBtn();
             }
+            //restoring display mode
+            UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE = prev_display_merged_mode;
+            UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE = prev_display_sim_mode;
+            simulatedStateNode.handleDisplayBtn(null,true);
+            execOutcomeDisplay.handleDisplayMergedStates(true);
+
             nextButton.setDisable(currentSimulatedStateIndex == actionDescriptions.size() - 1);
             prevButton.setDisable(currentSimulatedStateIndex == 0);
             bindNextPrevStateButtonActions();
@@ -423,7 +434,6 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
         VBox rawDataContainer;
         List<String> actionDescriptions;
         AtomicReference<List<BarChart<String, Number>>> curHistograms;
-        private boolean isMergedStatesDisplayMode = false;
         private HBox histogramsMergedStatesContainer;
 
 
@@ -453,6 +463,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             bindActionsToButtons(curHistograms);
             stylizeComponents();
             rootContainer.getChildren().addAll(histogramsMergedStatesContainer,filteredTextFieldContainer,buttonsContainer,rawDataContainer);
+            handleDisplayMergedStates(true);
             return rootContainer;
         }
 
@@ -484,7 +495,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
             if(!isBrowseBtnSource)
                 handleChangeDisplayMode();
-            if(!isMergedStatesDisplayMode)
+            if(!UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE)
                 return;
 
             Response<ScriptResponse> response = AOSFacade.getInstance().visualizeBeliefStates(
@@ -503,8 +514,8 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             }
         }
         private void handleChangeDisplayMode() {
-            isMergedStatesDisplayMode = !isMergedStatesDisplayMode;
-            displayMergedStates.setText(isMergedStatesDisplayMode ? "Hide merged states" : "Display merged states");
+            UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE = !UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE;
+            displayMergedStates.setText(UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE ? "Hide merged states" : "Display merged states");
         }
 
         private void populateHistograms(AtomicReference<List<BarChart<String, Number>>> curHistograms, String newValue) {
@@ -544,7 +555,7 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
 
             buttonsContainer = new HBox();
             showRawData = new Button("Show Raw Data");
-            displayMergedStates = new Button("Display Merged States");
+            displayMergedStates = new Button(UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE ? "Hide Merged States" : "Display Merged States");
             buttonsContainer.getChildren().addAll(displayMergedStates, showRawData);
 
             rawDataContainer = new VBox();
