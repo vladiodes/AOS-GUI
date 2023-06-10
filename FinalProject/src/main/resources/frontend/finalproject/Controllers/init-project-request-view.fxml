@@ -56,7 +56,7 @@
             <Separator prefHeight="14.0" styleClass="Separator_Line" />
             <HBox>
                 <Label styleClass="TextFieldLabel" text="Ros Distribution" />
-                <TextField styleClass="TextFieldForm" fx:id="RosDistributionTXT"/>
+                <TextField styleClass="TextFieldForm" text="noetic" fx:id="RosDistributionTXT"/>
             </HBox>
             <HBox>
                 <Label styleClass="TextFieldLabel" text="Workspace Directory" />

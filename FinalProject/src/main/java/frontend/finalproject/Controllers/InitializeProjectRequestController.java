@@ -46,20 +46,20 @@ public class InitializeProjectRequestController {
     public static String lastPLPDirPath = "";
     public static boolean lastOnlyGenerateCode = false;
     public static boolean lastRunWithoutRebuild = false;
-    public static String lastRosDistribution = "";
+    public static String lastRosDistribution = "noetic";
     public static String lastWorkspaceDirPath = "";
     public static String lastTargetLaunchFile = "";
     public static String lastRosTargetProjectPackages = "";
     public static String lastTargetProjectInitializationTimeInSeconds = "";
     public static String lastPolicyGraphDepth = "";
     public static boolean lastLoadBeliefFromDB = false;
-    public static boolean lastDebugOnSolverConfig = false;
-    public static String lastNumOfParticles = "";
-    public static String lastNumOfBeliefStateParticlesToSaveInDB = "";
+    public static boolean lastDebugOnSolverConfig = true;
+    public static String lastNumOfParticles = "50000";
+    public static String lastNumOfBeliefStateParticlesToSaveInDB = "10";
     public static String lastActionsToSimulate = "";
-    public static boolean lastIsInternalSimulation = false;
+    public static boolean lastIsInternalSimulation = true;
     public static String lastPlanningTimePerMoveInSeconds = "";
-    public static boolean lastDebugOnMiddlewareConfig = false;
+    public static boolean lastDebugOnMiddlewareConfig = true;
     public static String lastVerbosity = "";
     public static boolean lastManualControl = false;
 
