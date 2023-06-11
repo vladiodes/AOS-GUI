@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="frontend.finalproject.Controllers.SubControllers.AddRobotFrameworkLocalVarController"
+      prefHeight="850" prefWidth="600.0"
+      stylesheets="@../../style.css">
+    <Pane prefHeight="350" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <Label fx:id="titleLBL" layoutX="73.0" layoutY="30.0" text="Add data from robot framework" textFill="WHITE">
+                <font>
+                    <Font size="28.0" />
+                </font>
+            </Label>
+        </children>
+    </Pane>
+
+    <VBox styleClass="SubMenuVBox" spacing="10">
+        <HBox>
+            <Label text="LocalVariableName" styleClass="TextFieldLabel"/>
+            <TextField fx:id="LocalVarNameRobotFrameWorkTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="ROSTopicPath" styleClass="TextFieldLabel"/>
+            <TextField fx:id="ROSTopicPathTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="VariableType" styleClass="TextFieldLabel"/>
+            <TextField fx:id="VarTypeRobotFrameworkTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="InitialValue" styleClass="TextFieldLabel"/>
+            <TextField fx:id="InitialValueTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="TopicMessageType" styleClass="TextFieldLabel"/>
+            <TextField fx:id="TopicMessageTypeTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="Assignment Code" styleClass="TextFieldLabel"/>
+            <TextArea fx:id="AssCodeRobotFrameworkTXT" styleClass="TextAreaForm" />
+        </HBox>
+        <Label text="ImportCode" styleClass="Separator_Text" />
+        <HBox>
+            <Label text="From" styleClass="TextFieldLabel"/>
+            <TextField fx:id="RobotFrameworkFromTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="Import" styleClass="TextFieldLabel"/>
+            <TextArea fx:id="RobotFrameworkImportTXT" text="Insert all import values, each in newline" styleClass="TextAreaForm"/>
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button onAction="#handleInsertImportCodeRobotFrameworkBTNClick"  styleClass="formBtn" text="Insert ImportCode" />
+            <Button onAction="#handleEditImportCodeBTNClick" styleClass="formBtn" text="Edit ImportCode" />
+            <Button onAction="#handleDeleteImportCodeBTNClick" styleClass="formBtn" text="Delete ImportCode" />
+        </HBox>
+        <HBox styleClass="TreeBoxWrapper"> <TreeView fx:id="ImportCodeRobotFWTreeView" styleClass="SmallTreeViewForm" /></HBox>
+        <HBox styleClass="TreeBoxWrapper"><Button onAction="#InsertClick" fx:id="insertBTN" styleClass="formBtn" text="Insert initialization"/></HBox>
+    </VBox>
+
+</VBox>
