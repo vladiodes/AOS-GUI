@@ -23,9 +23,9 @@ In addition to that, we also provide a detailed walk through of how to add some 
 # Facade:
 * The facade module is implemented using the Facade DP - [Reference](https://refactoring.guru/design-patterns/facade).
 Basically, this is the gateway to the backend of our system.
-All of its methods are organized and well documented in a java doc format here: [Link](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/backend/finalproject/IAOSFacade.java).
+All of its methods are organized and well documented in a java doc format here: [Link](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/backend/finalproject/IAOSFacade.java).
 
-* Each function returns a value wrapped by a [Response](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/utils/Response.java) object.
+* Each function returns a value wrapped by a [Response](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/utils/Response.java) object.
 The Response object would hold the outcome of the function if no error has occurred, by using the following method:
 ```java
 response.getValue();
@@ -52,8 +52,8 @@ else{
 # Integration requests:
 The integration requests module is implemented using the Visitor DP - [Reference](https://refactoring.guru/design-patterns/visitor).
 The main classes taking part in this module are:
-- [**HttpRequest**](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/backend/finalproject/IntegrationRequests/HttpRequest.java) - An abstract class that contains the server info, some common headers, etc. It's recommended to extend this function for each of your new integration requests to avoid code duplication.
-- [**HttpRequestDTO**](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/HttpRequestDTO.java) - The DTO interface representing the HTTP request. Acts as the visited class in the visitor DP. Any integration request must implement that class (more on that later). The interface contains one and only function:
+- [**HttpRequest**](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/backend/finalproject/IntegrationRequests/HttpRequest.java) - An abstract class that contains the server info, some common headers, etc. It's recommended to extend this function for each of your new integration requests to avoid code duplication.
+- [**HttpRequestDTO**](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/HttpRequestDTO.java) - The DTO interface representing the HTTP request. Acts as the visited class in the visitor DP. Any integration request must implement that class (more on that later). The interface contains one and only function:
 ```java
 String visit(IntegrationRequestsHandler handler);
 ```
@@ -67,7 +67,7 @@ The implementation in each of the specific DTO classes should be identical and l
 ```
 What it does it simply calls the visitor class' handle function and passes itself as an argument. Utilizing the double dispatch mechanism, the visitor class will then call the appropriate function to handle the request.
  
-- [**IntegrationRequestsHandler**](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/backend/finalproject/IntegrationRequests/IntegrationRequestsHandler.java) - This class acts as the visitor class in the visitor DP. It contains a handle function for each of the DTO classes. The main function that is used to handle **any** integration request is the following:
+- [**IntegrationRequestsHandler**](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/backend/finalproject/IntegrationRequests/IntegrationRequestsHandler.java) - This class acts as the visitor class in the visitor DP. It contains a handle function for each of the DTO classes. The main function that is used to handle **any** integration request is the following:
 ```java
 public String handle(HttpRequestDTO request) {
         return request.visit(this);
@@ -84,14 +84,14 @@ String response = request.visit(handler);
 ```
 
 - Currently, the supported integration requests in the system are:
-  - [GetExecutionOutcome](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/GetExecutionOutcomeRequestDTO.java)
-  - [GetLogs](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/GetLogsRequestDTO.java)
-  - [GetSimulatedStates](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/GetSimulatedStatesRequestDTO.java)
-  - [GetSolverActions](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/GetSolverActionsRequestDTO.java)
-  - [InitProject](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/InitProjectRequestDTO.java)
-  - [ManualAction](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/ManualActionPutRequestDTO.java)
-  - [StopRobot](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/StopRobotRequestDTO.java)
-  - [UpdateLocalVariable](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/DTO/HttpRequests/UpdateLocalVariableRequestDTO.java)
+  - [GetExecutionOutcome](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/GetExecutionOutcomeRequestDTO.java)
+  - [GetLogs](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/GetLogsRequestDTO.java)
+  - [GetSimulatedStates](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/GetSimulatedStatesRequestDTO.java)
+  - [GetSolverActions](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/GetSolverActionsRequestDTO.java)
+  - [InitProject](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/InitProjectRequestDTO.java)
+  - [ManualAction](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/ManualActionPutRequestDTO.java)
+  - [StopRobot](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/StopRobotRequestDTO.java)
+  - [UpdateLocalVariable](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/DTO/HttpRequests/UpdateLocalVariableRequestDTO.java)
 
 <a name="adding_new_integration_request"></a>
 ## Adding a new integration request:
@@ -111,7 +111,7 @@ public class GetSimulatedStatesRequestDTO implements HttpRequestDTO{
 ```
 
 ### Step 2 - Create a new class extending the HttpRequest class (optional):
-This should be straight forward to implement. see the following example - [GetSimulatedStatesRequest](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/backend/finalproject/IntegrationRequests/GetExecutionOutcomeRequest.java).
+This should be straight forward to implement. see the following example - [GetSimulatedStatesRequest](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/backend/finalproject/IntegrationRequests/GetExecutionOutcomeRequest.java).
 ### Step 3 - Add a new function to the IntegrationRequestsHandler class:
 Add a new function to the IntegrationRequestsHandler class. The function should take your new DTO class as an argument.
 ```java
@@ -174,31 +174,31 @@ else{
 # Application screens
 The GUI of the application is designed using the MVC design pattern (Ref: [Link](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)).
 Basically, each screen/window is divided into the 3 following parts:
-- Model - The data that is displayed/manipulated in the screen. E.g, the env model when creating a new project or the SD/AM of each skill (Ref: [EnvModel](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Model/Env/EnvModel.java))
-- View - The visual representation of the screen. I.e. the .fxml files in the resource folder. The layout as well as the styling is defined in those files (Ref: [create-env-view](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/resources/frontend/finalproject/Controllers/create-env-view.fxml))
-- Controller - Used to manipulate the model, bind it to the relevant nodes in the view and/or render it whenever it's necessary. Basically, the logic of the screen (Ref: [CreateEnvController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/CreateEnvController.java))
+- Model - The data that is displayed/manipulated in the screen. E.g, the env model when creating a new project or the SD/AM of each skill (Ref: [EnvModel](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Model/Env/EnvModel.java))
+- View - The visual representation of the screen. I.e. the .fxml files in the resource folder. The layout as well as the styling is defined in those files (Ref: [create-env-view](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/resources/frontend/finalproject/Controllers/create-env-view.fxml))
+- Controller - Used to manipulate the model, bind it to the relevant nodes in the view and/or render it whenever it's necessary. Basically, the logic of the screen (Ref: [CreateEnvController](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Controllers/CreateEnvController.java))
 
 In the following section we'll describe some of the main screens of the application.
 
 **_Note: There are some screens that are built dynamically as they depend on the json outcome of the server.
-All of those screens must implement the [IJsonVisualizer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/IJsonVisualizer.java) class.
+All of those screens must implement the [IJsonVisualizer](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/IJsonVisualizer.java) class.
 This class basically receives a plain json string in its constructor and generates a JavaFX Node component which will be placed in the center of the screen.
-Each screen that implements this interface can be displayed using the [loadResponseStage](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#L172) function._**
+Each screen that implements this interface can be displayed using the [loadResponseStage](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#L172) function._**
 <a name="execution_screen"></a>
 ## Execution screen
 This screen is split into 3 tabs:
 
 ### Tab #1 : Simulated State
-This tab displays the simulated state of the robot. It is implemented by the [SimulatedStateVisualizer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/SimulatedStateVisualizer.java) which implements the IJsonVisualizer interface.
+This tab displays the simulated state of the robot. It is implemented by the [SimulatedStateVisualizer](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/SimulatedStateVisualizer.java) which implements the IJsonVisualizer interface.
 The constructor of the class receives the json response of the GetSimulatedStates request.
 The displayJson() function returns a node that contains the following:
 - A tree view of the simulated state (we can also navigate to next/previous states). 
   - The variables of the state that have changed as a result of the action that took place, are highlighted.
-  - References: [TreeVisualizer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/JsonTreeViewVisualizer.java), [Highlighting the tree](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/SimulatedStateVisualizer.java#L214)
+  - References: [TreeVisualizer](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/JsonTreeViewVisualizer.java), [Highlighting the tree](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/SimulatedStateVisualizer.java#L214)
 - A display button, that displays the current state in a graphical manner (more on that later).
 
 ### Tab #2 : Execution Outcome
-This tab displays the execution outcome of the robot. It is implemented by the [ExecutionOutcomeVisualizer.DisplayContainer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/ExecutionOutcomeVisualizer.java#L383) class.
+This tab displays the execution outcome of the robot. It is implemented by the [ExecutionOutcomeVisualizer.DisplayContainer](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/ExecutionOutcomeVisualizer.java#L383) class.
 The constructor of the class receives the json response of the GetExecutionOutcome request.
 
 ```executionOutcome``` is an array. In each element of the array, there is a list of the possible belief states of the robot.
@@ -213,13 +213,13 @@ rawDataContainer.setVisible(false);
 ```
 - For each element in the ```executionOutcome``` array, a histogram (JavaFX's BarChart) is built.
   - There is a histogram for every variable in the state structure. Moreover, histograms can be filtered by the user by variable's name.
-  - Reference: [buildHistograms](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/ExecutionOutcomeVisualizer.java#L121)
+  - Reference: [buildHistograms](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/ExecutionOutcomeVisualizer.java#L121)
 
 ### Tab #3 (optional) : Manual Control
 This tab is only displayed if the user initialized the last project with Manual Control flag to be true.
-We keep track of that flag [here](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#L60)
+We keep track of that flag [here](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#L60)
 
-This tab is implemented by the [manual-action-request-view.fxml](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/resources/frontend/finalproject/Controllers/manual-action-request-view.fxml) view and the [ManualActionRequestController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/ManualActionRequestController.java) controller.
+This tab is implemented by the [manual-action-request-view.fxml](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/resources/frontend/finalproject/Controllers/manual-action-request-view.fxml) view and the [ManualActionRequestController](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Controllers/ManualActionRequestController.java) controller.
 
 If this tab is displayed, a polling thread runs in the background that does the following:
 - Polls the server in intervals of 1 second each.
@@ -227,8 +227,8 @@ If this tab is displayed, a polling thread runs in the background that does the 
   - If there are, the robot updates the view in all of the tabs accordingly.
   - Otherwise, it goes to sleep and wakes up in the next iteration (after ~1 second).
 - Reference: 
-  - [polling thread](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/ExecutionOutcomeVisualizer.java#L232) - running the polling thread. 
-  - [onActionSentCallback](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/ExecutionOutcomeVisualizer.java#L245) - the function that is run on each iteration.
+  - [polling thread](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/ExecutionOutcomeVisualizer.java#L232) - running the polling thread. 
+  - [onActionSentCallback](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/ExecutionOutcomeVisualizer.java#L245) - the function that is run on each iteration.
 
 This tab contains the following:
 - A list of all the possible actions that the robot can perform (double-clicking on an actions triggers a send-action request)
@@ -237,22 +237,22 @@ This tab contains the following:
 
 <a name="create_project_screen"></a>
 ## Create/Edit project screen
-This screen is implemented by the [create-env-view.fxml](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/resources/frontend/finalproject/Controllers/create-env-view.fxml) view and the [CreateEnvController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/CreateEnvController.java) controller.
-The model manipulated by the screen is the [EnvModel](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Model/Env/EnvModel.java) class.
+This screen is implemented by the [create-env-view.fxml](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/resources/frontend/finalproject/Controllers/create-env-view.fxml) view and the [CreateEnvController](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Controllers/CreateEnvController.java) controller.
+The model manipulated by the screen is the [EnvModel](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Model/Env/EnvModel.java) class.
 
 The screen contains the following:
 - A tree view for each of the variables:
   - Once the user inserts a new variable, it is added to the tree view display.
   - The user can navigate between all the variables and add/edit/delete them.
     - When the user clicks on a variable to edit, a sub-window pops up with the relevant fields to edit.
-    - This is done by the [loadEditStage](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#L138) function. The function receives the name of the fxml file to load (the sub-window), the model of which the sub-window is manipulating, the selected item in the tree view (this will be updated as well once the edit is done) and a callback to be executed once the user completes the edit process (mainly updating the model).
-    - Each sub-window that is used as an edit window, its controller implements the [EditSubController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/SubControllers/EditSubController.java) interface
-  - Similarly, there's also a [AddSubController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/SubControllers/AddSubController.java) interface for the sub-windows that are used to add new variables.
+    - This is done by the [loadEditStage](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#L138) function. The function receives the name of the fxml file to load (the sub-window), the model of which the sub-window is manipulating, the selected item in the tree view (this will be updated as well once the edit is done) and a callback to be executed once the user completes the edit process (mainly updating the model).
+    - Each sub-window that is used as an edit window, its controller implements the [EditSubController](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Controllers/SubControllers/EditSubController.java) interface
+  - Similarly, there's also a [AddSubController](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Controllers/SubControllers/AddSubController.java) interface for the sub-windows that are used to add new variables.
 - A button to create the project and a button to display the current json of the env model.
 
 <a name="create_skill_screen"></a>
 ## Create/Edit skill screen
-This screen is implemented by the [create-skill-view.fxml](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/resources/frontend/finalproject/Controllers/create-skill-view.fxml) view, by the [CreateSkillController](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/CreateSkillController.java) contoller and by the [AMModel](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Model/AM/AMModel.java), [SDModel](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Model/SD/SDModel.java) models representing the AM and SD models respectively.
+This screen is implemented by the [create-skill-view.fxml](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/resources/frontend/finalproject/Controllers/create-skill-view.fxml) view, by the [CreateSkillController](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Controllers/CreateSkillController.java) contoller and by the [AMModel](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Model/AM/AMModel.java), [SDModel](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Model/SD/SDModel.java) models representing the AM and SD models respectively.
 
 The screen contains a tab for each of the models.
 
@@ -262,7 +262,7 @@ The screen contains a tab for each of the models.
 
 <a name="logs_screen"></a>
 ## Logs screen
-This screen is implemented by the [LogsDisplayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/ServerResponseDisplayers/LogsDisplayer.java) class that implemetns the ```IJsonVisualizer``` interface.
+This screen is implemented by the [LogsDisplayer](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/ServerResponseDisplayers/LogsDisplayer.java) class that implemetns the ```IJsonVisualizer``` interface.
 The displayer receives the json of the logs and displays it in a table.
 
 This screen contains the following:
@@ -270,11 +270,11 @@ This screen contains the following:
 - A button to clear the logs table.
 - A toggle button to enable/disable notifications for new incoming logs.
   - When enabled, a notification will pop up whenever a new log is received. When disabled, no notifications will pop up.
-  - We utilize a polling thread in the background [LogsNotificationsFetcher](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/LogsNotificationsFetcher.java) (running its run() method).
+  - We utilize a polling thread in the background [LogsNotificationsFetcher](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Utils/LogsNotificationsFetcher.java) (running its run() method).
     - In intervals of 1 second, the thread polls the server for new logs.
     - Once the user disabled the logs fetcher, we decrement the semaphore that the thread is waiting on, and the thread is blocked.
     - Alternatively, once the user enables the logs fetcher, we increment the semaphore and the thread is unblocked and continues its polling process.
-    - We initialize the thread at the very beginning of the program - [here](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Controllers/Main.java#L20)
+    - We initialize the thread at the very beginning of the program - [here](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Controllers/Main.java#L20)
 
 <a name="init_project_screen"></a>
 ## Init project screen
@@ -282,7 +282,7 @@ This screen contains the form that the user needs to fill in order to initialize
 
 <a name="notifications"></a>
 # Notifications
-In the [UtilsFXML](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#LL93C1-L121C6) class, we have 2 types of notifications:
+In the [UtilsFXML](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Utils/UtilsFXML.java#LL93C1-L121C6) class, we have 2 types of notifications:
 - Regular (info) notifications - these are notifications that are displayed for a short period of time and then disappear. Those are used mainly to provide information to the user. Implemented by the following function:
 ```java
     private static void showNotification(String title, String text) {
@@ -311,7 +311,7 @@ In the [UtilsFXML](https://github.com/vladiodes/Autonomous-Operating-System/blob
 ```
 
 * In order to display a notification to the user simply call the relevant function with the title and text of the notification.
-  * There are some predefined texts for the notifications in the [NotificationUtils](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/frontend/finalproject/Utils/NotificationUtils.java) class
+  * There are some predefined texts for the notifications in the [NotificationUtils](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/frontend/finalproject/Utils/NotificationUtils.java) class
 
 <a name="display_state_script"></a>
 # Display state script
@@ -328,13 +328,13 @@ The script should be written in python and should follow the following conventio
 - The script should contain a function called ```display(state,filename = None,is_merging_images = False)``` that receives a state (python dictionary), and two optional parameters for internal use.
 - There are 2 options for the script:  
   - If the user chooses to print the representation to stdout, we'd collect that and display it to the user.
-  - Another, more advanced option, is to use a graphical python library such as [matplotlib](https://matplotlib.org/) to display the state in a graphical manner. The user has to explicitly save the image, as implemented for example in the following [displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/toys_displayer.py)
+  - Another, more advanced option, is to use a graphical python library such as [matplotlib](https://matplotlib.org/) to display the state in a graphical manner. The user has to explicitly save the image, as implemented for example in the following [displayer](https://github.com/vladiodes/AOS-GUI/blob/main/StateDisplayers/toys_displayer.py)
     - Another recommended library is [PIL](https://pillow.readthedocs.io/en/stable/) (Python Imaging Library) that can be used to display images.
     - **Important Note: if the user chooses graphical python library, he should save the displayed state to PNG image using the library methods. for example, in matplotlib, we can use savefig method.** 
 - References:
-  - [Tic Tac Toe Displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/tic_tac_toe_display.py)
-  - [Toys Displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/toys_displayer.py)
-  - [General Displayer](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/StateDisplayers/general_displayer.py) - This is a general displayer that can be used for any state. It simply prints the state to stdout.
+  - [Tic Tac Toe Displayer](https://github.com/vladiodes/AOS-GUI/blob/main/StateDisplayers/tic_tac_toe_display.py)
+  - [Toys Displayer](https://github.com/vladiodes/AOS-GUI/blob/main/StateDisplayers/toys_displayer.py)
+  - [General Displayer](https://github.com/vladiodes/AOS-GUI/blob/main/StateDisplayers/general_displayer.py) - This is a general displayer that can be used for any state. It simply prints the state to stdout.
   
 <a name="filenames_paths_constants_and_other_conventions"></a>
 # Filenames, paths and other conventions
@@ -348,5 +348,5 @@ In this section we'll describe the conventions we've used in the project.
       - ```environment.json``` - The environment file of the project.
       - ```<skill_name>.json``` - The SD file of the skill.
       - ```<skill_name> glue.json``` - The AM file of the skill.
-- image_merger.py script path: ```~/Autonomous-Operating-System/FinalProject/image_merger.py```
-- More constants that we've used can be seen in the [Constants](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/src/main/java/backend/finalproject/Constants.java) class.
+- image_merger.py script path: ```~/AOS-GUI/FinalProject/image_merger.py```
+- More constants that we've used can be seen in the [Constants](https://github.com/vladiodes/AOS-GUI/blob/main/src/main/java/backend/finalproject/Constants.java) class.

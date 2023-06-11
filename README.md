@@ -1,8 +1,8 @@
-# Autonomous-Operating-System
+# AOS-GUI
 # Installation:
 
 ## First time installation:
-- Run the following script: [install_AOS_GUI.bash](https://github.com/vladiodes/Autonomous-Operating-System/blob/main/FinalProject/install_AOS_GUI.bash)
+- Run the following script: [install_AOS_GUI.bash](https://github.com/vladiodes/AOS-GUI/blob/main/install_AOS_GUI.bash)
 - Please make sure you follow the last instructions (configuring JDK 19 as your default JDK).
 - To run the app, run the following command:
 ```code
@@ -20,4 +20,4 @@ mvn test
 * The program assumes the following folder structure:
   * Home directory
     * AOS (web API and all its corresponding structure)
-    * Autonomous-Operating-System (The folder structure of THIS repo).
+    * AOS-GUI (The folder structure of THIS repo).
