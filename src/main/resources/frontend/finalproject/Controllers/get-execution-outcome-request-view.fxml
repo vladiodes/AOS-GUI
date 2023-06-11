@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css"
+      fx:controller="frontend.finalproject.Controllers.GetExecutionOutcomeRequestController">
+    <children>
+        <VBox alignment="CENTER" prefWidth="850" prefHeight="139.0" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="73.0" layoutY="30.0" text="Get Execution outcome request" textFill="WHITE">
+                    <font>
+                        <Font size="48.0"/>
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <VBox spacing="10">
+            <Label text="General Parameters" styleClass="Separator_Text"/>
+            <Separator prefHeight="14.0" styleClass="Separator_Line"/>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Belief size"/>
+                <TextField styleClass="TextFieldForm" fx:id="beliefSizeVal"/>
+            </HBox>
+            <HBox>
+                <Label styleClass="TextFieldLabel" text="Script Path"/>
+                <TextField styleClass="TextFieldForm" fx:id="scriptFile"/>
+                <VBox styleClass="BrowseBTNWrapper">
+                    <Button styleClass="formBtn" text="Browse" onAction="#handleBrowseFileBTNClick"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        <HBox styleClass="CreateProjBTNsHBox">
+            <Button onAction="#handleBackBTNClick" styleClass="formBtn" text="Back"/>
+            <Button styleClass="formBtn" text="Send request" onAction="#handleSendRequestBTN"/>
+        </HBox>
+    </children>
+</VBox>

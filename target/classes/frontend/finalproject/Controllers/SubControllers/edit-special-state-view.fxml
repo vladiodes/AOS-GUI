@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="frontend.finalproject.Controllers.SubControllers.EditSpecialStateSubController"
+      prefHeight="550.0" prefWidth="600.0"
+      stylesheets="@../../style.css">
+    <Pane prefHeight="80" style="-fx-background-color: #2D75E8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <Label layoutX="73.0" layoutY="30.0" text="Edit special state" textFill="WHITE">
+                <font>
+                    <Font size="28.0" />
+                </font>
+            </Label>
+        </children>
+    </Pane>
+
+    <VBox styleClass="SubMenuVBox" spacing="10">
+        <HBox>
+            <Label styleClass="TextFieldLabel" text="SepcialStateType" />
+            <ChoiceBox fx:id="patternCustomChoiceBox" styleClass="formCBx">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="pattern" />
+                        <String fx:value="custom" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
+            <Label text="State Condition Code" styleClass="TextFieldLabel"/>
+            <TextArea fx:id="StateConditionCodeTXT" styleClass="TextAreaForm"/>
+        </HBox>
+        <HBox>
+            <Label text="Reward" styleClass="TextFieldLabel"/>
+            <TextField fx:id="RewardTXT" styleClass="TextFieldForm"/>
+        </HBox>
+        <HBox>
+            <Label text="Is Goal State" styleClass="TextFieldLabel"/>
+            <ChoiceBox fx:id="IsGoalStateBOX" styleClass="formCBx">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="true" />
+                        <String fx:value="false" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
+            <Label text="Is One Time Reward" styleClass="TextFieldLabel"/>
+            <ChoiceBox fx:id="IsOneTimeRewardBOX" styleClass="formCBx">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="true" />
+                        <String fx:value="false" />
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+        </HBox>
+        <HBox>
+            <Label styleClass="TextFieldLabel" text="Assignment Name" />
+            <TextField fx:id="SpecialStateAssNameTXT" styleClass="TextFieldForm" />
+        </HBox>
+        <HBox>
+            <Label styleClass="TextFieldLabel" text="Assignment Code" />
+            <TextArea fx:id="SpecialStateAssCodeTXT" styleClass="TextAreaForm" />
+        </HBox>
+        <HBox styleClass="CRUDBtn">
+            <Button fx:id="editBTN" text="Edit" onAction="#handleEditBTNClick" />
+        </HBox>
+
+    </VBox>
+
+</VBox>

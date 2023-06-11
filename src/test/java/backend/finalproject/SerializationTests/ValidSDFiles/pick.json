@@ -1,0 +1,68 @@
+{
+    "PlpMain": {
+        "Project": "collectValuableToys",
+        "Name": "pick",
+        "Type": "PLP",
+        "Version": 1
+    },
+    "GlobalVariableModuleParameters": [
+        {
+            "Name": "toyType",
+            "Type": "string"
+        }
+    ], 
+    "Preconditions": { 
+        "GlobalVariablePreconditionAssignments": [
+            {
+				"AssignmentName": "",
+                "AssignmentCode": [
+                "__meetPrecondition = false;",
+                "bool holding = false;",
+                "bool typeMatch = false;",
+                "for(int i=0; i < state.tToyObjects.size(); i++){",
+                "    if(state.robotArm == state.tToyObjects[i]->location){ holding = true; break;}",
+                "    if(state.robotLocation == state.tToyObjects[i]->location && state.tToyObjects[i]->type == toyType) typeMatch=true;",
+                "}",
+                "__meetPrecondition = !holding && typeMatch && state.robotLocation != state.child;"]
+            }
+        ],
+        "PlannerAssistancePreconditionsAssignments": [
+            {
+                "AssignmentName": "assign default policy using __heuristicValue",
+                "AssignmentCode": [
+                "__heuristicValue=0;", 
+                    "bool holding = false;",
+                    "bool typeMatch = false;",
+                    "for(int i=0; i < state.tToyObjects.size(); i++){",
+                    "    if(state.robotArm == state.tToyObjects[i]->location){ holding = true; break;}",
+                    "    if(state.robotLocation == state.tToyObjects[i]->location && state.tToyObjects[i]->type == toyType) typeMatch=true;",
+                    "}",
+                    "__heuristicValue = !holding && typeMatch ? 100 : 0;"]
+            } 
+        ],
+        "ViolatingPreconditionPenalty": 0
+    },
+    "DynamicModel": {
+        "NextStateAssignments": [
+            {
+                "AssignmentName": "pick the toy",
+                "AssignmentCode": [
+                     
+                    "bool success =  __meetPrecondition;",
+                    "state__.pickActionsLeft--;",
+                    "if(success){",
+                    "for(int i=0; i < state__.tToyObjects.size(); i++){",
+                    "    if(state.robotLocation == state.tToyObjects[i]->location){ state__.tToyObjects[i]->location = state.robotArm; break;}}}"]
+            },
+            {
+                "AssignmentName": "__moduleResponse",
+                "AssignmentCode": [ "__moduleResponse = success ? eSuccess : eFailed;" ]
+            },
+            {
+                "AssignmentName": "__reward",
+                "AssignmentCode": [
+                    "__reward = success ? -1 : -2;"]
+            }
+        ]
+    }
+}

@@ -1,0 +1,68 @@
+{
+    "PlpMain": {
+        "Project": "collectValuableToys",
+        "Name": "pick",
+        "Type": "Glue",
+        "Version": 1.0
+    },
+    "GlueFramework": "ROS",
+    "ModuleResponse": {
+        "ResponseRules": [
+            {
+                "Response": "eSuccess",
+                "ConditionCodeWithLocalVariables": "skillSuccess"
+            },
+            {
+                "Response": "eFailed",
+                "ConditionCodeWithLocalVariables": "True"
+            }
+        ]
+    },
+    "ModuleActivation": {
+        "RosService": {
+            "ImportCode": [
+                {
+                    "From": "geometry_msgs.msg",
+                    "Import": [
+                        "Point"
+                    ]
+                },
+                {
+                    "From": "task3_env.srv",
+                    "Import": [
+                        "pick",
+                        "pickResponse"
+                    ]
+                }
+            ],
+            "ServicePath": "/pick",
+            "ServiceName": "pick",
+            "ServiceParameters": [
+                {
+                    "ServiceFieldName": "toy_type",
+                    "AssignServiceFieldCode": "toy_type_name"
+                }
+            ]
+        }
+    },
+    "LocalVariablesInitialization": [
+        {
+            "LocalVariableName": "skillSuccess",
+            "VariableType":"bool",
+            "FromROSServiceResponse": true,
+            "AssignmentCode": ["skillSuccess=__input.success"],
+            "ImportCode": [
+                {
+                    "From": "std_msgs.msg",
+                    "Import": [
+                        "Bool"
+                    ]
+                }
+            ]
+        }, 
+        {
+            "InputLocalVariable": "toy_type_name",
+            "FromGlobalVariable": "toyType"
+        }
+    ]
+}

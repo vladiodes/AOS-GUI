@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../style.css" fx:controller="frontend.finalproject.Controllers.ResponseRequestController">
+    <children>
+        <VBox  prefHeight="100.0" style="-fx-background-color: #2D75E8; -fx-alignment: center;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label text="Integration Request Response" textFill="WHITE">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <VBox fx:id="rootVBOX">
+
+        </VBox>
+        <HBox styleClass="CreateProjBTNsHBox">
+            <Button onAction="#handleCloseBTN" styleClass="formBtn" text="Close" />
+        </HBox>
+    </children>
+</VBox>

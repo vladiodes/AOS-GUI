@@ -1,0 +1,44 @@
+{
+    "PlpMain": {
+        "Project": "iros",
+        "Name": "draw_in_cell",
+        "Type": "Glue",
+        "Version": 1.0
+    },
+    "GlueFramework": "ROS",
+    "ModuleResponse": { 
+        "ResponseRules": [
+            {
+                "Response": "res_success",
+                "ConditionCodeWithLocalVariables": "True"
+            }
+        ]
+    },
+    "ModuleActivation": {
+        "RosService": {
+            "ImportCode": [
+                {
+                    "From": "panda_demo.srv",
+                    "Import": [
+                        "*"
+                    ]
+                }
+            ],
+            "ServiceName": "mark_cell",
+            "ServicePath": "/mark_tic_tac_toe_cell_service",
+            "ServiceParameters": [
+                {
+                    "ServiceFieldName": "cell",
+                    "AssignServiceFieldCode": "str(cell_to_mark)"
+                }
+            ]
+        }
+    },
+    "LocalVariablesInitialization": [
+        {
+            "InputLocalVariable": "cell_to_mark",
+            "FromGlobalVariable": "oCellP"
+        }
+    ]
+     
+}
