@@ -302,15 +302,17 @@ public class ExecutionOutcomeVisualizer implements IJsonVisualizer {
             //setting display mode on both modes to be off, to avoid unnecessary state calculations
             UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE = false;
             UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE = false;
-            for (int i = 1; i < currentSimulatedStateIndex; i++) {
+            for (int i = 0; i < currentSimulatedStateIndex - 1; i++) {
                 simulatedStateNode.handleNextBtn(null);
                 execOutcomeDisplay.handleNextBtn();
             }
             //restoring display mode
             UtilsFXML.IS_DISPLAY_MERGED_STATE_MODE = prev_display_merged_mode;
             UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE = prev_display_sim_mode;
-            simulatedStateNode.handleDisplayBtn(null,true);
-            execOutcomeDisplay.handleDisplayMergedStates(true);
+            if(currentSimulatedStateIndex > 0) {
+                simulatedStateNode.handleNextBtn(null);
+                execOutcomeDisplay.handleNextBtn();
+            }
 
             nextButton.setDisable(currentSimulatedStateIndex == actionDescriptions.size() - 1);
             prevButton.setDisable(currentSimulatedStateIndex == 0);

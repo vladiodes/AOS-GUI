@@ -163,7 +163,7 @@ public class SimulatedStateVisualizer implements IJsonVisualizer {
             if (!isSourceFromBrowseBtn)
                 handleDisplayModeChange();
 
-            if (!UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE)
+            if (!UtilsFXML.IS_DISPLAY_SIMULATED_STATE_MODE || simulatedStates.size() == 0)
                 return;
 
             JsonElement currentState = simulatedStates.get(currentSimulatedStateIndex);
