@@ -6,7 +6,7 @@
 - Please make sure you follow the last instructions (configuring JDK 19 as your default JDK).
 - To run the app, run the following command:
 ```code
-export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" && cd ~/Autonomous-Operating-System/FinalProject && mvn clean javafx:run
+export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" && cd ~/AOS/AOS-GUI && mvn clean javafx:run
 ```
 
 # In order to run project's tests:
