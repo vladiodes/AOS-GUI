@@ -12,8 +12,8 @@ sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-19/bin/
 sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk-19/bin/jar 1
 
 echo 'AOS GUI: Downloading code'
-cd ~
-git clone https://github.com/vladiodes/Autonomous-Operating-System.git
+cd ~/AOS
+https://github.com/vladiodes/AOS-GUI.git
 
 echo 'Done!'
 echo '============= Running Instructions ============='
@@ -22,4 +22,3 @@ echo 'sudo update-alternatives --config java'
 echo 'sudo update-alternatives --config javac'
 echo 'sudo update-alternatives --config jar'
 echo 'In order to run the GUI, run the following command: "export MAVEN_OPTS="--add-opens java.base/java.lang=ALL-UNNAMED" && cd ~/AOS/AOS-GUI && mvn clean javafx:run"'
-
