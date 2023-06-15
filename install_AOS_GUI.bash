@@ -12,7 +12,7 @@ sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-19/bin/
 sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk-19/bin/jar 1
 
 echo 'AOS GUI: Downloading code'
-cd ~
+cd ~/AOS
 git clone https://github.com/vladiodes/AOS-GUI.git
 
 echo 'Done!'
