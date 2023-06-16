@@ -42,7 +42,7 @@ public class SpecialState {
         return IsGoalState;
     }
 
-    public boolean isOneTimeReward() {
+    public Boolean isOneTimeReward() {
         return IsOneTimeReward;
     }
 

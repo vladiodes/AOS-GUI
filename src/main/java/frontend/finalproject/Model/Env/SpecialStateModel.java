@@ -6,6 +6,7 @@ import frontend.finalproject.Model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SpecialStateModel implements Model {
     private String StateConditionCode;
@@ -36,7 +37,7 @@ public class SpecialStateModel implements Model {
             this.StateConditionCode = i.getStateConditionCode();
             this.Reward = i.getReward();
             this.IsGoalState = i.isGoalState();
-            this.IsOneTimeReward = i.isOneTimeReward();
+            this.IsOneTimeReward = i.isOneTimeReward() != null && i.isOneTimeReward();
             StateFunctionCode = null;
         }
 
