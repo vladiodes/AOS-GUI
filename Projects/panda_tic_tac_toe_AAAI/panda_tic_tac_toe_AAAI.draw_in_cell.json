@@ -1,5 +1,6 @@
 {
   "PlpMain": {
+    "Project": "panda_tic_tac_toe_AAAI",
     "Name": "draw_in_cell",
     "Type": "PLP",
     "Version": 1.0
@@ -32,7 +33,7 @@
       }
     ],
     "PlannerAssistancePreconditionsAssignments": [],
-    "ViolatingPreconditionPenalty": -10.0
+    "ViolatingPreconditionPenalty": -10
   },
   "DynamicModel": {
     "NextStateAssignments": [

@@ -184,7 +184,7 @@ public class CreateSkillController {
 
     private void buildSingleFieldsSD() {
         SDmodel.buildPlpMain(projectName, SkillNameTXT.getText());
-        SDmodel.setViolatingPreconditionPenalty(Double.parseDouble(ViolatingPreconditionPenaltyTXT.getText()));
+        SDmodel.setViolatingPreconditionPenalty(Integer.parseInt(ViolatingPreconditionPenaltyTXT.getText()));
     }
 
     public void handleAMPreviewBTNClick(ActionEvent event) {
@@ -204,8 +204,9 @@ public class CreateSkillController {
     public void handleAddSkillBTNClick(ActionEvent event) {
         buildSingleFieldsSD();
         buildSingleFieldsAM();
-        if (source == UtilsFXML.Source.EDIT_SKILL)
+        if (source == UtilsFXML.Source.EDIT_SKILL) {
             saveSkillChanges();
+        }
         else
             addNewSkill();
     }

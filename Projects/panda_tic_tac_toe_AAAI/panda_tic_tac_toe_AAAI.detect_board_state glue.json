@@ -1,5 +1,6 @@
 {
   "PlpMain": {
+    "Project": "panda_tic_tac_toe_AAAI",
     "Name": "detect_board_state",
     "Type": "Glue",
     "Version": 1.0

@@ -73,7 +73,7 @@ public class SDModel {
         Preconditions.addPlannerAssistancePreconditionsAssignment(block);
     }
 
-    public void setViolatingPreconditionPenalty(double value){
+    public void setViolatingPreconditionPenalty(int value){
         Preconditions.setViolatingPreconditionPenalty(value);
     }
 

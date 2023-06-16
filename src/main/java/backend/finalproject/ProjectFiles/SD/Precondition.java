@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 public class Precondition {
     private List<IAssignmentBlock> GlobalVariablePreconditionAssignments;
     private List<IAssignmentBlock> PlannerAssistancePreconditionsAssignments;
-    private double ViolatingPreconditionPenalty;
+    private int ViolatingPreconditionPenalty;
 
-    public Precondition(List<IAssignmentBlock> globalVariablePreconditionAssignments, List<IAssignmentBlock> plannerAssistancePreconditionsAssignments, double violatingPreconditionPenalty) {
+    public Precondition(List<IAssignmentBlock> globalVariablePreconditionAssignments, List<IAssignmentBlock> plannerAssistancePreconditionsAssignments, int violatingPreconditionPenalty) {
         GlobalVariablePreconditionAssignments = globalVariablePreconditionAssignments;
         PlannerAssistancePreconditionsAssignments = plannerAssistancePreconditionsAssignments;
         ViolatingPreconditionPenalty = violatingPreconditionPenalty;
@@ -42,7 +42,7 @@ public class Precondition {
         return PlannerAssistancePreconditionsAssignments;
     }
 
-    public double getViolatingPreconditionPenalty() {
+    public int getViolatingPreconditionPenalty() {
         return ViolatingPreconditionPenalty;
     }
 }

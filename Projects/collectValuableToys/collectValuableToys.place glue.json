@@ -1,60 +1,61 @@
 {
-    "PlpMain": {
-        "Project": "collectValuableToys",
-        "Name": "place",
-        "Type": "Glue",
-        "Version": 1.0
-    },
-    "GlueFramework": "ROS",
-    "ModuleResponse": {
-        "ResponseRules": [
-            {
-                "Response": "eSuccess",
-                "ConditionCodeWithLocalVariables": "skillSuccess3"
-            },
-            {
-                "Response": "eFailed",
-                "ConditionCodeWithLocalVariables": "True"
-            }
-        ]
-    },
-    "ModuleActivation": {
-        "RosService": {
-            "ImportCode": [
-                {
-                    "From": "geometry_msgs.msg",
-                    "Import": [
-                        "Point"
-                    ]
-                },
-                {
-                    "From": "task3_env.srv",
-                    "Import": [
-                        "place",
-                        "placeResponse"
-                    ]
-                }
-            ],
-            "ServicePath": "/place",
-            "ServiceName": "place",
-            "ServiceParameters": []
-        }
-    },
-    "LocalVariablesInitialization": [
-        {
-            "LocalVariableName": "skillSuccess3",
-            "VariableType":"bool",
-            "FromROSServiceResponse": true,
-			"AssignmentName": "",
-            "AssignmentCode": ["skillSuccess3=__input.success"],
-            "ImportCode": [
-                {
-                    "From": "std_msgs.msg",
-                    "Import": [
-                        "Bool"
-                    ]
-                }
-            ]
-        }
+  "PlpMain": {
+    "Project": "collectValuableToys",
+    "Name": "place",
+    "Type": "Glue",
+    "Version": 1.0
+  },
+  "GlueFramework": "ROS",
+  "ModuleResponse": {
+    "ResponseRules": [
+      {
+        "Response": "eSuccess",
+        "ConditionCodeWithLocalVariables": "skillSuccess3"
+      },
+      {
+        "Response": "eFailed",
+        "ConditionCodeWithLocalVariables": "True"
+      }
     ]
+  },
+  "ModuleActivation": {
+    "RosService": {
+      "ImportCode": [
+        {
+          "From": "geometry_msgs.msg",
+          "Import": [
+            "Point"
+          ]
+        },
+        {
+          "From": "task3_env.srv",
+          "Import": [
+            "place",
+            "placeResponse"
+          ]
+        }
+      ],
+      "ServicePath": "/place",
+      "ServiceName": "place",
+      "ServiceParameters": []
+    }
+  },
+  "LocalVariablesInitialization": [
+    {
+      "LocalVariableName": "skillSuccess3",
+      "VariableType": "bool",
+      "FromROSServiceResponse": true,
+      "AssignmentCode": [
+        "skillSuccess3=__input.success"
+      ],
+      "ImportCode": [
+        {
+          "From": "std_msgs.msg",
+          "Import": [
+            "Bool"
+          ]
+        }
+      ]
+    }
+  ]
 }

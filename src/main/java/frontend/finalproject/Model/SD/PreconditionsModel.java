@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PreconditionsModel {
-    private double ViolatingPreconditionPenalty;
+    private int ViolatingPreconditionPenalty;
     private List<AssignmentBlock> GlobalVariablePreconditionAssignments;
     private List<AssignmentBlock> PlannerAssistancePreconditionsAssignments;
 
@@ -31,11 +31,11 @@ public class PreconditionsModel {
         PlannerAssistancePreconditionsAssignments.add(block);
     }
 
-    public double getViolatingPreconditionPenalty() {
+    public int getViolatingPreconditionPenalty() {
         return ViolatingPreconditionPenalty;
     }
 
-    public void setViolatingPreconditionPenalty(double violatingPreconditionPenalty) {
+    public void setViolatingPreconditionPenalty(int violatingPreconditionPenalty) {
         ViolatingPreconditionPenalty = violatingPreconditionPenalty;
     }
 

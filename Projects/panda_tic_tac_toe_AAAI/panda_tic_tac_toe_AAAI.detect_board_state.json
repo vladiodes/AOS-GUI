@@ -1,9 +1,12 @@
 {
   "PlpMain": {
+    "Project": "panda_tic_tac_toe_AAAI",
     "Name": "detect_board_state",
     "Type": "PLP",
     "Version": 1.0
   },
+  "GlobalVariableModuleParameters": [],
+  "PossibleParametersValue": [],
   "Preconditions": {
     "GlobalVariablePreconditionAssignments": [
       {
@@ -13,7 +16,8 @@
         ]
       }
     ],
-    "ViolatingPreconditionPenalty": -10.0
+    "PlannerAssistancePreconditionsAssignments": [],
+    "ViolatingPreconditionPenalty": -10
   },
   "DynamicModel": {
     "NextStateAssignments": [

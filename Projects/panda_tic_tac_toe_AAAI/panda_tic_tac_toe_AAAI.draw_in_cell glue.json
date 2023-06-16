@@ -1,5 +1,6 @@
 {
   "PlpMain": {
+    "Project": "panda_tic_tac_toe_AAAI",
     "Name": "draw_in_cell",
     "Type": "Glue",
     "Version": 1.0

@@ -41,4 +41,8 @@ public class PlpMainModel {
     public double getVersion() {
         return Version;
     }
+
+    public void setProject(String project) {
+        Project = project;
+    }
 }

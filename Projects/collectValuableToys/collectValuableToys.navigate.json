@@ -1,54 +1,59 @@
 {
-    "PlpMain": {
-        "Project": "collectValuableToys",
-        "Name": "navigate",
-        "Type": "PLP",
-        "Version": 1
-    },
-    "GlobalVariableModuleParameters": [
-        {
-            "Name": "oDestination",
-            "Type": "int"
-        }
-    ], 
-    "Preconditions": {
-        "GlobalVariablePreconditionAssignments": [
-            {
-				"AssignmentName": "",
-                "AssignmentCode": ["__meetPrecondition = oDestination != state.robotLocation;"]
-            }
-        ],
-        "PlannerAssistancePreconditionsAssignments": [
-            {
-                "AssignmentName": "__heuristicValue ",
-                "AssignmentCode": [
-                    "__heuristicValue=0;", 
-                    "bool holding = false;",
-                    "float max_reward = 0;",
-                    "tToy* toy=NULL;",
-                    "bool hasToyAtLocation = false;",
-                    "for(int i=0; i < state.tToyObjects.size(); i++){",
-                    "   tToy _toy = *state.tToyObjects[i];",
-                    "    if(state.robotArm == _toy.location) holding = true;",
-                    "    if(_toy.location == state.robotLocation && _toy.location != state.child) hasToyAtLocation = true;",
-                    "    if(state.child != _toy.location && _toy.reward > max_reward) max_reward = _toy.reward;",
-                    "    if(oDestination == _toy.location) toy= state.tToyObjects[i];",
-                    "}",
-                    "__heuristicValue = holding || oDestination == state.child ? (holding && oDestination == state.child ? 100 : 0)", 
-                    " :(hasToyAtLocation ? 0 : (toy != NULL && toy->reward == max_reward ? 100 : 0));"]
-            }
-        ],
-        "ViolatingPreconditionPenalty": -1
-    },
-    "DynamicModel": {
-        "NextStateAssignments": [
-            {
-				"AssignmentName": "",
-                "AssignmentCode": [
-                "state__.robotLocation = oDestination;",
-                "__moduleResponse = eSuccess;",
-                "__reward = __meetPrecondition ? -3 : -4;"]
-            }
-        ]
+  "PlpMain": {
+    "Project": "collectValuableToys",
+    "Name": "navigate",
+    "Type": "PLP",
+    "Version": 1.0
+  },
+  "GlobalVariableModuleParameters": [
+    {
+      "Name": "oDestination",
+      "Type": "int"
     }
+  ],
+  "PossibleParametersValue": [],
+  "Preconditions": {
+    "GlobalVariablePreconditionAssignments": [
+      {
+        "AssignmentName": "",
+        "AssignmentCode": [
+          "__meetPrecondition = oDestination != state.robotLocation;"
+        ]
+      }
+    ],
+    "PlannerAssistancePreconditionsAssignments": [
+      {
+        "AssignmentName": "__heuristicValue ",
+        "AssignmentCode": [
+          "__heuristicValue=0;",
+          "bool holding = false;",
+          "float max_reward = 0;",
+          "tToy* toy=NULL;",
+          "bool hasToyAtLocation = false;",
+          "for(int i=0; i < state.tToyObjects.size(); i++){",
+          "   tToy _toy = *state.tToyObjects[i];",
+          "    if(state.robotArm == _toy.location) holding = true;",
+          "    if(_toy.location == state.robotLocation && _toy.location != state.child) hasToyAtLocation = true;",
+          "    if(state.child != _toy.location && _toy.reward > max_reward) max_reward = _toy.reward;",
+          "    if(oDestination == _toy.location) toy= state.tToyObjects[i];",
+          "}",
+          "__heuristicValue = holding || oDestination == state.child ? (holding && oDestination == state.child ? 100 : 0)",
+          " :(hasToyAtLocation ? 0 : (toy != NULL && toy->reward == max_reward ? 100 : 0));"
+        ]
+      }
+    ],
+    "ViolatingPreconditionPenalty": -1
+  },
+  "DynamicModel": {
+    "NextStateAssignments": [
+      {
+        "AssignmentName": "",
+        "AssignmentCode": [
+          "state__.robotLocation = oDestination;",
+          "__moduleResponse = eSuccess;",
+          "__reward = __meetPrecondition ? -3 : -4;"
+        ]
+      }
+    ]
+  }
 }

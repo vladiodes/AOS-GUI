@@ -115,6 +115,7 @@ public class ProjectsController {
             Parent root = loader.load();
             CreateSkillController controller = loader.getController();
             controller.setSource(UtilsFXML.Source.EDIT_SKILL);
+            controller.setProjectName(projectList.getSelectionModel().getSelectedItem());
             controller.setSD(response1.getValue());
             controller.setAM(response2.getValue());
             stage.setScene(new Scene(root));
